@@ -1,107 +1,122 @@
+"""
+CriticalPathEngine — Component 04 Pipeline Step 4.
+
+Implements the Critical Path Method (CPM) using a NetworkX DiGraph.
+
+Definitions used here:
+  ES  — Early Start  (earliest day a phase can begin)
+  EF  — Early Finish (ES + duration)
+  LF  — Late Finish  (latest day a phase can finish without delaying the project)
+  LS  — Late Start   (LF - duration)
+  TF  — Total Float  (LS - ES); zero means on the critical path)
+"""
+
 import networkx as nx
-from typing import Dict
-from timeline.pipeline import phases
+
+from timeline.pipeline.phases import ALL_PHASES, PHASE_DEPENDENCIES
+
 
 class CriticalPathEngine:
     """
-    Constructs the project schedule network and identifies the critical path.
+    Builds the project network and runs a forward/backward CPM pass.
+
+    The graph uses phase names as node labels.  Each node carries a
+    ``duration`` attribute (working days) set by build_network().
     """
 
-    def build_network(self, phase_durations: Dict[str, int]) -> nx.DiGraph:
+    def build_network(self, phase_durations: dict[str, int]) -> nx.DiGraph:
         """
-        Creates a NetworkX Directed Graph representing the phases and their dependencies.
-        
+        Construct the directed acyclic graph from PHASE_DEPENDENCIES.
+
         Args:
-            phase_durations: Mapping of phase name to duration in working days.
-            
+            phase_durations: Mapping of phase name → working-day duration.
+
         Returns:
-            nx.DiGraph: The populated network graph.
+            nx.DiGraph with nodes labelled by phase name and a ``duration``
+            attribute on every node.
+
+        Raises:
+            ValueError: If a phase present in PHASE_DEPENDENCIES is missing
+                        from phase_durations.
         """
-        try:
-            G = nx.DiGraph()
+        missing = [ph for ph in ALL_PHASES if ph not in phase_durations]
+        if missing:
+            raise ValueError(
+                f"CriticalPathEngine.build_network: missing durations for phases: {missing}"
+            )
 
-            # Add nodes with duration attribute
-            for phase, duration in phase_durations.items():
-                G.add_node(phase, duration=duration)
+        G = nx.DiGraph()
 
-            # Define edges based on dependencies
-            edges = [
-                (phases.SITE_PREPARATION, phases.FOUNDATION),
-                (phases.FOUNDATION, phases.SUPERSTRUCTURE),
-                (phases.SUPERSTRUCTURE, phases.BRICKWORK_AND_BLOCKWORK),
-                (phases.SUPERSTRUCTURE, phases.ROOF_STRUCTURE),
-                (phases.ROOF_STRUCTURE, phases.ROOF_COVERING),
-                (phases.BRICKWORK_AND_BLOCKWORK, phases.EXTERNAL_PLASTERING),
-                (phases.BRICKWORK_AND_BLOCKWORK, phases.INTERNAL_PLASTERING),
-                (phases.EXTERNAL_PLASTERING, phases.PAINTING),
-                (phases.INTERNAL_PLASTERING, phases.FLOOR_FINISHING),
-                (phases.INTERNAL_PLASTERING, phases.CEILING),
-                (phases.FLOOR_FINISHING, phases.DOOR_AND_WINDOW_FIXING),
-                (phases.ELECTRICAL_FIRST_FIX, phases.CEILING),
-                (phases.PLUMBING_FIRST_FIX, phases.CEILING),
-                (phases.CEILING, phases.ELECTRICAL_SECOND_FIX),
-                (phases.CEILING, phases.PLUMBING_SECOND_FIX),
-                (phases.DOOR_AND_WINDOW_FIXING, phases.FINAL_INSPECTION),
-                (phases.ELECTRICAL_SECOND_FIX, phases.FINAL_INSPECTION),
-                (phases.PLUMBING_SECOND_FIX, phases.FINAL_INSPECTION),
-                (phases.EXTERNAL_WORKS, phases.FINAL_INSPECTION),
-            ]
+        for phase in ALL_PHASES:
+            G.add_node(phase, duration=phase_durations[phase])
 
-            G.add_edges_from(edges)
+        for phase, predecessors in PHASE_DEPENDENCIES.items():
+            for pred in predecessors:
+                G.add_edge(pred, phase)
 
-            # Handle nodes without predecessors (start nodes) and successors (end nodes)
-            # Typically, add dummy start/end nodes for cleaner calculation, but we stick to basics here.
+        if not nx.is_directed_acyclic_graph(G):
+            raise ValueError(
+                "Phase dependency graph contains a cycle — check PHASE_DEPENDENCIES."
+            )
 
-            return G
-
-        except Exception as e:
-            raise ValueError(f"Error building critical path network: {str(e)}")
+        return G
 
     def calculate(self, graph: nx.DiGraph) -> dict:
         """
-        Calculates Early Start/Finish, Late Start/Finish, Float, and Critical Path.
-        
+        Run the forward (ES/EF) and backward (LS/LF) CPM passes.
+
+        Total project duration equals the maximum EF across all phases,
+        which is identical to the sum of durations along the critical path.
+
         Args:
-            graph: The NetworkX Digraph from build_network.
-            
+            graph: DiGraph produced by build_network().
+
         Returns:
-            dict containing calculated critical path metrics.
+            dict with keys:
+              - ``critical_path``        list[str] in topological order
+              - ``total_duration_days``  int
+              - ``total_duration_weeks`` float  (5-day week)
+              - ``float_per_phase``      dict[str, int]
+              - ``early_start_per_phase``  dict[str, int]
+              - ``early_finish_per_phase`` dict[str, int]
+
+        Raises:
+            ValueError: If the graph contains a cycle or is empty.
         """
-        try:
-            # Add a single start and end node conceptually, but we can do a topological sort
-            es = {}
-            ef = {}
-            for node in nx.topological_sort(graph):
-                preds = list(graph.predecessors(node))
-                if not preds:
-                    es[node] = 0
-                else:
-                    es[node] = max(ef[p] for p in preds)
-                ef[node] = es[node] + graph.nodes[node]['duration']
+        if len(graph) == 0:
+            raise ValueError("CriticalPathEngine.calculate received an empty graph.")
 
-            project_duration = max(ef.values())
+        topo_order: list[str] = list(nx.topological_sort(graph))
 
-            ls = {}
-            lf = {}
-            for node in reversed(list(nx.topological_sort(graph))):
-                succs = list(graph.successors(node))
-                if not succs:
-                    lf[node] = project_duration
-                else:
-                    lf[node] = min(ls[s] for s in succs)
-                ls[node] = lf[node] - graph.nodes[node]['duration']
+        # ── Forward pass ──────────────────────────────────────────────────────
+        es: dict[str, int] = {}
+        ef: dict[str, int] = {}
+        for node in topo_order:
+            preds = list(graph.predecessors(node))
+            es[node] = max((ef[p] for p in preds), default=0)
+            ef[node] = es[node] + graph.nodes[node]["duration"]
 
-            float_time = {node: ls[node] - es[node] for node in graph.nodes()}
-            critical_path = [node for node in graph.nodes() if float_time[node] == 0]
+        project_duration: int = max(ef.values())
 
-            return {
-                "critical_path": critical_path,
-                "total_duration_days": int(project_duration),
-                "total_duration_weeks": round(project_duration / 5.0, 2),  # Assuming 5 working days a week
-                "float_per_phase": float_time,
-                "early_start_per_phase": es,
-                "early_finish_per_phase": ef
-            }
+        # ── Backward pass ─────────────────────────────────────────────────────
+        ls: dict[str, int] = {}
+        lf: dict[str, int] = {}
+        for node in reversed(topo_order):
+            succs = list(graph.successors(node))
+            lf[node] = min((ls[s] for s in succs), default=project_duration)
+            ls[node] = lf[node] - graph.nodes[node]["duration"]
 
-        except Exception as e:
-            raise ValueError(f"Error calculating critical path: {str(e)}")
+        # ── Total float and critical path ─────────────────────────────────────
+        total_float: dict[str, int] = {node: ls[node] - es[node] for node in graph.nodes()}
+
+        # Preserve topological order so the caller gets a walk-able sequence.
+        critical_path: list[str] = [n for n in topo_order if total_float[n] == 0]
+
+        return {
+            "critical_path":           critical_path,
+            "total_duration_days":     project_duration,
+            "total_duration_weeks":    round(project_duration / 5.0, 2),
+            "float_per_phase":         total_float,
+            "early_start_per_phase":   es,
+            "early_finish_per_phase":  ef,
+        }

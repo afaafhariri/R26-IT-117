@@ -1,83 +1,112 @@
+"""
+TimelineSerialiser — Component 04 Output Step 2.
+
+Assembles the final Timeline JSON document from the outputs of the pipeline
+and the Gantt builder.  This document is what gets stored in PostgreSQL and
+returned to the API caller.
+"""
+
 import uuid
-from datetime import datetime, date
-from builtins import dict
-from timeline.pipeline import phases
+from datetime import date, datetime
+from typing import Any
+
+from timeline.pipeline.phases import ALL_PHASES, MILESTONE_PHASES
+
 
 class TimelineSerialiser:
     """
-    Serializes timeline information into the final Timeline JSON payload.
+    Converts pipeline outputs into the canonical Timeline JSON structure.
+
+    The output schema is intentionally flat and self-contained so that
+    downstream components (Component 05 — Performance Monitoring) and the
+    gateway can consume it without referencing any internal objects.
     """
 
-    def serialise(self, phase_durations: dict, critical_path: dict, gantt: list, building_schema: dict, cost_report: dict) -> dict[str, any]:
+    def serialise(
+        self,
+        phase_durations: dict[str, int],
+        critical_path: dict[str, Any],
+        gantt: list[dict],
+        building_schema: dict,
+        cost_report: dict,
+    ) -> dict:
         """
-        Structures output payload for Component 05 and Database storage.
-        
+        Build the complete Timeline JSON document.
+
         Args:
-            phase_durations: map of phase -> working days.
-            critical_path: dictionary from CriticalPathEngine.
-            gantt: GanttBuilder JSON output.
-            building_schema: Initial request payload (Building).
-            cost_report: Initial request payload (Cost).
-            
+            phase_durations: {phase_name: working_days} from ScheduleModel.
+            critical_path:   Output of CriticalPathEngine.calculate().
+            gantt:           Output of GanttBuilder.build() — list of phase dicts.
+            building_schema: Original Component 01 payload (for project_id).
+            cost_report:     Original Component 02 payload (metadata only).
+
         Returns:
-            dict containing full Timeline data.
+            dict matching the Timeline JSON schema::
+
+                {
+                    "timeline_id": str,
+                    "project_id":  str,
+                    "generated_at": ISO datetime str,
+                    "summary": { ... },
+                    "phases": [ ...gantt entries with ISO date strings... ],
+                    "milestone_dates": { ... },
+                }
         """
-        try:
-            timeline_id = str(uuid.uuid4())
-            project_id = building_schema.get("project_id", "UNKNOWN_PROJECT_ID")
-            generated_at = datetime.utcnow().isoformat()
+        timeline_id = str(uuid.uuid4())
+        project_id  = building_schema.get("project_id", "UNKNOWN")
+        generated_at = datetime.utcnow().isoformat() + "Z"
 
-            # find dates from gantt structure by searching the specific phase
-            def get_phase_end(phase_name):
-                for p in gantt:
-                    if p["phase"] == phase_name:
-                        return p["end_date"].isoformat() if isinstance(p["end_date"], date) else None
-                return None
-            
-            project_start_date = None
-            if gantt:
-                project_start_date = min(g["start_date"] for g in gantt)
-                projected_completion_date = max(g["end_date"] for g in gantt)
-            else:
-                project_start_date = date.today()
-                projected_completion_date = date.today()
+        # ── Project start / end from Gantt data ───────────────────────────────
+        if gantt:
+            project_start       = min(g["start_date"] for g in gantt)
+            project_completion  = max(g["end_date"]   for g in gantt)
+        else:
+            project_start = project_completion = date.today()
 
-            # Format milestone dates explicitly based on known project steps
-            milestone_dates = {
-                "foundation_complete": get_phase_end(phases.FOUNDATION),
-                "structure_complete": get_phase_end(phases.SUPERSTRUCTURE),
-                "roof_complete": get_phase_end(phases.ROOF_COVERING),
-                "fit_out_complete": get_phase_end(phases.FLOOR_FINISHING), # Assuming floor finishing is fit-out completion point here
-                "handover": projected_completion_date.isoformat() if isinstance(projected_completion_date, date) else None
+        # ── Gantt phases — serialise dates to ISO strings ─────────────────────
+        serialised_phases = [
+            {
+                "phase":         g["phase"],
+                "start_date":    self._to_iso(g["start_date"]),
+                "end_date":      self._to_iso(g["end_date"]),
+                "duration_days": g["duration_days"],
+                "is_critical":   g["is_critical"],
+                "dependencies":  g["dependencies"],
+                "float_days":    g["float_days"],
             }
+            for g in gantt
+        ]
 
-            result = {
-                "timeline_id": timeline_id,
-                "project_id": project_id,
-                "generated_at": generated_at,
-                "summary": {
-                    "total_duration_days": critical_path.get("total_duration_days"),
-                    "total_duration_weeks": critical_path.get("total_duration_weeks"),
-                    "projected_start_date": project_start_date.isoformat() if isinstance(project_start_date, date) else None,
-                    "projected_completion_date": projected_completion_date.isoformat() if isinstance(projected_completion_date, date) else None,
-                    "critical_path_phases": critical_path.get("critical_path", []),
-                    "total_phases": len(phases.ALL_PHASES)
-                },
-                "phases": [
-                    {
-                        "phase": g["phase"],
-                        "start_date": g["start_date"].isoformat() if isinstance(g["start_date"], date) else None,
-                        "end_date": g["end_date"].isoformat() if isinstance(g["end_date"], date) else None,
-                        "duration_days": g["duration_days"],
-                        "is_critical": g["is_critical"],
-                        "dependencies": g["dependencies"],
-                        "float_days": g["float_days"]
-                    } for g in gantt
-                ],
-                "milestone_dates": milestone_dates
-            }
+        # ── Milestone dates ───────────────────────────────────────────────────
+        # Build a lookup {phase_name: end_date_ISO} from the gantt list once
+        gantt_end: dict[str, str] = {g["phase"]: self._to_iso(g["end_date"]) for g in gantt}
 
-            return result
+        milestone_dates = {
+            label: gantt_end.get(phase)
+            for label, phase in MILESTONE_PHASES.items()
+        }
 
-        except Exception as e:
-            raise ValueError(f"Error serializing timeline: {str(e)}")
+        return {
+            "timeline_id":  timeline_id,
+            "project_id":   project_id,
+            "generated_at": generated_at,
+            "summary": {
+                "total_duration_days":        critical_path.get("total_duration_days"),
+                "total_duration_weeks":       critical_path.get("total_duration_weeks"),
+                "projected_start_date":       self._to_iso(project_start),
+                "projected_completion_date":  self._to_iso(project_completion),
+                "critical_path_phases":       critical_path.get("critical_path", []),
+                "total_phases":               len(ALL_PHASES),
+            },
+            "phases":          serialised_phases,
+            "milestone_dates": milestone_dates,
+        }
+
+    # ── Private helpers ───────────────────────────────────────────────────────
+
+    @staticmethod
+    def _to_iso(value: Any) -> str | None:
+        """Return ISO 8601 string for a date/datetime, or None."""
+        if isinstance(value, (date, datetime)):
+            return value.isoformat()
+        return None
