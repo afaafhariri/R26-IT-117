@@ -146,5 +146,5 @@ class PDFRenderer:
     def _stub_pdf_b64() -> str:
         """Minimal placeholder PDF (valid 1-byte stub for dev without ReportLab)."""
         # TODO: generate a real minimal PDF once ReportLab is installed
-        stub_text = b"%PDF-1.4 placeholder — ReportLab not installed"
+        stub_text = b"%PDF-1.4 placeholder - ReportLab not installed"
         return base64.b64encode(stub_text).decode("utf-8")

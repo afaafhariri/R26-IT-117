@@ -26,8 +26,6 @@ class OCREngine:
             return PaddleOCR(
                 use_angle_cls=True,
                 lang="en",
-                use_gpu=False,
-                show_log=False,
             )
         except ImportError as exc:
             logger.warning("PaddleOCR not available: %s. Using stub.", exc)

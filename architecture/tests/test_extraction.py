@@ -214,8 +214,7 @@ class TestSchemaAssembler:
     def test_assemble_raises_on_degenerate_polygon(
         self, sample_ocr_result, sample_ner
     ):
-        """Polygon with fewer than 3 points should produce area 0 (not error)."""
+        """Polygon with fewer than 3 points is invalid under JSON Schema."""
         assembler = SchemaAssembler()
-        schema = assembler.assemble(sample_ocr_result, [[0, 0], [1, 1]], sample_ner)
-        # Area cannot be computed — should use NER area or fallback to 0
-        assert schema["site"]["plot_area_sqm"] >= 0
+        with pytest.raises(ValueError, match="Site Schema validation failed"):
+            schema = assembler.assemble(sample_ocr_result, [[0, 0], [1, 1]], sample_ner)
