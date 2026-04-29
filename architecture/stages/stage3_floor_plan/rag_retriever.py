@@ -84,17 +84,23 @@ class RAGRetriever:
     @staticmethod
     def _build_query_string(buildable_zone: dict, user_requirements: dict) -> str:
         """
-        Construct a natural-language query from site and requirement data.
-        TODO: experiment with structured query templates for better recall.
+        Construct a natural-language query from site and requirement data
+        using a structured query template for better vector recall.
         """
         area = buildable_zone.get("buildable_area_sqm", "unknown")
         floors = buildable_zone.get("recommended_floors", 2)
         rooms = user_requirements.get("rooms", [])
         style = user_requirements.get("style", "modern")
-        return (
-            f"Sri Lankan residential floor plan, {floors} floors, "
-            f"{area} sqm buildable area, {style} style, rooms: {', '.join(rooms)}"
-        )
+        finish_grade = user_requirements.get("finish_grade", "standard")
+        
+        # Structured template optimized for ChromaDB cosine similarity
+        query_parts = [
+            f"[TYPOLOGY] Sri Lankan residential architecture, {style} style, {finish_grade} finishes",
+            f"[SCALE] {floors} storeys, total buildable footprint ~{area} sqm",
+            f"[PROGRAM] specific zones required: {', '.join(rooms)}",
+            "[ENVIRONMENT] tropical climate adaptation, passive ventilation"
+        ]
+        return " | ".join(query_parts)
 
     @staticmethod
     def _stub_results() -> list[dict]:

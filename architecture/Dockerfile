@@ -1,5 +1,5 @@
 # ── Stage 1: builder ──────────────────────────────────────────────────────
-FROM python:3.11-slim AS builder
+FROM python:3.11-bookworm AS builder
 
 WORKDIR /build
 
@@ -24,7 +24,7 @@ RUN PYTHONPATH=/install/lib/python3.11/site-packages \
 
 
 # ── Stage 2: runtime ──────────────────────────────────────────────────────
-FROM python:3.11-slim AS runtime
+FROM python:3.11-bookworm AS runtime
 
 WORKDIR /app
 
