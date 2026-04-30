@@ -1,6 +1,12 @@
 """Celery application and async floor plan generation task."""
 
 import os
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+# Worker process loads its own .env — independent of the API process.
+load_dotenv(Path(__file__).resolve().parent.parent.parent / ".env")
 
 from celery import Celery
 

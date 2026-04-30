@@ -1,0 +1,31 @@
+# Secrets / local config
+.env
+.env.local
+*.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtualenvs
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Component 01 runtime artefacts
+/tmp/r26/
+Architecture/models/*.pt
+Architecture/models/*.pth

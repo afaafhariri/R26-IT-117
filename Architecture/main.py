@@ -9,9 +9,14 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Optional
 
+from dotenv import load_dotenv
+
+# Load repo-root .env before any module reads os.getenv()
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+
 from fastapi import FastAPI, File, HTTPException, Query, UploadFile
 from fastapi.responses import FileResponse
-from pydantic import BaseModel, Field, model_config
+from pydantic import BaseModel, ConfigDict, Field
 
 from utils.logger import get_logger
 from utils.file_handler import FileHandler
@@ -34,7 +39,7 @@ _file_handler = FileHandler()
 
 
 class SiteSchemaResponse(BaseModel):
-    model_config = model_config = {"arbitrary_types_allowed": True}
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     plan_id: str
     plan_number: Optional[str] = None

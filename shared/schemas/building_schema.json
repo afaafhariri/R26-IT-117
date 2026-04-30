@@ -1,0 +1,151 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://r26-it-117.sliit/schemas/building_schema.json",
+  "title": "Building Schema",
+  "description": "Primary data contract produced by Component 01 Stage 4 and consumed by Components 02 (cost), 03 (performance), 04 (timeline).",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "plan_id",
+    "district",
+    "is_coastal",
+    "site",
+    "buildable_zone",
+    "building",
+    "rooms",
+    "layout_label",
+    "quality_scores"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "description": "Semantic version of this schema (bump on breaking changes).",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "plan_id": {
+      "type": "string",
+      "pattern": "^PLAN-"
+    },
+    "district": {
+      "type": ["string", "null"]
+    },
+    "is_coastal": {
+      "type": "boolean"
+    },
+    "site": {
+      "type": "object",
+      "required": ["area_sqm", "boundary_polygon", "road_access", "orientation_degrees"],
+      "properties": {
+        "area_sqm": {"type": ["number", "null"], "minimum": 0},
+        "boundary_polygon": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {"type": "number"}
+          }
+        },
+        "road_access": {
+          "type": ["string", "null"],
+          "enum": ["national_road", "provincial", "local", "lane", null]
+        },
+        "orientation_degrees": {"type": "number", "minimum": 0, "maximum": 360}
+      },
+      "additionalProperties": false
+    },
+    "buildable_zone": {
+      "type": "object",
+      "required": ["max_footprint_sqm", "max_total_built_sqm", "coverage_achieved", "setback_margins"],
+      "properties": {
+        "max_footprint_sqm": {"type": ["number", "null"], "minimum": 0},
+        "max_total_built_sqm": {"type": ["number", "null"], "minimum": 0},
+        "coverage_achieved": {"type": ["number", "null"], "minimum": 0, "maximum": 1.5},
+        "setback_margins": {
+          "type": "object",
+          "properties": {
+            "front": {"type": "number", "minimum": 0},
+            "rear": {"type": "number", "minimum": 0},
+            "side": {"type": "number", "minimum": 0}
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "building": {
+      "type": "object",
+      "required": ["floors", "total_built_sqm", "finish_grade", "roof_type", "foundation_type", "architectural_style", "has_garage"],
+      "properties": {
+        "floors": {"type": "integer", "minimum": 1, "maximum": 5},
+        "total_built_sqm": {"type": ["number", "null"], "minimum": 0},
+        "finish_grade": {
+          "type": "string",
+          "enum": ["economy", "medium", "luxury"]
+        },
+        "roof_type": {
+          "type": "string",
+          "enum": ["flat", "hip", "gable"]
+        },
+        "foundation_type": {
+          "type": "string",
+          "description": "Strip = standard inland; raft = large inland (>500 sqm); pile = coastal.",
+          "enum": ["strip", "raft", "pile"]
+        },
+        "architectural_style": {
+          "type": "string",
+          "enum": ["modern", "traditional", "contemporary"]
+        },
+        "has_garage": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "rooms": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "area_sqm", "floor", "adjacencies", "position"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "area_sqm": {"type": "number", "exclusiveMinimum": 0},
+          "floor": {"type": "integer", "minimum": 1, "maximum": 5},
+          "window_orientation": {
+            "type": ["string", "null"],
+            "enum": ["north", "south", "east", "west", null]
+          },
+          "adjacencies": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "position": {
+            "type": "object",
+            "required": ["x_norm", "y_norm", "width_norm", "height_norm"],
+            "properties": {
+              "x_norm": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+              "y_norm": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+              "width_norm": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+              "height_norm": {"type": ["number", "null"], "minimum": 0, "maximum": 1}
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "layout_label": {
+      "type": "string",
+      "enum": ["conservative", "balanced", "creative"]
+    },
+    "quality_scores": {
+      "type": "object",
+      "properties": {
+        "space_utilisation": {"type": "number", "minimum": 0, "maximum": 1},
+        "natural_light": {"type": "number", "minimum": 0, "maximum": 1},
+        "adjacency_quality": {"type": "number", "minimum": 0, "maximum": 1},
+        "ventilation_potential": {"type": "number", "minimum": 0, "maximum": 1},
+        "overall": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    }
+  },
+  "additionalProperties": false
+}
