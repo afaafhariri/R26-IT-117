@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(\"C:\\\\Users\\\\Asus\\\\Desktop\\\\Project\\\\R26-IT-117\\\\.venv\\\\Scripts\\\\pip.exe\" install *)"
+    ]
+  }
+}
