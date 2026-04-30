@@ -1,9 +1,10 @@
-"""PaddleOCR-based text extraction for cadastral survey images."""
+"""EasyOCR-based text extraction for cadastral survey images.
+
+EasyOCR uses PyTorch and is compatible with numpy 2.x on Windows,
+unlike PaddleOCR which has PIR/OneDNN compatibility issues on Python 3.13.
+"""
 
 from pathlib import Path
-
-import cv2
-import numpy as np
 
 from utils.logger import get_logger
 
@@ -12,15 +13,16 @@ _logger = get_logger("ocr_engine")
 
 class OCREngine:
     """Extracts bounding-box-anchored text tokens from cadastral scan images
-    using PaddleOCR.
+    using EasyOCR (PyTorch-based, numpy 2.x compatible).
     """
 
     def __init__(self) -> None:
-        from paddleocr import PaddleOCR
+        import easyocr
 
-        _logger.info("Initialising PaddleOCR engine")
-        self.ocr = PaddleOCR(lang="en", use_angle_cls=True, use_gpu=False)
-        _logger.info("PaddleOCR engine ready")
+        _logger.info("Initialising EasyOCR engine (lang=en)")
+        # gpu=False forces CPU inference; detail=1 returns bbox+text+confidence
+        self._reader = easyocr.Reader(["en"], gpu=False, verbose=False)
+        _logger.info("EasyOCR engine ready")
 
     def extract_text(self, image_path: Path) -> dict:
         """Extracts bounding-box-anchored text tokens from a cadastral scan image.
@@ -45,25 +47,26 @@ class OCREngine:
         _logger.info("OCR started: %s", image_path)
 
         try:
-            img = cv2.imread(str(image_path))
-            if img is None:
-                raise RuntimeError(f"cv2 could not read image: {image_path}")
+            from PIL import Image
+            import numpy as np
 
-            height, width = img.shape[:2]
-            result = self.ocr.ocr(str(image_path), cls=True)
+            pil_img = Image.open(image_path).convert("RGB")
+            width, height = pil_img.size
+            img_array = np.array(pil_img)
+
+            # EasyOCR result: list of (bbox, text, confidence)
+            # bbox is [[x1,y1],[x2,y1],[x2,y2],[x1,y2]]
+            raw = self._reader.readtext(img_array, detail=1, paragraph=False)
 
             tokens: list[dict] = []
-            for page in result or []:
-                for line in page or []:
-                    bbox, (text, confidence) = line
-                    # TODO: add confidence threshold filtering (min 0.6) in Sprint 3
-                    tokens.append(
-                        {
-                            "text": text,
-                            "bbox": bbox,
-                            "confidence": float(confidence),
-                        }
-                    )
+            for bbox, text, confidence in raw:
+                tokens.append(
+                    {
+                        "text": text,
+                        "bbox": [list(pt) for pt in bbox],
+                        "confidence": float(confidence),
+                    }
+                )
 
             raw_text = " ".join(t["text"] for t in tokens)
             _logger.info(

@@ -4,6 +4,13 @@ FastAPI application entry point for the 4-stage cadastral plan processing pipeli
 """
 
 import os
+
+# Must be set before any paddle/paddleocr import to disable the PIR executor
+# and OneDNN backend which are unsupported on Windows in PaddlePaddle 3.x.
+os.environ.setdefault("FLAGS_enable_pir_api", "0")
+os.environ.setdefault("FLAGS_use_mkldnn", "0")
+os.environ.setdefault("CUDA_VISIBLE_DEVICES", "")  # force CPU
+
 import uuid
 from contextlib import asynccontextmanager
 from pathlib import Path

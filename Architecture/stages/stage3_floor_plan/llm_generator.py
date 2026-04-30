@@ -3,6 +3,7 @@
 import json
 import os
 import re
+import time
 
 from utils.logger import get_logger
 
@@ -25,10 +26,10 @@ class FloorPlanGenerator:
 
         genai.configure(api_key=api_key)
         self.genai = genai
-        self.model = genai.GenerativeModel("gemini-1.5-flash")
+        self.model = genai.GenerativeModel("gemini-1.5-flash-latest")
         self.temperatures = [0.4, 0.7, 1.0]
         self.max_retries = 3
-        _logger.info("FloorPlanGenerator initialised (model=gemini-1.5-flash)")
+        _logger.info("FloorPlanGenerator initialised (model=gemini-1.5-flash-latest)")
 
     def _strip_fences(self, text: str) -> str:
         """Removes markdown code fences from LLM response text."""
@@ -81,6 +82,16 @@ class FloorPlanGenerator:
                 _logger.error(
                     "LLM call error on attempt %d/%d: %s", attempt, self.max_retries, exc
                 )
+                err_str = str(exc)
+                if "429" in err_str and attempt < self.max_retries:
+                    wait = 60
+                    import re as _re
+                    m = _re.search(r"retry_delay\s*\{\s*seconds:\s*(\d+)", err_str)
+                    if m:
+                        wait = int(m.group(1)) + 5
+                    _logger.warning("Rate limited — retrying in %ds", wait)
+                    time.sleep(wait)
+                    continue
                 raise RuntimeError(f"LLM call failed: {exc}") from exc
 
         raise RuntimeError(

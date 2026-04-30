@@ -1,4 +1,4 @@
-"""ChromaDB-backed RAG retriever for Sri Lankan residential floor plan precedents."""
+"""Supabase pgvector-backed RAG retriever for Sri Lankan residential floor plan precedents."""
 
 import os
 
@@ -28,49 +28,34 @@ _FALLBACK_NORMS = [
 
 class RAGRetriever:
     """Retrieves semantically relevant Sri Lankan residential floor plan precedents
-    and design norms from ChromaDB to ground LLM generation.
+    and design norms from Supabase pgvector to ground LLM generation.
     """
 
     def __init__(self) -> None:
-        import chromadb
         from sentence_transformers import SentenceTransformer
 
-        chroma_host = os.getenv("CHROMA_HOST", "localhost")
-        chroma_port = int(os.getenv("CHROMA_PORT", "8000"))
-        self.collection_name = "sl_residential_plans"
+        self.client = None
+        self.table = "sl_residential_plans"
 
-        try:
-            self.client = chromadb.HttpClient(host=chroma_host, port=chroma_port)
-            self.collection = self._get_or_create_collection()
-            _logger.info(
-                "Connected to ChromaDB at %s:%s, collection=%s",
-                chroma_host,
-                chroma_port,
-                self.collection_name,
-            )
-        except Exception as exc:
-            _logger.warning(
-                "ChromaDB connection failed (%s) — RAG will use fallback norms", exc
-            )
-            self.client = None
-            self.collection = None
+        supabase_url = os.getenv("SUPABASE_URL", "")
+        supabase_key = os.getenv("SUPABASE_KEY", "")
+
+        if supabase_url and supabase_key:
+            try:
+                from supabase import create_client
+                self.client = create_client(supabase_url, supabase_key)
+                _logger.info("Connected to Supabase pgvector, table=%s", self.table)
+            except ImportError:
+                _logger.warning("supabase package not installed — RAG will use fallback norms")
+            except Exception as exc:
+                _logger.warning(
+                    "Supabase connection failed (%s) — RAG will use fallback norms", exc
+                )
+        else:
+            _logger.warning("SUPABASE_URL/KEY not set — RAG will use fallback norms")
 
         self.embedder = SentenceTransformer("all-MiniLM-L6-v2")
         _logger.info("RAGRetriever initialised")
-
-    def _get_or_create_collection(self):
-        """Returns the ChromaDB collection, creating it if absent."""
-        try:
-            return self.client.get_collection(self.collection_name)
-        except Exception:
-            _logger.warning(
-                "Collection '%s' not found — creating empty collection",
-                self.collection_name,
-            )
-            return self.client.create_collection(
-                self.collection_name,
-                metadata={"hnsw:space": "cosine"},
-            )
 
     def retrieve(
         self,
@@ -87,7 +72,8 @@ class RAGRetriever:
 
         Returns:
             list[str]: Text passages describing relevant floor plan precedents.
-                Falls back to hardcoded design norms if collection is empty.
+                Falls back to hardcoded design norms if Supabase is not configured
+                or the table is empty.
         """
         room_types = ", ".join(user_requirements.get("room_types", []))
         style = user_requirements.get("style", "modern")
@@ -99,33 +85,31 @@ class RAGRetriever:
             f"{floors} floor(s), footprint approximately {footprint:.0f} sqm"
         )
 
-        if self.collection is None:
-            _logger.warning("No ChromaDB collection — returning fallback design norms")
+        if self.client is None:
+            _logger.warning("No Supabase client — returning fallback design norms")
             return list(_FALLBACK_NORMS)
 
         try:
-            count = self.collection.count()
-        except Exception:
-            count = 0
+            query_vector = self.embedder.encode([query]).tolist()[0]
+            response = self.client.rpc(
+                "match_sl_plans",
+                {"query_embedding": query_vector, "match_count": top_k},
+            ).execute()
 
-        if count == 0:
-            _logger.warning(
-                "Collection '%s' is empty — returning fallback design norms",
-                self.collection_name,
+            passages = [row["content"] for row in (response.data or [])]
+
+            if not passages:
+                _logger.warning("Supabase table empty — returning fallback design norms")
+                return list(_FALLBACK_NORMS)
+
+            _logger.info(
+                "RAG retrieved %d passages (footprint=%.0f, style=%s)",
+                len(passages),
+                footprint,
+                style,
             )
+            return passages
+
+        except Exception as exc:
+            _logger.warning("Supabase query failed (%s) — returning fallback norms", exc)
             return list(_FALLBACK_NORMS)
-
-        query_vector = self.embedder.encode([query]).tolist()[0]
-        results = self.collection.query(
-            query_embeddings=[query_vector],
-            n_results=min(top_k, count),
-        )
-
-        passages = results.get("documents", [[]])[0]
-        _logger.info(
-            "RAG retrieved %d passages for query (footprint=%.0f, style=%s)",
-            len(passages),
-            footprint,
-            style,
-        )
-        return passages if passages else list(_FALLBACK_NORMS)

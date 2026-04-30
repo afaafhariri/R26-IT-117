@@ -1,12 +1,19 @@
 """Celery application and async floor plan generation task."""
 
 import os
+import sys
 from pathlib import Path
+
+# Ensure Architecture/ is on sys.path for all Celery worker subprocesses.
+# On Windows, prefork workers do not inherit the parent's sys.path.
+_arch_dir = str(Path(__file__).resolve().parent.parent)
+if _arch_dir not in sys.path:
+    sys.path.insert(0, _arch_dir)
 
 from dotenv import load_dotenv
 
 # Worker process loads its own .env — independent of the API process.
-load_dotenv(Path(__file__).resolve().parent.parent.parent / ".env")
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 from celery import Celery
 

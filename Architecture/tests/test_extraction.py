@@ -5,6 +5,12 @@ from unittest.mock import MagicMock, patch
 
 import numpy as np
 import pytest
+from PIL import Image
+
+
+def _write_png(path: Path, arr: np.ndarray) -> None:
+    """Write a numpy array as PNG using Pillow (cv2 is stubbed in conftest)."""
+    Image.fromarray(arr.astype(np.uint8)).save(str(path))
 
 
 # ---------------------------------------------------------------------------
@@ -26,11 +32,9 @@ class TestOCREngine:
 
     def test_ocr_engine_returns_tokens(self, tmp_path):
         """extract_text must return a dict with tokens, raw_text, page_dimensions."""
-        import cv2
-
         img_path = tmp_path / "test.png"
         img = np.ones((10, 10, 3), dtype=np.uint8) * 255
-        cv2.imwrite(str(img_path), img)
+        _write_png(img_path, img)
 
         mock_ocr_result = [
             [[[[10, 10], [50, 10], [50, 30], [10, 30]], ("PLAN No. 2362", 0.98)]],
@@ -61,11 +65,9 @@ class TestOCREngine:
 class TestCadastralClassifier:
     def test_cnn_classifier_returns_valid_structure(self, tmp_path):
         """classify must return all required keys regardless of model state."""
-        import cv2
-
         img_path = tmp_path / "plan.png"
         img = np.ones((100, 100, 3), dtype=np.uint8) * 200
-        cv2.imwrite(str(img_path), img)
+        _write_png(img_path, img)
 
         from stages.stage1_extraction.cnn_classifier import CadastralClassifier
 
@@ -98,12 +100,14 @@ class TestCadastralClassifier:
 class TestBoundaryDetector:
     def test_boundary_detector_returns_polygon(self, tmp_path):
         """detect_polygon must return a list of normalised [x, y] pairs."""
-        import cv2
-
         img_path = tmp_path / "cadastral.png"
         img = np.zeros((500, 500, 3), dtype=np.uint8)
-        cv2.rectangle(img, (50, 50), (450, 450), (255, 255, 255), 3)
-        cv2.imwrite(str(img_path), img)
+        # Draw a white rectangle border to simulate a cadastral boundary
+        img[50:453, 50:53] = 255   # left edge
+        img[50:453, 450:453] = 255  # right edge
+        img[50:53, 50:453] = 255   # top edge
+        img[450:453, 50:453] = 255  # bottom edge
+        _write_png(img_path, img)
 
         from stages.stage1_extraction.boundary_detector import BoundaryDetector
 
