@@ -1,42 +1,17 @@
-# Component 03 — Performance Monitor
-# Project R26-IT-117: AI-Driven Construction Planner
-
-# ── Web framework ──────────────────────────────────────────────────────────
-fastapi==0.115.5
-uvicorn[standard]==0.32.1
-python-multipart==0.0.12
-
-# ── Pydantic v2 ────────────────────────────────────────────────────────────
-pydantic==2.10.3
-pydantic-settings==2.6.1
-
-# ── Kafka ──────────────────────────────────────────────────────────────────
-confluent-kafka==2.6.1
-
-# ── Machine learning ───────────────────────────────────────────────────────
-xgboost==2.1.3
-tensorflow==2.18.0
-keras==3.7.0
-scikit-learn==1.5.2
-prophet==1.1.6
-shap==0.46.0
-numpy==1.26.4
-pandas==2.2.3
-
-# ── Database ───────────────────────────────────────────────────────────────
-asyncpg==0.30.0
-sqlalchemy[asyncio]==2.0.36
-psycopg2-binary==2.9.10
-
-# ── Redis ──────────────────────────────────────────────────────────────────
-redis==5.2.1
-
-# ── Utilities ──────────────────────────────────────────────────────────────
-python-dotenv==1.0.1
-pytz==2024.2
-httpx==0.28.1
-
-# ── Testing ────────────────────────────────────────────────────────────────
-pytest==8.3.4
-pytest-asyncio==0.24.0
-pytest-mock==3.14.0
+flask==3.0.0
+flask-cors==4.0.0
+psycopg2-binary==2.9.9
+pandas==2.1.4
+numpy==1.26.2
+scikit-learn==1.3.2
+xgboost==2.0.3
+imbalanced-learn==0.11.0
+langchain==0.1.0
+langchain-community==0.0.10
+faiss-cpu==1.7.4
+sentence-transformers==2.2.2
+google-generativeai==0.3.2
+sqlalchemy==2.0.23
+python-dotenv==1.0.0
+pytest==7.4.3
+requests==2.31.0
