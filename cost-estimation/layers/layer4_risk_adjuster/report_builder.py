@@ -118,8 +118,7 @@ class ReportBuilder:
             "shap_top_drivers": shap_drivers,
             "model_metadata": {
                 "xgboost_prediction_lkr": prediction.get("xgboost_prediction", 0.0),
-                "mlp_prediction_lkr": prediction.get("mlp_prediction", 0.0),
-                "ensemble_weights": {"xgboost": 0.65, "mlp": 0.35},
+                "model": "xgboost",
             },
             "rate_metadata": {
                 "district": rates.get("district", ""),

@@ -3,7 +3,7 @@
 Five-layer pipeline:
   Layer 1 (BOQ Engine)         → structural, finishing, and services quantities
   Layer 2 (Rate Engine)        → ICTAD unit rates + district adjustment + escalation
-  Layer 3 (ML Prediction)      → XGBoost + MLP ensemble with 90% confidence interval
+  Layer 3 (ML Prediction)      → XGBoost with 90% confidence interval
   Layer 4 (Risk Adjuster)      → risk scoring, contingency build-up, report assembly
 
 Endpoints:
@@ -251,15 +251,14 @@ async def get_rates(district: str) -> dict:
     dependencies=[Depends(require_admin)],
 )
 async def retrain() -> dict:
-    """Trigger a background retraining job for the XGBoost and MLP models.
+    """Trigger a background retraining job for the XGBoost model.
 
     Requires the X-Admin-Key header matching the ADMIN_API_KEY environment variable.
 
     TODO: Implement actual training data pull from PostgreSQL and background task.
     """
     logger.info("Retraining triggered via API.")
-    # TODO: fetch training data, call XGBoostCostModel.train() and ResidualMLPModel.train(),
-    #       then call .save() on both models.
+    # TODO: run scripts/generate_dataset.py then scripts/train_model.py
     return {
         "status": "accepted",
         "message": "Model retraining job queued. Check logs for progress.",

@@ -1,7 +1,7 @@
 """Feature engineering for the ML cost prediction models.
 
 Transforms raw BOQ + site metadata into a flat numeric feature matrix
-that XGBoost and the residual MLP can consume.
+that XGBoost can consume.
 """
 
 import logging

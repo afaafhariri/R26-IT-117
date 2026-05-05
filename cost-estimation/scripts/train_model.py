@@ -18,6 +18,7 @@ Output: models/xgboost_point.json
 
 import sys
 from pathlib import Path
+from typing import cast
 
 import numpy as np
 import pandas as pd
@@ -27,8 +28,8 @@ from sklearn.metrics import r2_score, mean_absolute_percentage_error
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from layers.layer3_ml_prediction.xgboost_model import XGBoostCostModel
-from layers.layer3_ml_prediction.feature_engineer import FeatureEngineer
+from layers.layer3_ml_prediction.xgboost_model import XGBoostCostModel  # noqa: E402
+from layers.layer3_ml_prediction.feature_engineer import FeatureEngineer  # noqa: E402
 
 DATASET_PATH = ROOT.parent / "research" / "datasets" / "cost-records" / "cost.csv"
 MODELS_DIR = ROOT / "models"
@@ -55,9 +56,11 @@ def train() -> None:
     print(f"Features : {X.shape[1]}")
     print(f"Target   : LKR {y.min():,.0f} – {y.max():,.0f}  (mean {y.mean():,.0f})")
 
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.20, random_state=42
-    )
+    splits = train_test_split(X, y, test_size=0.20, random_state=42)
+    X_train = cast(pd.DataFrame, splits[0])
+    X_test  = cast(pd.DataFrame, splits[1])
+    y_train = cast(pd.Series,    splits[2])
+    y_test  = cast(pd.Series,    splits[3])
     print(f"\nTrain / Test split: {len(X_train)} / {len(X_test)}")
 
     model = XGBoostCostModel()

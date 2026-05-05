@@ -1,4 +1,4 @@
-"""Tests for Layer 3: feature engineering, XGBoost model, MLP model, and ensemble."""
+"""Tests for Layer 3: feature engineering, XGBoost model, and ensemble."""
 
 import numpy as np
 import pandas as pd
@@ -6,7 +6,6 @@ import pytest
 
 from layers.layer3_ml_prediction.feature_engineer import FeatureEngineer
 from layers.layer3_ml_prediction.xgboost_model import XGBoostCostModel
-from layers.layer3_ml_prediction.mlp_model import ResidualMLPModel
 from layers.layer3_ml_prediction.ensemble import EnsembleCostPredictor
 from layers.layer3_ml_prediction.shap_explainer import SHAPExplainer
 
@@ -118,33 +117,6 @@ class TestXGBoostCostModel:
 
 
 # ---------------------------------------------------------------------------
-# ResidualMLPModel
-# ---------------------------------------------------------------------------
-
-class TestResidualMLPModel:
-    @pytest.fixture
-    def trained_mlp(self, feature_df):
-        model = ResidualMLPModel()
-        rng = np.random.default_rng(0)
-        X = pd.concat([feature_df] * 40, ignore_index=True)
-        X += rng.normal(0, 0.05, X.shape)
-        y = pd.Series(rng.lognormal(mean=15, sigma=0.5, size=len(X)))
-        model.train(X, y, epochs=5, patience=3)
-        return model
-
-    def test_predict_positive_after_training(self, trained_mlp, feature_df):
-        result = trained_mlp.predict(feature_df)
-        assert result > 0
-
-    def test_predict_returns_zero_when_not_loaded(self, feature_df):
-        model = ResidualMLPModel()
-        assert model.predict(feature_df) == 0.0
-
-    def test_is_loaded_true_after_training(self, trained_mlp):
-        assert trained_mlp.is_loaded is True
-
-
-# ---------------------------------------------------------------------------
 # EnsembleCostPredictor
 # ---------------------------------------------------------------------------
 
@@ -168,17 +140,13 @@ class TestEnsembleCostPredictor:
         result = ensemble.predict(feature_df)
         assert result["point_estimate_lkr"] == 0.0
 
-    def test_with_only_xgb_uses_full_weight(self, trained_xgb_model, feature_df):
-        ensemble = EnsembleCostPredictor(
-            xgboost_model=trained_xgb_model, mlp_model=ResidualMLPModel(), auto_load=False
-        )
+    def test_with_xgb_loaded_uses_xgb(self, trained_xgb_model, feature_df):
+        ensemble = EnsembleCostPredictor(xgboost_model=trained_xgb_model, auto_load=False)
         result = ensemble.predict(feature_df)
         assert result["point_estimate_lkr"] == pytest.approx(result["xgboost_prediction"], rel=1e-6)
 
     def test_lower_bound_lte_point_estimate(self, trained_xgb_model, feature_df):
-        ensemble = EnsembleCostPredictor(
-            xgboost_model=trained_xgb_model, mlp_model=ResidualMLPModel(), auto_load=False
-        )
+        ensemble = EnsembleCostPredictor(xgboost_model=trained_xgb_model, auto_load=False)
         result = ensemble.predict(feature_df)
         if result["lower_bound_lkr"] > 0:
             assert result["lower_bound_lkr"] <= result["point_estimate_lkr"]

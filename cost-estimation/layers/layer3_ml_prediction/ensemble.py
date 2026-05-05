@@ -5,7 +5,6 @@ the report builder expects so no downstream changes are needed.
 """
 
 import logging
-from pathlib import Path
 from typing import Optional
 
 import pandas as pd
@@ -28,7 +27,6 @@ class EnsembleCostPredictor:
     def __init__(
         self,
         xgboost_model: Optional[XGBoostCostModel] = None,
-        mlp_model: Optional[object] = None,  # kept for call-site compat, unused
         auto_load: bool = True,
     ) -> None:
         self._xgb = xgboost_model or XGBoostCostModel()
