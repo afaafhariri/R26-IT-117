@@ -36,17 +36,17 @@ class TestOCREngine:
         img = np.ones((10, 10, 3), dtype=np.uint8) * 255
         _write_png(img_path, img)
 
+        # EasyOCR returns list of (bbox, text, confidence)
         mock_ocr_result = [
-            [[[[10, 10], [50, 10], [50, 30], [10, 30]], ("PLAN No. 2362", 0.98)]],
+            ([[10, 10], [50, 10], [50, 30], [10, 30]], "PLAN No. 2362", 0.98),
         ]
 
-        with patch("paddleocr.PaddleOCR"):
-            from stages.stage1_extraction.ocr_engine import OCREngine
+        from stages.stage1_extraction.ocr_engine import OCREngine
 
-            engine = OCREngine.__new__(OCREngine)
-            mock_instance = MagicMock()
-            mock_instance.ocr.return_value = mock_ocr_result
-            engine.ocr = mock_instance
+        engine = OCREngine.__new__(OCREngine)
+        mock_reader = MagicMock()
+        mock_reader.readtext.return_value = mock_ocr_result
+        engine._reader = mock_reader
 
         result = engine.extract_text(img_path)
 

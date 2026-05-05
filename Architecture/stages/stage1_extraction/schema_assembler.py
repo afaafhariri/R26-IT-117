@@ -10,6 +10,7 @@ import jsonschema
 from shapely.geometry import Polygon
 
 from utils.logger import get_logger
+from utils.coord_converter import sld99_to_wgs84
 
 _logger = get_logger("schema_assembler")
 
@@ -126,6 +127,19 @@ class SchemaAssembler:
         orientation_deg = self._compute_orientation(polygon)
         frontage_m = self._compute_frontage(polygon, road_type)
 
+        coord_n = ner_result.get("coordinate_n")
+        coord_e = ner_result.get("coordinate_e")
+
+        gps_lat, gps_lon = None, None
+        if coord_n is not None and coord_e is not None:
+            gps_lat, gps_lon = sld99_to_wgs84(coord_e, coord_n)
+            _logger.info(
+                "SLD99 coordinates found — E=%.0f N=%.0f → GPS lat=%.6f lon=%.6f",
+                coord_e, coord_n, gps_lat or 0, gps_lon or 0,
+            )
+        else:
+            _logger.info("No SLD99 coordinates in plan — GPS fields will be null")
+
         site_schema = {
             "plan_id": plan_id,
             "plan_number": ner_result.get("plan_number"),
@@ -141,8 +155,10 @@ class SchemaAssembler:
             "frontage_m": frontage_m,
             "boundary_polygon": polygon,
             "page_dimensions": ocr_result.get("page_dimensions", {}),
-            "coordinate_n": ner_result.get("coordinate_n"),
-            "coordinate_e": ner_result.get("coordinate_e"),
+            "coordinate_n": coord_n,
+            "coordinate_e": coord_e,
+            "gps_lat": gps_lat,
+            "gps_lon": gps_lon,
             "licence_number": ner_result.get("licence_number"),
         }
 

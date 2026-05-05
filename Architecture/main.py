@@ -64,6 +64,8 @@ class SiteSchemaResponse(BaseModel):
     page_dimensions: dict
     coordinate_n: Optional[float] = None
     coordinate_e: Optional[float] = None
+    gps_lat: Optional[float] = None
+    gps_lon: Optional[float] = None
     licence_number: Optional[str] = None
 
 

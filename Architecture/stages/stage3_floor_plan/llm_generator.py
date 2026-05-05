@@ -26,10 +26,10 @@ class FloorPlanGenerator:
 
         genai.configure(api_key=api_key)
         self.genai = genai
-        self.model = genai.GenerativeModel("gemini-1.5-flash-latest")
+        self.model = genai.GenerativeModel("gemini-2.0-flash")
         self.temperatures = [0.4, 0.7, 1.0]
         self.max_retries = 3
-        _logger.info("FloorPlanGenerator initialised (model=gemini-1.5-flash-latest)")
+        _logger.info("FloorPlanGenerator initialised (model=gemini-2.0-flash)")
 
     def _strip_fences(self, text: str) -> str:
         """Removes markdown code fences from LLM response text."""

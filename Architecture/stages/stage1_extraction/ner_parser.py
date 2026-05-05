@@ -65,8 +65,13 @@ class NERParser:
                 re.IGNORECASE,
             ),
             "lot_number": re.compile(r"Lot\s*(?:No\.?)?\s*(\d+[A-Za-z]?)", re.IGNORECASE),
-            "coordinate_n": re.compile(r"N\s*[:=]?\s*([\d]+\.[\d]+)", re.IGNORECASE),
-            "coordinate_e": re.compile(r"E\s*[:=]?\s*([\d]+\.[\d]+)", re.IGNORECASE),
+            # Matches "N 231025", "N=231025.5", "231025 N", "231025N"
+            "coordinate_n": re.compile(
+                r"(?:N\s*[:=]?\s*(\d+(?:\.\d+)?)|(\d+(?:\.\d+)?)\s*N\b)", re.IGNORECASE
+            ),
+            "coordinate_e": re.compile(
+                r"(?:E\s*[:=]?\s*(\d+(?:\.\d+)?)|(\d+(?:\.\d+)?)\s*E\b)", re.IGNORECASE
+            ),
             "licence_number": re.compile(
                 r"Lic(?:ence|ense)?\s*(?:No\.?)?\s*([A-Z0-9\-/]+)", re.IGNORECASE
             ),
@@ -166,11 +171,11 @@ class NERParser:
 
         m = self.patterns["coordinate_n"].search(text)
         if m:
-            result["coordinate_n"] = float(m.group(1))
+            result["coordinate_n"] = float(m.group(1) or m.group(2))
 
         m = self.patterns["coordinate_e"].search(text)
         if m:
-            result["coordinate_e"] = float(m.group(1))
+            result["coordinate_e"] = float(m.group(1) or m.group(2))
 
         m = self.patterns["licence_number"].search(text)
         if m:
