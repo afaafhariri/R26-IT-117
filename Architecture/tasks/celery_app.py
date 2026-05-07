@@ -56,6 +56,12 @@ def generate_floor_plan_async(
             quality_scores. Returns ``[{"error": str}]`` on failure.
     """
     try:
+        import sys
+        from pathlib import Path as _Path
+        _arch = str(_Path(__file__).resolve().parent.parent)
+        if _arch not in sys.path:
+            sys.path.insert(0, _arch)
+
         from stages.stage3_floor_plan.rag_retriever import RAGRetriever
         from stages.stage3_floor_plan.prompt_builder import PromptBuilder
         from stages.stage3_floor_plan.llm_generator import FloorPlanGenerator

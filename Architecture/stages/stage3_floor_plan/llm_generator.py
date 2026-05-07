@@ -26,10 +26,10 @@ class FloorPlanGenerator:
 
         genai.configure(api_key=api_key)
         self.genai = genai
-        self.model = genai.GenerativeModel("gemini-2.0-flash")
+        self.model = genai.GenerativeModel("gemini-2.5-flash")
         self.temperatures = [0.4, 0.7, 1.0]
         self.max_retries = 3
-        _logger.info("FloorPlanGenerator initialised (model=gemini-2.0-flash)")
+        _logger.info("FloorPlanGenerator initialised (model=gemini-2.5-flash)")
 
     def _strip_fences(self, text: str) -> str:
         """Removes markdown code fences from LLM response text."""
@@ -59,10 +59,12 @@ class FloorPlanGenerator:
                     prompt,
                     generation_config=self.genai.GenerationConfig(
                         temperature=temperature,
-                        max_output_tokens=2048,
+                        max_output_tokens=16384,
+                        response_mime_type="application/json",
                     ),
                 )
                 raw = self._strip_fences(response.text)
+                _logger.info("LLM raw response (first 300 chars): %s", raw[:300])
                 parsed = json.loads(raw)
                 _logger.info(
                     "LLM call received: temperature=%.1f, attempt=%d — parsed OK",
@@ -73,10 +75,11 @@ class FloorPlanGenerator:
 
             except json.JSONDecodeError:
                 _logger.warning(
-                    "JSON parse failed on attempt %d/%d (temperature=%.1f)",
+                    "JSON parse failed on attempt %d/%d (temperature=%.1f) — raw: %s",
                     attempt,
                     self.max_retries,
                     temperature,
+                    raw[:500] if "raw" in dir() else "N/A",
                 )
             except Exception as exc:
                 _logger.error(
