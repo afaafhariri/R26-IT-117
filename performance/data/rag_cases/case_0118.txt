@@ -1,0 +1,22 @@
+Case 118: Construction Delay - Pre-Construction & Approvals / Architectural & structural design
+
+Location   : Batticaloa, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Architectural & structural design
+Risk Level : MEDIUM
+Delay Days : 44 days
+
+Delay Category : Design & Technical
+Cause of Delay : Building footprint encroached on road reservation in Batticaloa town
+
+Site Conditions:
+  - Labour availability  : 0.85
+  - Material supply      : available
+  - Weather severity     : 0.42
+  - Cumulative delay so far: 13 days
+
+Corrective Action Taken:
+  Plan revised and resubmitted to DS Batticaloa planning office
+
+Construction Status:
+  Ongoing - foundation stage

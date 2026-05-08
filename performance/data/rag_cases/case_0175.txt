@@ -1,0 +1,22 @@
+Case 175: Construction Delay - Structure / Columns & beams
+
+Location   : Vavuniya, Northern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : MEDIUM
+Delay Days : 40 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Counterfeit cement causing structural failure and rework in Vavuniya
+
+Site Conditions:
+  - Labour availability  : 0.85
+  - Material supply      : unavailable
+  - Weather severity     : 0.26
+  - Cumulative delay so far: 20 days
+
+Corrective Action Taken:
+  QS engaged for full structural inspection and rework of failed sections
+
+Construction Status:
+  Legal dispute ongoing

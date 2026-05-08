@@ -1,0 +1,22 @@
+Case 174: Construction Delay - Pre-Construction & Approvals / Soil investigation
+
+Location   : Jaffna, Northern Province
+Building   : 2-floor residential construction
+Phase      : Pre-Construction & Approvals > Soil investigation
+Risk Level : MEDIUM
+Delay Days : 21 days
+
+Delay Category : Design & Technical
+Cause of Delay : Soil investigation revealed unstable coastal sandy soil in Jaffna peninsula site
+
+Site Conditions:
+  - Labour availability  : 0.59
+  - Material supply      : available
+  - Weather severity     : 0.82
+  - Cumulative delay so far: 7 days
+
+Corrective Action Taken:
+  Geotechnical consultant engaged and pile foundation recommended
+
+Construction Status:
+  Completed with revised foundation design

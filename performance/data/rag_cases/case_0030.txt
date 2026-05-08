@@ -1,0 +1,22 @@
+Case 30: Construction Delay - Finishes / Tiling
+
+Location   : Matara, Southern Province
+Building   : 1-floor residential construction
+Phase      : Finishes > Tiling
+Risk Level : MEDIUM
+Delay Days : 30 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Roofing tiles unavailable in Matara during supply chain disruption
+
+Site Conditions:
+  - Labour availability  : 0.61
+  - Material supply      : unavailable
+  - Weather severity     : 0.27
+  - Cumulative delay so far: 5 days
+
+Corrective Action Taken:
+  Alternative Colombo supplier identified with express priority delivery
+
+Construction Status:
+  Completed after supply arrangement

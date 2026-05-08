@@ -1,0 +1,22 @@
+Case 22: Construction Delay - Site Preparation / Earthworks & grading
+
+Location   : Hambantota, Southern Province
+Building   : 2-floor residential construction
+Phase      : Site Preparation > Earthworks & grading
+Risk Level : LOW
+Delay Days : 10 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Coastal wind erosion depositing sand on foundation excavation daily in Hambantota
+
+Site Conditions:
+  - Labour availability  : 0.85
+  - Material supply      : available
+  - Weather severity     : 0.67
+  - Cumulative delay so far: 3 days
+
+Corrective Action Taken:
+  Wind break barrier erected around excavation perimeter before work resumed
+
+Construction Status:
+  Completed after barrier installation

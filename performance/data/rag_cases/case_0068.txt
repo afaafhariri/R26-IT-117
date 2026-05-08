@@ -1,0 +1,22 @@
+Case 68: Construction Delay - Finishes / Carpentry & joinery
+
+Location   : Batticaloa, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Finishes > Carpentry & joinery
+Risk Level : LOW
+Delay Days : 8 days
+
+Delay Category : Labour
+Cause of Delay : Skilled carpenter unavailable for roof timber joinery work in Batticaloa
+
+Site Conditions:
+  - Labour availability  : 0.45
+  - Material supply      : available
+  - Weather severity     : 0.38
+  - Cumulative delay so far: 3 days
+
+Corrective Action Taken:
+  Carpenter brought from Trincomalee on short-term contract basis
+
+Construction Status:
+  Completed

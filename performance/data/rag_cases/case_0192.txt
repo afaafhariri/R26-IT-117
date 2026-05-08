@@ -1,0 +1,22 @@
+Case 192: Construction Delay - Finishes / Tiling
+
+Location   : Ampara, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Finishes > Tiling
+Risk Level : MEDIUM
+Delay Days : 25 days
+
+Delay Category : Design & Technical
+Cause of Delay : Septic tank location conflicting with neighbour well in Ampara plot
+
+Site Conditions:
+  - Labour availability  : 0.87
+  - Material supply      : available
+  - Weather severity     : 0.36
+  - Cumulative delay so far: 14 days
+
+Corrective Action Taken:
+  Septic tank redesigned and relocated with engineer certification
+
+Construction Status:
+  Under NHDA review

@@ -1,0 +1,22 @@
+Case 62: Construction Delay - Pre-Construction & Approvals / Architectural & structural design
+
+Location   : Kalutara, Western Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Architectural & structural design
+Risk Level : MEDIUM
+Delay Days : 45 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : Kalutara owner changed house plan completely after roof was already completed
+
+Site Conditions:
+  - Labour availability  : 0.79
+  - Material supply      : available
+  - Weather severity     : 0.29
+  - Cumulative delay so far: 6 days
+
+Corrective Action Taken:
+  Partial demolition and rebuild done with full structural engineering guidance
+
+Construction Status:
+  Completed with significant cost overrun

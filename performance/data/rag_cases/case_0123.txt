@@ -1,0 +1,22 @@
+Case 123: Construction Delay - Site Preparation / Site clearing & hoarding
+
+Location   : Batticaloa, Eastern Province
+Building   : 2-floor residential construction
+Phase      : Site Preparation > Site clearing & hoarding
+Risk Level : LOW
+Delay Days : 10 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : Post-war trauma and displacement affecting Batticaloa owner decision making
+
+Site Conditions:
+  - Labour availability  : 0.76
+  - Material supply      : available
+  - Weather severity     : 0.39
+  - Cumulative delay so far: 5 days
+
+Corrective Action Taken:
+  Community counsellor and housing officer provided joint support to owner
+
+Construction Status:
+  Completed with community assistance

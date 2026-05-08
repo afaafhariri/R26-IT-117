@@ -1,0 +1,22 @@
+Case 152: Construction Delay - External Works & Handover / Snagging & rectification
+
+Location   : Jaffna, Northern Province
+Building   : 1-floor residential construction
+Phase      : External Works & Handover > Snagging & rectification
+Risk Level : MEDIUM
+Delay Days : 28 days
+
+Delay Category : Design & Technical
+Cause of Delay : Owner changed room layout after walls partially built requiring snagging rectification
+
+Site Conditions:
+  - Labour availability  : 0.83
+  - Material supply      : available
+  - Weather severity     : 0.34
+  - Cumulative delay so far: 7 days
+
+Corrective Action Taken:
+  Structural engineer consulted and walls rebuilt to revised approved plan
+
+Construction Status:
+  Completed with cost overrun

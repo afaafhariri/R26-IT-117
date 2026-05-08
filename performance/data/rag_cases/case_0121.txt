@@ -1,0 +1,22 @@
+Case 121: Construction Delay - Pre-Construction & Approvals / Architectural & structural design
+
+Location   : Colombo, Western Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Architectural & structural design
+Risk Level : MEDIUM
+Delay Days : 45 days
+
+Delay Category : Design & Technical
+Cause of Delay : High-rise neighbour blocked natural light requiring plan revision in Colombo
+
+Site Conditions:
+  - Labour availability  : 0.74
+  - Material supply      : available
+  - Weather severity     : 0.29
+  - Cumulative delay so far: 19 days
+
+Corrective Action Taken:
+  Plan revised to relocate windows and add skylights for natural light
+
+Construction Status:
+  Completed with revised design

@@ -1,0 +1,22 @@
+Case 124: Construction Delay - Envelope & Waterproofing / Roof waterproofing
+
+Location   : Hambantota, Southern Province
+Building   : 2-floor residential construction
+Phase      : Envelope & Waterproofing > Roof waterproofing
+Risk Level : MEDIUM
+Delay Days : 25 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Roof tiles unavailable due to supply chain disruption in Hambantota area
+
+Site Conditions:
+  - Labour availability  : 0.7
+  - Material supply      : unavailable
+  - Weather severity     : 0.25
+  - Cumulative delay so far: 18 days
+
+Corrective Action Taken:
+  Alternative tile supplier identified in Colombo with delivery arranged
+
+Construction Status:
+  Completed after supply arrangement

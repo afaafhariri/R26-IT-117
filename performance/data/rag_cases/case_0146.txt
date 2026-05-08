@@ -1,0 +1,22 @@
+Case 146: Construction Delay - Structure / Columns & beams
+
+Location   : Batticaloa, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : HIGH
+Delay Days : 60 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Counterfeit cement purchased from informal market in Batticaloa town
+
+Site Conditions:
+  - Labour availability  : 0.84
+  - Material supply      : unavailable
+  - Weather severity     : 0.42
+  - Cumulative delay so far: 29 days
+
+Corrective Action Taken:
+  Structural inspection conducted and all failed sections completely rebuilt
+
+Construction Status:
+  Completed after quality intervention

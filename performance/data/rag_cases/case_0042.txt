@@ -1,0 +1,22 @@
+Case 42: Construction Delay - Structure / Columns & beams
+
+Location   : Colombo, Western Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : MEDIUM
+Delay Days : 18 days
+
+Delay Category : Labour
+Cause of Delay : Subcontractor walked off Colombo site due to payment dispute with owner
+
+Site Conditions:
+  - Labour availability  : 0.26
+  - Material supply      : available
+  - Weather severity     : 0.28
+  - Cumulative delay so far: 11 days
+
+Corrective Action Taken:
+  New subcontractor engaged immediately with revised payment schedule
+
+Construction Status:
+  Completed after contractor change

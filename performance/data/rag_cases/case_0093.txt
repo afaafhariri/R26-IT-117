@@ -1,0 +1,22 @@
+Case 93: Construction Delay - Foundations / Foundation work
+
+Location   : Trincomalee, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 42 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Trincomalee harbour area saltwater corrosion damaged steel reinforcement
+
+Site Conditions:
+  - Labour availability  : 0.7
+  - Material supply      : available
+  - Weather severity     : 0.86
+  - Cumulative delay so far: 15 days
+
+Corrective Action Taken:
+  Marine grade steel used as replacement in coastal foundation zone
+
+Construction Status:
+  Completed with additional cost

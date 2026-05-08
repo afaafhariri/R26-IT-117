@@ -1,0 +1,22 @@
+Case 70: Construction Delay - Pre-Construction & Approvals / Site selection & surveying
+
+Location   : Kilinochchi, Northern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Site selection & surveying
+Risk Level : MEDIUM
+Delay Days : 35 days
+
+Delay Category : Land & Legal
+Cause of Delay : Boundary dispute with neighbour in resettlement area of Kilinochchi
+
+Site Conditions:
+  - Labour availability  : 0.57
+  - Material supply      : available
+  - Weather severity     : 0.31
+  - Cumulative delay so far: 8 days
+
+Corrective Action Taken:
+  DS mediation conducted and formal boundary agreement signed
+
+Construction Status:
+  Completed after legal resolution

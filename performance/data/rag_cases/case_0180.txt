@@ -1,0 +1,22 @@
+Case 180: Construction Delay - Site Preparation / Site clearing & hoarding
+
+Location   : Ampara, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Site Preparation > Site clearing & hoarding
+Risk Level : MEDIUM
+Delay Days : 44 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : Religious auspicious date delay for Muslim household in Ampara Oluvil
+
+Site Conditions:
+  - Labour availability  : 0.78
+  - Material supply      : available
+  - Weather severity     : 0.33
+  - Cumulative delay so far: 14 days
+
+Corrective Action Taken:
+  Construction recommenced immediately after auspicious date ceremony
+
+Construction Status:
+  Completed on revised schedule

@@ -1,0 +1,22 @@
+Case 71: Construction Delay - Pre-Construction & Approvals / Site selection & surveying
+
+Location   : Ampara, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Site selection & surveying
+Risk Level : MEDIUM
+Delay Days : 31 days
+
+Delay Category : Land & Legal
+Cause of Delay : Boundary stone missing from Ampara plot causing formal neighbour dispute
+
+Site Conditions:
+  - Labour availability  : 0.78
+  - Material supply      : available
+  - Weather severity     : 0.34
+  - Cumulative delay so far: 14 days
+
+Corrective Action Taken:
+  Licensed survey conducted and legal boundary agreement signed
+
+Construction Status:
+  Completed with cost overrun

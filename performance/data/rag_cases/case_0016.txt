@@ -1,0 +1,22 @@
+Case 16: Construction Delay - Foundations / Foundation work
+
+Location   : Mullaitivu, Northern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 25 days
+
+Delay Category : Labour
+Cause of Delay : Extreme shortage of skilled construction workers in Mullaitivu post-war area
+
+Site Conditions:
+  - Labour availability  : 0.27
+  - Material supply      : available
+  - Weather severity     : 0.34
+  - Cumulative delay so far: 11 days
+
+Corrective Action Taken:
+  Workers recruited from Vavuniya and Kilinochchi with accommodation on site
+
+Construction Status:
+  Completed after delay

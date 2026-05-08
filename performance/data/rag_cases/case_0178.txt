@@ -1,0 +1,22 @@
+Case 178: Construction Delay - Foundations / Soil investigation
+
+Location   : Hambantota, Southern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Soil investigation
+Risk Level : MEDIUM
+Delay Days : 40 days
+
+Delay Category : Design & Technical
+Cause of Delay : Foundation design did not account for Hambantota limestone rock bedrock layer
+
+Site Conditions:
+  - Labour availability  : 0.81
+  - Material supply      : available
+  - Weather severity     : 0.24
+  - Cumulative delay so far: 12 days
+
+Corrective Action Taken:
+  Rock breaker hired and foundation completely modified for rock conditions
+
+Construction Status:
+  Completed after design modification

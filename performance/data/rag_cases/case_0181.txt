@@ -1,0 +1,22 @@
+Case 181: Construction Delay - Pre-Construction & Approvals / Architectural & structural design
+
+Location   : Ampara, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Architectural & structural design
+Risk Level : MEDIUM
+Delay Days : 18 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : Ampara owner changed room layout mid-construction after wall completion
+
+Site Conditions:
+  - Labour availability  : 0.86
+  - Material supply      : available
+  - Weather severity     : 0.36
+  - Cumulative delay so far: 18 days
+
+Corrective Action Taken:
+  Structural engineer consulted and plan formally revised and approved
+
+Construction Status:
+  Completed with revised design

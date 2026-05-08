@@ -1,0 +1,22 @@
+Case 190: Construction Delay - Foundations / Ground floor slab
+
+Location   : Batticaloa, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Ground floor slab
+Risk Level : MEDIUM
+Delay Days : 30 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Unexpected high groundwater table during excavation near Batticaloa lagoon
+
+Site Conditions:
+  - Labour availability  : 0.85
+  - Material supply      : available
+  - Weather severity     : 0.89
+  - Cumulative delay so far: 5 days
+
+Corrective Action Taken:
+  Dewatering system and modified ground floor slab foundation type used
+
+Construction Status:
+  Completed with design change

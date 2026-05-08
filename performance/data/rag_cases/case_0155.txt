@@ -1,0 +1,22 @@
+Case 155: Construction Delay - Foundations / Foundation work
+
+Location   : Matara, Southern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 20 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : River sand supply disrupted by seasonal flooding of Nilwala river in Matara
+
+Site Conditions:
+  - Labour availability  : 0.86
+  - Material supply      : unavailable
+  - Weather severity     : 0.78
+  - Cumulative delay so far: 18 days
+
+Corrective Action Taken:
+  Quarry dust substituted with structural engineer written approval
+
+Construction Status:
+  Completed with cost overrun

@@ -1,0 +1,22 @@
+Case 15: Construction Delay - Structure / Roof slab
+
+Location   : Hambantota, Southern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Roof slab
+Risk Level : HIGH
+Delay Days : 75 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Steel price increase during 2022 crisis halted Hambantota roof slab work
+
+Site Conditions:
+  - Labour availability  : 0.75
+  - Material supply      : unavailable
+  - Weather severity     : 0.26
+  - Cumulative delay so far: 36 days
+
+Corrective Action Taken:
+  Structural steel quantity optimised by engineer and work resumed
+
+Construction Status:
+  Completed with cost reduction through optimisation
