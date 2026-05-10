@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0059.pdf",
+  "raw_text": "W.A.Jayasinghe, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n12, Duplication Road, Colombo 04\nLicence No.790909\nLand Survey Council Registration No.2811298\n* Hand GPS Coordinates were used for Location\n\nPLAN No.AP/1914\n\nScale 1:500\n425695 N\n417764 E\n\nPLAN\nof an allotment of Land called \"Ninthavur Garden\"\nsituated in Wellawatte within the local limits of Wellawatte Pradeshiya Sabha\nin Wellawatte Divisional Secretariat Area in\n\nCOLOMBO DISTRICT\nWESTERN PROVINCE\n\nLot 3 bounded as follows:\nNorth by : Garden, Claimed by Road and New Road\nEast by  : New Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nThe entire Land is containing in extent :0.04734 Hectare (0A-0R-18.72P)=473.4 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2022.12.15\nPlan issued on : 2016.02.11\n\nW.A.Jayasinghe\nRegistered Licensed Surveyor. (Regtn. No 91644298)\n",
+  "token_count": 151,
+  "ner_auto": {
+    "plan_number": "AP/1914",
+    "district": "Colombo",
+    "area_sqm": 473.4,
+    "scale": 500,
+    "surveyor": "W.A.Jayasinghe",
+    "road_access": "New Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": 425695.0,
+    "coordinate_e": 417764.0,
+    "licence_number": "790909"
+  },
+  "ner_corrected": {
+    "plan_number": "AP/1914",
+    "district": "Colombo",
+    "area_sqm": 473.4,
+    "scale": 500,
+    "surveyor": "W.A.Jayasinghe",
+    "road_access": "New Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": 425695.0,
+    "coordinate_e": 417764.0,
+    "licence_number": "790909"
+  }
+}

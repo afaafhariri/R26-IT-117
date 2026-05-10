@@ -1,0 +1,20 @@
+{
+  "filename": "38-2026-02-28 Sujjath Furniture Land at Main Road SM-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2730. (Chartered Surveyor), Registered Licensed Surveyor; Leveller and Court Commissioner, 11/4, Main Street, Kaanady Lane, Sainthamaruthu-11. Telephone: 077 6550260, 076 2610260 and 071 8080722 Licence No.260651_ Land Survey Council Registration No.19911083. Reference 543575 Nail Wail MDn Musonty Drain Road(RDA) Road(Road Development Authority) Tor Edge 8 Scale 1.500 Note: The National Survey Grid Coorainates were usec tor the surveying which denved Trom RTK receiver (CORS Net): Garden Faleel and others Garden Fareetha 3 7 5 3 Garden Jinnah Kariapper ana wite 8 8 543525 PLAN 0f an allotment of    Garden 'Kalveeddu valavu  together with  Veppaiyady valavu-part of marked 05 Lot situated at Road Road (Road Development Authority) the   village of Sainthamaruthu within the local  limits of Kalmunai Municipal Council in Karavaku Pattu ana within the administrative limits 0f Sainthamaruthu-9 Grama Niladhari  Division No.KP/50 in Sainthamaruthu Divisional Secretary's Area in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded as follows: North by Garden, claimed   by Faleel and others: East by Garden, claimed by Fareetha. South by Garden, claimed by Jinnah Kariapper and wife West by Road (Road Development Authority). The entire Land containing in extent :0.01246 Hectare (OA-OR-04.93P)=124.6 Square metre The survey was requested by Athambawa Mohamed Sujjath and the boundaries   pointed out by Athambawa Mohamed  Sujjath of No.301, Sanasamooka Road, Sainthamaruthu-15 on behalf 0f the claimant: Claimed by Mohamed Jemeel Mohamed  Siraj and the property mentioned Deed  bearing No.6126 dated 2007.07.08, attested by M.C.abdul Azeez, Attorney-at-Law and Notary  Public. Surveyed on 2026.02.28. Drawn February 2026_ Plan issued on 2026.02.28. 3 L 3 { 8 2 J",
+  "token_count": 214,
+  "ner_auto": {
+    "plan_number": "2730",
+    "district": "Ampara",
+    "area_sqm": 124.6,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Sainthamaruthu",
+    "coordinate_n": 0.0,
+    "coordinate_e": 77.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

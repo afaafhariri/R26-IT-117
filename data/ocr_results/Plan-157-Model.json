@@ -1,0 +1,33 @@
+{
+  "filename": "Plan-157-Model.pdf",
+  "raw_text": "Regd: No 9921671 T.P Nos. 0777049279 & 0754913765 Hand CPS Coordinates were usea for Location Garden 540915 Claimed by S.Velnayagam & wife g Garden Claimed Namachivayam Gajendran Garden Claimed by VRajatheepan Reference Garden WF Wire Fence Claimed by Zinc Fence Sivapathasundarampillai wife Wall Road(PS) Road (Pradeshiya Sabha) 3 11540810 Scale 1 1000 PLAN OF AN ALLOTMENT OF LAND CALLED 'Thennanthotta Poomi\" Situated at Kandasuwamy Kovil Front Road, Karaitivu-H1 (GN Division No: 42D) under Karaitivu Divisional Secretary in Pradeshiya Sabha limits of Karaitivu within Karavahu Pattu in Ampara District in the Eastern Province of the DEMOCRATIC SOCIALIST REPUBLIC OF SRILANKA Schedule Lof Extent Boundary Schedule Land use No_ Hectare North East South West 0.0409 16.18 Garden, contains mixed Garden; claimed Garden, claimed Garden, claimed Garden, claimed cullivation; & permanent by $.Velnayagam by Namachivayam by Sivapathasunda- by V Rajatheepan building; temporary & Wife & Gajendran ~rampillai & wife building; toilet and well: As pointed out by and to claimant Jarochandrathevan Jeevan of Kandasuwamy Kovil Front Road, Karaitivu-1 and the boundaries were surveyed by me_ Claimed by Jarochandrathevan Jeevan on Deed No: 13700 dated 2018.12.26, attested by MManmatharajah, Notary Public, Kalmunai: by Beach RoaBoad(PS) Main From",
+  "token_count": 92,
+  "ner_auto": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": 7549137650000.0,
+    "scale": null,
+    "surveyor": "VRajatheepan Reference Garden",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 540915.0,
+    "coordinate_e": 1.0,
+    "licence_number": "OF"
+  },
+  "ner_corrected": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": 409.0,
+    "scale": null,
+    "surveyor": "VRajatheepan Reference Garden",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 540915.0,
+    "coordinate_e": 1.0,
+    "licence_number": "OF"
+  }
+}

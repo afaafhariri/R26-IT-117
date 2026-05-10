@@ -1,0 +1,20 @@
+{
+  "filename": "14-2026-01-18 5th Colony Raafis sister land-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2716. (Chartered Surveyor); 545600 Registered Licensed  Surveyor; Leveller and Court Commissioner; 1/4, Main Street; Kaanady Lane, 3 Sainthamaruthu_ Telephone: 077 6550260, 076 2610260 and 071 8080722. Licence No.260651_ Land Survey Council Registration No. 19911083. Reference Boundary Post Wall Fence Tor Edge Bank Gate Channel Cul Culvert Undefined Temporory   building Roaa(PS) Road(Pradeshiya  Sabho) Scale 1.500 Note: The National  Survey Grid Coordinates were used for the surveying which derived from RTk receiver Cul (CORS Net): 52 '09 Cul Lot 143 PP aml 172 12 \"00- Lot 144 8 8 PP am} 172 Lot 143 545525 amf 172 _ Garden presently PM.MRaaf; PLAN ot an allotment of Garden called 'Colony Poomi-part of lot 143 in PP aml 172 marked aS Lot (being rc- survey ot of lot in Plan No.442 dated 2016.11.16, prepared by me) situated at Road (Pradeshiya Sabha) in the village of Sth Colony Chalambaikerni   within the Iocal limits of Navithanveli  Pradeshiya Sabha Sammanthurai Pattu and within the administrative   limits of   Chalambaikerni _ Grama Niladhari   Division No.SP/94/A Navithanveli   Divisional  Secretary's Area in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded as follows: North by Lane and Road (Pradeshiya Sabha) along with Channel. East by Road (Pradeshiya Sabha) along with Channel and Channel: South by Channel and lot 145 PP am} 172-Garden, claimed by presently PM.MRaafi West by Lot 143 PP amnf 72-Garden, claimed  by presently P.M.M.Raafi and Lane The entire Land is containing in extent :0.03739 Hectare (OA-OR-14.78P)-373.9 Square metre The survey was requested by Packeer Mohideen Jennaththul Firthowziya and the boundaries pointed out by Packeer Mohideen Jennaththul Firthowziya of5/74, Chalambaikerni, Sth Colony, Central Camp. Claimed by Packeer Mohideen Jennaththul Firthowziya and the property (excluded southern and western portion from the whole   property) mentioned in Deed bearing No.4481 dated  2004.09.07, attested by C.Varoathayan, Notary Public_ Surveyed on 2026.01.18. Drawn January 2026. Plan issued on 2026.01.26. From Central Camp Road(PS) From Central Camp Main Chavalakade Channel Centre Road(Ps] line the Road Chavalakade 8 8 part",
+  "token_count": 263,
+  "ner_auto": {
+    "plan_number": "2716",
+    "district": "Ampara",
+    "area_sqm": 373.9,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": "143",
+    "is_coastal": true,
+    "province": "Sabho",
+    "coordinate_n": 2026.01,
+    "coordinate_e": 77.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

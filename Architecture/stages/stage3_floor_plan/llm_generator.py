@@ -18,18 +18,19 @@ class FloorPlanGenerator:
     """
 
     def __init__(self) -> None:
-        import google.generativeai as genai
+        from google import genai
+        from google.genai import types
 
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
             _logger.warning("GEMINI_API_KEY not set — LLM calls will fail at runtime")
 
-        genai.configure(api_key=api_key)
-        self.genai = genai
-        self.model = genai.GenerativeModel("gemini-2.5-flash")
+        self.client = genai.Client(api_key=api_key)
+        self.types = types
+        self.model_name = "gemini-2.5-flash"
         self.temperatures = [0.4, 0.7, 1.0]
         self.max_retries = 3
-        _logger.info("FloorPlanGenerator initialised (model=gemini-2.5-flash)")
+        _logger.info("FloorPlanGenerator initialised (model=%s)", self.model_name)
 
     def _strip_fences(self, text: str) -> str:
         """Removes markdown code fences from LLM response text."""
@@ -55,9 +56,10 @@ class FloorPlanGenerator:
                 _logger.info(
                     "LLM call sent: temperature=%.1f, attempt=%d", temperature, attempt
                 )
-                response = self.model.generate_content(
-                    prompt,
-                    generation_config=self.genai.GenerationConfig(
+                response = self.client.models.generate_content(
+                    model=self.model_name,
+                    contents=prompt,
+                    config=self.types.GenerateContentConfig(
                         temperature=temperature,
                         max_output_tokens=16384,
                         response_mime_type="application/json",

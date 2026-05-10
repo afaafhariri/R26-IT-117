@@ -1,0 +1,33 @@
+{
+  "filename": "Raheem House-Model.pdf",
+  "raw_text": "ALMohamed Husyen, FSI: PLAN No. 2876 Registered Licensed Surveyor and Court Commissioner 370, Union Road, Akkaraipattu TP-067-2277686 Land  Claimed by 1 Land Claimed ARaheem by Land Claimed Noordeen Reference Nawas Wall WF Wire Fence Lof Undefined Hectare =2.47105 Acres Lard Claimed by AAnos Land Claimed 8 AMuteetha 8 SCALE 500 PLAN of an   allottment of land marked lot called \"Alangkulam Situated in No.AD/304/3, Addalaichenai-17 G.N Division  of Alangkulam Village within the Addalaichenai Pradeshiya Sabha Limits in Addalaichenai Divisional Secretariat AMPARA DISTRICT EASTERN PROVINCE Entire   Bounded aS follows: Notrh Land Claimed by A.Raheem and Nawas East Land Claimed by Nawas, Path and A.Mufeetha South Land Claimed by A.Mufeetha and A.Anas West Land Claimed by A.Anas and Noordeen Schedule Lot: Lot Extent Name of Claimant Remarks No. Hectares 0.03086 A.Raheem of 113A, Alangkulam, (OA: OR: 12.2P)1 Addalaichenai-17. Total: 0.03086 Containing in Total Extent: (OA: OR: 12.2P)1 Twelvepoint_Two Perches: A.Raheem of 31-10-2019. Survey Requested and Boundaries Pointed outby { 1134, Alangkulam, A.L.Mohamed Husyen: Addalaichenai-17. Registered Licensed Land Surveyor. (Regtn.  No 19900575) Surveyed On 29 10_2019 FBI E125 PATH Road(PS) From Houses",
+  "token_count": 135,
+  "ner_auto": {
+    "plan_number": "2876",
+    "district": "Ampara",
+    "area_sqm": null,
+    "scale": null,
+    "surveyor": "and Court Commissioner",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Alangkulam Village",
+    "coordinate_n": 29.0,
+    "coordinate_e": 2.47105,
+    "licence_number": "d"
+  },
+  "ner_corrected": {
+    "plan_number": "2876",
+    "district": "Ampara",
+    "area_sqm": 308.6,
+    "scale": null,
+    "surveyor": "and Court Commissioner",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Alangkulam Village",
+    "coordinate_n": 29.0,
+    "coordinate_e": 2.47105,
+    "licence_number": "d"
+  }
+}

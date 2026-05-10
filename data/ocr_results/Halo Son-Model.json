@@ -1,0 +1,33 @@
+{
+  "filename": "Halo Son-Model.pdf",
+  "raw_text": "AL.Mohamed Husyen, FSI: PLAN No. 2980 Registered Licensed Land Surveyor and Court Commissioner: Land Claimed 370, Union Road; by Akkaraipattu. U.LHobeeburrahman TP-067-2277686 Land Claimed by Well Marsoon Land Claimed by MH.Hashim Gate Reference To Wire Ferce Wall Undefined Hectore -2.47105 Acres SCALE: 500 PLAN of an allotment of land marked Lot Situated in No.  AP/19, Akkaraipattu-05, Crama Niladhari Division within the Akkaraipattu Municipal Council Limit in Akkaraipattu Divisional Secretariat: AMPARA DISTRICT EASTERN PROVINCE Bounded @S Follows North Land Claimed by U.LHabeeburrahman East Land Claimed by M.H.Hashim South Flood Protection Road West Land Claimed by Marsoon Schedule Lot: Lot Extent Name of   Claimant_ Remarks No_ Hectares 0.0210 08.3 ALAbul Hashan 0f Claimed by Deed No.2050 272, CEB Road, TD-1, Dated 2016-10-26. Attested by Akkaraipattu-1. S.L.Abdul Majeed Notary Public. Total:|0.0210 08.3 Containing in_Total Extent: Eight_point_Three Perches Survey Requested and M.B.M Saheel Boundaries  pointed out by 272, CEB Road, TD-1_ Akkaraipattu-1. 25-06-2020. AL.Mohamed Husyen. Registered Licensed Land Surveyor Date_of_Surveyed 24 06-2020. FB / 126 Regtn: No 9900575, From Ampara Road Drain Flood Protection Road Drain  Main Road",
+  "token_count": 119,
+  "ner_auto": {
+    "plan_number": "2980",
+    "district": "Ampara",
+    "area_sqm": null,
+    "scale": null,
+    "surveyor": "and Court Commissioner",
+    "road_access": "Main Road",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "TD-1",
+    "coordinate_n": 0.0,
+    "coordinate_e": 500.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": {
+    "plan_number": "2980",
+    "district": "Ampara",
+    "area_sqm": 210.0,
+    "scale": null,
+    "surveyor": "and Court Commissioner",
+    "road_access": "Main Road",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "TD-1",
+    "coordinate_n": 0.0,
+    "coordinate_e": 500.0,
+    "licence_number": "d"
+  }
+}

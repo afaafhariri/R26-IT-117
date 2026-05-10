@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0049.pdf",
+  "raw_text": "W.A.Jayasinghe, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n14, Tangalle Road, Hambantota\nLicence No.739098\nLand Survey Council Registration No.5261032\n* Hand GPS Coordinates were used for Location\n\nPLAN No.AP/1575\n\nScale 1:1000\n356435 N\n488758 E\n\nPLAN\nof an allotment of Land called \"Roadadykandam\"\nsituated in Tissamaharama within the local limits of Tissamaharama Pradeshiya Sabha\nin Tissamaharama Divisional Secretariat Area in\n\nHAMBANTOTA DISTRICT\nSOUTHERN PROVINCE\n\nLot 2 bounded as follows:\nNorth by : Garden, Claimed by Road and Road (RDA)\nEast by  : Road (RDA) and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining Total Extent 0.0941 Hectare or 0A:0R:37.20P\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2022.05.22\nPlan issued on : 2015.08.10\n\nW.A.Jayasinghe\nRegistered Licensed Surveyor. (Regtn. No 83363160)\n",
+  "token_count": 144,
+  "ner_auto": {
+    "plan_number": "AP/1575",
+    "district": "Hambantota",
+    "area_sqm": 941.0,
+    "scale": 1000,
+    "surveyor": "W.A.Jayasinghe",
+    "road_access": "Road (RDA)",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": 356435.0,
+    "coordinate_e": 488758.0,
+    "licence_number": "739098"
+  },
+  "ner_corrected": {
+    "plan_number": "AP/1575",
+    "district": "Hambantota",
+    "area_sqm": 941.0,
+    "scale": 1000,
+    "surveyor": "W.A.Jayasinghe",
+    "road_access": "Road (RDA)",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": 356435.0,
+    "coordinate_e": 488758.0,
+    "licence_number": "739098"
+  }
+}

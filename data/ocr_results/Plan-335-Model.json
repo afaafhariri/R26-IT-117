@@ -1,0 +1,33 @@
+{
+  "filename": "Plan-335-Model.pdf",
+  "raw_text": "ENadesamoorthy, M.S.I (Sri Lanka) Licensed Surveyor, Leveller & Court Commissioner No.IOOB, Udayar Road, Karaitivu-02 Plan No 335 Regd: No 19921671 TP Nos. 0777049279 & 0754913765 Hand GPS Coordinates were used for Location 541485 3 Carden Claimed Alaimanal Carden 6 Claimed by V.Mahendran &   Wife Reference Garden Claimed by Wall R. Thillaiyammah m541440 Scale 500 PLAN OF AN ALLOTMENT OF LAND CALLED 'Thennanthottapoomi\" Lot 1 in PP5881, situated at Palayadi Pillayar Kovil Road, Karaitivu-]0 (GN Division No: 42A) under Karaitivu Divisional Secretary in Pradeshiya Sabha Limits of Karaitivu within Karavahu Pattu in Ampara District in the Eastern Province of the DEMOCRATIC SOCIALIST REPUBLIC OF SRILANKA Schedule Lot Extent Boundary Schedule Lana use No. Hectare North East South West 0.0295 11.66 Garden contains mixea Garden Lane Garden Garden cultivation_ permanent claimed by claimea by claimed by building; temporary Alaimahal R.Thillaiyammah VMahendran & wife building and toilet pit. As pointed out by and to claimant Muthukumar Vinojini of Palayadi Pillayar Kovil Veethy Karaitivu-I0 and the boundaries were surveyed by me. Claimed by Muthukumar Vinojini on Deed No: 8380 dated 2012.10.25, attested by C Varoathayan, Notary Public, Pandiruppu-02. Surveyed on 2024.01.04, Plan issued on 2024.01.05 3 1 2 1 2 by 0 1 J {",
+  "token_count": 91,
+  "ner_auto": {
+    "plan_number": "335",
+    "district": "Ampara",
+    "area_sqm": 7549137650000.0,
+    "scale": null,
+    "surveyor": "Licensed Surveyor",
+    "road_access": "Lane",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "M.S.I",
+    "coordinate_n": 541485.0,
+    "coordinate_e": 500.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": {
+    "plan_number": "335",
+    "district": "Ampara",
+    "area_sqm": 295.0,
+    "scale": null,
+    "surveyor": "Licensed Surveyor",
+    "road_access": "Lane",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "M.S.I",
+    "coordinate_n": 541485.0,
+    "coordinate_e": 500.0,
+    "licence_number": "d"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "filename": "T2339-5.8.16.add-Model.pdf",
+  "raw_text": "AA.Mohamed Thasleem, FSI PLAN No: T/2339 Registered Licensed Surveyor Leveller 674,Town Mosque Road Akkaraipattu 03 Tel.  067-2278148. 3 Mob__0779363632. 8 1 From Meelath Meelath Nagar Road To Main Road Gate 1 Garden Lot Claimed by SL.Soortheen Garden Reference Woll 2 Claimedby J.Baseera Undefined Foundation Channel Dry Fence SCALE 1.500 Pradeshiya Sabha PLAN an allotment of land marked Lot A,situated in Idaithotam Akkaraipattu; Addalaichenai_05 Village, within the limits of_Addalaichenai_Pradeshiya_Sabah in Addalaichenai_Divisional_Secretariat Ampara District EASTERN PROVINCE Lot Present Name  of Extent in Bounded as   follows Hectares No_ Land use Claimant 4, R,_P North East South West Gorden SRifaitheen 0.0339 Meelath Nagar Road Garden Garden Road(PS) and 197/1, Central Road, | (0A,OR,13.4P) Claimed  by Claimed by Channel Addolaichenai-02. S.LSoortheen J Baseera certify thot  the land depicted in this  plan same property referred in deed no.294 dated 2010.12.27 attested ALAGofoor Attorney atlaw nd Public Containing Extent 339 sg.m (OA,OR,13.4P) Boundaries  Surveyed pointed out   by S Rifaitheen 197/1, Central Road, Addaloichenai-02. Date of Survey 2016.08.05 Registered Licensed Surveyor & Leveller Date 2016.08.09 Regtd   No. 19930566 1 2 Nagar 7 Notary",
+  "token_count": 124,
+  "ner_auto": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": null,
+    "scale": null,
+    "surveyor": "Leveller",
+    "road_access": "Main Road",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "OR,13.4P",
+    "coordinate_n": 0.0339,
+    "coordinate_e": 1.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": {
+    "plan_number": "T/2339",
+    "district": "Ampara",
+    "area_sqm": 339.0,
+    "scale": null,
+    "surveyor": "Leveller",
+    "road_access": "Main Road",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "OR,13.4P",
+    "coordinate_n": 0.0339,
+    "coordinate_e": 1.0,
+    "licence_number": "d"
+  }
+}

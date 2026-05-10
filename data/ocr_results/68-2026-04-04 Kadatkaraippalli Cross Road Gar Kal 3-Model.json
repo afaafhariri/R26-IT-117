@@ -1,0 +1,20 @@
+{
+  "filename": "68-2026-04-04 Kadatkaraippalli Cross Road Gar Kal 3-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2760. (Chartered Surveyor), Registered Licensed Surveyor; Leveller and Court Commissioner, 11/4, Main Street, Kaanady Lane, Sainthamaruthu-11. Telephone: 077 6550260, 076 2610260 and 071 8080722 Licence No.260651_ 545325 Land Survey Council Registration No.19911083. Reference Woll Gate MDn mnasonty Drain 8 WM Water Meter Tube Well Scale 1.500 Note: The National Survey Grid Garden Coordinates WC used Tor the surveying which derived A.Seinambu trom RTk receiver (CORS Net} presently AL- .Mihraj Garden M.M Ibrahim presently M.Minnah Garden {Avva Ummah presently 45'00 Garden Marjuna 1.Mariayamkandu 8 presently MA.Fathimo   Hilmiya 545275 PLAN of an allotment of Garden situated at Mathavan Cross Road the village of Kalmunai within the local  limits of   Kalmunai Municipal Council in Karavaku Pattu and within the administrative  limits of Kalmunai Muslim Division Grama Niladhari  Division No.KP/594 Kalmunai Divisional  Secretary's Area AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded as follows: North by Gardens, claimed by ASeinambu, M.M.Ibrahim presently AL .Mihraj and M.Minnah. East by Garden, claimed   by M.M.Ibrahim presently M.Minnah and Private Lane South by Private ane and Gardens claimed by Mariamkandu, {Avva Ummah presently MAFathima Hilmiya and Marjuna. West by Gardens, claimed by |.Avva Ummah, A.Seinambu presently  Marjuna and A.L .Mihraj The   entire Land is containing in extent :0.02086 Hectare (OA-OR-08.25P)=208.6 Square metre. The survey was requested by Seeni Mohamed Nagoorummah and the boundaries pointed out by Seeni Mohamed Nagoorummah of No.21/B/2, Mathavan Cross Road, Kalmunai-3 on behalf of the claimants_ Claimed by   Iate Mohamed Ibrahim Rahmaththummah and the property mentioned Deed bearing No.21040 dated 1957.01.22, attested P.V.Kandiah, Notary Public_ Surveyed on 2026.04.04. Drawn April 2026. Plan issued on 2026.04.05 3 1 2 1 8 8 2 Lane Private Z06 8 8 by",
+  "token_count": 237,
+  "ner_auto": {
+    "plan_number": "2760",
+    "district": "Ampara",
+    "area_sqm": 208.6,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 8.0,
+    "coordinate_e": 77.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

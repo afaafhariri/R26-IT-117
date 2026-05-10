@@ -1,0 +1,26 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "C01 — Architecture API (FastAPI)",
+      "cwd": "Architecture",
+      "runtimeExecutable": ".venv/Scripts/python",
+      "runtimeArgs": ["-m", "uvicorn", "main:app", "--reload", "--port", "8001"],
+      "port": 8001
+    },
+    {
+      "name": "C01 — Celery Worker (Stage 3 async)",
+      "cwd": "Architecture",
+      "runtimeExecutable": ".venv/Scripts/celery",
+      "runtimeArgs": ["-A", "tasks.celery_app", "worker", "--loglevel=info", "--pool=solo"],
+      "port": null
+    },
+    {
+      "name": "Redis (Docker)",
+      "cwd": ".",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["run", "--rm", "-p", "6379:6379", "redis:7-alpine"],
+      "port": 6379
+    }
+  ]
+}

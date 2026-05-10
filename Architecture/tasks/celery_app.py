@@ -65,6 +65,7 @@ def generate_floor_plan_async(
         from stages.stage3_floor_plan.rag_retriever import RAGRetriever
         from stages.stage3_floor_plan.prompt_builder import PromptBuilder
         from stages.stage3_floor_plan.llm_generator import FloorPlanGenerator
+        from stages.stage3_floor_plan.layout_solver import solve_overlaps
         from stages.stage3_floor_plan.validator import LayoutValidator
         from stages.stage3_floor_plan.scorer import LayoutScorer
 
@@ -79,6 +80,7 @@ def generate_floor_plan_async(
         results: list[dict] = []
 
         for plan in alternatives:
+            plan = solve_overlaps(plan, buildable_zone)
             is_valid, violations = validator.validate(plan, buildable_zone)
             scores = scorer.score(plan)
             plan["is_valid"] = is_valid

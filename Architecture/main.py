@@ -102,6 +102,15 @@ class UserRequirements(BaseModel):
     style: str = Field(default="modern", pattern="^(modern|traditional|contemporary)$")
     district: Optional[str] = None
     is_coastal: bool = False
+    terrain: str = Field(
+        default="flat",
+        pattern="^(flat|sloped|hilly|rocky)$",
+        description="Site terrain type — affects excavation cost in C02",
+    )
+    target_date: Optional[str] = Field(
+        default=None,
+        description="Expected construction start date ISO-8601 (YYYY-MM-DD) for C02 cost indexing",
+    )
 
 
 class FloorPlanRequest(BaseModel):
@@ -333,8 +342,9 @@ async def buildable_zone(request: BuildableZoneRequest):
         coverage_ratio = nbc.get_coverage_ratio(district, is_coastal)
 
         polygon = request.site_schema.get("boundary_polygon", [])
+        real_area_sqm = float(request.site_schema.get("area_sqm") or 0)
         zone = BuildableZoneCalculator().calculate(
-            polygon, setbacks, coverage_ratio, si.floors_requested
+            polygon, setbacks, coverage_ratio, si.floors_requested, real_area_sqm
         )
 
         orientation = OrientationSolver().solve(
@@ -448,7 +458,8 @@ async def render(request: RenderRequest):
         from stages.stage4_renderer.pdf_renderer import PDFRenderer
         from stages.stage4_renderer.schema_serialiser import SchemaSerialiser
 
-        output_dir = Path("/tmp/r26") / uuid.uuid4().hex
+        import tempfile
+        output_dir = Path(tempfile.gettempdir()) / "r26" / uuid.uuid4().hex
         output_dir.mkdir(parents=True, exist_ok=True)
 
         plan_id = request.site_schema.get("plan_id", "PLAN-UNKNOWN")
@@ -457,22 +468,29 @@ async def render(request: RenderRequest):
 
         _logger.info("Stage 4 rendering started for %s", plan_id)
 
+        # Inject plan_id and budget_tier into floor_plan for SVG title block
+        floor_plan_enriched = {
+            **request.floor_plan,
+            "plan_id": plan_id,
+            "budget_tier": request.user_requirements.get("budget_tier", "medium"),
+        }
+
         svg_out = SVGRenderer().render(
-            request.floor_plan, request.buildable_zone, svg_path
+            floor_plan_enriched, request.buildable_zone, svg_path
         )
 
-        quality_scores = request.floor_plan.get("quality_scores", {})
+        quality_scores = floor_plan_enriched.get("quality_scores", {})
         pdf_out = PDFRenderer().render(
             svg_out,
             request.site_schema,
             request.buildable_zone,
-            request.floor_plan,
+            floor_plan_enriched,
             quality_scores,
             pdf_path,
         )
 
         building_schema = SchemaSerialiser().serialise(
-            request.floor_plan,
+            floor_plan_enriched,
             request.site_schema,
             request.buildable_zone,
             request.user_requirements,
@@ -493,6 +511,21 @@ async def render(request: RenderRequest):
     except Exception as exc:
         _logger.error("Stage 4 pipeline error: %s", exc)
         raise HTTPException(status_code=500, detail=f"Stage 4 rendering failed: {exc}")
+
+
+# ---------------------------------------------------------------------------
+# GET /api/v1/download/{filename}
+# ---------------------------------------------------------------------------
+
+@app.get("/api/v1/download/{filename}", tags=["Stage 4"])
+async def download(filename: str, dir: str = Query(...)):
+    """Downloads a rendered SVG or PDF file by filename and temp directory name."""
+    import tempfile
+    file_path = Path(tempfile.gettempdir()) / "r26" / dir / filename
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail=f"File not found: {filename}")
+    media_type = "image/svg+xml" if filename.endswith(".svg") else "application/pdf"
+    return FileResponse(str(file_path), media_type=media_type, filename=filename)
 
 
 # ---------------------------------------------------------------------------

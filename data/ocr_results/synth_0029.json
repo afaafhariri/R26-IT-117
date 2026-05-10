@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0029.pdf",
+  "raw_text": "D.C.Fernando, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n12, Marine Drive, Beruwala\nLicence No.321941\nLand Survey Council Registration No.8890439\n\nPLAN No.T/511\n\nScale 1:2000\nThe National Survey Grid Coordinates were used for the surveying.\nN : 387627\nE : 396532\n\nPLAN\nof an allotment of Land called \"Kadatkaraippalli\"\nsituated in Matugama within the local limits of Matugama Pradeshiya Sabha\nin Matugama Divisional Secretariat Area in\n\nKALUTARA DISTRICT\nWESTERN PROVINCE\n\nLot 2 bounded as follows:\nNorth by : Garden, Claimed by Road and Mosque Road\nEast by  : Mosque Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining in Extent of Lot 1  0.0510  0.  0.  20.18\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2015.12.18\nPlan issued on : 2015.06.08\n\nD.C.Fernando\nRegistered Licensed Surveyor. (Regtn. No 97260863)\n",
+  "token_count": 151,
+  "ner_auto": {
+    "plan_number": "T/511",
+    "district": "Kalutara",
+    "area_sqm": 510.5,
+    "scale": 2000,
+    "surveyor": "D.C.Fernando",
+    "road_access": "Mosque Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": 387627.0,
+    "coordinate_e": 396532.0,
+    "licence_number": "321941"
+  },
+  "ner_corrected": {
+    "plan_number": "T/511",
+    "district": "Kalutara",
+    "area_sqm": 510.5,
+    "scale": 2000,
+    "surveyor": "D.C.Fernando",
+    "road_access": "Mosque Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": 387627.0,
+    "coordinate_e": 396532.0,
+    "licence_number": "321941"
+  }
+}

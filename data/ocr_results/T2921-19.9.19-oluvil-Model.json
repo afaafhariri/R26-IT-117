@@ -1,0 +1,33 @@
+{
+  "filename": "T2921-19.9.19-oluvil-Model.pdf",
+  "raw_text": "AA.Mohamed Thasleem, FSI Gorden PLAN No: T/2921 Registered Licensed   Surveyor Leveller Presently 674,Town Mosque Road Claimed Akkaraipattu 03 KLHafeela Tel.  067-2278148 Gorden Mob:_0779363632. Presenlly Claimed  by Gorden U.K Pichchaiumma Presently Claimed by KLFowzina Lot 1 Garder Presently Claimed by ce AM Sohabdeen Reference Wat Nai Undefined SCALE   1:500 Boundary Post Rw Wal PLAN Zinc tencc Permanent Building 0n allolmenl of  land marked Lol resurvey of lot 55 in_plan_565 prepared_by HL.M.Hisam Licensed  Surveyor  and the  land called Thiraikkerni  Poomi situated en Sri Lanka PortAuthority Re_Settled Housing Scheme; Oluvil Village G.N.division No.AD/35 Akkaraipattu_within_the_limits ddalaichenai Pradeshiya   Sabha en2 Addalaichenai Divisional Secretariat Ampara District EASTERN PROVINCE Lot Present Name   of  Claimant Extent 1n2 Bounded @S follows Hectares No Land use and  Deed No; North East South West Garden Athambawa   Subaitha Umma 0.0346 Gorden {ot Vammiyadi Garder No.445, Vammiyadi Road, SLPA Re (OA,0R,1.3.7P) Presently Vamnmiyadi Road Presently Settile Houseing Scheme; Oluvil-02. Claimed Road Garden Claimed Claimed 0n part deed 00- 1552/88 U.K Pichchai Presently AM Sahobdeen of 2005-12-27 attested by /.Morino urma&Lot Claimed by & U.K_Pichchai Notheer, attorney at 'ow and AMSahabdeen umma: Notary Public: Garder Dhawoothlevvai Rizwon, 0160 Garden Garden Vammiyad; Lot A No. 48, Old Post  Office Road, (OA,0R,06,3P) Presently Presently Road Gorden Oluvil-07 Clairmed by Cloimed Lot Presently Claired On deed no, 1432 dated U,KPichchai K LFowzino Claimed by 2019. 07_19 attested by FM.A Ansor ummo; Varrrriyadi U.K Pichchai Mawiara; ottorney '0w ana KLHafeelo Roaa ummo: No Public: KL.Fawzina Total 0.0506 (0A,0R,20.0P) Containing in Total Extent 506m.sq. (OA,OR,2O.OP) Boundaries Surveyed pointed out by A,B,Subaitha Urnma ano D.L.Rizwan Cluvil Registered Licensed  Surveyor Leveller Date of  Survey: 2019.09.19 Regtn No; 9930566 Date 2019.09.24 Road Main Oluvil MUr Road Vammiyadi Road Main Kalmunai From Building being tory",
+  "token_count": 219,
+  "ner_auto": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": null,
+    "scale": 500,
+    "surveyor": "Leveller Presently",
+    "road_access": null,
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "Oluvil Village",
+    "coordinate_n": 0.0,
+    "coordinate_e": 1.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": {
+    "plan_number": "T/2921",
+    "district": "Ampara",
+    "area_sqm": 506.0,
+    "scale": 500,
+    "surveyor": "Leveller Presently",
+    "road_access": null,
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "Oluvil Village",
+    "coordinate_n": 0.0,
+    "coordinate_e": 1.0,
+    "licence_number": "d"
+  }
+}

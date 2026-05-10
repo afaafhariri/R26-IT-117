@@ -1,0 +1,20 @@
+{
+  "filename": "73-2026-04-07 Aliyar Road Cross land kky-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2764. (Chartered Surveyor), Registered Licensed Surveyor; Leveller 544525 and Court Commissioner, 11/4, Main Street, Kaanady Lane, Sainthamaruthu-11. 3 Telephone: 077 6550260, 076 2610260 and 071 8080722 Licence No.260651_ Land Survey Council Registration No.19911083. Reference Noil Wail Bw Building Wall Fence Gale Garden Scale 1.500 M.IPIbra 2 Note: The National Survey Crid Lebbe Coordinotes were usec for presently the surveying which derived AAoysha from RTK receiver (CORS Net) BW 24'00' 2 Garden S.M.Subaitha 8 presently 8 S,Sharmila 26.00 Bw 3 From   Garden ane 1 544450 PLAN of an allotment 0f Garden situated at Aliyar 1st Cross Road marked a5 lot the in the village of Kalmunai within the local   limits of Kalmunai   Municipal Council in Karavaku Pattu and within the administrative limits 0f Kalmunaikudy_13 Grama Niladhari Division No.KP/54A in Kalmunai  Divisional Secretary's Area AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded aS follows: North by Garden, claimed by M.I.P.Ibra Lebbe presently A.Aoysha. East by Aliyar 1st Cross Road. South by Lane_ West by Garden, claimed by S.MSubaitha presently S.Sharmila. The entire Land is containing in extent :0.00701 Hectare (OA-OR-02.77P)-70. Square metre. The survey was requested by  Seeni Mohamed Baby and the boundaries pointed out by Seeni Mohamed Baby of No.55/1, Aliyar 1st Cross Road, Kalmunaikudy-13. Claimed by  Seeni Mohamed Baby and the property mentioned in Deed bearing No.5288 dated 1988.04.13, attested by N.M. Kariapper, Attorney-at-Law and Notary Public. Surveyed on 2026.04.07. Drawn April 2026. Plan issued on 2026.04.08. 3 { 1 { 8",
+  "token_count": 206,
+  "ner_auto": {
+    "plan_number": "2764",
+    "district": "Ampara",
+    "area_sqm": 70.1,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Kalmunai",
+    "coordinate_n": 2026.04,
+    "coordinate_e": 77.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

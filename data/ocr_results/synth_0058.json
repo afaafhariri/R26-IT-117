@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0058.pdf",
+  "raw_text": "K.Krishnamoorthy, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n42, Bar Road, Batticaloa\nLicence No.116547\nLand Survey Council Registration No.9826250\n\nPLAN No.3034\n\nScale 1:1000\n\nPLAN\nof an allotment of Land called \"Kadatkaraippalli\"\nsituated in Chenkalady within the local limits of Chenkalady Pradeshiya Sabha\nin Chenkalady Divisional Secretariat Area in\n\nBATTICALOA DISTRICT\nEASTERN PROVINCE\n\nLot B bounded as follows:\nNorth by : Garden, Claimed by Road and Beach Road\nEast by  : Beach Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining Total Extent 0.0420 Hectare or 0A:0R:16.61P\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2016.12.03\nPlan issued on : 2022.08.25\n\nK.Krishnamoorthy\nRegistered Licensed Surveyor. (Regtn. No 58592048)\n",
+  "token_count": 132,
+  "ner_auto": {
+    "plan_number": "3034",
+    "district": "Batticaloa",
+    "area_sqm": 420.1,
+    "scale": 1000,
+    "surveyor": "K.Krishnamoorthy",
+    "road_access": "Beach Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "116547"
+  },
+  "ner_corrected": {
+    "plan_number": "3034",
+    "district": "Batticaloa",
+    "area_sqm": 420.1,
+    "scale": 1000,
+    "surveyor": "K.Krishnamoorthy",
+    "road_access": "Beach Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "116547"
+  }
+}

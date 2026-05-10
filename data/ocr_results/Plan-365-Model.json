@@ -1,0 +1,33 @@
+{
+  "filename": "Plan-365-Model.pdf",
+  "raw_text": "ENadesamoorthy, M.S.I (Sri Lanka) Licensed Surveyor; Leveller & Court Commissioner No.IOOB, Udayar Road, Karaitivu-02 Plan No : 365 Regd: No 19921671 TP Nos. 0777049279 & 0754913765 504970 N Reference 3 Stake Bridge Undefined Ridge WF Wire Fence 4 Toilet Ary P(uc) Permanent building (Under Construction) Road(PS) Road (Pradeshiya Sabha) Paddy Field 'Presently claimed by Sinnavan 3 Garden 504790 Presently claimed by Thiruthani Scale 2000 PLAN OF AN ALLOTMENT OF LAND CALLED \"Kombakarachi\" Part of Lot 74 in Inset 7 of Topo PP 54,situated at Kombakarachi; Kanchikudiyaru (GN Division No: TK/IOB) under Thirukkovil Divisional Secretary in the Pradeshiya Sabha limits of Thirukkovil in Ampara District in the Eastern Province of the DEMOCRATIC SOCIALIST REPUBLIC OF SRILANKA Schedule Lot Extent Boundary Schedule Land use No_ Hectare North East South West 0.3715 26.87 Paddy Field, contains Reservation with Paddy Field Garden Road(PS) permanenl building Means of access presently claimed presently claimed (under construction) by Sinnavan by Thiruthani and toilet. As pointed out by and to daughter of claimant Thanabalasingam Gunasanthi of Navalady Road, Thirukkovil-02 and the boundaries were surveyed by me. Claimed by Perumalpillai Thanabalasingam on Jayabhoomi Grant No: 21u/ g1881/231.916il/856 dated 1999.02.02 Surveyed on 2024.03.09, Plan issued on 2024.03.21 ankudah Kanchiro Kanchikudi eservation with 1 8 From 0 Army Camy 51.29v Thangavelayuthapurc From",
+  "token_count": 94,
+  "ner_auto": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": null,
+    "scale": null,
+    "surveyor": "Licensed Surveyor",
+    "road_access": null,
+    "lot_number": "74",
+    "is_coastal": true,
+    "province": "M.S.I",
+    "coordinate_n": 504970.0,
+    "coordinate_e": 3.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": {
+    "plan_number": "365",
+    "district": "Ampara",
+    "area_sqm": 371.5,
+    "scale": null,
+    "surveyor": "Licensed Surveyor",
+    "road_access": null,
+    "lot_number": "74",
+    "is_coastal": true,
+    "province": "M.S.I",
+    "coordinate_n": 504970.0,
+    "coordinate_e": 3.0,
+    "licence_number": "d"
+  }
+}

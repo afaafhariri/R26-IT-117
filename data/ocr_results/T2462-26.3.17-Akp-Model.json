@@ -1,0 +1,20 @@
+{
+  "filename": "T2462-26.3.17-Akp-Model.pdf",
+  "raw_text": "AA.Mohamed Thasleem, FSI PLAN No. T/2462 Registered Licensed Surveyor Leveller 674,Town Mosque Road Akkaraipaltu 03 Tel 067-2278148 Garden Clamed Mob: 0779363632 i.Subaithaumma Garden Clamed G.Sihinas Lot I Garden Clamed by Garden U.L.Salkaveevi Clarned KB Avvakutty 2/3 Gate Reference Wcll DF Dry Fence Zinc Fence SCALE 1:500 PLAN of an allotment of land marked Lot situated in Akkaraipattu 02 C.N.division no.AP/16 village, within the limits of Akkaraipattu_Municipal Council in Akkaraipattu DivisionalSecrelarial Ampara District EASTERN PROVINCE Lotl Present Name   of Extent in Bounded as   follows Hectares No. Land use Claimant R,PL North Fast Soulh West Garden MA.Nasiliya, No.187A/1 0.0182 Garden Garden Lane and Garden Sweel Majeed Road (QA,0R,07.2P) Clamed Clamedby Gorden Clamed by Akkaraipottu-02. { Subaithaumma UL.Salkaveevi Clamed by G.Sihinas KBAvvakutty I certify that the land depicted in this plan is same property mentioned in  deed no.500 dated 2016.08.01 attested by M.U.Haroon Notary Public Containing in Extent 182 sq.m. (OA,OR,07.2P) Boundaries Surveyed pointed out   by M.ANasiliya, No. 1874/1 Sweet Majeed Road Akkaraipottu-02. Registered Licensed Surveyor & Leveller Regtn No. 9930566 Date of  Survey 2017.03.26 Date 2017.03.30 0 ! From Common Road Sweet Majeed Road Main Road",
+  "token_count": 139,
+  "ner_auto": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": 182.0,
+    "scale": 500,
+    "surveyor": "Leveller",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Akkaraipattu",
+    "coordinate_n": null,
+    "coordinate_e": 1.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

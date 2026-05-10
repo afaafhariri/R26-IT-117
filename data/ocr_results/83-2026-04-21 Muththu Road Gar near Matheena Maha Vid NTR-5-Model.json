@@ -1,0 +1,20 @@
+{
+  "filename": "83-2026-04-21 Muththu Road Gar near Matheena Maha Vid NTR-5-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2781 (Chartered Surveyor), Registered Licensed  Surveyor, Leveller and Court Commissioner, 11/4, Main Street, Kaanady Lane, 538800 Sainthamaruthu-11. Telephone: 077 6550260, 076 2610260 and 071 8080722 3 Licence No.260651_ Land Survey Council Registration No.19911083. Garden Reference A.Sinnaththamby Noil Wall BW Building Wall 55 06 Gate PPit Well Masonry Well Permanent building Scale 1.500 8 Well ( h 55\"00\" Note: The National Survey Grid Coordinates were used for Garden the surveying which oerived EAamina Ummah from RTK receiver (CORS Net). 56 03 ane 1 538750 PLAN of two allotments of Gardens called 'Wembuppoomi-part of marked as Lots and situated at Muththu Road the village of Nintavur within the local limits of Nintavur   Predeshiya Sabha Nintavur Pattu and within the administrative   limits of Nintavur-5 Grama Niladhari Division No.37 in Nintavur Divisional Secretary's Area in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded as follows. North by Muththu Road and Garden, claimed by A.Sinnaththamby. East by Gardens, claimed by A.Sinnaththamby and EAamina Ummah. South by Gorden, claimed by EAamina Ummah and Lane_ West by Lane and Muththu Road. The entire Land containing in extent :0.03119 Hectare  (OA-OR-12.33P)-311.9 Square metre. The survey was requested by Kithir Mohamed Siththy Rifaya and the boundaries pointed out by Kithir Mohamed Siththy  Rifaya of Muththu Road, Nintavur-5 Claimed by   Kithir Mohamed Siththy Rifaya and the property mentioned Deed bearing No.263 dated 2005.06.17, attested by A.H.Aroos, Attorney - at-Law and Notary Public SCHEDULE Lot Present Extent Schedule of Boundaries Remarks No_ Land use Hectare North East South West Garden 0.01555 06. 15 Muththu Road and Gardens, Garden, Lot and Northern portion Garden; Sinnaththamby EAamina Ummah Muththu Road . (155.0 square ASinnoththamby. and EAamina and Lot metre). Ummah Garden 0.01564 06,18 Muththu Road and Lot and Garden, Garden; Lane and Muththu Southern portion Iot E Aamina E Aamina Ummah Road , (156.4 square Ummah and Lane: metre Total 03119 0 12.33 Surveyed on 2026.04.21. Drawn April-May  2026. Plan issued on 2026.05.03. 2 1 11 ] 1 1 1 1",
+  "token_count": 287,
+  "ner_auto": {
+    "plan_number": "2781",
+    "district": "Ampara",
+    "area_sqm": 311.9,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 0.01555,
+    "coordinate_e": 77.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0015.pdf",
+  "raw_text": "W.A.Jayasinghe, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n12, Marine Drive, Beruwala\nLicence No.888387\nLand Survey Council Registration No.2677407\n\nPLAN No.K/1172\n\nScale 1:2000\n\nPLAN\nof an allotment of Land called \"Kadatkaraippalli\"\nsituated in Wadduwa within the local limits of Wadduwa Pradeshiya Sabha\nin Wadduwa Divisional Secretariat Area in\n\nKALUTARA DISTRICT\nWESTERN PROVINCE\n\nLot A bounded as follows:\nNorth by : Garden, Claimed by Road and Church Road\nEast by  : Church Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nTotal Extent 43.7 sq.m (0.0044 Ha)\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2016.09.07\nPlan issued on : 2023.05.05\n\nW.A.Jayasinghe\nRegistered Licensed Surveyor. (Regtn. No 56843172)\n",
+  "token_count": 131,
+  "ner_auto": {
+    "plan_number": "K/1172",
+    "district": "Kalutara",
+    "area_sqm": 43.7,
+    "scale": 2000,
+    "surveyor": "W.A.Jayasinghe",
+    "road_access": "Church Road",
+    "lot_number": "A",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "888387"
+  },
+  "ner_corrected": {
+    "plan_number": "K/1172",
+    "district": "Kalutara",
+    "area_sqm": 43.7,
+    "scale": 2000,
+    "surveyor": "W.A.Jayasinghe",
+    "road_access": "Church Road",
+    "lot_number": "A",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "888387"
+  }
+}

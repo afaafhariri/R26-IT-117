@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0046.pdf",
+  "raw_text": "B.G.Ranasinghe, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n18, Closenberg Road, Galle\nLicence No.678727\nLand Survey Council Registration No.5006492\n\nPLAN No.K/4512\n\nScale 1:2500\n\nPLAN\nof an allotment of Land called \"Kadatkaraippalli\"\nsituated in Balapitiya within the local limits of Balapitiya Pradeshiya Sabha\nin Balapitiya Divisional Secretariat Area in\n\nGALLE DISTRICT\nSOUTHERN PROVINCE\n\nLot 3 bounded as follows:\nNorth by : Garden, Claimed by Road and School Road\nEast by  : School Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\ncontaining in extent :584.5 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2024.07.08\nPlan issued on : 2021.01.11\n\nB.G.Ranasinghe\nRegistered Licensed Surveyor. (Regtn. No 73481797)\n",
+  "token_count": 131,
+  "ner_auto": {
+    "plan_number": "K/4512",
+    "district": "Galle",
+    "area_sqm": 584.5,
+    "scale": 2500,
+    "surveyor": "B.G.Ranasinghe",
+    "road_access": "School Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "678727"
+  },
+  "ner_corrected": {
+    "plan_number": "K/4512",
+    "district": "Galle",
+    "area_sqm": 584.5,
+    "scale": 2500,
+    "surveyor": "B.G.Ranasinghe",
+    "road_access": "School Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "678727"
+  }
+}

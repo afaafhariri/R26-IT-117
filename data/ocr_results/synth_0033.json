@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0033.pdf",
+  "raw_text": "A.R.Nazar, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n42, Bar Road, Batticaloa\nLicence No.618317\nLand Survey Council Registration No.5635017\n* Hand GPS Coordinates were used for Location\n\nPLAN No.TR/3906\n\nScale 1:2500\n553862 N\n652304 E\n\nPLAN\nof an allotment of Land called \"Thennamthottam\"\nsituated in Oddamavadi within the local limits of Oddamavadi Pradeshiya Sabha\nin Oddamavadi Divisional Secretariat Area in\n\nBATTICALOA DISTRICT\nEASTERN PROVINCE\n\nLot 1 bounded as follows:\nNorth by : Garden, Claimed by Road and School Road\nEast by  : School Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining Total Extent 0.0297 Hectare or 0A:0R:11.75P\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2023.01.17\nPlan issued on : 2018.02.08\n\nA.R.Nazar\nRegistered Licensed Surveyor. (Regtn. No 64549859)\n",
+  "token_count": 144,
+  "ner_auto": {
+    "plan_number": "TR/3906",
+    "district": "Batticaloa",
+    "area_sqm": 297.3,
+    "scale": 2500,
+    "surveyor": "A.R.Nazar",
+    "road_access": "School Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 553862.0,
+    "coordinate_e": 652304.0,
+    "licence_number": "618317"
+  },
+  "ner_corrected": {
+    "plan_number": "TR/3906",
+    "district": "Batticaloa",
+    "area_sqm": 297.3,
+    "scale": 2500,
+    "surveyor": "A.R.Nazar",
+    "road_access": "School Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 553862.0,
+    "coordinate_e": 652304.0,
+    "licence_number": "618317"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "filename": "3824-23.3.24-AP.24-AP.24-AP-Model 1.pdf",
+  "raw_text": "A.AMohamed Thasleem, FSI PLAN No. 3824 Registered Licensed Land Surveyor & Leveller 67A,Town Mosque Road Akkaraipattu 03 Tel. 067-2278148 Mob_0779363632, TP85648 N E Gorden Gate Garden 1 Presently TP85648 Presently Claimed Claimed  by M.M.Raheema M.M.Rafeek TP85648 Garden Reference Claimed by Nail U.Matheenaumma Wall TP85648 Wire Fence BW Building   Wall Permanent  Building SCALE 1.500 PLAN of an amalgamation of_two_properties marked @S lots A&B Part of TP85648 referred_in deed nos.1778262 both attested by  MLRusthiya_Notary_ Public and_the Land_situated in G.N.division no_ AP/17 Akkaraipattu_03_village_ within  the limits_of Akkaraipattu Municipal Council in Akkaraipattu Divisional Secretariat Ampara District EASTERN PROVINCE Lotl Present Nare Claimant Extent n Bounded CS follows No_ Land use and \"Deed No Hectare) North East South West Gorden Sahithlebbe Mohamed Arsath 0.0048 Lane Lot B Gorden Garden No.136/2, Mudaliyar Road, (OA,OR,01.9P) Claimed by Presently Akkaraipattu-05, U.Matheenaumma Claimed by Deed No. 1 / of2019.11.05 M.M Raheema Attested by M.IRusthiya, Attorney Iov ond Public: Corden Sohithlebbe Fothima Asmina 0.0161 Lane Garden Lot A No.136/1, Mudoliyar Road, (OA,OR,06.4P) Presently Akkaraipattu-03. Claimedby Deed No.262 2022.08.17 M.MRafeek Attested by M.I.Rusthiyo, Attorney ot law and Notary   Public: Total 0.0209 (OA,OR,08.3P) Containing_in Extent 209m.sq. (OA,OR,08.3P) Boundaries Surveyed pointed out by SL.Fathima Asriya and SLMohamed Arsath No. 136/1, Mudaliyar   Road, Akkaraipattu-03. Registered Licensed Surveyor Leveller Regtn. No:. 19930566 Date  of  Survey 2024.03.23 Date 2024.03.25 From Mudaliyar Road L ^ Notary",
+  "token_count": 168,
+  "ner_auto": {
+    "plan_number": "3824",
+    "district": "Ampara",
+    "area_sqm": 48.0565,
+    "scale": null,
+    "surveyor": "Leveller Regtn. No",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "OA",
+    "coordinate_n": 85648.0,
+    "coordinate_e": 1.5,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0020.pdf",
+  "raw_text": "M.Kandiah, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n7, Hospital Road, Chavakachcheri\nLicence No.634150\nLand Survey Council Registration No.5382463\n\nPLAN No.TR/668\n\nScale 1:2000\nThe National Survey Grid Coordinates were used for the surveying.\nN : 723617\nE : 527559\n\nPLAN\nof an allotment of Land called \"Karaitivu North\"\nsituated in Kayts within the local limits of Kayts Pradeshiya Sabha\nin Kayts Divisional Secretariat Area in\n\nJAFFNA DISTRICT\nNORTHERN PROVINCE\n\nLot 2 bounded as follows:\nNorth by : Garden, Claimed by Road and School Road\nEast by  : School Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nTotal Extent 1028.9 sq.m (0.1029 Ha)\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2017.10.09\nPlan issued on : 2015.02.20\n\nM.Kandiah\nRegistered Licensed Surveyor. (Regtn. No 68326160)\n",
+  "token_count": 148,
+  "ner_auto": {
+    "plan_number": "TR/668",
+    "district": "Jaffna",
+    "area_sqm": 1028.9,
+    "scale": 2000,
+    "surveyor": "M.Kandiah",
+    "road_access": "School Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "NORTHERN PROVINCE",
+    "coordinate_n": 723617.0,
+    "coordinate_e": 527559.0,
+    "licence_number": "634150"
+  },
+  "ner_corrected": {
+    "plan_number": "TR/668",
+    "district": "Jaffna",
+    "area_sqm": 1028.9,
+    "scale": 2000,
+    "surveyor": "M.Kandiah",
+    "road_access": "School Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "NORTHERN PROVINCE",
+    "coordinate_n": 723617.0,
+    "coordinate_e": 527559.0,
+    "licence_number": "634150"
+  }
+}

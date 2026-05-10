@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0048.pdf",
+  "raw_text": "S.B.Dissanayake, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n12, Marine Drive, Beruwala\nLicence No.346174\nLand Survey Council Registration No.6024207\n* Hand GPS Coordinates were used for Location\n\nPLAN No.N/4097\n\nScale 1:500\n366451 N\n386586 E\n\nPLAN\nof an allotment of Land called \"Roadadykandam\"\nsituated in Panadura within the local limits of Panadura Pradeshiya Sabha\nin Panadura Divisional Secretariat Area in\n\nKALUTARA DISTRICT\nWESTERN PROVINCE\n\nLot 1 bounded as follows:\nNorth by : Garden, Claimed by Road and Beach Road\nEast by  : Beach Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nThe entire Land is containing in extent :0.14962 Hectare (0A-1R-19.15P)=1496.2 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2015.01.11\nPlan issued on : 2015.05.12\n\nS.B.Dissanayake\nRegistered Licensed Surveyor. (Regtn. No 60310319)\n",
+  "token_count": 149,
+  "ner_auto": {
+    "plan_number": "N/4097",
+    "district": "Kalutara",
+    "area_sqm": 1496.2,
+    "scale": 500,
+    "surveyor": "S.B.Dissanayake",
+    "road_access": "Beach Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": 366451.0,
+    "coordinate_e": 386586.0,
+    "licence_number": "346174"
+  },
+  "ner_corrected": {
+    "plan_number": "N/4097",
+    "district": "Kalutara",
+    "area_sqm": 1496.2,
+    "scale": 500,
+    "surveyor": "S.B.Dissanayake",
+    "road_access": "Beach Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": 366451.0,
+    "coordinate_e": 386586.0,
+    "licence_number": "346174"
+  }
+}

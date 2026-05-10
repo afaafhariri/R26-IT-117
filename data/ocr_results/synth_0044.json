@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0044.pdf",
+  "raw_text": "A.R.Nazar, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n5, Dockyard Road, Trincomalee\nLicence No.425845\nLand Survey Council Registration No.3583206\n\nPLAN No.336\n\nScale 1:1000\nThe National Survey Grid Coordinates were used for the surveying.\nN : 614871\nE : 610241\n\nPLAN\nof an allotment of Land called \"Aanaikulaththukadu\"\nsituated in Nilaveli within the local limits of Nilaveli Pradeshiya Sabha\nin Nilaveli Divisional Secretariat Area in\n\nTRINCOMALEE DISTRICT\nEASTERN PROVINCE\n\nLot 3 bounded as follows:\nNorth by : Garden, Claimed by Road and New Road\nEast by  : New Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining in Extent of Lot 1  0.0050  0.  0.  1.98\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2022.12.10\nPlan issued on : 2023.12.09\n\nA.R.Nazar\nRegistered Licensed Surveyor. (Regtn. No 65766169)\n",
+  "token_count": 151,
+  "ner_auto": {
+    "plan_number": "336",
+    "district": "Trincomalee",
+    "area_sqm": 50.1,
+    "scale": 1000,
+    "surveyor": "A.R.Nazar",
+    "road_access": "New Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 614871.0,
+    "coordinate_e": 610241.0,
+    "licence_number": "425845"
+  },
+  "ner_corrected": {
+    "plan_number": "336",
+    "district": "Trincomalee",
+    "area_sqm": 50.1,
+    "scale": 1000,
+    "surveyor": "A.R.Nazar",
+    "road_access": "New Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 614871.0,
+    "coordinate_e": 610241.0,
+    "licence_number": "425845"
+  }
+}

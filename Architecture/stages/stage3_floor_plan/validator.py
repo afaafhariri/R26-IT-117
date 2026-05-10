@@ -81,17 +81,26 @@ class LayoutValidator:
                 )
 
         # Check 3 — room non-overlap (> 5% of smaller room area = violation)
+        # Only compare rooms on the same floor — different floors share the same
+        # normalised coordinate space but are physically independent.
         boxes = [_room_box(r) for r in rooms]
-        for i in range(len(boxes)):
-            for j in range(i + 1, len(boxes)):
-                inter = boxes[i].intersection(boxes[j])
-                if not inter.is_empty:
-                    smaller_area = min(boxes[i].area, boxes[j].area)
-                    if smaller_area > 0 and inter.area / smaller_area > 0.05:
-                        violations.append(
-                            f"Rooms '{rooms[i]['name']}' and '{rooms[j]['name']}' "
-                            f"overlap by {inter.area / smaller_area:.0%}"
-                        )
+        from collections import defaultdict as _dd
+        by_floor: dict = _dd(list)
+        for idx, room in enumerate(rooms):
+            by_floor[room.get("floor", 1)].append(idx)
+
+        for floor_indices in by_floor.values():
+            for ii, i in enumerate(floor_indices):
+                for j in floor_indices[ii + 1:]:
+                    bi, bj = _room_box(rooms[i]), _room_box(rooms[j])
+                    inter = bi.intersection(bj)
+                    if not inter.is_empty:
+                        smaller_area = min(bi.area, bj.area)
+                        if smaller_area > 0 and inter.area / smaller_area > 0.05:
+                            violations.append(
+                                f"Rooms '{rooms[i]['name']}' and '{rooms[j]['name']}' "
+                                f"overlap by {inter.area / smaller_area:.0%}"
+                            )
 
         # Check 4 — all rooms within buildable zone
         buildable_coords = buildable_zone.get("buildable_polygon", [])

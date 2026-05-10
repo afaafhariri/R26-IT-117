@@ -1,0 +1,20 @@
+{
+  "filename": "88-2026-04-23 Sahabdeen selling Gar behind Green villa Oluvil-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2783. (Chartered Surveyor), Registered Licensed Surveyor; Leveller and Court Commissioner, Lot 11/4, Main Street, Kaanady Lane, 532100 Sainthamaruthu-11. No.SNR/2016/3229 Telephone: 077 6550260, 076 2610260 dated 2016.12.29 prepared by and 071 8080722 S.Nesarajah 3 Licence No.260651_ Licensed Surveyor _ Land Survey Council Registration No.19911083. Garden Reference presently BP Baundary Post 1 MAAthambawa- Wire Fence Claimed on Fence TP 86015 Gale Scale 1.500 62 00 Note: The National Survey Grid Coordinates are Used for Garden the surveying which aerived from receves 8 Sithy Rifaya   Hyder AJ; _ CORS Net). Claimed on TP86015 Garden 2 presently MBBuhary 1 8 Claimed on TP 86015 532050 PLAN of an allotment of Garden called 'Seenamputty valavu-Claimed on part of TP 86015' marked aS Lot situated at Lane in Road (Pradeshiya Sabha) in the  village of   Oluvil within the Iocal  limits of Addalaichenai Pradeshiya Sabha Akkarai Pattu and within the administrative limits of Oluvilr -2 Grama Niladhari Division No.AD/35/8 Addalaichenai Divisional  Secretary's Area in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded as follows: North by Lot 1 7 in Plan No.SNR/2016/3229 dated 2016.12.29, prepared by S.Nesarajah, Licensed Surveyor-Garden, Claimed by presently MAAthambawa-Claimed on TP 86015. East by Garden, claimed by   Sithy Hyder Ali_Claimed on TP 86015. South by Garden, claimed by M.B. Buhary Claimed on TP 86015. West by Lane; The entire Land is  containing in extent :0.02049 Hectare  (OA-OR-08.1OP)=204.9 Square metre The survey was requested by Mohamed Samdudeen Sahabdeen and the boundaries pointed out by Mohamed Samdudeen Sahabdeen of No.459/A, Al-Amana Road, Sainthamaruthu-16. Claimed Mohamed Samdudeen Sahabdeen and the property mentioned Deed  12058 dated 2018.07.31, attested by B.M.Razeen, Attorney-at-law and Notary Public. Surveyed on 2026.04.23. Drawn April-May 2026. Plan issued on 2026.05.04. Plan 0 Rifaya by",
+  "token_count": 247,
+  "ner_auto": {
+    "plan_number": "2783",
+    "district": "Ampara",
+    "area_sqm": 204.9,
+    "scale": null,
+    "surveyor": "and",
+    "road_access": "Lane",
+    "lot_number": "11",
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 2.0,
+    "coordinate_e": 77.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

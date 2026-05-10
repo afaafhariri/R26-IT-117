@@ -1,0 +1,20 @@
+{
+  "filename": "9-2026-01-11 Gar adjoining to Thahir Lanka Petrolium centre at NTR-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2706. (Chartered Surveyor), 539125 Registered Licensed Surveyor; Leveller and Court Commissioner, 11/4, Main Street, Kaanady Lane, Sainthamaruthu-11. Telephone: 077 6550260, 076 2610260 and 071 8080722 Licence No.260651_ Land Survey Council Registration No.19911083. Reference Nail Stake Wall BW Building Woll Tar Edge MDn Mosonry Droin Gate Road(RDA) Road( Road Development Authority} Garden L.Izmath Scale 1.500 presently Thohir Lanka Note: The National Survey Grid Coordinates Cene Wseo Fuel  Station and Sume/no which derived premises Tror RTK (eceiver (CoRS Net}. Garden AL.Sammoon and wife presently 1 Garden 9 Ground AC.Raheem and premises 1 Mexl Lane J 1 539050 PLAN ot an allotment of   Garden called 2632nd kandappoomi-Claimed On part of TP 86012 marked a5 Lot situated at Road (Road Development Authority) in the village 0f Nintavur within the local   limits of  Nintavur Pradeshiya Sabha in Nintavur Pattu and within the administrative limits of Nintovur-24  Grama Niladhari   Division No.39C in Nintavur   Divisional  Secretary's Area in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded as follows: North by Garden, claimed by L.Izmath presently Thahir Lanka Fuel Station ana premises. Eost by Road (Road Development Authority). South by Garden, claimed by A.C Raheem and Private Lane_ West by Garden, claimed by A.L.Sammoon and wife   presently   Ploy Ground and  premises_ The entire Land is containing in extent :0.01041 Hectare (OA- OR-04.12P)=104.1 Square metre_ The survey was requested by Mohamed Ibrahim Mohamed Feroze and the boundaries pointed oul by Mohamed Ibrahim Mohamed Feroze of No. 11 , School Road, Irakkamam-9 Claimed by Mohamed Ibrahim Mohamed Feroze and the property mentioned in Deed bearing No.166 dated 2010.03.23, attested by Abdul Cader Rizwan, Attorney-at-Law and Notary  Public. Surveyed on 2026.01.11. Drawn January 2026. Plan issued on 2026.01.12. 2 Play 9 Private",
+  "token_count": 238,
+  "ner_auto": {
+    "plan_number": "2706",
+    "district": "Ampara",
+    "area_sqm": 104.1,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 9.0,
+    "coordinate_e": 77.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

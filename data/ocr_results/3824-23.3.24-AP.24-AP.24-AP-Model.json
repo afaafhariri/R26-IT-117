@@ -1,0 +1,20 @@
+{
+  "filename": "3824-23.3.24-AP.24-AP.24-AP-Model.pdf",
+  "raw_text": "A.AMohamed Thasleem, FSI PLAN No. 3824 Registered Licensed Land Surveyor & Leveller 67A,Town Mosque Road Akkaraipattu 03 Tel. 067-2278148 Mob_0779363632, TP85648 A N E 1 Garden TP85648 Presently Garden Lot A Claimed by Presently M.M.Raheema TP85648 Claimed by SLEAsmina Garden Claimed by UMatheenaumma TP85648 Reference Nail Wall BW Building Wall SCALE 1.500 PLAN of an allotment of land marked Lot Part of TP85648, situated in G.N.division_no.AP/17 Akkaraipattu 03_uillage_ within the limits of Akkaraipattu Municipal Council in Akkaraipattu_Divisional Secretariat Ampara District EASTERN PROVINCE Lotl Present Name Claimant Extent in Bounded 4S follows No. Land use ana %feedaivac Hectares North Fast South West Gorden Sahilhlebbe Mohamed Arsath 0048 Lane Garden Gorden Carden No.136/2, Mudaliyar Road, (OA,OR,01.2P) Presently Claimed Presently Akkaraipattu-03. Claimed  by U.Matheenaumma Claimed by Deed No. of 2019. 1.05 SLE Asmino M.M Raheema Attested by M.IRusthiya, Attorney at Iaw ond Notary Public: Containing in Extent 48m.sq.(OA,OR,01.2PL Boundaries Surveyed pointed out  by Sohithlebbe Mohared Arsath No.136/2, Mudaliyar Road; Akkaraipattu-03. Registered Licensed Surveyor Leveller Regtn. No:. 19930566 Date of  Survey 2024.03.23 Date 2024.03.25 From Mudaliyar Road House",
+  "token_count": 134,
+  "ner_auto": {
+    "plan_number": "3824",
+    "district": "Ampara",
+    "area_sqm": 30.3515,
+    "scale": null,
+    "surveyor": "Leveller Regtn. No",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "SLEAsmina",
+    "coordinate_n": null,
+    "coordinate_e": 1.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

@@ -30,19 +30,25 @@ class NERParser:
     """
 
     def __init__(self) -> None:
-        try:
-            import spacy
+        import spacy
+        from pathlib import Path
 
-            self.nlp = spacy.load("en_core_web_sm")
+        # Try fine-tuned cadastral model first, fall back to base model
+        _fine_tuned = Path(__file__).resolve().parents[3] / "models" / "ner_cadastral"
+        try:
+            if _fine_tuned.exists():
+                self.nlp = spacy.load(str(_fine_tuned))
+                self._has_fine_tuned = True
+                _logger.info("Loaded fine-tuned cadastral NER model from %s", _fine_tuned)
+            else:
+                self.nlp = spacy.load("en_core_web_sm")
+                self._has_fine_tuned = False
+                _logger.info("Fine-tuned model not found — using en_core_web_sm")
         except OSError as exc:
             _logger.error(
-                "SpaCy model 'en_core_web_sm' not found. "
-                "Install with: python -m spacy download en_core_web_sm"
+                "SpaCy model not found. Run: python -m spacy download en_core_web_sm"
             )
-            raise RuntimeError(
-                "SpaCy model 'en_core_web_sm' not found. "
-                "Run: python -m spacy download en_core_web_sm"
-            ) from exc
+            raise RuntimeError("SpaCy model not found.") from exc
 
         self.patterns = {
             "plan_number": re.compile(
@@ -52,7 +58,8 @@ class NERParser:
                 rf"({_DISTRICT_PATTERN})\s*(?:DISTRICT)?", re.IGNORECASE
             ),
             "area": re.compile(
-                r"(\d+(?:\.\d+)?)\s*(Hectare|Ha|ha|perch(?:es)?|P\b|sq\.?\s*m(?:etre)?s?)",
+                r"(?:extent|area|containing)[^0-9]{0,30}(\d+(?:\.\d+)?)\s*(Square\s+metre|Hectare|Ha|ha|perch(?:es)?|sq\.?\s*m(?:etre)?s?)"
+                r"|=\s*(\d+(?:\.\d+)?)\s*(Square\s+metre|sq\.?\s*m(?:etre)?s?)",
                 re.IGNORECASE,
             ),
             "scale": re.compile(r"Scale\s*1\s*[:/]\s*(\d+)", re.IGNORECASE),
@@ -93,6 +100,8 @@ class NERParser:
             return value * 25.2929
         if unit_lower in ("hectare", "ha"):
             return value * 10000
+        if "square" in unit_lower or unit_lower.startswith("sq"):
+            return value  # already in sqm
         return value
 
     def parse(self, text_tokens: dict) -> dict:
@@ -149,8 +158,9 @@ class NERParser:
 
         m = self.patterns["area"].search(text)
         if m:
-            value = float(m.group(1))
-            unit = m.group(2)
+            # Groups 1,2 = extent/area context match; groups 3,4 = =X sqm match
+            value = float(m.group(1) or m.group(3))
+            unit  = m.group(2) or m.group(4)
             result["area_sqm"] = round(self._convert_to_sqm(value, unit), 4)
 
         m = self.patterns["scale"].search(text)
@@ -169,13 +179,19 @@ class NERParser:
         if m:
             result["lot_number"] = m.group(1)
 
-        m = self.patterns["coordinate_n"].search(text)
-        if m:
-            result["coordinate_n"] = float(m.group(1) or m.group(2))
+        # SLD99 Northings are 100000–600000, Eastings are 200000–700000.
+        # Reject small values (e.g. "077" from phone numbers like "077 6550260").
+        for match in self.patterns["coordinate_n"].finditer(text):
+            val = float(match.group(1) or match.group(2))
+            if 100_000 <= val <= 600_000:
+                result["coordinate_n"] = val
+                break
 
-        m = self.patterns["coordinate_e"].search(text)
-        if m:
-            result["coordinate_e"] = float(m.group(1) or m.group(2))
+        for match in self.patterns["coordinate_e"].finditer(text):
+            val = float(match.group(1) or match.group(2))
+            if 200_000 <= val <= 700_000:
+                result["coordinate_e"] = val
+                break
 
         m = self.patterns["licence_number"].search(text)
         if m:
@@ -183,10 +199,28 @@ class NERParser:
 
         doc = self.nlp(text[:5000])
         for ent in doc.ents:
-            if ent.label_ == "PERSON" and result["surveyor"] is None:
-                result["surveyor"] = ent.text
-            elif ent.label_ == "GPE" and result["province"] is None:
-                result["province"] = ent.text
+            if self._has_fine_tuned:
+                # Fine-tuned model: use cadastral labels to fill regex gaps
+                if ent.label_ == "DISTRICT" and result["district"] is None:
+                    matched = ent.text.strip().title()
+                    for d in _DISTRICT_NAMES:
+                        if d.upper() == matched.upper():
+                            result["district"] = d
+                            break
+                elif ent.label_ == "PLAN_NO" and result["plan_number"] is None:
+                    result["plan_number"] = ent.text.strip()
+                elif ent.label_ == "SURVEYOR" and result["surveyor"] is None:
+                    result["surveyor"] = ent.text.strip()
+                elif ent.label_ == "LOT_NO" and result["lot_number"] is None:
+                    result["lot_number"] = ent.text.strip()
+                elif ent.label_ == "LICENCE" and result["licence_number"] is None:
+                    result["licence_number"] = ent.text.strip()
+            else:
+                # Base model: use generic labels
+                if ent.label_ == "PERSON" and result["surveyor"] is None:
+                    result["surveyor"] = ent.text
+                elif ent.label_ == "GPE" and result["province"] is None:
+                    result["province"] = ent.text
 
         if result["district"] and result["district"] in _COASTAL_DISTRICTS:
             result["is_coastal"] = True
@@ -197,5 +231,4 @@ class NERParser:
             result["area_sqm"],
             result["is_coastal"],
         )
-        # TODO Sprint 4: fine-tune SpaCy NER on annotated Sri Lankan cadastral corpus
         return result

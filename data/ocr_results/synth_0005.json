@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0005.pdf",
+  "raw_text": "S.Yogaratnam, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n7, Hospital Road, Chavakachcheri\nLicence No.358607\nLand Survey Council Registration No.3320821\n* Hand GPS Coordinates were used for Location\n\nPLAN No.BT/3858\n\nScale 1:1000\n796484 N\n546175 E\n\nPLAN\nof an allotment of Land called \"Aanaikulaththukadu\"\nsituated in Uduvil within the local limits of Uduvil Pradeshiya Sabha\nin Uduvil Divisional Secretariat Area in\n\nJAFFNA DISTRICT\nNORTHERN PROVINCE\n\nLot 3 bounded as follows:\nNorth by : Garden, Claimed by Road and Grama Road\nEast by  : Grama Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nTotal Extent 822.3 sq.m (0.0822 Ha)\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2023.08.03\nPlan issued on : 2015.02.05\n\nS.Yogaratnam\nRegistered Licensed Surveyor. (Regtn. No 94214382)\n",
+  "token_count": 143,
+  "ner_auto": {
+    "plan_number": "BT/3858",
+    "district": "Jaffna",
+    "area_sqm": 822.3,
+    "scale": 1000,
+    "surveyor": "S.Yogaratnam",
+    "road_access": "Grama Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "NORTHERN PROVINCE",
+    "coordinate_n": 796484.0,
+    "coordinate_e": 546175.0,
+    "licence_number": "358607"
+  },
+  "ner_corrected": {
+    "plan_number": "BT/3858",
+    "district": "Jaffna",
+    "area_sqm": 822.3,
+    "scale": 1000,
+    "surveyor": "S.Yogaratnam",
+    "road_access": "Grama Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "NORTHERN PROVINCE",
+    "coordinate_n": 796484.0,
+    "coordinate_e": 546175.0,
+    "licence_number": "358607"
+  }
+}

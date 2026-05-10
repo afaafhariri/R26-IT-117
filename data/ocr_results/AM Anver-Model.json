@@ -1,0 +1,20 @@
+{
+  "filename": "AM Anver-Model.pdf",
+  "raw_text": "A.LMohamed Husyen, FSI PLAN No. 3794 Registered Licensed Land Surveyor and Court Commissioner: 370, Union Road; Akkaraipattu. TP-0773316713 Land Claimed  by Asanar  Nafeesa 266 Land Claimed  by Asanar Nafeesa Land Claimed by Lot KMIrsana From 2/3, Common 27'3' Road Road(Mc) To AVV Road Reference Woll Undefined SCALE: 500 Boundary Mark Hectare -2.47105 Acres PLAN of an allotment of land marked Lot Called Kandam G85 H85 Situated in No.AP/16, Akkaraipattu-02, Crama Niladhari Division of Akkaraipattu Village within the Akkaraippattu Municipal Council Limit in Akkaraipattu Divisional Secretariat Area AMPARA DISTRICT EASTERN PROVINCE Entire  Boundary follwos: North Land   Claimed by Asanar Nafeesa East Land Claimed by K.MIrsana South Road(Municipal Council): West Lamd Claimed  by Asanar  Nafeesa Schedule   of Lot: Lot Extent in Name of   Claimant Remarks No Hectares 0.00774 Anver Fathima  Ishra Claimed by  Deed No.1171 dated  2024-02-29 OA: OR: 3.06P No.97, MPCS, Road, Attested by M.M.Baheej Attorney law Akkaraipattu-02. and Public_ Total 0.00774 Contoining_ in_JotaL_Extent: OA:OR: 3.06P 77.4 Sqm Three point_Zero_Six perches Survey Requested and Anver   Fathima Ishra Boundaries Pointed out by No.97, MPCS: Road, 2025-05-12. Akkaraipattu-02. A.L.Mohamed Husyen. Registered Licensed and Surveyor: Date  of Surveyed on: 2025-05-09, FB 137 Regtn. No 9900575 Notary",
+  "token_count": 123,
+  "ner_auto": {
+    "plan_number": "3794",
+    "district": "Ampara",
+    "area_sqm": 77.4,
+    "scale": null,
+    "surveyor": "and Court Commissioner",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Husyen",
+    "coordinate_n": 27.0,
+    "coordinate_e": 500.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

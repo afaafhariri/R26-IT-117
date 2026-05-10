@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0027.pdf",
+  "raw_text": "A.L.Mohamed Husyen, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n12, Inner Harbour Road, Trincomalee\nLicence No.446954\nLand Survey Council Registration No.1327691\n\nPLAN No.BT/1852\n\nScale 1:500\nThe National Survey Grid Coordinates were used for the surveying.\nN : 655069\nE : 605524\n\nPLAN\nof an allotment of Land called \"Sinnakkadai\"\nsituated in Kantale within the local limits of Kantale Pradeshiya Sabha\nin Kantale Divisional Secretariat Area in\n\nTRINCOMALEE DISTRICT\nEASTERN PROVINCE\n\nLot 3 bounded as follows:\nNorth by : Garden, Claimed by Road and Mosque Road\nEast by  : Mosque Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nThe entire Land is containing in extent :0.07149 Hectare (0A-0R-28.26P)=714.9 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2024.07.16\nPlan issued on : 2015.06.10\n\nA.L.Mohamed Husyen\nRegistered Licensed Surveyor. (Regtn. No 62343121)\n",
+  "token_count": 156,
+  "ner_auto": {
+    "plan_number": "BT/1852",
+    "district": "Trincomalee",
+    "area_sqm": 714.9,
+    "scale": 500,
+    "surveyor": "A.L.Mohamed Husyen",
+    "road_access": "Mosque Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 655069.0,
+    "coordinate_e": 605524.0,
+    "licence_number": "446954"
+  },
+  "ner_corrected": {
+    "plan_number": "BT/1852",
+    "district": "Trincomalee",
+    "area_sqm": 714.9,
+    "scale": 500,
+    "surveyor": "A.L.Mohamed Husyen",
+    "road_access": "Mosque Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 655069.0,
+    "coordinate_e": 605524.0,
+    "licence_number": "446954"
+  }
+}

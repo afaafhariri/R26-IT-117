@@ -1,0 +1,33 @@
+{
+  "filename": "Dr Fais and-Model.pdf",
+  "raw_text": "ALMohamed Husyen, FSI Registered Licensed Surveyor and PLAN No. 2852 Court Commissioner: 370, Union Road, Akkaraipattu. Land   Claimed TP-067-2277686 Rasheed 1 Lot Land  Claimed 3 2 by U.K.Atham Lebbe Land Claimed E.K Somsam Reference Wall Undefined WF Wire Fence SCALE 1000 35 Boundary Stone Hectare =2.47105 Acres PLAN of Three allotments of   land, Marked Lots 1,2 and Survey and   Subdivision of the land called 'Nediyamarathadiveli' Situated in Kudakkarivaddai in Addalaichenai within the Addalaichenai Pradeshiya Sabha Limits in Addalaichenai Divisional Secretariat AMPARA DISTRICT EASTERN PROVINCE Schedule ot: Lot Extent Bounds Remarks No_ Hectares North East South West 0.05362 and Claimed Land Claimed Lot hereof Asraff Road  Land Claimed by (OA: OR:  21.2P) by Rasheed by U.K.Atham Resreved for and A.A.Fasmira of ~Lebbe. Road( 12feet) Reservation Addalaichenai-12, Total: 0.12469 Containing Total Extent: (OA: 1R: 09.3P) One_Rood_and_Nine_point_Three Perches Survey Requested and A.A.Fasmira of 16-09-2019. Boundaries Pointed out by Main  Street, Addalaichenai 12. A.L.Mohamed Husyen: Registered Licensed Land Surveyor: Surveyed on 14-09_2019. E 125 (Regtn. No   19900575) 1 1 1 J 8 1 L 1 Being Village",
+  "token_count": 130,
+  "ner_auto": {
+    "plan_number": "2852",
+    "district": "Ampara",
+    "area_sqm": null,
+    "scale": null,
+    "surveyor": "and PLAN No.",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Kudakkarivaddai",
+    "coordinate_n": 14.0,
+    "coordinate_e": 1000.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": {
+    "plan_number": "2852",
+    "district": "Ampara",
+    "area_sqm": 1246.9,
+    "scale": null,
+    "surveyor": "and PLAN No.",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Kudakkarivaddai",
+    "coordinate_n": 14.0,
+    "coordinate_e": 1000.0,
+    "licence_number": "d"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0060.pdf",
+  "raw_text": "A.Mahendran, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n5, Dockyard Road, Trincomalee\nLicence No.656329\nLand Survey Council Registration No.4607488\n\nPLAN No.AP/4895\n\nScale 1:2000\nThe National Survey Grid Coordinates were used for the surveying.\nN : 614996\nE : 635888\n\nPLAN\nof an allotment of Land called \"Oluvil South\"\nsituated in Kinniya within the local limits of Kinniya Pradeshiya Sabha\nin Kinniya Divisional Secretariat Area in\n\nTRINCOMALEE DISTRICT\nEASTERN PROVINCE\n\nLot 1 bounded as follows:\nNorth by : Garden, Claimed by Road and Mosque Road\nEast by  : Mosque Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nTotal Extent 697.0 sq.m (0.0697 Ha)\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2021.08.08\nPlan issued on : 2021.06.27\n\nA.Mahendran\nRegistered Licensed Surveyor. (Regtn. No 70867592)\n",
+  "token_count": 148,
+  "ner_auto": {
+    "plan_number": "AP/4895",
+    "district": "Trincomalee",
+    "area_sqm": 697.0,
+    "scale": 2000,
+    "surveyor": "A.Mahendran",
+    "road_access": "Mosque Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 614996.0,
+    "coordinate_e": 635888.0,
+    "licence_number": "656329"
+  },
+  "ner_corrected": {
+    "plan_number": "AP/4895",
+    "district": "Trincomalee",
+    "area_sqm": 697.0,
+    "scale": 2000,
+    "surveyor": "A.Mahendran",
+    "road_access": "Mosque Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 614996.0,
+    "coordinate_e": 635888.0,
+    "licence_number": "656329"
+  }
+}

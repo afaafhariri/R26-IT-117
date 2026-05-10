@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0052.pdf",
+  "raw_text": "R.M.Silva, CSSI Sri Lanka\nRegistered Licensed Surveyor Leveller and Court Commissioner\n5, Galle Road, Kalutara\nLicence No.867934\nLand Survey Council Registration No.7138070\n* Hand GPS Coordinates were used for Location\n\nPLAN No.N/3711\n\nScale 1:500\n387230 N\n391510 E\n\nPLAN\nof an allotment of Land called \"Kadatkaraippalli\"\nsituated in Beruwala within the local limits of Beruwala Pradeshiya Sabha\nin Beruwala Divisional Secretariat Area in\n\nKALUTARA DISTRICT\nWESTERN PROVINCE\n\nLot B bounded as follows:\nNorth by : Garden, Claimed by Road and Beach Road\nEast by  : Beach Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\ncontaining in extent :162.5 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2023.09.09\nPlan issued on : 2017.05.27\n\nR.M.Silva\nRegistered Licensed Surveyor. (Regtn. No 74672520)\n",
+  "token_count": 145,
+  "ner_auto": {
+    "plan_number": "N/3711",
+    "district": "Kalutara",
+    "area_sqm": 162.5,
+    "scale": 500,
+    "surveyor": "R.M.Silva",
+    "road_access": "Beach Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": 387230.0,
+    "coordinate_e": 391510.0,
+    "licence_number": "867934"
+  },
+  "ner_corrected": {
+    "plan_number": "N/3711",
+    "district": "Kalutara",
+    "area_sqm": 162.5,
+    "scale": 500,
+    "surveyor": "R.M.Silva",
+    "road_access": "Beach Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": 387230.0,
+    "coordinate_e": 391510.0,
+    "licence_number": "867934"
+  }
+}

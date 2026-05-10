@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0045.pdf",
+  "raw_text": "B.G.Ranasinghe, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n22, Main Street, Chilaw\nLicence No.728492\nLand Survey Council Registration No.5634662\n\nPLAN No.AP/1284\n\nScale 1:2500\n\nPLAN\nof an allotment of Land called \"Kalmunai North\"\nsituated in Anamaduwa within the local limits of Anamaduwa Pradeshiya Sabha\nin Anamaduwa Divisional Secretariat Area in\n\nPUTTALAM DISTRICT\nNORTH WESTERN PROVINCE\n\nLot 3 bounded as follows:\nNorth by : Garden, Claimed by Road and Private Lane\nEast by  : Private Lane and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining Total Extent 0.1127 Hectare or 0A:1R:4.56P\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2021.06.26\nPlan issued on : 2023.05.27\n\nB.G.Ranasinghe\nRegistered Licensed Surveyor. (Regtn. No 10344303)\n",
+  "token_count": 134,
+  "ner_auto": {
+    "plan_number": "AP/1284",
+    "district": "Puttalam",
+    "area_sqm": 1127.1,
+    "scale": 2500,
+    "surveyor": "B.G.Ranasinghe",
+    "road_access": "Private Lane",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "NORTH WESTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "728492"
+  },
+  "ner_corrected": {
+    "plan_number": "AP/1284",
+    "district": "Puttalam",
+    "area_sqm": 1127.1,
+    "scale": 2500,
+    "surveyor": "B.G.Ranasinghe",
+    "road_access": "Private Lane",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "NORTH WESTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "728492"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "filename": "Mooseen-Model.pdf",
+  "raw_text": "A.LMohamed Husyen, FSI: PLAN No. 2966 Registered Licensed Land Surveyor and Court Commissioner 370, Union Road, Akkaraipattu. Land Claimed TP-067-2277686 by 3 E.Salka Beeve 2 2 ] Lot 2 J Reference Land Claimed Wall by Undefined S.Mohamed Pathummah Road(MC} Road (Municipla  Counci) Hectore 2.47105 Acresi 8 SCALE: 500 8 PLAN of an allotment of land marked Lot Situated in No. AP/16 , Akkaraipattu-02, G.N. Division within the Akkaraipattu Municipal Council Limit in Akkaraipattu Divisional Secretariat. AMPARA DISTRICT EASTERN PROVINCE Bounded @S Follows North Land Claimed by ESalka Beeve East Central Road South Land Claimed by SMohamed Pathummah West Road(Municipal Council) Schedule of Lot: Lot Extent No_ Name of  Claimant_ Remarks Hectares 0.0524 120.7 A.M.Marzooka of Claimed by Deed No.1281 201, Fiscal Road, Dated 2011-04-28 Attested by A.J.M.Nazeem Attorney at law N.P: Akkaraipattu-2. Total:/o.0524 120.7 Containing in Total Extent: Twenty point Seven Perches AM.Marzooka of Survey   Requested by and Boundaries   pointed out by 201 , Fiscal Road, Akkaraipattu-2. 07-06-2020. AL.Mohamed Husyen. Registered Licensed Land Surveyor: Date_of_Surveyed 03-06-2020. FB 126 'Regtn: No 9900575, 1 1 8 3 3 J 1",
+  "token_count": 124,
+  "ner_auto": {
+    "plan_number": "2966",
+    "district": "Ampara",
+    "area_sqm": null,
+    "scale": null,
+    "surveyor": "and Court Commissioner",
+    "road_access": null,
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "Husyen",
+    "coordinate_n": null,
+    "coordinate_e": 3.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": {
+    "plan_number": "2966",
+    "district": "Ampara",
+    "area_sqm": 524.0,
+    "scale": null,
+    "surveyor": "and Court Commissioner",
+    "road_access": null,
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "Husyen",
+    "coordinate_n": null,
+    "coordinate_e": 3.0,
+    "licence_number": "d"
+  }
+}

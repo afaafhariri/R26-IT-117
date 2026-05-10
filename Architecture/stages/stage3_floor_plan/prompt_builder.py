@@ -11,6 +11,19 @@ _SYSTEM_ROLE = (
     "UDA guidelines. You optimise for natural cross-ventilation, shade, and spatial efficiency."
 )
 
+_LAYOUT_RULES_TEMPLATE = """LAYOUT RULES — YOU MUST FOLLOW ALL OF THESE EXACTLY:
+1. All rooms on the SAME floor must have NON-OVERLAPPING rectangles. Two rooms overlap if their (x_norm, y_norm, width_norm, height_norm) rectangles share any area. This is a hard constraint.
+2. Use a ROW-BASED grid layout per floor:
+   - Row 1: public/living spaces (living room, dining, kitchen) placed left to right.
+   - Row 2: private spaces (bedrooms, bathrooms) placed left to right below Row 1.
+   - Row 3 (if needed): utility/garage below Row 2.
+3. ALL rooms must be placed INSIDE the buildable zone: x_norm >= {x_min}, y_norm >= {y_min}.
+4. x_norm + width_norm MUST be <= {x_max} for every room.
+5. y_norm + height_norm MUST be <= {y_max} for every room.
+6. Rooms on different floors do NOT need to avoid each other.
+7. width_norm and height_norm must each be between 0.05 and 0.90.
+8. Total area of all rooms must be <= max_total_built_sqm."""
+
 _OUTPUT_FORMAT = """Respond ONLY with a valid JSON object. No markdown fences, no explanation. Use this exact schema:
 {
   "layout_name": "string",
@@ -56,6 +69,21 @@ class PromptBuilder:
         orientation = buildable_zone.get("orientation", {})
         entrance_side = orientation.get("entrance_side", "south")
 
+        # Derive axis-aligned bounds from the buildable polygon so the LLM
+        # knows exactly which coordinate range is valid for room placement.
+        polygon = buildable_zone.get("buildable_polygon", [])
+        if polygon:
+            xs = [pt[0] for pt in polygon]
+            ys = [pt[1] for pt in polygon]
+            x_min, x_max = round(min(xs), 2), round(max(xs), 2)
+            y_min, y_max = round(min(ys), 2), round(max(ys), 2)
+        else:
+            x_min, y_min, x_max, y_max = 0.0, 0.0, 1.0, 1.0
+
+        layout_rules = _LAYOUT_RULES_TEMPLATE.format(
+            x_min=x_min, y_min=y_min, x_max=x_max, y_max=y_max
+        )
+
         rag_context = "\n---\n".join(retrieved_plans) if retrieved_plans else "No precedents available."
 
         prompt = "\n\n".join(
@@ -66,6 +94,8 @@ class PromptBuilder:
                     "SITE CONSTRAINTS:\n"
                     f"- Buildable footprint: {buildable_zone.get('max_footprint_sqm', 0):.1f} sqm\n"
                     f"- Maximum total built area: {buildable_zone.get('max_total_built_sqm', 0):.1f} sqm\n"
+                    f"- Buildable zone (normalised coords): "
+                    f"x=[{x_min}, {x_max}], y=[{y_min}, {y_max}]\n"
                     f"- Number of floors: {user_requirements.get('floors', 1)}\n"
                     f"- Building orientation: entrance facing {entrance_side}\n"
                     f"- District: {user_requirements.get('district', 'unspecified')}\n"
@@ -78,6 +108,7 @@ class PromptBuilder:
                     f"- Finish grade: {user_requirements.get('budget_tier', 'medium')}\n"
                     f"- Architectural style: {user_requirements.get('style', 'modern')}"
                 ),
+                f"LAYOUT RULES:\n{layout_rules}",
                 f"OUTPUT FORMAT:\n{_OUTPUT_FORMAT}",
             ]
         )
