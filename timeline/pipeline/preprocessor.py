@@ -1,121 +1,87 @@
 """
-Preprocessor — Component 04 Pipeline Step 1.
-
-Extracts raw fields from the Building Schema JSON (Component 01)
-and the Cost Report JSON (Component 02), applies categorical encoding,
-and returns a clean single-row pandas DataFrame ready for feature
-engineering.
+pipeline/preprocessor.py
+Author: Hanfi A.M.M - IT22074454
 """
-
+import os
+import pickle
 import pandas as pd
+import numpy as np
 
+KNOWN_DISTRICTS = [
+    'Colombo','Gampaha','Kalutara','Kandy','Galle',
+    'Matara','Kurunegala','Ratnapura','Ampara','Badulla',
+    'Batticaloa','Hambantota','Jaffna','Kegalle','Kilinochchi',
+    'Mannar','Matale','Monaragala','Mullaitivu','Nuwara Eliya',
+    'Polonnaruwa','Puttalam','Trincomalee','Vavuniya'
+]
+KNOWN_CTYPES = ['Single-storey','Two-storey','Three-storey']
+KNOWN_SOILS  = ['Hard','Medium','Soft']
 
-# ── Encoding look-up tables ───────────────────────────────────────────────────
-
-_FINISH_GRADE_MAP: dict[str, int] = {
-    "basic":    0,
-    "standard": 1,
-    "premium":  2,
-}
-
-_ROOF_TYPE_MAP: dict[str, int] = {
-    "flat":    0,
-    "pitched": 1,
-    "hip":     2,
-    "gable":   3,
-    "mansard": 4,
-}
-
-_FOUNDATION_TYPE_MAP: dict[str, int] = {
-    "strip":   0,
-    "pad":     1,
-    "raft":    2,
-    "pile":    3,
-    "caisson": 4,
-}
+MODEL_DIR = os.path.join(os.path.dirname(__file__), '..', 'models')
 
 
 class Preprocessor:
-    """
-    Prepares a single-row feature DataFrame from the raw JSON payloads.
+    def __init__(self):
+        self._encoders = None
+        self._load_encoders()
 
-    All encoding is deterministic and stateless — no fitted transformers
-    are stored here.  The FeatureEngineer stage handles derived / combined
-    features.
-    """
+    def _load_encoders(self):
+        path = os.path.join(MODEL_DIR, 'encoders.pkl')
+        if os.path.exists(path):
+            with open(path, 'rb') as f:
+                self._encoders = pickle.load(f)
 
-    def prepare(self, building_schema: dict, cost_report: dict) -> pd.DataFrame:
-        """
-        Extract and encode features from the two source payloads.
+    def prepare(self, payload: dict) -> pd.DataFrame:
+        df = pd.DataFrame([payload])
 
-        Args:
-            building_schema: JSON payload from Component 01 (Architecture).
-            cost_report:     JSON payload from Component 02 (Cost Estimation).
+        # Fill optional fields
+        area = float(df['built_up_area_sqft'].iloc[0])
+        cost = float(df['total_cost_lkr'].iloc[0])
 
-        Returns:
-            pd.DataFrame: Single-row DataFrame with all raw encoded features.
+        if 'labor_hours_total' not in df.columns or pd.isna(df['labor_hours_total'].iloc[0]):
+            df['labor_hours_total'] = area * 0.9
+        if 'material_cost_lkr' not in df.columns or pd.isna(df['material_cost_lkr'].iloc[0]):
+            df['material_cost_lkr'] = cost * 0.62
 
-        Raises:
-            ValueError: If a required field is missing or has an invalid value.
-        """
-        try:
-            # ── Building Schema fields ────────────────────────────────────────
-            floors         = int(building_schema.get("floors", 1))
-            footprint_sqm  = float(building_schema.get("footprint_sqm", 0.0))
-            total_area_sqm = float(building_schema.get("total_area_sqm", 0.0))
+        # Encode district
+        district = df['district'].iloc[0] if 'district' in df.columns else 'Colombo'
+        if self._encoders and 'district' in self._encoders:
+            try:
+                df['district_enc'] = self._encoders['district'].transform([district])[0]
+            except Exception:
+                df['district_enc'] = 0
+        else:
+            d = str(district).strip()
+            df['district_enc'] = KNOWN_DISTRICTS.index(d) if d in KNOWN_DISTRICTS else 0
 
-            finish_grade_raw   = str(building_schema.get("finish_grade",   "standard")).lower().strip()
-            roof_type_raw      = str(building_schema.get("roof_type",      "flat")).lower().strip()
-            foundation_type_raw= str(building_schema.get("foundation_type","strip")).lower().strip()
-            has_basement       = 1 if building_schema.get("has_basement", False) else 0
-            is_coastal         = 1 if building_schema.get("location_coastal", False) else 0
+        # Encode construction type
+        ctype = df['construction_type'].iloc[0] if 'construction_type' in df.columns else 'Single-storey'
+        if self._encoders and 'type' in self._encoders:
+            try:
+                df['type_enc'] = self._encoders['type'].transform([ctype])[0]
+            except Exception:
+                df['type_enc'] = 0
+        else:
+            c = str(ctype).strip()
+            df['type_enc'] = KNOWN_CTYPES.index(c) if c in KNOWN_CTYPES else 0
 
-            # district — free-text field, encoded by hash-mod for now
-            # TODO: replace with a proper label encoder fitted on training data
-            district_raw     = str(building_schema.get("district", "unknown")).lower().strip()
-            district_encoded = abs(hash(district_raw)) % 25  # 25 districts in Sri Lanka
+        # Encode soil type
+        soil = df['soil_type'].iloc[0] if 'soil_type' in df.columns else 'Medium'
+        if self._encoders and 'soil' in self._encoders:
+            try:
+                df['soil_enc'] = self._encoders['soil'].transform([soil])[0]
+            except Exception:
+                df['soil_enc'] = 1
+        else:
+            s = str(soil).strip().capitalize()
+            df['soil_enc'] = KNOWN_SOILS.index(s) if s in KNOWN_SOILS else 1
 
-            # ── Categorical encoding ──────────────────────────────────────────
-            finish_grade_encoded = _FINISH_GRADE_MAP.get(finish_grade_raw, 1)
-            roof_type_encoded    = _ROOF_TYPE_MAP.get(roof_type_raw, 0)
-            foundation_type_encoded = _FOUNDATION_TYPE_MAP.get(foundation_type_raw, 0)
+        # Extract start_month from start_date
+        if 'start_date' in df.columns:
+            df['start_month'] = pd.to_datetime(df['start_date']).dt.month
+        elif '_start_month' in df.columns:
+            df['start_month'] = df['_start_month']
+        else:
+            df['start_month'] = 6
 
-            # ── Cost Report fields ────────────────────────────────────────────
-            total_labour_days           = float(cost_report.get("total_labour_days", 0))
-            structural_complexity_score = float(cost_report.get("structural_complexity_score", 1.0))
-
-            # trade_value_breakdown — extract individual trade totals where available
-            tvb            = cost_report.get("trade_value_breakdown", {})
-            civil_value    = float(tvb.get("civil",    0.0))
-            mep_value      = float(tvb.get("mep",      0.0))
-            finishing_value= float(tvb.get("finishing",0.0))
-            total_cost     = float(cost_report.get("total_cost", 0.0))
-
-            # ── Assemble DataFrame ────────────────────────────────────────────
-            data = {
-                # Scale
-                "floors":          floors,
-                "footprint_sqm":   footprint_sqm,
-                "total_area_sqm":  total_area_sqm,
-                # Categorical (encoded)
-                "finish_grade_encoded":    finish_grade_encoded,
-                "roof_type_encoded":       roof_type_encoded,
-                "foundation_type_encoded": foundation_type_encoded,
-                "has_basement":            has_basement,
-                # Location
-                "is_coastal":       is_coastal,
-                "district_encoded": district_encoded,
-                # Labour
-                "total_labour_days":           total_labour_days,
-                "structural_complexity_score": structural_complexity_score,
-                # Financial
-                "civil_value":     civil_value,
-                "mep_value":       mep_value,
-                "finishing_value": finishing_value,
-                "total_cost":      total_cost,
-            }
-
-            return pd.DataFrame([data])
-
-        except (TypeError, AttributeError) as exc:
-            raise ValueError(f"Preprocessor.prepare failed — invalid payload structure: {exc}") from exc
+        return df

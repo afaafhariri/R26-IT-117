@@ -1,0 +1,77 @@
+import pandas as pd
+import numpy as np
+import os
+
+np.random.seed(99)
+n = 500
+
+districts = ['Colombo','Gampaha','Kalutara','Kandy','Galle','Matara','Kurunegala','Ratnapura']
+soil_types = ['Hard','Medium','Soft']
+c_types = ['Single-storey','Two-storey','Three-storey']
+
+area    = np.random.randint(800, 4000, n)
+floors  = np.random.choice([1,2,3], n, p=[0.5,0.35,0.15])
+rooms   = np.random.randint(2, 8, n)
+baths   = np.random.randint(1, 4, n)
+dist    = np.random.choice(districts, n)
+ctype   = np.random.choice(c_types, n)
+soil    = np.random.choice(soil_types, n)
+workers = np.random.randint(5, 40, n)
+exp     = np.random.randint(1, 25, n)
+month   = np.random.randint(1, 13, n)
+delays  = np.random.choice([0,1], n, p=[0.6,0.4])
+cost    = (area * np.random.uniform(3000, 7000, n)).astype(int)
+labour  = (area * np.random.uniform(0.5, 1.5, n)).astype(int)
+mat     = (cost * np.random.uniform(0.55, 0.70, n)).astype(int)
+
+af  = (area - 800) / (4000 - 800)
+ff  = floors / 3
+ef  = 1 - (exp / 25) * 0.35
+wf  = 1 - (workers / 40) * 0.25
+sf  = np.where(soil=="Hard", 1.0, np.where(soil=="Medium", 1.2, 1.45))
+mf  = np.where(np.isin(month,[5,6,7,8,9,10]), 1.15, 1.0)
+df2 = 1 + delays * np.random.uniform(0.15, 0.35, n)
+
+fw  = np.round((1.5+af*2.5+ff*1.0+(floors-1)*0.5)*ef*wf*sf*mf*df2*np.random.normal(1,0.05,n)).clip(1,12).astype(int)
+sw  = np.round((3.0+af*8.0+ff*6.0+rooms*0.4)*ef*wf*mf*df2*np.random.normal(1,0.05,n)).clip(2,28).astype(int)
+rw  = np.round((1.0+af*2.0+ff*0.8)*ef*wf*mf*df2*np.random.normal(1,0.05,n)).clip(1,8).astype(int)
+mw  = np.round((1.5+af*2.5+rooms*0.4+baths*0.3)*ef*wf*df2*np.random.normal(1,0.05,n)).clip(1,12).astype(int)
+fnw = np.round((2.0+af*6.0+ff*2.0+rooms*0.3)*ef*wf*mf*df2*np.random.normal(1,0.05,n)).clip(2,18).astype(int)
+tw  = fw+sw+rw+mw+fnw
+
+df = pd.DataFrame({
+    "project_id":                  [f"PRJ{str(i).zfill(4)}" for i in range(1,n+1)],
+    "district":                    dist,
+    "construction_type":           ctype,
+    "soil_type":                   soil,
+    "built_up_area_sqft":          area,
+    "num_floors":                  floors,
+    "num_rooms":                   rooms,
+    "num_bathrooms":               baths,
+    "total_cost_lkr":              cost,
+    "labor_hours_total":           labour,
+    "material_cost_lkr":           mat,
+    "contractor_experience_years": exp,
+    "start_month":                 month,
+    "num_workers":                 workers,
+    "had_delays":                  delays,
+    "foundation_weeks":            fw,
+    "structural_weeks":            sw,
+    "roofing_weeks":               rw,
+    "mep_weeks":                   mw,
+    "finishing_weeks":             fnw,
+    "total_weeks":                 tw,
+})
+
+os.makedirs("data", exist_ok=True)
+df.to_csv("data/construction_projects.csv", index=False)
+
+print("="*50)
+print("  Dataset saved! (FIXED VERSION)")
+print("="*50)
+print(f"  Rows            : {len(df)}")
+print(f"  Foundation mean : {fw.mean():.1f} weeks")
+print(f"  Structural mean : {sw.mean():.1f} weeks")
+print(f"  Total mean      : {tw.mean():.1f} weeks")
+print("="*50)
+print("  Now run: python train.py")

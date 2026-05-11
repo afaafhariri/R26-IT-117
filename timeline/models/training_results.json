@@ -1,0 +1,66 @@
+{
+  "preconstruction_weeks": {
+    "phase_label": "Pre-Construction",
+    "best_model": "Gradient Boosting",
+    "rmse": 0.1919,
+    "mae": 0.1446,
+    "mape": 2.87,
+    "r2": 0.9588
+  },
+  "siteprep_weeks": {
+    "phase_label": "Site Preparation",
+    "best_model": "Gradient Boosting",
+    "rmse": 0.0907,
+    "mae": 0.0744,
+    "mape": 3.01,
+    "r2": 0.9786
+  },
+  "foundation_weeks": {
+    "phase_label": "Foundations",
+    "best_model": "Gradient Boosting",
+    "rmse": 0.2708,
+    "mae": 0.2035,
+    "mape": 3.95,
+    "r2": 0.9479
+  },
+  "structure_weeks": {
+    "phase_label": "Structure",
+    "best_model": "XGBoost",
+    "rmse": 0.2895,
+    "mae": 0.2093,
+    "mape": 2.13,
+    "r2": 0.9901
+  },
+  "envelope_weeks": {
+    "phase_label": "Envelope",
+    "best_model": "Gradient Boosting",
+    "rmse": 0.1699,
+    "mae": 0.1253,
+    "mape": 2.32,
+    "r2": 0.9862
+  },
+  "mep_weeks": {
+    "phase_label": "MEP Rough-Ins",
+    "best_model": "XGBoost",
+    "rmse": 0.0856,
+    "mae": 0.0677,
+    "mape": 2.09,
+    "r2": 0.9942
+  },
+  "finishes_weeks": {
+    "phase_label": "Finishes",
+    "best_model": "Gradient Boosting",
+    "rmse": 0.1777,
+    "mae": 0.1351,
+    "mape": 1.99,
+    "r2": 0.986
+  },
+  "external_weeks": {
+    "phase_label": "External Works",
+    "best_model": "Gradient Boosting",
+    "rmse": 0.0758,
+    "mae": 0.0591,
+    "mape": 2.54,
+    "r2": 0.9873
+  }
+}
