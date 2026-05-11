@@ -39,7 +39,7 @@ FEATURE_COLS = FeatureEngineer.feature_names()
 def train() -> None:
     print(f"Loading dataset: {DATASET_PATH}")
     if not DATASET_PATH.exists():
-        print("ERROR: Dataset not found. Run scripts/generate_dataset.py first.")
+        print("ERROR: Dataset not found. Run tests/generate_dataset.py first.")
         sys.exit(1)
 
     df = pd.read_csv(DATASET_PATH)

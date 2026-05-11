@@ -38,7 +38,7 @@ sys.path.insert(0, str(ROOT))
 
 from layers.layer3_ml_prediction.feature_engineer import FeatureEngineer
 from layers.layer3_ml_prediction.xgboost_model import XGBoostCostModel
-from scripts.generate_dataset import generate
+from tests.generate_dataset import generate
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

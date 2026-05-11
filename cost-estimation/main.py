@@ -258,7 +258,7 @@ async def retrain() -> dict:
     TODO: Implement actual training data pull from PostgreSQL and background task.
     """
     logger.info("Retraining triggered via API.")
-    # TODO: run scripts/generate_dataset.py then scripts/train_model.py
+    # TODO: run tests/generate_dataset.py then scripts/train_model.py
     return {
         "status": "accepted",
         "message": "Model retraining job queued. Check logs for progress.",
