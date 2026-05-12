@@ -127,6 +127,56 @@
       box-shadow: 0 0 0 3px rgba(31, 78, 121, 0.15);
     }
 
+    .scope-panel {
+      margin-bottom: 16px;
+      padding: 14px;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      background: #eff6ff;
+    }
+
+    .scope-panel h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      color: var(--primary-dark);
+    }
+
+    .scope-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .scope-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .scope-field label {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    .scope-field input,
+    .scope-field select {
+      width: 100%;
+      border: 1px solid #bfdbfe;
+      border-radius: 9px;
+      padding: 9px 10px;
+      background: white;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .scope-note {
+      margin: 10px 0 0;
+      color: #1e3a8a;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
     button {
       width: 100%;
       margin-top: 14px;
@@ -196,6 +246,74 @@
       font-size: 22px;
       color: var(--primary);
       line-height: 1.2;
+    }
+
+    .scope-summary {
+      margin: 0 0 18px;
+      padding: 18px;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      background: #eff6ff;
+      color: #1e3a8a;
+      line-height: 1.5;
+    }
+
+    .scope-summary h3 {
+      margin: 0 0 14px;
+      color: var(--primary-dark);
+      font-size: 18px;
+    }
+
+    .scope-summary strong {
+      color: var(--primary-dark);
+    }
+
+    .scope-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .scope-summary-item {
+      background: white;
+      border: 1px solid #dbeafe;
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .scope-summary-item span {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .scope-summary-item strong {
+      display: block;
+      color: var(--primary);
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .scope-summary-message,
+    .scope-summary-note {
+      margin: 10px 0 0;
+      padding: 11px 12px;
+      border-radius: 10px;
+      background: white;
+      border: 1px solid #dbeafe;
+      color: #1e3a8a;
+      font-size: 14px;
+    }
+
+    .scope-summary-note {
+      background: #fff7ed;
+      border-color: #fed7aa;
+      color: #9a3412;
     }
 
     .section {
@@ -613,6 +731,7 @@
     @media (max-width: 1100px) {
       .layout,
       .summary-grid,
+      .scope-summary-grid,
       .resource-grid {
         grid-template-columns: 1fr;
       }
@@ -637,6 +756,41 @@
     <div class="layout">
       <section class="card">
         <h2>Cost Estimation JSON Input</h2>
+        <div class="scope-panel">
+          <h3>Customer Construction Scope</h3>
+          <div class="scope-grid">
+            <div class="scope-field">
+              <label for="plannedFloors">Planned total floors</label>
+              <select id="plannedFloors">
+                <option value="1">1 Floor</option>
+                <option value="2" selected>2 Floors</option>
+                <option value="3">3 Floors</option>
+              </select>
+            </div>
+            <div class="scope-field">
+              <label for="timelineFloors">Timeline required floors</label>
+              <select id="timelineFloors">
+                <option value="1" selected>1 Floor</option>
+                <option value="2">2 Floors</option>
+                <option value="3">3 Floors</option>
+              </select>
+            </div>
+            <div class="scope-field">
+              <label for="scopeType">Scope type</label>
+              <select id="scopeType">
+                <option value="partial_construction" selected>Partial construction</option>
+                <option value="full_construction">Full construction</option>
+              </select>
+            </div>
+            <div class="scope-field">
+              <label for="scopeDescription">Scope description</label>
+              <input id="scopeDescription" type="text" value="Customer wants to construct only ground floor at this stage" />
+            </div>
+          </div>
+          <p class="scope-note">
+            Cost estimation may be based on the full building plan, but timeline prediction is generated based on the customer-selected construction scope.
+          </p>
+        </div>
         <textarea id="jsonInput" spellcheck="false"></textarea>
         <button id="generateBtn" type="button">Generate Timeline</button>
         <div id="statusBox" class="status"></div>
@@ -804,6 +958,12 @@
       risk_factors_applied: {
         multi_storey: true
       },
+      construction_scope: {
+        planned_total_floors: 2,
+        timeline_required_floors: 1,
+        scope_type: "partial_construction",
+        scope_description: "Customer wants to construct only ground floor at this stage"
+      },
       model_metadata: {
         source_component: "cost_estimation"
       }
@@ -813,9 +973,18 @@
     const generateBtn = document.getElementById("generateBtn");
     const statusBox = document.getElementById("statusBox");
     const results = document.getElementById("results");
+    const plannedFloors = document.getElementById("plannedFloors");
+    const timelineFloors = document.getElementById("timelineFloors");
+    const scopeType = document.getElementById("scopeType");
+    const scopeDescription = document.getElementById("scopeDescription");
 
     jsonInput.value = JSON.stringify(samplePayload, null, 2);
     generateBtn.addEventListener("click", generateTimeline);
+    [plannedFloors, timelineFloors, scopeType, scopeDescription].forEach((control) => {
+      control.addEventListener("change", syncScopeToJson);
+      control.addEventListener("input", syncScopeToJson);
+    });
+    syncScopeControlsFromJson();
 
     async function generateTimeline() {
       setStatus("Calling backend...", false);
@@ -824,6 +993,7 @@
 
       try {
         const payload = JSON.parse(jsonInput.value);
+        applySelectedScope(payload);
         const response = await fetch(API_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -850,6 +1020,7 @@
       const model = data.model_predictions || {};
       const schedule = buildProgrammeSchedule(data);
       const criticalCount = Array.isArray(data.critical_path) ? data.critical_path.length : 0;
+      const scopeSummary = data.construction_scope_summary || {};
 
       results.innerHTML = `
         <div class="summary-grid">
@@ -869,6 +1040,35 @@
             <span>Critical Tasks</span>
             <strong>${criticalCount}</strong>
           </div>
+        </div>
+
+        <div class="scope-summary">
+          <h3>Customer Construction Scope</h3>
+          <div class="scope-summary-grid">
+            <div class="scope-summary-item">
+              <span>Planned Total Floors</span>
+              <strong>${safe(scopeSummary.planned_total_floors)}</strong>
+            </div>
+            <div class="scope-summary-item">
+              <span>Timeline Required Floors</span>
+              <strong>${safe(scopeSummary.timeline_required_floors)}</strong>
+            </div>
+            <div class="scope-summary-item">
+              <span>Scope Type</span>
+              <strong>${safe(formatScopeType(scopeSummary.scope_type))}</strong>
+            </div>
+            <div class="scope-summary-item">
+              <span>Scope Description</span>
+              <strong>${safe(scopeSummary.scope_description || "Not specified")}</strong>
+            </div>
+            <div class="scope-summary-item">
+              <span>Message</span>
+              <strong>${safe(scopeSummary.message || "Timeline generated for selected construction scope only")}</strong>
+            </div>
+          </div>
+          <p class="scope-summary-note">
+            Cost estimation can be based on the full building design, but the timeline is generated based on the customer-selected construction scope.
+          </p>
         </div>
 
         <div class="section">
@@ -900,6 +1100,42 @@
           The planned schedule payload is generated by the backend for the downstream Performance Monitoring component, but it is hidden in this demo view.
         </p>
       `;
+    }
+
+    function syncScopeToJson() {
+      const payload = safeParseJson(jsonInput.value);
+      applySelectedScope(payload);
+      jsonInput.value = JSON.stringify(payload, null, 2);
+    }
+
+    function syncScopeControlsFromJson() {
+      const payload = safeParseJson(jsonInput.value);
+      const scope = payload.construction_scope || {};
+      plannedFloors.value = String(scope.planned_total_floors || payload.floors || payload.feeds_downstream?.floors || 2);
+      timelineFloors.value = String(scope.timeline_required_floors || plannedFloors.value || 1);
+      scopeType.value = scope.scope_type || (Number(timelineFloors.value) < Number(plannedFloors.value) ? "partial_construction" : "full_construction");
+      scopeDescription.value = scope.scope_description || "Customer wants to construct only ground floor at this stage";
+      syncScopeToJson();
+    }
+
+    function applySelectedScope(payload) {
+      const planned = Math.max(1, Number(plannedFloors.value) || 1);
+      const required = Math.max(1, Math.min(planned, Number(timelineFloors.value) || planned));
+      timelineFloors.value = String(required);
+      scopeType.value = required < planned ? "partial_construction" : "full_construction";
+
+      payload.floors = planned;
+      payload.construction_scope = {
+        planned_total_floors: planned,
+        timeline_required_floors: required,
+        scope_type: scopeType.value,
+        scope_description: scopeDescription.value || "Customer selected construction scope"
+      };
+
+      if (!payload.feeds_downstream || typeof payload.feeds_downstream !== "object") {
+        payload.feeds_downstream = {};
+      }
+      payload.feeds_downstream.floors = planned;
     }
 
     function buildProgrammeSchedule(data) {
@@ -1438,6 +1674,12 @@
 
     function formatDependencyName(key) {
       return PHASE_DISPLAY[key] || formatLabel(key);
+    }
+
+    function formatScopeType(value) {
+      return String(value || "")
+        .replaceAll("_", " ")
+        .replace(/\b\w/g, (letter) => letter.toUpperCase());
     }
 
     function arrayTable(items, fields) {

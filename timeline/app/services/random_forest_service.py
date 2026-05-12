@@ -195,6 +195,7 @@ def build_feature_vector(payload: dict[str, Any]) -> dict[str, float]:
     feeds = nested_dict(payload, "feeds_downstream")
     summary = nested_dict(payload, "summary")
     risks = nested_dict(payload, "risk_factors_applied")
+    construction_scope = nested_dict(payload, "construction_scope")
 
     built_up_area_sqft = first_number(
         payload,
@@ -214,15 +215,33 @@ def build_feature_vector(payload: dict[str, Any]) -> dict[str, float]:
         # Some upstream components may send square feet under a sqm-like key.
         floor_area_sqm = floor_area_sqm / 10.7639
 
-    num_floors = int(
+    fallback_floors = first_number(
+        payload,
+        feeds,
+        summary,
+        keys=("num_floors", "number_of_floors", "floors"),
+        default=1,
+    )
+    planned_total_floors = int(
         first_number(
+            construction_scope,
             payload,
             feeds,
             summary,
-            keys=("num_floors", "number_of_floors", "floors"),
-            default=1,
+            keys=("planned_total_floors", "num_floors", "number_of_floors", "floors"),
+            default=fallback_floors,
         )
     )
+    num_floors = int(
+        first_number(
+            construction_scope,
+            keys=("timeline_required_floors",),
+            default=fallback_floors,
+        )
+    )
+    num_floors = max(1, num_floors)
+    planned_total_floors = max(num_floors, planned_total_floors)
+    scope_ratio = min(1.0, num_floors / planned_total_floors)
     room_count = int(
         first_number(
             payload,
@@ -260,18 +279,21 @@ def build_feature_vector(payload: dict[str, Any]) -> dict[str, float]:
         keys=("total_concrete_m3", "concrete_m3", "rcc_concrete_m3"),
         default=foundation_concrete_m3 + floor_area_sqm * num_floors * 0.18,
     )
+    total_concrete_m3 = scale_scope_quantity(total_concrete_m3, scope_ratio)
     steel_kg_estimate = first_number(
         structural,
         aggregates,
         keys=("steel_kg_estimate", "steel_kg", "reinforcement_kg"),
         default=floor_area_sqm * num_floors * (28 + 7 * num_floors),
     )
+    steel_kg_estimate = scale_scope_quantity(steel_kg_estimate, scope_ratio)
     total_brickwork_m3 = first_number(
         structural,
         aggregates,
         keys=("total_brickwork_m3", "brickwork_m3", "masonry_m3"),
         default=floor_area_sqm * num_floors * (0.18 + room_count * 0.012),
     )
+    total_brickwork_m3 = scale_scope_quantity(total_brickwork_m3, scope_ratio)
     roof_area_sqm = first_number(
         structural,
         aggregates,
@@ -284,30 +306,35 @@ def build_feature_vector(payload: dict[str, Any]) -> dict[str, float]:
         keys=("floor_tile_sqm", "tiles_sqm", "tile_area_sqm"),
         default=floor_area_sqm * num_floors * 0.82,
     )
+    floor_tile_sqm = scale_scope_quantity(floor_tile_sqm, scope_ratio)
     wall_plaster_sqm = first_number(
         finishing,
         aggregates,
         keys=("wall_plaster_sqm", "plaster_sqm", "plastering_sqm"),
         default=floor_area_sqm * num_floors * (2.35 + room_count * 0.08),
     )
+    wall_plaster_sqm = scale_scope_quantity(wall_plaster_sqm, scope_ratio)
     paint_sqm = first_number(
         finishing,
         aggregates,
         keys=("paint_sqm", "painting_sqm", "paint_area_sqm"),
         default=wall_plaster_sqm * 0.92,
     )
+    paint_sqm = scale_scope_quantity(paint_sqm, scope_ratio)
     electrical_points = first_number(
         services,
         aggregates,
         keys=("electrical_points", "electric_points", "light_points", "power_points"),
         default=room_count * 5.5 + bathroom_count * 2.5 + num_floors * 5,
     )
+    electrical_points = scale_scope_quantity(electrical_points, scope_ratio)
     total_plumbing_fixtures = first_number(
         services,
         aggregates,
         keys=("total_plumbing_fixtures", "plumbing_fixtures", "sanitary_fixtures"),
         default=bathroom_count * 4 + num_floors * 1.5,
     )
+    total_plumbing_fixtures = scale_scope_quantity(total_plumbing_fixtures, scope_ratio)
     total_labour_days = first_number(
         payload,
         feeds,
@@ -324,6 +351,7 @@ def build_feature_vector(payload: dict[str, Any]) -> dict[str, float]:
             total_plumbing_fixtures,
         ),
     )
+    total_labour_days = scale_scope_quantity(total_labour_days, scope_ratio)
     structural_complexity_score = first_number(
         feeds,
         summary,
@@ -398,6 +426,14 @@ def normalize_key(key: str) -> str:
     """Normalize upstream key variants for robust extraction."""
 
     return key.lower().replace(" ", "_").replace("-", "_")
+
+
+def scale_scope_quantity(value: float, scope_ratio: float) -> float:
+    """Scale floor-dependent BOQ quantities for a partial construction scope."""
+
+    if scope_ratio >= 0.999:
+        return value
+    return max(0.0, float(value) * scope_ratio)
 
 
 def estimate_labour_days(

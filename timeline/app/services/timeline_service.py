@@ -65,9 +65,17 @@ def _generate_rule_based_response(
         phase: int(weeks * 7)
         for phase, weeks in phase_durations.items()
     }
+    construction_scope_summary = _construction_scope_summary(request.model_dump())
+    gantt_chart_data = generate_gantt_chart_data(
+        phase_durations,
+        cpm_result["start_finish"],
+        request.planned_start_date,
+    )
     performance_monitoring_payload = build_performance_monitoring_payload(
         request_payload=request.model_dump(),
         phase_days=phase_days,
+        total_project_duration_days=int(total_duration * 7),
+        gantt_chart_data=gantt_chart_data,
     )
 
     return {
@@ -77,6 +85,7 @@ def _generate_rule_based_response(
         "predicted_phase_durations_weeks": phase_durations,
         "total_project_duration_days": int(total_duration * 7),
         "total_project_duration_weeks": total_duration,
+        "construction_scope_summary": construction_scope_summary,
         "model_predictions": {
             "phase_duration_model": "rule_based",
             "xgboost_status": f"fallback used - {fallback_reason}",
@@ -94,11 +103,7 @@ def _generate_rule_based_response(
         "task_dependencies": get_task_dependencies(),
         "critical_path": cpm_result["critical_path"],
         "milestones": generate_milestones(cpm_result["start_finish"]),
-        "gantt_chart_data": generate_gantt_chart_data(
-            phase_durations,
-            cpm_result["start_finish"],
-            request.planned_start_date,
-        ),
+        "gantt_chart_data": gantt_chart_data,
         "resource_allocation_plan": create_resource_allocation_plan(
             request.labor_requirements
         ),
@@ -139,10 +144,18 @@ def _generate_trained_model_response(
         scheduled_total_duration_days=total_duration_days,
         scheduled_total_duration_weeks=total_duration_weeks,
     )
+    gantt_chart_data = generate_gantt_chart_data_from_days(
+        phase_days,
+        cpm_result["start_finish"],
+        payload.get("planned_start_date"),
+    )
     performance_monitoring_payload = build_performance_monitoring_payload(
         request_payload=payload,
         phase_days=phase_days,
+        total_project_duration_days=total_duration_days,
+        gantt_chart_data=gantt_chart_data,
     )
+    construction_scope_summary = _construction_scope_summary(payload)
 
     return {
         "project_id": str(payload.get("project_id")),
@@ -157,6 +170,7 @@ def _generate_trained_model_response(
         "total_project_duration_days": total_duration_days,
         "total_project_duration_weeks": total_duration_weeks,
         "input_summary": input_summary,
+        "construction_scope_summary": construction_scope_summary,
         "model_predictions": {
             "phase_duration_model": model_prediction["phase_duration_model"],
             "xgboost_status": model_prediction["xgboost_status"],
@@ -174,11 +188,7 @@ def _generate_trained_model_response(
         "task_dependencies": get_day_task_dependencies(),
         "critical_path": cpm_result["critical_path"],
         "milestones": generate_milestones_from_days(cpm_result["start_finish"]),
-        "gantt_chart_data": generate_gantt_chart_data_from_days(
-            phase_days,
-            cpm_result["start_finish"],
-            payload.get("planned_start_date"),
-        ),
+        "gantt_chart_data": gantt_chart_data,
         "resource_allocation_plan": _resource_plan_from_payload(payload),
         "performance_monitoring_payload": performance_monitoring_payload,
         "confidence_score": 0.88,
@@ -256,6 +266,12 @@ def _build_input_summary(
             features,
             "floor_area_sqm",
         ),
+        "planned_total_floors": _construction_scope_summary(payload)[
+            "planned_total_floors"
+        ],
+        "timeline_required_floors": _construction_scope_summary(payload)[
+            "timeline_required_floors"
+        ],
         "labour_adjustment_applied": "no adjustment",
     }
 
@@ -336,4 +352,93 @@ def _normalize_project_identity(payload: dict[str, Any]) -> dict[str, Any]:
         normalized["project_id"] = normalized["estimate_id"]
     if not normalized.get("project_name"):
         normalized["project_name"] = "Residential Construction Project"
+    scope_summary = _construction_scope_summary(normalized)
+    timeline_floors = scope_summary["timeline_required_floors"]
+    if timeline_floors:
+        normalized["number_of_floors"] = timeline_floors
+        normalized["floors"] = timeline_floors
     return normalized
+
+
+def _construction_scope_summary(payload: dict[str, Any]) -> dict[str, int | str | None]:
+    """Summarize the selected construction scope for API consumers."""
+
+    scope = payload.get("construction_scope")
+    if not isinstance(scope, dict):
+        scope = {}
+
+    planned_total_floors = _positive_int(
+        scope.get("planned_total_floors")
+        or payload.get("planned_total_floors")
+        or payload.get("number_of_floors")
+        or payload.get("floors")
+        or _nested_value(payload, "feeds_downstream", "floors")
+    )
+    timeline_required_floors = _positive_int(
+        scope.get("timeline_required_floors")
+        or payload.get("timeline_required_floors")
+    )
+
+    if timeline_required_floors is None:
+        timeline_required_floors = planned_total_floors or _infer_existing_floors(payload)
+    if planned_total_floors is None:
+        planned_total_floors = max(timeline_required_floors or 1, _infer_existing_floors(payload))
+
+    scope_type = str(
+        scope.get("scope_type")
+        or (
+            "partial_construction"
+            if timeline_required_floors < planned_total_floors
+            else "full_construction"
+        )
+    )
+
+    return {
+        "planned_total_floors": planned_total_floors,
+        "timeline_required_floors": timeline_required_floors,
+        "scope_type": scope_type,
+        "scope_description": scope.get("scope_description"),
+        "message": "Timeline generated for selected construction scope only",
+    }
+
+
+def _infer_existing_floors(payload: dict[str, Any]) -> int:
+    """Infer floors using the existing fallback order."""
+
+    value = (
+        payload.get("floors")
+        or payload.get("number_of_floors")
+        or payload.get("num_floors")
+        or _nested_value(payload, "feeds_downstream", "floors")
+    )
+    parsed = _positive_int(value)
+    if parsed is not None:
+        return parsed
+
+    risks = payload.get("risk_factors_applied")
+    if isinstance(risks, dict) and "multi_storey" in risks:
+        return 2
+    return 1
+
+
+def _nested_value(data: dict[str, Any], *keys: str) -> Any:
+    """Read a nested value from dictionaries."""
+
+    current: Any = data
+    for key in keys:
+        if not isinstance(current, dict):
+            return None
+        current = current.get(key)
+    return current
+
+
+def _positive_int(value: Any) -> int | None:
+    """Convert a value to a positive integer when possible."""
+
+    if value is None:
+        return None
+    try:
+        parsed = int(float(value))
+    except (TypeError, ValueError):
+        return None
+    return parsed if parsed > 0 else None

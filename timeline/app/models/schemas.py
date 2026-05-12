@@ -52,6 +52,7 @@ class TimelinePredictionRequest(BaseModel):
     project_id: str = Field(..., min_length=1)
     project_name: str = Field(..., min_length=1)
     planned_start_date: str | None = None
+    construction_scope: dict[str, Any] | None = None
     location: str = Field(..., min_length=1)
     built_up_area: float = Field(..., gt=0)
     number_of_floors: int = Field(..., gt=0)
@@ -107,6 +108,7 @@ class TimelinePredictionResponse(BaseModel):
     total_project_duration_days: int | None = None
     total_project_duration_weeks: float
     input_summary: dict[str, int | float | str | None] | None = None
+    construction_scope_summary: dict[str, int | str | None] | None = None
     model_predictions: ModelPredictions
     task_dependencies: list[TaskDependency]
     critical_path: list[str]
