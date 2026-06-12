@@ -96,5 +96,7 @@ yarn-error.log*
 *.orig
 .cache/
 
+.claude/
+.vscode/
 
 RESEARCH_PANEL_PRESENTATION.md
