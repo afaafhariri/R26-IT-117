@@ -1,0 +1,22 @@
+Case 49: Construction Delay - Finishes / Tiling
+
+Location   : Trincomalee, Eastern Province
+Building   : 2-floor residential construction
+Phase      : Finishes > Tiling
+Risk Level : MEDIUM
+Delay Days : 18 days
+
+Delay Category : Design & Technical
+Cause of Delay : Septic tank location conflicting with neighbour well requiring redesign
+
+Site Conditions:
+  - Labour availability  : 0.7
+  - Material supply      : available
+  - Weather severity     : 0.37
+  - Cumulative delay so far: 5 days
+
+Corrective Action Taken:
+  Septic tank relocated to compliant position with engineer certification
+
+Construction Status:
+  Completed after design change

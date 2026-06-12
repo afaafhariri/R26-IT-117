@@ -1,0 +1,22 @@
+Case 140: Construction Delay - Foundations / Ground floor slab
+
+Location   : Jaffna, Northern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Ground floor slab
+Risk Level : HIGH
+Delay Days : 55 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Cement unavailability in Jaffna during 2022 foreign exchange crisis
+
+Site Conditions:
+  - Labour availability  : 0.68
+  - Material supply      : unavailable
+  - Weather severity     : 0.34
+  - Cumulative delay so far: 31 days
+
+Corrective Action Taken:
+  Bulk cement procured from Colombo supplier at higher transport cost
+
+Construction Status:
+  Completed with cost overrun

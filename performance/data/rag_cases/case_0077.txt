@@ -1,0 +1,22 @@
+Case 77: Construction Delay - Structure / Floor slabs
+
+Location   : Kalutara, Western Province
+Building   : 1-floor residential construction
+Phase      : Structure > Floor slabs
+Risk Level : MEDIUM
+Delay Days : 30 days
+
+Delay Category : Financial & Funding
+Cause of Delay : NHDA loan instalment withheld pending scheduled Kalutara site inspection
+
+Site Conditions:
+  - Labour availability  : 0.57
+  - Material supply      : available
+  - Weather severity     : 0.28
+  - Cumulative delay so far: 14 days
+
+Corrective Action Taken:
+  Site inspection completed promptly and funds released after NHDA visit
+
+Construction Status:
+  Completed after funding release

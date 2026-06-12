@@ -1,0 +1,22 @@
+Case 133: Construction Delay - Envelope & Waterproofing / Roof waterproofing
+
+Location   : Vavuniya, Northern Province
+Building   : 1-floor residential construction
+Phase      : Envelope & Waterproofing > Roof waterproofing
+Risk Level : MEDIUM
+Delay Days : 18 days
+
+Delay Category : Design & Technical
+Cause of Delay : Roof slope incorrectly designed causing rainwater leakage in Vavuniya house
+
+Site Conditions:
+  - Labour availability  : 0.85
+  - Material supply      : available
+  - Weather severity     : 0.68
+  - Cumulative delay so far: 10 days
+
+Corrective Action Taken:
+  Reroofing with corrected angle completed by specialist contractor
+
+Construction Status:
+  Partially completed - rectification required

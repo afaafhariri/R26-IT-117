@@ -1,0 +1,22 @@
+Case 191: Construction Delay - Foundations / Foundation work
+
+Location   : Gampaha, Western Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 28 days
+
+Delay Category : Design & Technical
+Cause of Delay : Staircase design structurally unsafe requiring complete redesign in Gampaha
+
+Site Conditions:
+  - Labour availability  : 0.71
+  - Material supply      : available
+  - Weather severity     : 0.25
+  - Cumulative delay so far: 14 days
+
+Corrective Action Taken:
+  Structural engineer fully revised staircase design and reinstated it
+
+Construction Status:
+  Completed after design change

@@ -1,0 +1,22 @@
+Case 9: Construction Delay - External Works & Handover / Boundary wall & gate
+
+Location   : Jaffna, Northern Province
+Building   : 1-floor residential construction
+Phase      : External Works & Handover > Boundary wall & gate
+Risk Level : MEDIUM
+Delay Days : 30 days
+
+Delay Category : Land & Legal
+Cause of Delay : Deed gifted by parent not legally transferred before boundary wall construction
+
+Site Conditions:
+  - Labour availability  : 0.84
+  - Material supply      : available
+  - Weather severity     : 0.37
+  - Cumulative delay so far: 12 days
+
+Corrective Action Taken:
+  Deed of gift prepared and registered at Jaffna Land Registry office
+
+Construction Status:
+  Completed after legal documentation

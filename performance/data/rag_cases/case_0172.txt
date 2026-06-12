@@ -1,0 +1,22 @@
+Case 172: Construction Delay - Foundations / Foundation work
+
+Location   : Colombo, Western Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 20 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Southwest monsoon urban flooding waterlogged foundation excavation in Colombo
+
+Site Conditions:
+  - Labour availability  : 0.72
+  - Material supply      : available
+  - Weather severity     : 0.84
+  - Cumulative delay so far: 20 days
+
+Corrective Action Taken:
+  Dewatering pumps installed and improved drainage channel constructed
+
+Construction Status:
+  Completed with cost overrun

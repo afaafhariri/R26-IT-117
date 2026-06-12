@@ -1,0 +1,22 @@
+Case 91: Construction Delay - Pre-Construction & Approvals / Site selection & surveying
+
+Location   : Matara, Southern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Site selection & surveying
+Risk Level : MEDIUM
+Delay Days : 45 days
+
+Delay Category : Land & Legal
+Cause of Delay : Boundary dispute with neighbour over Matara residential plot boundary
+
+Site Conditions:
+  - Labour availability  : 0.78
+  - Material supply      : available
+  - Weather severity     : 0.3
+  - Cumulative delay so far: 12 days
+
+Corrective Action Taken:
+  Licensed surveyor engaged and formal legal agreement prepared and signed
+
+Construction Status:
+  Completed after legal resolution

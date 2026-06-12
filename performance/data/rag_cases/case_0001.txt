@@ -1,0 +1,22 @@
+Case 1: Construction Delay - Structure / Floor slabs
+
+Location   : Kilinochchi, Northern Province
+Building   : 2-floor residential construction
+Phase      : Structure > Floor slabs
+Risk Level : HIGH
+Delay Days : 90 days
+
+Delay Category : Financial & Funding
+Cause of Delay : NHDA resettlement grant released in instalments causing Kilinochchi work stoppages
+
+Site Conditions:
+  - Labour availability  : 0.7
+  - Material supply      : available
+  - Weather severity     : 0.3
+  - Cumulative delay so far: 44 days
+
+Corrective Action Taken:
+  Work phased carefully to match NHDA grant instalment disbursement schedule
+
+Construction Status:
+  Completed in phased approach

@@ -1,0 +1,22 @@
+Case 135: Construction Delay - Foundations / Foundation work
+
+Location   : Hambantota, Southern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 14 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Drought conditions made excavation difficult in Hambantota dry zone area
+
+Site Conditions:
+  - Labour availability  : 0.87
+  - Material supply      : available
+  - Weather severity     : 0.72
+  - Cumulative delay so far: 19 days
+
+Corrective Action Taken:
+  Water trucking for soil compaction and stabilisation work arranged
+
+Construction Status:
+  Completed after site preparation

@@ -1,0 +1,22 @@
+Case 158: Construction Delay - Structure / Columns & beams
+
+Location   : Trincomalee, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : MEDIUM
+Delay Days : 16 days
+
+Delay Category : Labour
+Cause of Delay : Skilled construction workers unavailable in Trincomalee due to outmigration
+
+Site Conditions:
+  - Labour availability  : 0.25
+  - Material supply      : available
+  - Weather severity     : 0.39
+  - Cumulative delay so far: 12 days
+
+Corrective Action Taken:
+  Workers brought from Colombo with on-site accommodation provided
+
+Construction Status:
+  Completed after delay

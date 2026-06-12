@@ -1,0 +1,22 @@
+Case 81: Construction Delay - Envelope & Waterproofing / Roof waterproofing
+
+Location   : Galle, Southern Province
+Building   : 1-floor residential construction
+Phase      : Envelope & Waterproofing > Roof waterproofing
+Risk Level : MEDIUM
+Delay Days : 18 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Southwest monsoon heavy rainfall halted roofing and waterproofing in Galle for 12 days
+
+Site Conditions:
+  - Labour availability  : 0.73
+  - Material supply      : available
+  - Weather severity     : 0.86
+  - Cumulative delay so far: 13 days
+
+Corrective Action Taken:
+  Pre-ordered materials and temporary weather shields used during monsoon
+
+Construction Status:
+  Completed with 2-week schedule compression

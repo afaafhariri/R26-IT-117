@@ -1,0 +1,22 @@
+Case 26: Construction Delay - Foundations / Soil investigation
+
+Location   : Ampara, Eastern Province
+Building   : 2-floor residential construction
+Phase      : Foundations > Soil investigation
+Risk Level : MEDIUM
+Delay Days : 45 days
+
+Delay Category : Design & Technical
+Cause of Delay : Foundation design unsuitable for Ampara coastal sandy alluvial soil
+
+Site Conditions:
+  - Labour availability  : 0.71
+  - Material supply      : available
+  - Weather severity     : 0.8
+  - Cumulative delay so far: 15 days
+
+Corrective Action Taken:
+  Geotechnical report obtained and pile foundation type adopted
+
+Construction Status:
+  Completed after foundation redesign

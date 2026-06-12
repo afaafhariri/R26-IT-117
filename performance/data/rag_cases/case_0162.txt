@@ -1,0 +1,22 @@
+Case 162: Construction Delay - Foundations / Foundation work
+
+Location   : Kalutara, Western Province
+Building   : 2-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 28 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Southwest monsoon coastal flooding damaged ground floor walls in Kalutara
+
+Site Conditions:
+  - Labour availability  : 0.89
+  - Material supply      : available
+  - Weather severity     : 0.83
+  - Cumulative delay so far: 5 days
+
+Corrective Action Taken:
+  Flood damage fully repaired and comprehensive waterproofing membrane applied
+
+Construction Status:
+  Completed after remedial work

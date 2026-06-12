@@ -1,0 +1,22 @@
+Case 37: Construction Delay - Foundations / Foundation work
+
+Location   : Matara, Southern Province
+Building   : 2-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : LOW
+Delay Days : 12 days
+
+Delay Category : Labour
+Cause of Delay : Primary mason fell ill during peak foundation construction phase in Matara
+
+Site Conditions:
+  - Labour availability  : 0.29
+  - Material supply      : available
+  - Weather severity     : 0.26
+  - Cumulative delay so far: 5 days
+
+Corrective Action Taken:
+  Replacement mason sourced from Galle district within one week
+
+Construction Status:
+  Completed

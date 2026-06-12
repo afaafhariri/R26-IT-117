@@ -1,0 +1,22 @@
+Case 147: Construction Delay - Structure / Columns & beams
+
+Location   : Jaffna, Northern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : HIGH
+Delay Days : 72 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Counterfeit low-grade cement caused structural failure in Jaffna requiring rework
+
+Site Conditions:
+  - Labour availability  : 0.81
+  - Material supply      : unavailable
+  - Weather severity     : 0.35
+  - Cumulative delay so far: 39 days
+
+Corrective Action Taken:
+  Independent QS engaged to inspect and rebuild affected structural sections
+
+Construction Status:
+  Completed after significant rework

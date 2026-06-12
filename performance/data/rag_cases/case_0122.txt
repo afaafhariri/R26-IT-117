@@ -1,0 +1,22 @@
+Case 122: Construction Delay - Foundations / Foundation work
+
+Location   : Kilinochchi, Northern Province
+Building   : 2-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 22 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Northeast monsoon flooding delayed foundation work in Kilinochchi
+
+Site Conditions:
+  - Labour availability  : 0.8
+  - Material supply      : available
+  - Weather severity     : 0.74
+  - Cumulative delay so far: 8 days
+
+Corrective Action Taken:
+  Improved site drainage and dewatering system installed before restart
+
+Construction Status:
+  Completed after weather delay

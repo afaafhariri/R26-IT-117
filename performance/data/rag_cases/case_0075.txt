@@ -1,0 +1,22 @@
+Case 75: Construction Delay - Pre-Construction & Approvals / Architectural & structural design
+
+Location   : Gampaha, Western Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Architectural & structural design
+Risk Level : MEDIUM
+Delay Days : 25 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : Gampaha owner changed interior layout after partition walls were completed
+
+Site Conditions:
+  - Labour availability  : 0.8
+  - Material supply      : available
+  - Weather severity     : 0.28
+  - Cumulative delay so far: 12 days
+
+Corrective Action Taken:
+  Partition walls removed and rebuilt to revised layout at additional cost
+
+Construction Status:
+  Completed with cost overrun

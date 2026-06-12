@@ -1,0 +1,22 @@
+Case 176: Construction Delay - Structure / Columns & beams
+
+Location   : Hambantota, Southern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : MEDIUM
+Delay Days : 18 days
+
+Delay Category : Labour
+Cause of Delay : Skilled masons unavailable in Hambantota due to major port project competition
+
+Site Conditions:
+  - Labour availability  : 0.24
+  - Material supply      : available
+  - Weather severity     : 0.25
+  - Cumulative delay so far: 13 days
+
+Corrective Action Taken:
+  Workers sourced from Matara district at higher competitive rate
+
+Construction Status:
+  Completed after sourcing delay

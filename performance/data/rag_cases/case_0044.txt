@@ -1,0 +1,22 @@
+Case 44: Construction Delay - Foundations / Foundation work
+
+Location   : Matara, Southern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : HIGH
+Delay Days : 70 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Southwest monsoon flooding of foundation excavation in Matara coastal area
+
+Site Conditions:
+  - Labour availability  : 0.58
+  - Material supply      : available
+  - Weather severity     : 0.76
+  - Cumulative delay so far: 49 days
+
+Corrective Action Taken:
+  Dewatering pumps installed and drainage channel constructed on site
+
+Construction Status:
+  Completed after significant delay

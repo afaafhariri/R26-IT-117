@@ -1,0 +1,22 @@
+Case 167: Construction Delay - Structure / Roof slab
+
+Location   : Vavuniya, Northern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Roof slab
+Risk Level : MEDIUM
+Delay Days : 22 days
+
+Delay Category : Labour
+Cause of Delay : Workers migrated to Middle East leaving Vavuniya project understaffed
+
+Site Conditions:
+  - Labour availability  : 0.34
+  - Material supply      : available
+  - Weather severity     : 0.28
+  - Cumulative delay so far: 15 days
+
+Corrective Action Taken:
+  New crew recruited locally with competitive wages and retention bonus
+
+Construction Status:
+  Completed after staffing change

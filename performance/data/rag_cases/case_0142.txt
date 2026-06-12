@@ -1,0 +1,22 @@
+Case 142: Construction Delay - Finishes / Tiling
+
+Location   : Batticaloa, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Finishes > Tiling
+Risk Level : MEDIUM
+Delay Days : 25 days
+
+Delay Category : Design & Technical
+Cause of Delay : Septic tank conflicting with neighbour well in Batticaloa residential plot
+
+Site Conditions:
+  - Labour availability  : 0.65
+  - Material supply      : available
+  - Weather severity     : 0.41
+  - Cumulative delay so far: 17 days
+
+Corrective Action Taken:
+  Septic tank completely redesigned and relocated to compliant position
+
+Construction Status:
+  Completed after design change

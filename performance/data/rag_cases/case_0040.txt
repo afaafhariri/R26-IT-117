@@ -1,0 +1,22 @@
+Case 40: Construction Delay - MEP Rough-Ins / Plumbing & drainage
+
+Location   : Batticaloa, Eastern Province
+Building   : 1-floor residential construction
+Phase      : MEP Rough-Ins > Plumbing & drainage
+Risk Level : HIGH
+Delay Days : 70 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Material delivery delayed due to flooding of access roads in Batticaloa
+
+Site Conditions:
+  - Labour availability  : 0.75
+  - Material supply      : unavailable
+  - Weather severity     : 0.93
+  - Cumulative delay so far: 54 days
+
+Corrective Action Taken:
+  Waterway boat transport used as alternative delivery route via lagoon
+
+Construction Status:
+  Completed after alternative supply route

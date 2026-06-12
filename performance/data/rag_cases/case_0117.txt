@@ -1,0 +1,22 @@
+Case 117: Construction Delay - Pre-Construction & Approvals / Authority approvals
+
+Location   : Galle, Southern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Authority approvals
+Risk Level : HIGH
+Delay Days : 90 days
+
+Delay Category : Land & Legal
+Cause of Delay : Coastal Conservation Department buffer zone restriction prevented construction in Galle
+
+Site Conditions:
+  - Labour availability  : 0.82
+  - Material supply      : available
+  - Weather severity     : 0.84
+  - Cumulative delay so far: 15 days
+
+Corrective Action Taken:
+  CCD approval obtained after boundary survey revision and setback compliance
+
+Construction Status:
+  Completed after regulatory approval

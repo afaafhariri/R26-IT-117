@@ -1,0 +1,22 @@
+Case 185: Construction Delay - Structure / Columns & beams
+
+Location   : Kalutara, Western Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : MEDIUM
+Delay Days : 20 days
+
+Delay Category : Labour
+Cause of Delay : Construction workers absorbed by large hotel construction project near Kalutara
+
+Site Conditions:
+  - Labour availability  : 0.25
+  - Material supply      : available
+  - Weather severity     : 0.31
+  - Cumulative delay so far: 20 days
+
+Corrective Action Taken:
+  Premium wages offered to retain workers on residential site
+
+Construction Status:
+  Completed with higher labour cost

@@ -1,0 +1,22 @@
+Case 41: Construction Delay - Pre-Construction & Approvals / BOQ preparation & tendering
+
+Location   : Ampara, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > BOQ preparation & tendering
+Risk Level : MEDIUM
+Delay Days : 42 days
+
+Delay Category : Land & Legal
+Cause of Delay : Deed not registered at Land Registry due to stamp duty cost in Ampara
+
+Site Conditions:
+  - Labour availability  : 0.72
+  - Material supply      : available
+  - Weather severity     : 0.37
+  - Cumulative delay so far: 7 days
+
+Corrective Action Taken:
+  Family mediated and deed registration completed at Ampara registry
+
+Construction Status:
+  Stalled awaiting further funding

@@ -1,0 +1,22 @@
+Case 143: Construction Delay - Foundations / Foundation work
+
+Location   : Batticaloa, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : HIGH
+Delay Days : 52 days
+
+Delay Category : Design & Technical
+Cause of Delay : Wrong floor level set causing flooding inside completed house in Batticaloa
+
+Site Conditions:
+  - Labour availability  : 0.87
+  - Material supply      : available
+  - Weather severity     : 0.88
+  - Cumulative delay so far: 25 days
+
+Corrective Action Taken:
+  Floor screed raised and proper perimeter drainage channel installed
+
+Construction Status:
+  Ongoing - wall construction stage

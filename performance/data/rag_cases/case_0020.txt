@@ -1,0 +1,22 @@
+Case 20: Construction Delay - Pre-Construction & Approvals / Site selection & surveying
+
+Location   : Trincomalee, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Site selection & surveying
+Risk Level : LOW
+Delay Days : 10 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : Religious belief required specific auspicious date for foundation laying
+
+Site Conditions:
+  - Labour availability  : 0.68
+  - Material supply      : available
+  - Weather severity     : 0.36
+  - Cumulative delay so far: 4 days
+
+Corrective Action Taken:
+  Construction recommenced after auspicious date ceremony completed
+
+Construction Status:
+  Completed on revised schedule

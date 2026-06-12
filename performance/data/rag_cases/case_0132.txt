@@ -1,0 +1,22 @@
+Case 132: Construction Delay - Pre-Construction & Approvals / Site selection & surveying
+
+Location   : Ampara, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Site selection & surveying
+Risk Level : MEDIUM
+Delay Days : 28 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : Family dispute among siblings over Ampara house ownership rights
+
+Site Conditions:
+  - Labour availability  : 0.79
+  - Material supply      : available
+  - Weather severity     : 0.35
+  - Cumulative delay so far: 10 days
+
+Corrective Action Taken:
+  Legal mediation at DS office resolved sibling ownership dispute
+
+Construction Status:
+  Demolished and restarted

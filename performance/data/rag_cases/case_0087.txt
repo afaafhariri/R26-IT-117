@@ -1,0 +1,22 @@
+Case 87: Construction Delay - Structure / Columns & beams
+
+Location   : Mullaitivu, Northern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : HIGH
+Delay Days : 120 days
+
+Delay Category : Financial & Funding
+Cause of Delay : IFRC housing grant disbursement delayed due to documentation backlog
+
+Site Conditions:
+  - Labour availability  : 0.72
+  - Material supply      : available
+  - Weather severity     : 0.31
+  - Cumulative delay so far: 38 days
+
+Corrective Action Taken:
+  Community mobiliser assigned to expedite document verification
+
+Construction Status:
+  Stalled awaiting funding release

@@ -1,0 +1,22 @@
+Case 2: Construction Delay - Structure / Floor slabs
+
+Location   : Matara, Southern Province
+Building   : 2-floor residential construction
+Phase      : Structure > Floor slabs
+Risk Level : HIGH
+Delay Days : 180 days
+
+Delay Category : Financial & Funding
+Cause of Delay : Construction costs exceeded budget due to 2022 material inflation in Matara
+
+Site Conditions:
+  - Labour availability  : 0.88
+  - Material supply      : available
+  - Weather severity     : 0.26
+  - Cumulative delay so far: 19 days
+
+Corrective Action Taken:
+  Phased construction approach adopted to manage available cash flow
+
+Construction Status:
+  Partially completed - roof level only
