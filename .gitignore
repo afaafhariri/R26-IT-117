@@ -25,7 +25,19 @@ env/
 .DS_Store
 Thumbs.db
 
+# Node
+node_modules/
+dist/
+.vite/
+
+# Logs
+*.log
+celery.log
+uvicorn.log
+
 # Component 01 runtime artefacts
 /tmp/r26/
+Architecture/tmp/
 Architecture/models/*.pt
 Architecture/models/*.pth
+Architecture/benchmark_results.csv

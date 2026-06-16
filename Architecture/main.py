@@ -22,6 +22,7 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 from fastapi import FastAPI, File, HTTPException, Query, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -196,6 +197,26 @@ app = FastAPI(
     ),
     lifespan=lifespan,
 )
+
+# CORS — allow the Vite dev server and any local origin
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# New API routers (Stage 5 + Stage 6 + frontend-facing endpoints)
+from routers import cadastral as _cadastral_router
+from routers import design as _design_router
+from routers import downloads as _downloads_router
+from routers import floorplans as _floorplans_router
+
+app.include_router(_cadastral_router.router, prefix="/api")
+app.include_router(_floorplans_router.router, prefix="/api")
+app.include_router(_design_router.router, prefix="/api")
+app.include_router(_downloads_router.router, prefix="/api")
 
 
 # ---------------------------------------------------------------------------

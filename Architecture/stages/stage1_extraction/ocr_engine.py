@@ -76,6 +76,7 @@ class OCREngine:
                 "tokens": tokens,
                 "raw_text": raw_text,
                 "page_dimensions": {"width": width, "height": height},
+                "_image_path": str(image_path),
             }
 
         except (FileNotFoundError, RuntimeError):
