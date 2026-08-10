@@ -24,6 +24,7 @@ from pydantic import BaseModel, Field, field_validator
 
 from layers.layer1_boq.boq_engine import BOQEngine
 from layers.layer2_rate_engine.rate_engine import RateEngine
+from layers.layer2_rate_engine.material_catalog import default_selections
 from layers.layer3_ml_prediction.feature_engineer import FeatureEngineer
 from layers.layer3_ml_prediction.ensemble import EnsembleCostPredictor
 from layers.layer3_ml_prediction.shap_explainer import SHAPExplainer
@@ -105,10 +106,12 @@ class BuildingSchema(BaseModel):
     room_count: int = Field(default=4, ge=1)
 
     # Material variant selection per BOQ part (see GET /materials for options).
-    # Unselected parts are priced at the ICTAD baseline rate.
+    # Parts not selected here fall back to the finish grade's default material
+    # (e.g. economy -> plywood doors, luxury -> clay tile roof).
     materials: dict[str, str] = Field(
         default_factory=dict,
-        description="Map of BOQ part key -> material key, e.g. {'door_count': 'plywood_flush'}",
+        description="Map of BOQ part key -> material key, e.g. {'door_count': 'plywood_flush'}. "
+                    "Unset parts use the finish grade's default material.",
     )
 
     # Dates for rate escalation
@@ -211,14 +214,17 @@ def _run_full_pipeline(schema: BuildingSchema) -> dict:
     # Layer 1 — BOQ
     boq = _boq_engine.run(schema_dict)
 
-    # Layer 2 — Rate Engine
+    # Layer 2 — Rate Engine. Grade defaults fill parts the request left unset;
+    # explicit selections always win.
+    selections = default_selections(finish_grade)
+    selections.update(schema.materials)
     target_date = schema.target_date or str(date.today())
     rates = _rate_engine.price_boq(
         boq,
         district=schema.district,
         base_date=schema.base_rate_date,
         target_date=target_date,
-        material_selections=schema.materials,
+        material_selections=selections,
     )
 
     # Layer 3 — ML Prediction

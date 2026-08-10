@@ -25,6 +25,37 @@ _DEFAULT_OVERLAY_CSV = _DATA_DIR / "scraped_prices" / "current_prices.csv"
 
 DEFAULT_STALE_DAYS = 45
 
+# Default material per BOQ part for each finish grade, applied when the request
+# does not select a material for that part. Explicit selections always win.
+GRADE_DEFAULT_MATERIALS: dict[str, dict[str, str]] = {
+    "economy": {
+        "door_count": "plywood_flush",
+        "window_count": "steel_framed",
+        "roof_area_sqm": "fiber_cement_sheet",
+        "floor_tile_sqm": "cement_render_floor",
+        "ceiling_sqm": "pvc_panel",
+    },
+    "mid": {
+        "door_count": "solid_timber_teak",
+        "window_count": "aluminium_sliding",
+        "roof_area_sqm": "concrete_tile",
+        "floor_tile_sqm": "ceramic_tile_300",
+        "ceiling_sqm": "pvc_panel",
+    },
+    "luxury": {
+        "door_count": "solid_timber_teak",
+        "window_count": "timber_casement",
+        "roof_area_sqm": "clay_tile",
+        "floor_tile_sqm": "porcelain_tile",
+        "ceiling_sqm": "gypsum_board",
+    },
+}
+
+
+def default_selections(finish_grade: str) -> dict[str, str]:
+    """Default material per part for a finish grade (copy — safe to mutate)."""
+    return dict(GRADE_DEFAULT_MATERIALS.get(finish_grade, {}))
+
 
 def _parse_date(value: str) -> Optional[date]:
     try:

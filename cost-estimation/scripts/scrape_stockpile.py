@@ -51,15 +51,23 @@ REVIEW_CSV = SCRAPED_DIR / "review_queue.csv"
 # Reject a scraped median that moves more than this fraction from the seed
 # supply rate — one bad parse must not silently swing every estimate.
 MAX_DEVIATION = 0.50
+# A (part, material) group needs at least this many surviving samples before
+# its median can reach the overlay or the review queue.
+MIN_SAMPLES = 3
 # Within one (part, material) group, drop samples outside this band around
 # the group median before computing the final median.
 OUTLIER_LOW, OUTLIER_HIGH = 0.25, 4.0
 
-# Products whose name matches this are ignored entirely (accessories, spares).
+# Products whose name matches this are ignored entirely (accessories, spares,
+# and off-catalog product forms like carpet rolls or skirting).
 SKIP_RE = re.compile(
-    r"frame|lock|handle|hinge|accessor|bracket|screw|channel|gasket|sealant|glue",
+    r"frame|lock|handle|hinge|accessor|bracket|screw|channel|gasket|sealant|glue"
+    r"|carpet|skirting",
     re.IGNORECASE,
 )
+
+# Sri Lankan flooring is listed per square foot; catalog rates are per m².
+SQFT_PER_SQM = 10.7639
 
 # Classification rules per category page. Each rule: (regex, part_key,
 # material_key, unit_factor). unit_factor converts the listed price to the
@@ -70,7 +78,9 @@ CATEGORY_RULES: dict[str, list[tuple[re.Pattern, str, str, Optional[float]]]] = 
         (re.compile(r"teak.*door|door.*teak", re.I), "door_count", "solid_timber_teak", 1.0),
         (re.compile(r"plywood.*door|door.*plywood", re.I), "door_count", "plywood_flush", 1.0),
         (re.compile(r"composite.*door|door.*composite", re.I), "door_count", "wood_composite", 1.0),
-        (re.compile(r"tempered\s+glass\s+door", re.I), "door_count", "tempered_glass_12mm", 1.0),
+        # History-only: listings are mostly loose glass panels priced far below
+        # a fitted door set (review ruling 2026-08).
+        (re.compile(r"tempered\s+glass\s+door", re.I), "door_count", "tempered_glass_12mm", None),
         (re.compile(r"aluminium.*door|aluminum.*door", re.I), "door_count", "aluminium_glazed", 1.0),
         (re.compile(r"aluminium.*window|aluminum.*window", re.I), "window_count", "aluminium_sliding", 1.0),
         (re.compile(r"upvc.*window", re.I), "window_count", "upvc_sliding", 1.0),
@@ -88,6 +98,15 @@ CATEGORY_RULES: dict[str, list[tuple[re.Pattern, str, str, Optional[float]]]] = 
         (re.compile(r"gypsum", re.I), "ceiling_sqm", "gypsum_board", None),
         (re.compile(r"pvc.*ceiling|ceiling.*pvc", re.I), "ceiling_sqm", "pvc_panel", None),
         (re.compile(r"fib(er|re)\s*glass.*ceiling", re.I), "ceiling_sqm", "fiberglass_panel", None),
+    ],
+    "/en/flooring/vinyl-flooring.html": [
+        # Listed per sqft. Laminate is intentionally unmatched (distinct material,
+        # no catalog variant yet) — it shows up under --show-unmatched instead.
+        (re.compile(r"vinyl|spc|lvt", re.I), "floor_tile_sqm", "luxury_vinyl", SQFT_PER_SQM),
+    ],
+    "/en/flooring/wooden-flooring.html": [
+        (re.compile(r"(teak|kumbuk|paramara|timber|wood(en)?).*floor", re.I),
+         "floor_tile_sqm", "timber_flooring", SQFT_PER_SQM),
     ],
 }
 
@@ -145,6 +164,23 @@ def classify(name: str, rules: list) -> Optional[tuple[str, str, Optional[float]
     return None
 
 
+def split_matches(products: list[dict], rules: list) -> tuple[list, list[dict]]:
+    """Split products into (product, classification) pairs and unmatched leftovers.
+
+    Unmatched products carry a 'reason': 'accessory' (hit SKIP_RE) or 'no_rule'.
+    Reviewing them per run is how the rule set grows over time.
+    """
+    matched, unmatched = [], []
+    for product in products:
+        result = classify(product["name"], rules)
+        if result is not None:
+            matched.append((product, result))
+        else:
+            reason = "accessory" if SKIP_RE.search(product["name"]) else "no_rule"
+            unmatched.append({**product, "reason": reason})
+    return matched, unmatched
+
+
 def reject_outliers(prices: list[float]) -> list[float]:
     """Drop samples far outside the group median."""
     if len(prices) < 3:
@@ -163,9 +199,10 @@ def load_seed_supply_rates() -> dict[tuple[str, str], float]:
     return rates
 
 
-def scrape(categories: list[str]) -> list[dict]:
-    """Scrape all configured categories and return classified samples."""
+def scrape(categories: list[str]) -> tuple[list[dict], list[dict]]:
+    """Scrape all configured categories; return (classified samples, unmatched)."""
     samples: list[dict] = []
+    all_unmatched: list[dict] = []
     scraped_at = datetime.now(tz=timezone.utc).isoformat(timespec="seconds")
 
     with httpx.Client(
@@ -182,13 +219,8 @@ def scrape(categories: list[str]) -> list[dict]:
                 continue
 
             products = parse_products(html)
-            rules = CATEGORY_RULES[path]
-            matched = 0
-            for product in products:
-                result = classify(product["name"], rules)
-                if result is None:
-                    continue
-                part_key, material_key, unit_factor = result
+            matched, unmatched = split_matches(products, CATEGORY_RULES[path])
+            for product, (part_key, material_key, unit_factor) in matched:
                 normalized = (
                     round(product["price"] * unit_factor, 2)
                     if unit_factor is not None else None
@@ -204,9 +236,12 @@ def scrape(categories: list[str]) -> list[dict]:
                     "normalized_rate_lkr": normalized if normalized is not None else "",
                     "url": product["url"],
                 })
-                matched += 1
-            logger.info("%s: %d products, %d classified.", path, len(products), matched)
-    return samples
+            for u in unmatched:
+                u["category"] = path
+            all_unmatched.extend(unmatched)
+            logger.info("%s: %d products, %d classified, %d unmatched.",
+                        path, len(products), len(matched), len(unmatched))
+    return samples, all_unmatched
 
 
 def build_overlay(samples: list[dict]) -> tuple[list[dict], list[dict]]:
@@ -225,7 +260,9 @@ def build_overlay(samples: list[dict]) -> tuple[list[dict], list[dict]]:
     overlay_rows, review_rows = [], []
     for (part_key, material_key), prices in sorted(groups.items()):
         kept = reject_outliers(prices)
-        if not kept:
+        if len(kept) < MIN_SAMPLES:
+            logger.info("%s/%s: only %d sample(s) — history only, no overlay.",
+                        part_key, material_key, len(kept))
             continue
         median = round(statistics.median(kept), 2)
         seed = seed_supply.get((part_key, material_key), 0.0)
@@ -260,14 +297,28 @@ def append_csv(path: Path, rows: list[dict], fieldnames: list[str]) -> None:
         writer.writerows(rows)
 
 
-def write_overlay(rows: list[dict]) -> None:
-    """Replace the overlay with the latest medians (full rewrite, not append)."""
+def write_overlay(rows: list[dict], overlay_csv: Path = OVERLAY_CSV) -> None:
+    """Merge the latest medians into the overlay.
+
+    Rows for (part, material) keys not scraped in this run are preserved, so a
+    run limited to one category never wipes another category's prices. Stale
+    preserved rows age out naturally via MaterialCatalog's staleness check.
+    """
     fieldnames = ["part_key", "material_key", "supply_rate_lkr",
                   "sample_count", "last_updated", "source"]
-    with OVERLAY_CSV.open("w", newline="", encoding="utf-8") as fh:
+
+    merged: dict[tuple[str, str], dict] = {}
+    if overlay_csv.exists():
+        with overlay_csv.open(newline="", encoding="utf-8") as fh:
+            for row in csv.DictReader(fh):
+                merged[(row["part_key"], row["material_key"])] = row
+    for row in rows:
+        merged[(row["part_key"], row["material_key"])] = row
+
+    with overlay_csv.open("w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=fieldnames, extrasaction="ignore")
         writer.writeheader()
-        writer.writerows(rows)
+        writer.writerows(merged.values())
 
 
 def main() -> int:
@@ -276,10 +327,22 @@ def main() -> int:
                         help="Scrape and report, but write no files.")
     parser.add_argument("--category", action="append", choices=list(CATEGORY_RULES),
                         help="Limit to specific category paths (repeatable).")
+    parser.add_argument("--show-unmatched", action="store_true",
+                        help="List products no rule classified — use to grow the rule set.")
     args = parser.parse_args()
 
     categories = args.category or list(CATEGORY_RULES)
-    samples = scrape(categories)
+    samples, unmatched = scrape(categories)
+
+    if args.show_unmatched:
+        for u in unmatched:
+            logger.info("UNMATCHED [%s] %s: %s — Rs %.0f",
+                        u["reason"], u["category"], u["name"], u["price"])
+    no_rule_count = sum(1 for u in unmatched if u["reason"] == "no_rule")
+    if no_rule_count:
+        logger.info("%d unmatched products hit no rule (rerun with --show-unmatched to list).",
+                    no_rule_count)
+
     if not samples:
         logger.error("No samples scraped — site structure may have changed.")
         return 1

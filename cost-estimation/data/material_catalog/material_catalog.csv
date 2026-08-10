@@ -14,9 +14,9 @@ roof_area_sqm,concrete_tile,Concrete interlocking roof tile on timber structure,
 roof_area_sqm,clay_tile,Clay roof tile (Calicut pattern) on timber structure,m²,5800.00,2200.00,seed_2024q4,2024-10-01
 floor_tile_sqm,cement_render_floor,Cement-rendered floor finish steel trowelled,m²,1800.00,900.00,seed_2024q4,2024-10-01
 floor_tile_sqm,ceramic_tile_300,Ceramic floor tile 300x300 (ICTAD baseline),m²,3800.00,1200.00,seed_2024q4,2024-10-01
-floor_tile_sqm,luxury_vinyl,Luxury vinyl / SPC plank flooring,m²,4200.00,1000.00,seed_2024q4,2024-10-01
+floor_tile_sqm,luxury_vinyl,Luxury vinyl / SPC plank flooring,m²,6000.00,1000.00,reviewed_2026-08,2026-08-10
 floor_tile_sqm,porcelain_tile,Porcelain tile 600x600 rectified,m²,5500.00,1400.00,seed_2024q4,2024-10-01
-floor_tile_sqm,timber_flooring,Engineered timber flooring,m²,9500.00,1800.00,seed_2024q4,2024-10-01
+floor_tile_sqm,timber_flooring,Prefinished solid timber flooring (teak/kumbuk),m²,29900.00,1800.00,reviewed_2026-08,2026-08-10
 ceiling_sqm,pvc_panel,PVC ceiling panel (ICTAD baseline),m²,1200.00,600.00,seed_2024q4,2024-10-01
 ceiling_sqm,gypsum_board,Gypsum board suspended ceiling,m²,2200.00,900.00,seed_2024q4,2024-10-01
 ceiling_sqm,mineral_fiber_tile,Mineral-fibre ceiling tile 2x2 on grid,m²,2600.00,900.00,seed_2024q4,2024-10-01

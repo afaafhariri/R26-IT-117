@@ -6,13 +6,21 @@ from pathlib import Path
 import pytest
 
 from layers.layer1_boq.boq_engine import BOQEngine
-from layers.layer2_rate_engine.material_catalog import MaterialCatalog
+from layers.layer2_rate_engine.material_catalog import (
+    GRADE_DEFAULT_MATERIALS,
+    MaterialCatalog,
+    default_selections,
+)
 from layers.layer2_rate_engine.rate_engine import RateEngine
 from scripts.scrape_stockpile import (
     CATEGORY_RULES,
+    SQFT_PER_SQM,
+    build_overlay,
     classify,
     parse_products,
     reject_outliers,
+    split_matches,
+    write_overlay,
 )
 
 
@@ -73,6 +81,43 @@ class TestMaterialCatalog:
     def test_missing_overlay_is_fine(self, tmp_path):
         catalog = MaterialCatalog(overlay_csv=tmp_path / "does_not_exist.csv")
         assert catalog.get("door_count", "solid_timber_teak")["rate_lkr"] == 45000.00
+
+
+# ---------------------------------------------------------------------------
+# Grade-based default materials
+# ---------------------------------------------------------------------------
+
+class TestGradeDefaults:
+    def test_all_grades_cover_all_parts(self):
+        catalog = MaterialCatalog()
+        parts = set(catalog.parts())
+        for grade in ("economy", "mid", "luxury"):
+            assert set(GRADE_DEFAULT_MATERIALS[grade]) == parts, grade
+
+    def test_all_defaults_exist_in_catalog(self):
+        catalog = MaterialCatalog()
+        for grade, selections in GRADE_DEFAULT_MATERIALS.items():
+            for part_key, material_key in selections.items():
+                assert catalog.get(part_key, material_key) is not None, (grade, part_key)
+
+    def test_seed_cost_ordering_economy_lte_mid_lte_luxury(self):
+        # Compare on seed rates (overlay-independent) so this never goes flaky
+        catalog = MaterialCatalog(overlay_csv=Path("/nonexistent/overlay.csv"))
+        totals = {}
+        for grade in ("economy", "mid", "luxury"):
+            totals[grade] = sum(
+                catalog.get(p, m)["rate_lkr"]
+                for p, m in GRADE_DEFAULT_MATERIALS[grade].items()
+            )
+        assert totals["economy"] < totals["mid"] < totals["luxury"]
+
+    def test_default_selections_returns_copy(self):
+        first = default_selections("mid")
+        first["door_count"] = "mutated"
+        assert default_selections("mid")["door_count"] != "mutated"
+
+    def test_unknown_grade_returns_empty(self):
+        assert default_selections("platinum") == {}
 
 
 # ---------------------------------------------------------------------------
@@ -168,6 +213,8 @@ class TestRateEngineMaterials:
 
 DOOR_RULES = CATEGORY_RULES["/en/door-windows.html"]
 ROOF_RULES = CATEGORY_RULES["/en/roofing-ceiling.html"]
+VINYL_RULES = CATEGORY_RULES["/en/flooring/vinyl-flooring.html"]
+WOOD_FLOOR_RULES = CATEGORY_RULES["/en/flooring/wooden-flooring.html"]
 
 
 class TestScraperClassification:
@@ -186,8 +233,27 @@ class TestScraperClassification:
         assert classify("Armee Teak Wooden Door Frame", DOOR_RULES) is None
         assert classify("Stainless Steel Door Handle", DOOR_RULES) is None
 
+    def test_tempered_glass_door_is_history_only(self):
+        # Review ruling 2026-08: listings are loose panels, not fitted door sets
+        result = classify("Tempered Glass Door 12mm", DOOR_RULES)
+        assert result is not None
+        assert result[2] is None
+
     def test_unmatched_returns_none(self):
         assert classify("Random Widget 3000", DOOR_RULES) is None
+
+    def test_split_matches_separates_and_tags_reason(self):
+        products = [
+            {"name": "Armee Teak Wooden Door 2 Panels", "price": 28000.0, "url": "", "supplier": ""},
+            {"name": "Stainless Steel Door Handle", "price": 900.0, "url": "", "supplier": ""},
+            {"name": "Wooden Doors 7ft x 3ft", "price": 25000.0, "url": "", "supplier": ""},
+        ]
+        matched, unmatched = split_matches(products, DOOR_RULES)
+        assert len(matched) == 1
+        assert matched[0][1][:2] == ("door_count", "solid_timber_teak")
+        reasons = {u["name"]: u["reason"] for u in unmatched}
+        assert reasons["Stainless Steel Door Handle"] == "accessory"
+        assert reasons["Wooden Doors 7ft x 3ft"] == "no_rule"
 
     def test_roofing_sheets_are_history_only(self):
         result = classify("EL Toro Fiber Cement sheets 8' x 4'", ROOF_RULES)
@@ -200,6 +266,35 @@ class TestScraperClassification:
         part, material, factor = result
         assert (part, material) == ("ceiling_sqm", "mineral_fiber_tile")
         assert factor == pytest.approx(1 / 0.3716)
+
+    @pytest.mark.parametrize("name", [
+        "Wonderfloor Luxury Vinyl Flooring 2mm",
+        "Kirin SPC Flooring By Lakdam",
+        "Luxury Vinyl Tile (LVT) Flooring",
+    ])
+    def test_vinyl_classified_with_sqft_factor(self, name):
+        result = classify(name, VINYL_RULES)
+        assert result is not None
+        part, material, factor = result
+        assert (part, material) == ("floor_tile_sqm", "luxury_vinyl")
+        assert factor == pytest.approx(SQFT_PER_SQM)
+
+    @pytest.mark.parametrize("name", [
+        "ICC Prefinished Teak Wood Flooring 18mm",
+        "Prefinished Timber Flooring - Kumbuk (18mm)",
+        "ICC Prefinished Paramara Wood Flooring 400-600mm x 75mm",
+    ])
+    def test_wood_flooring_classified(self, name):
+        result = classify(name, WOOD_FLOOR_RULES)
+        assert result is not None
+        assert result[:2] == ("floor_tile_sqm", "timber_flooring")
+
+    def test_flooring_off_catalog_forms_skipped(self):
+        # Carpet rolls and skirting are not catalog product forms
+        assert classify("Printed Vinyl Flooring Carpet", VINYL_RULES) is None
+        assert classify('Wood Skirting 3.5"', WOOD_FLOOR_RULES) is None
+        # Laminate has no catalog variant yet — deliberately unmatched
+        assert classify("Dream Living Laminate Flooring", VINYL_RULES) is None
 
 
 class TestScraperParsing:
@@ -233,6 +328,69 @@ class TestScraperParsing:
 
     def test_parse_empty_html(self):
         assert parse_products("<html><body>nothing here</body></html>") == []
+
+
+class TestOverlayMerge:
+    def test_partial_run_preserves_other_categories(self, tmp_path):
+        overlay = tmp_path / "current_prices.csv"
+        write_overlay(
+            [{"part_key": "door_count", "material_key": "plywood_flush",
+              "supply_rate_lkr": 12950.0, "sample_count": 8,
+              "last_updated": "2026-08-10", "source": "stockpile.lk"}],
+            overlay_csv=overlay,
+        )
+        # Second run scrapes only flooring — door row must survive
+        write_overlay(
+            [{"part_key": "floor_tile_sqm", "material_key": "luxury_vinyl",
+              "supply_rate_lkr": 4800.0, "sample_count": 12,
+              "last_updated": "2026-08-11", "source": "stockpile.lk"}],
+            overlay_csv=overlay,
+        )
+        import csv as _csv
+        with overlay.open() as fh:
+            rows = {(r["part_key"], r["material_key"]): r for r in _csv.DictReader(fh)}
+        assert ("door_count", "plywood_flush") in rows
+        assert ("floor_tile_sqm", "luxury_vinyl") in rows
+
+    def test_rescrape_updates_existing_row(self, tmp_path):
+        overlay = tmp_path / "current_prices.csv"
+        row = {"part_key": "door_count", "material_key": "plywood_flush",
+               "supply_rate_lkr": 12950.0, "sample_count": 8,
+               "last_updated": "2026-08-10", "source": "stockpile.lk"}
+        write_overlay([row], overlay_csv=overlay)
+        write_overlay([{**row, "supply_rate_lkr": 13100.0}], overlay_csv=overlay)
+        import csv as _csv
+        with overlay.open() as fh:
+            rows = list(_csv.DictReader(fh))
+        assert len(rows) == 1
+        assert float(rows[0]["supply_rate_lkr"]) == 13100.0
+
+
+def _sample(part, material, rate):
+    return {"part_key": part, "material_key": material, "normalized_rate_lkr": rate}
+
+
+class TestBuildOverlay:
+    def test_below_min_samples_goes_nowhere(self):
+        samples = [_sample("door_count", "plywood_flush", 13000.0)] * 2
+        overlay, review = build_overlay(samples)
+        assert overlay == [] and review == []
+
+    def test_median_near_seed_reaches_overlay(self):
+        # plywood_flush seed supply = 26000 - 12000 = 14000
+        samples = [_sample("door_count", "plywood_flush", r)
+                   for r in (13000.0, 14000.0, 15000.0)]
+        overlay, review = build_overlay(samples)
+        assert len(overlay) == 1 and review == []
+        assert overlay[0]["supply_rate_lkr"] == 14000.0
+        assert overlay[0]["sample_count"] == 3
+
+    def test_median_far_from_seed_goes_to_review(self):
+        samples = [_sample("door_count", "plywood_flush", r)
+                   for r in (40000.0, 41000.0, 42000.0)]
+        overlay, review = build_overlay(samples)
+        assert overlay == [] and len(review) == 1
+        assert review[0]["deviation_pct"] > 50
 
 
 class TestOutlierRejection:
