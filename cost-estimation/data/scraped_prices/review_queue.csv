@@ -1,0 +1,3 @@
+part_key,material_key,supply_rate_lkr,sample_count,last_updated,source,seed_supply_rate_lkr,deviation_pct
+ceiling_sqm,mineral_fiber_tile,5247.58,1,2026-08-10,stockpile.lk,1700.0,208.7
+door_count,tempered_glass_12mm,18750.0,2,2026-08-10,stockpile.lk,48000.0,-60.9

@@ -7,9 +7,10 @@ Five-layer pipeline:
   Layer 4 (Risk Adjuster)      → risk scoring, contingency build-up, report assembly
 
 Endpoints:
-  POST /estimate               Full 5-layer cost report
+  POST /estimate               Full cost report (material selection via 'materials')
   POST /boq                    BOQ quantities only (Layer 1)
   GET  /rates/{district}       ICTAD rates for a district (Layer 2)
+  GET  /materials              Material variants per BOQ part (Layer 2)
   POST /retrain                Trigger model retraining (admin-only)
 """
 
@@ -103,6 +104,13 @@ class BuildingSchema(BaseModel):
     bathroom_count: int = Field(default=2, ge=0)
     room_count: int = Field(default=4, ge=1)
 
+    # Material variant selection per BOQ part (see GET /materials for options).
+    # Unselected parts are priced at the ICTAD baseline rate.
+    materials: dict[str, str] = Field(
+        default_factory=dict,
+        description="Map of BOQ part key -> material key, e.g. {'door_count': 'plywood_flush'}",
+    )
+
     # Dates for rate escalation
     base_rate_date: str = Field(default="2024-10-01", description="ISO date for ICTAD base rates")
     target_date: Optional[str] = Field(default=None, description="ISO projection date (defaults to today)")
@@ -134,6 +142,7 @@ class EstimateResponse(BaseModel):
     summary: dict[str, Any]
     boq_summary: dict[str, Any]
     trade_breakdown: dict[str, Any]
+    material_options: dict[str, Any] = Field(default_factory=dict)
     contingency_breakdown: list[Any]
     risk_factors_applied: list[Any]
     shap_top_drivers: list[Any]
@@ -172,6 +181,28 @@ def require_admin(x_admin_key: str = Header(default="")):
 # Pipeline helper
 # ---------------------------------------------------------------------------
 
+def _validate_materials(materials: dict[str, str]) -> None:
+    """Reject unknown part or material keys with a helpful 422."""
+    if not materials:
+        return
+    catalog_view = _rate_engine.get_material_catalog_view()
+    for part_key, material_key in materials.items():
+        variants = catalog_view.get(part_key)
+        if variants is None:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=f"Unknown material part '{part_key}'. "
+                       f"Valid parts: {sorted(catalog_view)}",
+            )
+        valid_materials = [v["material"] for v in variants]
+        if material_key not in valid_materials:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=f"Unknown material '{material_key}' for part '{part_key}'. "
+                       f"Valid materials: {valid_materials}",
+            )
+
+
 def _run_full_pipeline(schema: BuildingSchema) -> dict:
     """Execute all four layers and return the assembled Cost Report dict."""
     schema_dict = schema.to_dict()
@@ -187,6 +218,7 @@ def _run_full_pipeline(schema: BuildingSchema) -> dict:
         district=schema.district,
         base_date=schema.base_rate_date,
         target_date=target_date,
+        material_selections=schema.materials,
     )
 
     # Layer 3 — ML Prediction
@@ -217,6 +249,7 @@ async def estimate(schema: BuildingSchema) -> dict:
     The report includes BOQ breakdown, priced trade items, ML ensemble prediction,
     90% confidence interval, risk factors, SHAP cost drivers, and downstream feeds.
     """
+    _validate_materials(schema.materials)
     try:
         return _run_full_pipeline(schema)
     except Exception as exc:
@@ -263,6 +296,20 @@ async def retrain() -> dict:
         "status": "accepted",
         "message": "Model retraining job queued. Check logs for progress.",
     }
+
+
+@app.get("/materials", summary="Material variants per BOQ part (Layer 2)")
+async def get_materials() -> dict:
+    """Return the material catalog: 2-5 variants per part with current unit rates.
+
+    rate_source indicates whether a rate comes from the seed catalog or fresh
+    scraped market data (see scripts/scrape_stockpile.py).
+    """
+    try:
+        return _rate_engine.get_material_catalog_view()
+    except Exception as exc:
+        logger.exception("Error building material catalog view: %s", exc)
+        raise HTTPException(status_code=500, detail=str(exc))
 
 
 @app.get("/health", summary="Health check")

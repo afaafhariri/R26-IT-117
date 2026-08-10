@@ -113,6 +113,10 @@ class ReportBuilder:
                 "aggregates": boq_summary,
             },
             "trade_breakdown": trade_breakdown,
+            "material_options": {
+                "selections": rates.get("material_selections", {}),
+                "alternatives": rates.get("material_alternatives", {}),
+            },
             "contingency_breakdown": contingency.get("breakdown", []),
             "risk_factors_applied": risk.get("factors_applied", []),
             "shap_top_drivers": shap_drivers,
