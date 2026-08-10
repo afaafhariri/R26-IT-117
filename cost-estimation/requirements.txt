@@ -30,6 +30,9 @@ paddleocr==2.9.1
 # ── HTTP client (inter-component calls) ───────────────────────────────────────
 httpx==0.28.1
 
+# ── Price scraper (scripts/scrape_stockpile.py) ───────────────────────────────
+beautifulsoup4==4.12.3
+
 # ── Utilities ─────────────────────────────────────────────────────────────────
 python-dotenv==1.1.0
 python-dateutil==2.9.0.post0

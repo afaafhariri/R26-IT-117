@@ -1,0 +1,6 @@
+part_key,material_key,supply_rate_lkr,sample_count,last_updated,source
+door_count,plywood_flush,12950.0,8,2026-08-10,stockpile.lk
+door_count,solid_timber_teak,30000.0,11,2026-08-10,stockpile.lk
+door_count,wood_composite,12904.25,2,2026-08-10,stockpile.lk
+floor_tile_sqm,luxury_vinyl,5005.21,13,2026-08-10,stockpile.lk
+floor_tile_sqm,timber_flooring,28070.1,4,2026-08-10,stockpile.lk

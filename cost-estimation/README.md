@@ -62,6 +62,7 @@ Building Schema (JSON)
 | `POST` | `/estimate` | Full 4-layer cost report |
 | `POST` | `/boq` | Layer 1 BOQ quantities only |
 | `GET` | `/rates/{district}` | ICTAD rates for a Sri Lankan district |
+| `GET` | `/materials` | Material variants per BOQ part with current rates |
 | `POST` | `/retrain` | Trigger model retraining *(admin only)* |
 | `GET` | `/health` | Liveness check |
 
@@ -86,8 +87,49 @@ The `/retrain` endpoint requires an `X-Admin-Key` header matching the `ADMIN_API
 | `is_coastal` | bool | Coastal site flag (affects risk) |
 | `road_access` | string | `paved` \| `gravel` \| `track` \| `none` |
 | `rooms` | object | Room counts (bedrooms, bathrooms, etc.) |
+| `materials` | object | Optional material per BOQ part, e.g. `{"door_count": "plywood_flush"}` |
 | `base_rate_date` | string | ISO date for ICTAD base rates |
 | `target_date` | string | ISO projection date (defaults to today) |
+
+---
+
+## Material Variants & Price Scraping
+
+Five BOQ parts support 2–5 material variants each (`door_count`, `window_count`,
+`roof_area_sqm`, `floor_tile_sqm`, `ceiling_sqm`), defined in
+`data/material_catalog/material_catalog.csv`. Selecting a material in the
+request prices that part from the catalog. Parts left unselected fall back to
+the **finish grade's default material**; an explicit selection always wins.
+Every `/estimate` response includes a `material_options.alternatives` block
+comparing the line cost under each variant.
+
+| Part | economy | mid | luxury |
+|------|---------|-----|--------|
+| `door_count` | plywood_flush | solid_timber_teak | solid_timber_teak |
+| `window_count` | steel_framed | aluminium_sliding | timber_casement |
+| `roof_area_sqm` | fiber_cement_sheet | concrete_tile | clay_tile |
+| `floor_tile_sqm` | cement_render_floor | ceramic_tile_300 | porcelain_tile |
+| `ceiling_sqm` | pvc_panel | pvc_panel | gypsum_board |
+
+Market prices are refreshed by a **scheduled scraper job** — never in the
+request path:
+
+```bash
+python scripts/scrape_stockpile.py --dry-run           # inspect without writing
+python scripts/scrape_stockpile.py                     # update the price overlay
+python scripts/scrape_stockpile.py --show-unmatched    # list unclassified products
+```
+
+`--show-unmatched` lists products no classification rule caught (tagged
+`accessory` or `no_rule`) — review it after each run to grow the rule set.
+
+The scraper (stockpile.lk, server-rendered Magento) classifies products into
+catalog keys, normalises units, rejects outliers, and writes the median supply
+price per material to `data/scraped_prices/current_prices.csv`. Medians that
+deviate >50% from the seed rate go to `review_queue.csv` for a human instead.
+All raw samples are appended to `price_history.csv` — a growing time series
+intended as training data for the CCPI escalation model. Overlay rows older
+than 45 days are ignored, so a broken scraper degrades gracefully to seed rates.
 
 ---
 
