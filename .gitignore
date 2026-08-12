@@ -52,6 +52,7 @@ nosetests.xml
 # ── Jupyter ───────────────────────────────────────────────────────────────────
 .ipynb_checkpoints/
 *.ipynb_checkpoints
+research/notebooks/delay_model.ipynb
 
 # ── Logs ──────────────────────────────────────────────────────────────────────
 *.log
