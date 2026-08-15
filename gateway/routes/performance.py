@@ -1,5 +1,6 @@
 import httpx
 from fastapi import APIRouter, Request
+from fastapi.responses import JSONResponse
 
 PERFORMANCE_URL = "http://performance:5004"
 
@@ -13,36 +14,40 @@ async def health():
         return r.json()
 
 
-@router.post("/project")
-async def create_project(request: Request):
+@router.post("/schedule")
+async def post_schedule(request: Request):
     body = await request.json()
     async with httpx.AsyncClient() as client:
-        r = await client.post(f"{PERFORMANCE_URL}/project", json=body)
-        return r.json()
+        r = await client.post(f"{PERFORMANCE_URL}/schedule", json=body, timeout=30.0)
+        try:
+            payload = r.json()
+        except ValueError:
+            payload = {"success": False, "error": r.text}
+        return JSONResponse(status_code=r.status_code, content=payload)
 
 
-@router.post("/project/{project_id}/phases")
-async def add_phases(project_id: int, request: Request):
+@router.post("/progress/spi")
+async def post_progress_spi(request: Request):
     body = await request.json()
     async with httpx.AsyncClient() as client:
-        r = await client.post(f"{PERFORMANCE_URL}/project/{project_id}/phases", json=body)
-        return r.json()
+        r = await client.post(f"{PERFORMANCE_URL}/progress/spi", json=body, timeout=30.0)
+        try:
+            payload = r.json()
+        except ValueError:
+            payload = {"success": False, "error": r.text}
+        return JSONResponse(status_code=r.status_code, content=payload)
 
 
-@router.post("/progress")
-async def record_progress(request: Request):
+@router.post("/progress/predict")
+async def post_progress_predict(request: Request):
     body = await request.json()
     async with httpx.AsyncClient() as client:
-        r = await client.post(f"{PERFORMANCE_URL}/progress", json=body, timeout=60.0)
-        return r.json()
-
-
-@router.post("/predict")
-async def predict_delay(request: Request):
-    body = await request.json()
-    async with httpx.AsyncClient() as client:
-        r = await client.post(f"{PERFORMANCE_URL}/predict", json=body, timeout=60.0)
-        return r.json()
+        r = await client.post(f"{PERFORMANCE_URL}/progress/predict", json=body, timeout=60.0)
+        try:
+            payload = r.json()
+        except ValueError:
+            payload = {"success": False, "error": r.text}
+        return JSONResponse(status_code=r.status_code, content=payload)
 
 
 @router.get("/project/{project_id}/dashboard")
