@@ -4,11 +4,37 @@ from sentence_transformers import SentenceTransformer
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 BASE_DIR      = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# Primary path: local data/ copy (works in Docker and locally)
-# Fallback: research/ path (works locally when running outside Docker)
-_LOCAL_CSV    = os.path.join(BASE_DIR, "data", "delay_data.csv")
-_RESEARCH_CSV = os.path.join(BASE_DIR, "..", "research", "datasets", "delay-cases", "delay_data.csv")
-CSV_PATH      = _LOCAL_CSV if os.path.exists(_LOCAL_CSV) else _RESEARCH_CSV
+# Canonical source path for delay-cases CSV.
+# Priority:
+# 1) DELAY_CASES_CSV_PATH env var
+# 2) performance/data/delay_data.csv
+# 3) research/datasets/delay-cases/delay_data.csv
+_LOCAL_CSV = os.path.join(BASE_DIR, "data", "delay_data.csv")
+_RESEARCH_CSV = os.path.join(
+    BASE_DIR, "..", "research", "datasets", "delay-cases", "delay_data.csv"
+)
+
+
+def _resolve_csv_path() -> str:
+    configured = os.getenv("DELAY_CASES_CSV_PATH")
+    if configured:
+        configured_abs = os.path.abspath(configured)
+        if os.path.exists(configured_abs):
+            return configured_abs
+        raise FileNotFoundError(
+            f"DELAY_CASES_CSV_PATH is set but file not found: {configured_abs}"
+        )
+
+    if os.path.exists(_LOCAL_CSV):
+        return _LOCAL_CSV
+    if os.path.exists(_RESEARCH_CSV):
+        return _RESEARCH_CSV
+    raise FileNotFoundError(
+        f"CSV not found. Checked: {os.path.abspath(_LOCAL_CSV)} and {os.path.abspath(_RESEARCH_CSV)}"
+    )
+
+
+CSV_PATH = _resolve_csv_path()
 RAG_CASES_DIR = os.path.join(BASE_DIR, "data", "rag_cases")
 
 # ── Model ─────────────────────────────────────────────────────────────────────

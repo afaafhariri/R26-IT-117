@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Performance API Test Console</title>
+  <style>
+    :root {
+      --bg: #f4f8fb;
+      --panel: #ffffff;
+      --ink: #10202d;
+      --muted: #5b6a75;
+      --line: #d6e1ea;
+      --primary: #0b6bcb;
+      --primary-ink: #ffffff;
+      --accent: #0a9d8f;
+      --warn: #c23b22;
+      --ok: #1f7a3f;
+      --shadow: 0 10px 24px rgba(16, 32, 45, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, #e9f6ff 0%, transparent 44%),
+        radial-gradient(circle at 90% 20%, #eafaf6 0%, transparent 40%),
+        var(--bg);
+      line-height: 1.45;
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .hero {
+      background: linear-gradient(120deg, #0b6bcb, #0a9d8f);
+      color: #fff;
+      border-radius: 14px;
+      padding: 22px 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      margin: 0 0 6px;
+      font-size: 1.5rem;
+      letter-spacing: 0.3px;
+    }
+
+    .hero p {
+      margin: 0;
+      opacity: 0.95;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    label {
+      font-size: 0.86rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+      font: inherit;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 10px;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    textarea {
+      min-height: 260px;
+      resize: vertical;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.84rem;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 9px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: transform 0.06s ease, opacity 0.2s ease;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    button.primary {
+      background: var(--primary);
+      color: var(--primary-ink);
+      font-weight: 600;
+    }
+
+    button.ghost {
+      background: #edf4fb;
+      color: #15446b;
+      border: 1px solid #c8dff4;
+    }
+
+    button.warn {
+      background: #fbe9e6;
+      color: var(--warn);
+      border: 1px solid #f5c9bf;
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .status {
+      display: grid;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 0.9rem;
+    }
+
+    .status li {
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 7px 9px;
+      background: #fafcff;
+    }
+
+    .value {
+      font-weight: 700;
+      color: #15446b;
+    }
+
+    .output {
+      margin-top: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #0f1720;
+      color: #e8f3ff;
+      padding: 10px;
+      min-height: 84px;
+      overflow: auto;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.82rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .hint {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .ok {
+      color: var(--ok);
+      font-weight: 700;
+    }
+
+    .bad {
+      color: var(--warn);
+      font-weight: 700;
+    }
+
+    @media (max-width: 980px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Construction Performance API Test Console</h1>
+      <p>Static single-page frontend for validating the backend flow: schedule, SPI, prediction, dashboard, and alerts.</p>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Connection and Flow State</h2>
+        <div class="field">
+          <label for="baseUrl">Base URL</label>
+          <input id="baseUrl" type="text" value="http://localhost:5004">
+        </div>
+        <div class="controls">
+          <button id="btnHealth" class="primary">Check Health</button>
+        </div>
+        <p class="hint">Tip: serve this page from localhost (simple HTTP server) instead of file:// for smoother browser behavior.</p>
+
+        <ul class="status">
+          <li><span>Health</span><span id="stateHealth" class="value">Not checked</span></li>
+          <li><span>Project ID</span><span id="stateProjectId" class="value">-</span></li>
+          <li><span>Phase IDs</span><span id="statePhaseIds" class="value">-</span></li>
+          <li><span>Selected Phase</span><span id="statePhaseId" class="value">-</span></li>
+          <li><span>SPI ID</span><span id="stateSpiId" class="value">-</span></li>
+          <li><span>SPI Alert Level</span><span id="stateAlertLevel" class="value">-</span></li>
+        </ul>
+        <div id="outHealth" class="output">Health response will appear here.</div>
+      </section>
+
+      <section class="card">
+        <h2>Schedule (POST /schedule)</h2>
+        <div class="controls">
+          <button id="btnLoadSample" class="ghost">Load Sample Payload</button>
+          <button id="btnSchedule" class="primary">Submit Schedule</button>
+        </div>
+        <div class="field">
+          <label for="schedulePayload">Schedule JSON payload</label>
+          <textarea id="schedulePayload"></textarea>
+        </div>
+        <div id="outSchedule" class="output">Schedule response will appear here.</div>
+      </section>
+
+      <section class="card">
+        <h2>SPI (POST /progress/spi)</h2>
+        <div class="row">
+          <div class="field">
+            <label for="spiPhaseId">Phase ID</label>
+            <select id="spiPhaseId"></select>
+          </div>
+          <div class="field">
+            <label for="spiActualPercent">Actual Percent (0-100)</label>
+            <input id="spiActualPercent" type="number" min="0" max="100" step="0.1" value="10">
+          </div>
+        </div>
+        <div class="field">
+          <label for="spiEnteredBy">Entered By</label>
+          <input id="spiEnteredBy" type="text" value="postman-user">
+        </div>
+        <div class="controls">
+          <button id="btnSpi" class="primary" disabled>Submit SPI</button>
+        </div>
+        <div id="outSpi" class="output">SPI response will appear here.</div>
+      </section>
+
+      <section class="card">
+        <h2>Prediction (POST /progress/predict)</h2>
+        <div class="row">
+          <div class="field">
+            <label for="predDelayCategory">Delay Category</label>
+            <select id="predDelayCategory">
+              <option>Labour</option>
+              <option>Material Supply & Quality</option>
+              <option>Environmental & Site</option>
+              <option>Financial & Funding</option>
+              <option>Design & Technical</option>
+              <option>Land & Legal</option>
+              <option>Owner / Social / Behavioural</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="predLabour">Labour Availability</label>
+            <select id="predLabour">
+              <option>Very Low</option>
+              <option selected>Low</option>
+              <option>Medium</option>
+              <option>Good</option>
+              <option>Full</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="predMaterial">Material Supply</label>
+            <select id="predMaterial">
+              <option>Yes</option>
+              <option selected>No</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="predWeather">Weather Severity</label>
+            <select id="predWeather">
+              <option>No disruption</option>
+              <option>Minor</option>
+              <option selected>Moderate</option>
+              <option>Severe</option>
+            </select>
+          </div>
+        </div>
+        <div class="controls">
+          <button id="btnPredict" class="primary" disabled>Run Prediction</button>
+        </div>
+        <div id="outPredict" class="output">Prediction response will appear here.</div>
+      </section>
+
+      <section class="card">
+        <h2>Dashboard and Alerts (GET)</h2>
+        <div class="field">
+          <label for="viewProjectId">Project ID</label>
+          <input id="viewProjectId" type="number" min="1" value="">
+        </div>
+        <div class="controls">
+          <button id="btnDashboard" class="primary">Get Dashboard</button>
+          <button id="btnAlerts" class="primary">Get Alerts</button>
+        </div>
+        <div id="outDashboard" class="output">Dashboard response will appear here.</div>
+        <div id="outAlerts" class="output" style="margin-top:10px;">Alerts response will appear here.</div>
+      </section>
+
+      <section class="card">
+        <h2>Activity Log</h2>
+        <p class="hint">Shows endpoint call sequence and quick status for troubleshooting.</p>
+        <div id="outLog" class="output"></div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const sampleSchedule = {
+      project_id: "LARGE-HOUSE-001",
+      project_name: "Large Two Storey Residential House",
+      district: "Jaffna",
+      province: "Northern Province",
+      floors: 2,
+      building_type: "residential",
+      total_planned_duration_days: 316,
+      planned_start_date: "2024-01-01",
+      planned_end_date: "2024-11-11",
+      phases: [
+        {
+          phase_id: 1,
+          phase_group: "Foundations",
+          sub_phase: "Foundation work",
+          planned_start: "2024-01-01",
+          planned_end: "2024-01-27",
+          planned_duration_days: 27,
+          sequence: 1
+        },
+        {
+          phase_id: 2,
+          phase_group: "Structure",
+          sub_phase: "Columns, beams and slab work",
+          planned_start: "2024-01-28",
+          planned_end: "2024-03-28",
+          planned_duration_days: 61,
+          sequence: 2
+        },
+        {
+          phase_id: 3,
+          phase_group: "Envelope & Waterproofing",
+          sub_phase: "Masonry work",
+          planned_start: "2024-03-29",
+          planned_end: "2024-05-28",
+          planned_duration_days: 61,
+          sequence: 3
+        },
+        {
+          phase_id: 4,
+          phase_group: "Envelope & Waterproofing",
+          sub_phase: "Roofing / roof slab work",
+          planned_start: "2024-05-29",
+          planned_end: "2024-06-14",
+          planned_duration_days: 17,
+          sequence: 4
+        },
+        {
+          phase_id: 5,
+          phase_group: "MEP Rough-Ins",
+          sub_phase: "Electrical conduit work",
+          planned_start: "2024-06-15",
+          planned_end: "2024-07-02",
+          planned_duration_days: 18,
+          sequence: 5
+        },
+        {
+          phase_id: 6,
+          phase_group: "MEP Rough-Ins",
+          sub_phase: "Plumbing and drainage work",
+          planned_start: "2024-07-03",
+          planned_end: "2024-07-24",
+          planned_duration_days: 22,
+          sequence: 6
+        },
+        {
+          phase_id: 7,
+          phase_group: "Finishes",
+          sub_phase: "Internal plastering",
+          planned_start: "2024-07-25",
+          planned_end: "2024-08-30",
+          planned_duration_days: 37,
+          sequence: 7
+        },
+        {
+          phase_id: 8,
+          phase_group: "Finishes",
+          sub_phase: "Tiling and finishing work",
+          planned_start: "2024-08-31",
+          planned_end: "2024-10-02",
+          planned_duration_days: 33,
+          sequence: 8
+        },
+        {
+          phase_id: 9,
+          phase_group: "Finishes",
+          sub_phase: "Painting",
+          planned_start: "2024-10-03",
+          planned_end: "2024-10-29",
+          planned_duration_days: 27,
+          sequence: 9
+        },
+        {
+          phase_id: 10,
+          phase_group: "External Works & Handover",
+          sub_phase: "External works",
+          planned_start: "2024-10-30",
+          planned_end: "2024-11-07",
+          planned_duration_days: 9,
+          sequence: 10
+        },
+        {
+          phase_id: 11,
+          phase_group: "External Works & Handover",
+          sub_phase: "Client handover",
+          planned_start: "2024-11-08",
+          planned_end: "2024-11-11",
+          planned_duration_days: 4,
+          sequence: 11
+        }
+      ]
+    };
+
+    const state = {
+      healthOk: false,
+      projectId: null,
+      phaseIds: [],
+      phaseId: null,
+      spiId: null,
+      alertLevel: null
+    };
+
+    const el = (id) => document.getElementById(id);
+    const baseUrl = () => el("baseUrl").value.trim().replace(/\/+$/, "");
+
+    function pretty(obj) {
+      return JSON.stringify(obj, null, 2);
+    }
+
+    function mapSubPhaseName(rawName) {
+      const name = (rawName || "").trim();
+      const mapping = {
+        "Columns, beams and slab work": "Columns & beams",
+        "Roofing / roof slab work": "Roof slab",
+        "Plumbing and drainage work": "Plumbing & drainage",
+        "Tiling and finishing work": "Tiling",
+        "Painting": "External rendering",
+        "External works": "Boundary wall & gate",
+        "Client handover": "Snagging & rectification"
+      };
+      return mapping[name] || name;
+    }
+
+    function toApiSchedulePayload(input) {
+      if (!input || typeof input !== "object") {
+        throw new Error("Schedule payload must be a JSON object.");
+      }
+
+      // Already in backend-ready format.
+      if (input.project && typeof input.project === "object" && Array.isArray(input.phases)) {
+        return input;
+      }
+
+      // Adapter path: raw Component 03 payload -> backend schema.
+      if (Array.isArray(input.phases)) {
+        const adapted = {
+          project: {
+            name: input.project_name ?? "",
+            district: input.district ?? "",
+            province: input.province ?? "",
+            floors: Number.isFinite(Number(input.floors)) ? Number(input.floors) : input.floors,
+            building_type: input.building_type ?? ""
+          },
+          phases: input.phases.map((p) => ({
+            phase_group: p.phase_group,
+            sub_phase: mapSubPhaseName(p.sub_phase),
+            planned_start: p.planned_start,
+            planned_end: p.planned_end,
+            planned_duration_days: Number.isFinite(Number(p.planned_duration_days))
+              ? Number(p.planned_duration_days)
+              : p.planned_duration_days,
+            sequence: Number.isFinite(Number(p.sequence)) ? Number(p.sequence) : p.sequence
+          }))
+        };
+        return adapted;
+      }
+
+      throw new Error("Unsupported schedule payload schema.");
+    }
+
+    function setOutput(id, payload, isError) {
+      const target = el(id);
+      target.textContent = typeof payload === "string" ? payload : pretty(payload);
+      target.style.borderColor = isError ? "#e6a49a" : "#d6e1ea";
+    }
+
+    function appendLog(msg, isError) {
+      const log = el("outLog");
+      const ts = new Date().toLocaleTimeString();
+      const line = `[${ts}] ${isError ? "ERROR" : "OK"} - ${msg}`;
+      log.textContent = log.textContent ? `${log.textContent}\n${line}` : line;
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function setHealthState(ok) {
+      state.healthOk = !!ok;
+      const target = el("stateHealth");
+      target.textContent = ok ? "Healthy" : "Not healthy";
+      target.className = `value ${ok ? "ok" : "bad"}`;
+    }
+
+    function syncStateView() {
+      el("stateProjectId").textContent = state.projectId ?? "-";
+      el("statePhaseIds").textContent = state.phaseIds.length ? state.phaseIds.join(", ") : "-";
+      el("statePhaseId").textContent = state.phaseId ?? "-";
+      el("stateSpiId").textContent = state.spiId ?? "-";
+      el("stateAlertLevel").textContent = state.alertLevel ?? "-";
+      el("viewProjectId").value = state.projectId ?? "";
+
+      const phaseSelect = el("spiPhaseId");
+      phaseSelect.innerHTML = "";
+      if (state.phaseIds.length === 0) {
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = "No phase IDs available";
+        phaseSelect.appendChild(opt);
+      } else {
+        state.phaseIds.forEach((id) => {
+          const opt = document.createElement("option");
+          opt.value = String(id);
+          opt.textContent = String(id);
+          phaseSelect.appendChild(opt);
+        });
+        if (!state.phaseId || !state.phaseIds.includes(state.phaseId)) {
+          state.phaseId = state.phaseIds[0];
+        }
+        phaseSelect.value = String(state.phaseId);
+      }
+
+      el("btnSpi").disabled = !(state.projectId && state.phaseIds.length);
+      el("btnPredict").disabled = !(state.projectId && state.phaseId && state.spiId);
+    }
+
+    async function apiGet(path) {
+      const res = await fetch(`${baseUrl()}${path}`);
+      const txt = await res.text();
+      let data;
+      try {
+        data = JSON.parse(txt);
+      } catch (_) {
+        data = { raw: txt };
+      }
+      return { ok: res.ok, status: res.status, data };
+    }
+
+    async function apiPost(path, bodyObj) {
+      const res = await fetch(`${baseUrl()}${path}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bodyObj)
+      });
+      const txt = await res.text();
+      let data;
+      try {
+        data = JSON.parse(txt);
+      } catch (_) {
+        data = { raw: txt };
+      }
+      return { ok: res.ok, status: res.status, data };
+    }
+
+    async function runHealth() {
+      try {
+        const result = await apiGet("/health");
+        setOutput("outHealth", result.data, !result.ok);
+        setHealthState(result.ok && result.data && result.data.status === "ok");
+        appendLog(`/health -> ${result.status}`, !result.ok);
+        syncStateView();
+      } catch (err) {
+        setOutput("outHealth", { error: String(err) }, true);
+        setHealthState(false);
+        appendLog(`/health failed: ${err}`, true);
+      }
+    }
+
+    async function runSchedule() {
+      let payload;
+      try {
+        payload = JSON.parse(el("schedulePayload").value);
+      } catch (err) {
+        setOutput("outSchedule", { error: "Invalid JSON in schedule payload", details: String(err) }, true);
+        appendLog("Schedule blocked: invalid JSON", true);
+        return;
+      }
+
+      let apiPayload;
+      try {
+        apiPayload = toApiSchedulePayload(payload);
+      } catch (err) {
+        setOutput("outSchedule", { error: "Adapter failed", details: String(err) }, true);
+        appendLog(`Schedule blocked: adapter failed (${err})`, true);
+        return;
+      }
+
+      try {
+        const result = await apiPost("/schedule", apiPayload);
+        setOutput("outSchedule", result.data, !result.ok);
+        appendLog(`/schedule -> ${result.status}`, !result.ok);
+
+        if (result.ok && result.data.success) {
+          state.projectId = result.data.project_id ?? null;
+          state.phaseIds = Array.isArray(result.data.phase_ids) ? result.data.phase_ids : [];
+          state.phaseId = state.phaseIds.length ? state.phaseIds[0] : null;
+          state.spiId = null;
+          state.alertLevel = null;
+        }
+        syncStateView();
+      } catch (err) {
+        setOutput("outSchedule", { error: String(err) }, true);
+        appendLog(`/schedule failed: ${err}`, true);
+      }
+    }
+
+    async function runSpi() {
+      const phaseId = Number(el("spiPhaseId").value || state.phaseId);
+      const actualPercent = Number(el("spiActualPercent").value);
+      const enteredBy = el("spiEnteredBy").value.trim() || "web-user";
+
+      const payload = {
+        phase_id: phaseId,
+        actual_percent: actualPercent,
+        entered_by: enteredBy
+      };
+
+      try {
+        const result = await apiPost("/progress/spi", payload);
+        setOutput("outSpi", result.data, !result.ok);
+        appendLog(`/progress/spi -> ${result.status}`, !result.ok);
+
+        if (result.ok && result.data.success) {
+          state.phaseId = result.data.phase_id ?? phaseId;
+          state.spiId = result.data.spi_id ?? null;
+          state.alertLevel = result.data.alert_level ?? null;
+        }
+        syncStateView();
+      } catch (err) {
+        setOutput("outSpi", { error: String(err) }, true);
+        appendLog(`/progress/spi failed: ${err}`, true);
+      }
+    }
+
+    async function runPredict() {
+      const payload = {
+        spi_id: Number(state.spiId),
+        phase_id: Number(state.phaseId),
+        delay_category: el("predDelayCategory").value,
+        labour_availability: el("predLabour").value,
+        material_supply: el("predMaterial").value,
+        weather_severity: el("predWeather").value
+      };
+
+      try {
+        const result = await apiPost("/progress/predict", payload);
+        setOutput("outPredict", result.data, !result.ok);
+        appendLog(`/progress/predict -> ${result.status}`, !result.ok);
+      } catch (err) {
+        setOutput("outPredict", { error: String(err) }, true);
+        appendLog(`/progress/predict failed: ${err}`, true);
+      }
+    }
+
+    async function runDashboard() {
+      const pid = Number(el("viewProjectId").value);
+      if (!pid) {
+        setOutput("outDashboard", { error: "Project ID is required." }, true);
+        appendLog("Dashboard blocked: missing project ID", true);
+        return;
+      }
+      try {
+        const result = await apiGet(`/project/${pid}/dashboard`);
+        setOutput("outDashboard", result.data, !result.ok);
+        appendLog(`/project/${pid}/dashboard -> ${result.status}`, !result.ok);
+      } catch (err) {
+        setOutput("outDashboard", { error: String(err) }, true);
+        appendLog(`/dashboard failed: ${err}`, true);
+      }
+    }
+
+    async function runAlerts() {
+      const pid = Number(el("viewProjectId").value);
+      if (!pid) {
+        setOutput("outAlerts", { error: "Project ID is required." }, true);
+        appendLog("Alerts blocked: missing project ID", true);
+        return;
+      }
+      try {
+        const result = await apiGet(`/project/${pid}/alerts`);
+        setOutput("outAlerts", result.data, !result.ok);
+        appendLog(`/project/${pid}/alerts -> ${result.status}`, !result.ok);
+      } catch (err) {
+        setOutput("outAlerts", { error: String(err) }, true);
+        appendLog(`/alerts failed: ${err}`, true);
+      }
+    }
+
+    function loadSample() {
+      el("schedulePayload").value = pretty(sampleSchedule);
+      appendLog("Loaded sample schedule payload", false);
+    }
+
+    el("btnHealth").addEventListener("click", runHealth);
+    el("btnLoadSample").addEventListener("click", loadSample);
+    el("btnSchedule").addEventListener("click", runSchedule);
+    el("btnSpi").addEventListener("click", runSpi);
+    el("btnPredict").addEventListener("click", runPredict);
+    el("btnDashboard").addEventListener("click", runDashboard);
+    el("btnAlerts").addEventListener("click", runAlerts);
+    el("spiPhaseId").addEventListener("change", (e) => {
+      state.phaseId = Number(e.target.value) || null;
+      syncStateView();
+    });
+
+    loadSample();
+    syncStateView();
+  </script>
+</body>
+</html>

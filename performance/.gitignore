@@ -1,0 +1,65 @@
+# Environment & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Trained ML models
+models/*.json
+models/*.pkl
+models/*.index
+!models/.gitkeep
+
+# Testing & coverage
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+nosetests.xml
+*.cover
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+logs/
+*.out
+
+# Docker temporary files
+.docker-temp/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Misc
+*.tmp
+*.bak
+*.orig
+.cache/
+
+# Local AI tooling
+.claude/
