@@ -3,501 +3,1148 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Performance API Test Console</title>
+  <title>Performance Monitor</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     :root {
-      --bg: #f4f8fb;
+      --bg: #f4f6f9;
       --panel: #ffffff;
-      --ink: #10202d;
-      --muted: #5b6a75;
-      --line: #d6e1ea;
-      --primary: #0b6bcb;
-      --primary-ink: #ffffff;
-      --accent: #0a9d8f;
-      --warn: #c23b22;
-      --ok: #1f7a3f;
-      --shadow: 0 10px 24px rgba(16, 32, 45, 0.08);
+      --ink: #101828;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --sidebar: #0b1526;
+      --sidebar-ink: #cbd5e1;
+      --sidebar-active: #1d4ed8;
+      --ok: #16a34a;
+      --ok-bg: #dcfce7;
+      --ok-line: #bbf7d0;
+      --warn: #b45309;
+      --warn-bg: #fef3c7;
+      --warn-line: #fde68a;
+      --crit: #dc2626;
+      --crit-bg: #fee2e2;
+      --crit-line: #fecaca;
+      --shadow: 0 1px 2px rgba(16,24,40,0.04), 0 4px 16px rgba(16,24,40,0.06);
+      --radius: 14px;
     }
-
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 10% 0%, #e9f6ff 0%, transparent 44%),
-        radial-gradient(circle at 90% 20%, #eafaf6 0%, transparent 40%),
-        var(--bg);
-      line-height: 1.45;
+      font-family: "Inter", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: var(--ink); background: var(--bg); line-height: 1.5;
     }
 
-    .wrap {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
+    .app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+    .sidebar {
+      background: var(--sidebar); color: var(--sidebar-ink);
+      display: flex; flex-direction: column; padding: 18px 14px;
+      position: sticky; top: 0; height: 100vh;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; padding: 8px 8px 20px; }
+    .brand .logo {
+      width: 34px; height: 34px; border-radius: 9px;
+      background: linear-gradient(135deg, var(--primary), #0ea5e9);
+      display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;
+    }
+    .brand .name { font-weight: 700; font-size: 0.98rem; color: #fff; }
+    .brand .sub { font-size: 0.74rem; color: #8ea0b8; margin-top: 1px; }
+
+    .nav { display: flex; flex-direction: column; gap: 3px; margin-top: 6px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 9px;
+      cursor: pointer; font-size: 0.9rem; font-weight: 600; color: var(--sidebar-ink);
+      border: 0; background: transparent; width: 100%; text-align: left; transition: background 0.12s ease;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.06); }
+    .nav-item.active { background: var(--sidebar-active); color: #fff; }
+    .nav-count {
+      margin-left: auto; background: var(--crit); color: #fff; border-radius: 999px;
+      font-size: 0.72rem; font-weight: 700; padding: 1px 7px; min-width: 20px; text-align: center;
     }
 
-    .hero {
-      background: linear-gradient(120deg, #0b6bcb, #0a9d8f);
-      color: #fff;
-      border-radius: 14px;
-      padding: 22px 24px;
-      box-shadow: var(--shadow);
-      margin-bottom: 16px;
-    }
 
-    .hero h1 {
-      margin: 0 0 6px;
-      font-size: 1.5rem;
-      letter-spacing: 0.3px;
-    }
+    .main { padding: 28px 32px 60px; max-width: 1160px; width: 100%; }
+    .view { display: none; }
+    .view.active { display: block; }
 
-    .hero p {
-      margin: 0;
-      opacity: 0.95;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
+    .page-header { margin-bottom: 22px; }
+    .page-header h1 { margin: 0 0 4px; font-size: 1.5rem; letter-spacing: -0.01em; }
+    .page-header p { margin: 0; color: var(--muted); font-size: 0.92rem; }
 
     .card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      padding: 14px;
+      background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px;
+    }
+    .card.muted { background: #fbfcfe; }
+    .card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .step-num {
+      width: 26px; height: 26px; border-radius: 50%; background: var(--primary); color: #fff;
+      font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .step-num.done { background: var(--ok); }
+    .card-head h2 { margin: 0; font-size: 1.02rem; }
+    .card-head .spacer { flex: 1; }
+    .chip {
+      font-size: 0.76rem; font-weight: 600; padding: 3px 10px; border-radius: 999px;
+      background: #eef2ff; color: #3730a3; border: 1px solid #e0e7ff;
     }
 
-    .card h2 {
-      margin: 0 0 10px;
-      font-size: 1.05rem;
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .field { display: grid; gap: 6px; margin-bottom: 12px; }
+    label { font-size: 0.82rem; color: var(--muted); font-weight: 600; }
+    input, select, textarea, button { font: inherit; }
+    input, select, textarea {
+      width: 100%; border: 1px solid var(--line); border-radius: 9px;
+      padding: 9px 11px; background: #fff; color: var(--ink);
     }
-
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .field {
-      display: grid;
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-
-    label {
-      font-size: 0.86rem;
-      color: var(--muted);
-      font-weight: 600;
-    }
-
-    input,
-    select,
-    textarea,
-    button {
-      font: inherit;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 9px 10px;
-      background: #fff;
-      color: var(--ink);
-    }
-
-    textarea {
-      min-height: 260px;
-      resize: vertical;
-      font-family: Consolas, "Courier New", monospace;
-      font-size: 0.84rem;
-    }
-
-    .controls {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 8px;
-    }
+    input:disabled, select:disabled { background: #f8fafc; color: var(--muted); cursor: not-allowed; }
+    textarea { min-height: 150px; resize: vertical; font-family: Consolas, "Courier New", monospace; font-size: 0.82rem; }
+    .hint { margin: 0; color: var(--muted); font-size: 0.8rem; }
+    .hint.error { color: var(--crit); }
 
     button {
-      border: 0;
-      border-radius: 9px;
-      padding: 8px 12px;
-      cursor: pointer;
-      transition: transform 0.06s ease, opacity 0.2s ease;
+      border: 0; border-radius: 9px; padding: 10px 16px; cursor: pointer;
+      font-weight: 600; font-size: 0.88rem; transition: opacity 0.15s ease, transform 0.06s ease;
+    }
+    button:active { transform: translateY(1px); }
+    button.primary { background: var(--primary); color: #fff; }
+    button.primary:hover { background: var(--primary-dark); }
+    button.big { padding: 12px 22px; font-size: 0.95rem; }
+    button.ghost { background: #eef2ff; color: #3730a3; }
+    button.outline { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+    button.toggle { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+    button.toggle.selected { background: #eff6ff; color: var(--primary-dark); border-color: #bfdbfe; }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+    .spinner {
+      display: inline-block; width: 14px; height: 14px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;
+      animation: spin 0.7s linear infinite; margin-right: 7px; vertical-align: -2px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .badge { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 0.82rem; padding: 5px 12px; border-radius: 999px; }
+    .badge.ok { background: var(--ok-bg); color: var(--ok); border: 1px solid var(--ok-line); }
+    .badge.warn { background: var(--warn-bg); color: var(--warn); border: 1px solid var(--warn-line); }
+    .badge.crit { background: var(--crit-bg); color: var(--crit); border: 1px solid var(--crit-line); }
+    .badge.neutral { background: #f1f5f9; color: var(--muted); border: 1px solid var(--line); }
+    .badge.info { background: #eef2ff; color: #3730a3; border: 1px solid #e0e7ff; }
+
+    .empty-state { text-align: center; padding: 30px 10px; color: var(--muted); font-size: 0.88rem; }
+
+    /* App-level error banner */
+    #appBanner {
+      display: none; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 10px;
+      margin-bottom: 16px; font-size: 0.88rem; border: 1px solid var(--crit-line);
+      background: var(--crit-bg); color: #991b1b;
+    }
+    #appBanner.show { display: flex; }
+    #appBanner .msg { flex: 1; }
+    #appBanner button { background: transparent; color: inherit; padding: 0 6px; font-size: 1rem; }
+
+    /* Project summary */
+    .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 4px; }
+    .summary-item { background: #f8fafc; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+    .summary-item .k { font-size: 0.72rem; color: var(--muted); margin-bottom: 2px; }
+    .summary-item .v { font-weight: 700; font-size: 0.92rem; }
+    .progress-track { height: 9px; background: #eef2f7; border-radius: 999px; overflow: hidden; margin-top: 6px; }
+    .progress-fill { height: 100%; background: var(--primary); border-radius: 999px; }
+
+    /* Phase table */
+    .phase-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; max-height: 330px; overflow-y: auto; }
+    table.phase-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; min-width: 700px; }
+    table.phase-table th {
+      text-align: left; padding: 9px 12px; background: #f8fafc; color: var(--muted);
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
+      position: sticky; top: 0; border-bottom: 1px solid var(--line);
+    }
+    table.phase-table td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    table.phase-table tr.phase-row { cursor: pointer; }
+    table.phase-table tr.phase-row:hover { background: #f8fafc; }
+    table.phase-table tr.phase-row.selected { background: #eff6ff; box-shadow: inset 3px 0 0 var(--primary); }
+    .seq-pill {
+      display: inline-block; min-width: 22px; text-align: center; background: #eef2ff; color: #3730a3;
+      border-radius: 6px; font-size: 0.74rem; font-weight: 700; padding: 1px 6px; margin-right: 7px;
     }
 
-    button:active {
-      transform: translateY(1px);
+    /* Weather */
+    .weather-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .weather-metric { background: #f8fafc; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; text-align: center; }
+    .weather-metric .label { font-size: 0.72rem; color: var(--muted); margin-bottom: 3px; }
+    .weather-metric .val { font-size: 1.02rem; font-weight: 700; }
+    .severity-banner {
+      display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 12px;
+      margin-bottom: 12px; border: 1px solid var(--line); background: #f8fafc;
     }
+    .severity-banner .note { font-size: 0.8rem; color: var(--muted); }
+    .source-tag { font-size: 0.74rem; padding: 2px 8px; border-radius: 999px; font-weight: 600; }
+    .source-tag.live { background: #dcfce7; color: var(--ok); }
+    .source-tag.fallback { background: #fef3c7; color: var(--warn); }
 
-    button.primary {
-      background: var(--primary);
-      color: var(--primary-ink);
-      font-weight: 600;
-    }
+    #locationMap { height: 340px; border-radius: 10px; border: 1px solid var(--line); margin-top: 8px; }
+    .coord-row { display: flex; gap: 16px; margin-top: 10px; font-size: 0.84rem; flex-wrap: wrap; }
+    .coord-row .item { color: var(--muted); }
+    .coord-row .item b { color: var(--ink); }
 
-    button.ghost {
-      background: #edf4fb;
-      color: #15446b;
-      border: 1px solid #c8dff4;
-    }
+    /* Verdict (homeowner-first results) */
+    .verdict { border-radius: 12px; padding: 18px 20px; border: 1px solid var(--line); margin-bottom: 14px; }
+    .verdict.ok { background: var(--ok-bg); border-color: var(--ok-line); }
+    .verdict.warn { background: var(--warn-bg); border-color: var(--warn-line); }
+    .verdict.crit { background: var(--crit-bg); border-color: var(--crit-line); }
+    .verdict h3 { margin: 8px 0 4px; font-size: 1.22rem; letter-spacing: -0.01em; }
+    .verdict p { margin: 0; font-size: 0.92rem; }
+    .qa-block { margin-top: 14px; }
+    .qa-block .q { font-size: 0.78rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 3px; }
+    .qa-block .a { font-size: 0.92rem; margin-bottom: 12px; }
+    .action-list { margin: 6px 0 0; padding-left: 20px; }
+    .action-list li { margin-bottom: 6px; font-size: 0.92rem; }
 
-    button.warn {
-      background: #fbe9e6;
-      color: var(--warn);
-      border: 1px solid #f5c9bf;
-    }
+    details.tech { margin-top: 6px; border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; background: #fbfcfe; }
+    details.tech summary { cursor: pointer; font-weight: 600; font-size: 0.85rem; color: var(--muted); }
+    details.tech .tech-body { margin-top: 12px; }
+    details.setup summary { cursor: pointer; font-weight: 600; color: var(--muted); padding: 4px; font-size: 0.86rem; }
 
-    button:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
+    .prob-bar { display: grid; grid-template-columns: 70px 1fr 52px; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 0.8rem; }
+    .prob-track { height: 8px; background: #f1f5f9; border-radius: 999px; overflow: hidden; }
+    .prob-fill { height: 100%; border-radius: 999px; }
+    .prob-fill.HIGH { background: var(--crit); }
+    .prob-fill.MEDIUM { background: var(--warn); }
+    .prob-fill.LOW { background: var(--ok); }
 
-    .status {
-      display: grid;
-      gap: 6px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      font-size: 0.9rem;
-    }
+    .case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 10px; }
+    .case-card { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: #fafcff; font-size: 0.84rem; }
+    .case-card .rank-badge { font-weight: 700; color: var(--primary-dark); font-size: 0.82rem; }
+    .case-card .filename { font-family: Consolas, monospace; font-size: 0.73rem; color: var(--muted); margin: 4px 0 8px; }
+    .case-card .distance { font-size: 0.75rem; color: var(--muted); margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line); }
+    .case-card p { margin: 4px 0; }
 
-    .status li {
-      display: flex;
-      justify-content: space-between;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 7px 9px;
-      background: #fafcff;
-    }
-
-    .value {
-      font-weight: 700;
-      color: #15446b;
-    }
+    .alert-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+    .stat-card { border: 1px solid var(--line); border-radius: 12px; padding: 14px; background: #fff; }
+    .stat-card .n { font-size: 1.6rem; font-weight: 800; }
+    .stat-card .lbl { font-size: 0.78rem; color: var(--muted); }
+    .stat-card.crit .n { color: var(--crit); }
+    .stat-card.warn .n { color: var(--warn); }
+    .filter-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+    .filter-tabs button { padding: 7px 14px; font-size: 0.82rem; }
+    .alert-item { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; background: #fff; }
+    .alert-item.CRITICAL { border-left: 4px solid var(--crit); }
+    .alert-item.WARNING { border-left: 4px solid var(--warn); }
+    .alert-item .alert-top { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; flex-wrap: wrap; }
+    .alert-item .alert-msg { font-size: 0.88rem; }
+    .alert-item .alert-meta { font-size: 0.76rem; color: var(--muted); margin-top: 4px; }
 
     .output {
-      margin-top: 8px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #0f1720;
-      color: #e8f3ff;
-      padding: 10px;
-      min-height: 84px;
-      overflow: auto;
-      font-family: Consolas, "Courier New", monospace;
-      font-size: 0.82rem;
-      white-space: pre-wrap;
-      word-break: break-word;
+      margin-top: 8px; border: 1px solid var(--line); border-radius: 8px; background: #0f1720; color: #e8f3ff;
+      padding: 10px; min-height: 46px; max-height: 240px; overflow: auto;
+      font-family: Consolas, "Courier New", monospace; font-size: 0.78rem; white-space: pre-wrap; word-break: break-word;
     }
-
-    .hint {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.86rem;
-    }
-
-    .ok {
-      color: var(--ok);
-      font-weight: 700;
-    }
-
-    .bad {
-      color: var(--warn);
-      font-weight: 700;
-    }
+    .hidden { display: none !important; }
 
     @media (max-width: 980px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-      .row {
-        grid-template-columns: 1fr;
-      }
+      .app { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; }
+      .row, .row.cols-3, .case-grid, .weather-grid, .alert-stats, .summary-grid { grid-template-columns: 1fr; }
+      .main { padding: 20px; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <section class="hero">
-      <h1>Construction Performance API Test Console</h1>
-      <p>Static single-page frontend for validating the backend flow: schedule, SPI, prediction, dashboard, and alerts.</p>
-    </section>
-
-    <div class="grid">
-      <section class="card">
-        <h2>Connection and Flow State</h2>
-        <div class="field">
-          <label for="baseUrl">Base URL</label>
-          <input id="baseUrl" type="text" value="http://localhost:5004">
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <div class="name">Performance Monitor</div>
+          <div class="sub">Construction Delay Prediction</div>
         </div>
-        <div class="controls">
-          <button id="btnHealth" class="primary">Check Health</button>
-        </div>
-        <p class="hint">Tip: serve this page from localhost (simple HTTP server) instead of file:// for smoother browser behavior.</p>
+      </div>
 
-        <ul class="status">
-          <li><span>Health</span><span id="stateHealth" class="value">Not checked</span></li>
-          <li><span>Project ID</span><span id="stateProjectId" class="value">-</span></li>
-          <li><span>Phase IDs</span><span id="statePhaseIds" class="value">-</span></li>
-          <li><span>Selected Phase</span><span id="statePhaseId" class="value">-</span></li>
-          <li><span>SPI ID</span><span id="stateSpiId" class="value">-</span></li>
-          <li><span>SPI Alert Level</span><span id="stateAlertLevel" class="value">-</span></li>
-        </ul>
-        <div id="outHealth" class="output">Health response will appear here.</div>
+      <nav class="nav">
+        <button class="nav-item active" data-view="dashboard">My Construction</button>
+        <button class="nav-item" data-view="location">Site &amp; Weather</button>
+        <button class="nav-item" data-view="alerts">Alerts <span id="sidebarAlertCount" class="nav-count hidden">0</span></button>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div id="appBanner">
+        <span class="msg" id="appBannerMsg"></span>
+        <button id="appBannerClose" type="button" aria-label="Dismiss">✕</button>
+      </div>
+
+      <!-- ===================== DASHBOARD ===================== -->
+      <section class="view active" id="view-dashboard">
+        <div class="page-header">
+          <h1>My Construction</h1>
+          <p>Load your construction, check how a phase is progressing, and see what to do about any delay.</p>
+        </div>
+
+        <!-- STEP 1: Load construction -->
+        <div class="card">
+          <div class="card-head">
+            <div class="step-num" id="stepNum1">1</div>
+            <h2>Load Your Construction</h2>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="projectFilter">Find your construction</label>
+              <input id="projectFilter" type="text" placeholder="Type to filter by name or district...">
+            </div>
+            <div class="field">
+              <label for="dashProject">Construction</label>
+              <select id="dashProject"><option value="">Loading...</option></select>
+            </div>
+          </div>
+          <div class="controls">
+            <button id="btnLoadConstruction" class="primary big" disabled>Load Construction Timeline</button>
+            <span id="loadHint" class="hint">Pick your construction above, then load its timeline.</span>
+          </div>
+
+          <details class="setup" style="margin-top:14px;">
+            <summary>Advanced: create a demo construction (developer tool)</summary>
+            <div class="card muted" style="margin-top:10px;margin-bottom:0;">
+              <p class="hint" style="margin-bottom:10px;">
+                Development-only seeding. In the finished system, construction timelines come from the
+                Timeline component, not from here.
+              </p>
+              <div class="controls" style="margin-bottom:10px;">
+                <button id="btnLoadSample" class="ghost">Load Sample Payload</button>
+                <button id="btnSchedule" class="primary">Submit Schedule</button>
+                <span id="pendingCoordHint" class="hint"></span>
+              </div>
+              <div class="field">
+                <label for="schedulePayload">Schedule JSON payload</label>
+                <textarea id="schedulePayload"></textarea>
+              </div>
+              <div id="outSchedule" class="output">Schedule response will appear here.</div>
+            </div>
+          </details>
+        </div>
+
+        <!-- Project summary (appears after load) -->
+        <div class="card hidden" id="summaryCard">
+          <div class="card-head">
+            <h2 id="summaryName">-</h2>
+            <div class="spacer"></div>
+            <span class="chip" id="summaryLocation">-</span>
+          </div>
+          <div class="summary-grid" id="summaryGrid"></div>
+          <div id="summaryProgressWrap" style="margin-top:14px;">
+            <div class="hint" id="summaryProgressLabel">-</div>
+            <div class="progress-track"><div class="progress-fill" id="summaryProgressFill" style="width:0%"></div></div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Phases -->
+        <div class="card hidden" id="phasesCard">
+          <div class="card-head">
+            <div class="step-num">2</div>
+            <h2>Choose a Construction Phase</h2>
+            <div class="spacer"></div>
+            <span id="phaseSelectedChip" class="chip hidden">-</span>
+          </div>
+          <p class="hint" style="margin-bottom:10px;">
+            Each row is one stage of your build. Click the phase you want to check.
+          </p>
+          <div class="phase-table-wrap">
+            <table class="phase-table">
+              <thead>
+                <tr>
+                  <th>Phase</th><th>Planned dates</th><th>Duration</th>
+                  <th>Recorded progress</th><th>Status</th><th>Schedule score</th>
+                </tr>
+              </thead>
+              <tbody id="phaseTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- STEP 3: Progress -->
+        <div class="card hidden" id="progressCard">
+          <div class="card-head">
+            <div class="step-num">3</div>
+            <h2>Update Current Progress</h2>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label id="actualPercentLabel" for="actualPercentInput">How much of this phase is finished?</label>
+              <input id="actualPercentInput" type="number" min="0" max="100" step="0.1" value="0">
+              <p id="actualPercentHint" class="hint">-</p>
+            </div>
+            <div class="field">
+              <label for="enteredByInput">Recorded by</label>
+              <input id="enteredByInput" type="text" value="house-owner" maxlength="100">
+            </div>
+          </div>
+          <div class="controls">
+            <button id="btnCalcSpi" class="primary big">Check Performance</button>
+          </div>
+        </div>
+
+        <!-- STEP 4: SPI -->
+        <div class="card hidden" id="spiResultCard">
+          <div class="card-head"><div class="step-num">4</div><h2>Schedule Check</h2></div>
+          <div id="spiResultBody"></div>
+        </div>
+
+        <!-- STEP 5: Assessment -->
+        <div class="card hidden" id="assessmentCard">
+          <div class="card-head"><div class="step-num">5</div><h2>What's Causing the Delay?</h2></div>
+          <p class="hint" style="background:#eff6ff;border:1px solid #dbeafe;border-radius:8px;padding:10px 12px;margin-bottom:12px;color:#1e40af;">
+            Weather for your site is fetched automatically — you don't need to enter it.
+          </p>
+          <div class="row cols-3">
+            <div class="field">
+              <label for="assessDelayCategory">Main reason for the hold-up</label>
+              <select id="assessDelayCategory">
+                <option>Labour</option>
+                <option>Material Supply &amp; Quality</option>
+                <option>Environmental &amp; Site</option>
+                <option>Financial &amp; Funding</option>
+                <option>Design &amp; Technical</option>
+                <option>Land &amp; Legal</option>
+                <option>Owner / Social / Behavioural</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="assessLabour">Are enough workers available?</label>
+              <select id="assessLabour">
+                <option>Very Low</option>
+                <option selected>Low</option>
+                <option>Medium</option>
+                <option>Good</option>
+                <option>Full</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Are materials available?</label>
+              <div class="controls">
+                <button type="button" id="assessMaterialYes" class="toggle">Yes</button>
+                <button type="button" id="assessMaterialNo" class="toggle selected">No</button>
+              </div>
+            </div>
+          </div>
+          <div class="controls">
+            <button id="btnRunPrediction" class="primary big">Get My Delay Forecast</button>
+          </div>
+        </div>
+
+        <!-- STEP 6: Results -->
+        <div class="card hidden" id="predictionCard">
+          <div class="card-head"><div class="step-num">6</div><h2>Your Delay Forecast</h2></div>
+          <div id="predictionBody"></div>
+        </div>
       </section>
 
-      <section class="card">
-        <h2>Schedule (POST /schedule)</h2>
-        <div class="controls">
-          <button id="btnLoadSample" class="ghost">Load Sample Payload</button>
-          <button id="btnSchedule" class="primary">Submit Schedule</button>
+      <!-- ===================== LOCATION ===================== -->
+      <section class="view" id="view-location">
+        <div class="page-header">
+          <h1>Site &amp; Weather</h1>
+          <p>Pin exactly where your construction site is. Weather at that spot feeds the delay forecast.</p>
         </div>
-        <div class="field">
-          <label for="schedulePayload">Schedule JSON payload</label>
-          <textarea id="schedulePayload"></textarea>
-        </div>
-        <div id="outSchedule" class="output">Schedule response will appear here.</div>
-      </section>
 
-      <section class="card">
-        <h2>SPI (POST /progress/spi)</h2>
+        <div class="card">
+          <div class="field" style="max-width:420px;margin-bottom:0;">
+            <label for="locProject">Construction</label>
+            <select id="locProject"><option value="">Select a construction</option></select>
+          </div>
+        </div>
+
         <div class="row">
-          <div class="field">
-            <label for="spiPhaseId">Phase ID</label>
-            <select id="spiPhaseId"></select>
+          <div class="card">
+            <div class="card-head">
+              <h2>Site Location</h2>
+              <div class="spacer"></div>
+              <span id="locSourceBadge" class="chip hidden">-</span>
+            </div>
+            <div class="row" style="margin-bottom:10px;">
+              <div class="field" style="margin-bottom:0;">
+                <input id="locSearch" type="text" placeholder="Search a place, e.g. Galle, Sri Lanka">
+              </div>
+              <div class="field" style="margin-bottom:0;">
+                <button id="btnLocSearch" class="ghost" type="button" style="width:100%;">Find on Map</button>
+              </div>
+            </div>
+            <p class="hint">Click the map or drag the pin to set the exact site. With a construction selected, this saves automatically.</p>
+            <div id="locationMap"></div>
+            <div class="coord-row">
+              <span class="item">Lat <b id="locLat">-</b></span>
+              <span class="item">Lng <b id="locLon">-</b></span>
+              <span class="item">Applies to <b id="locTarget">-</b></span>
+            </div>
           </div>
-          <div class="field">
-            <label for="spiActualPercent">Actual Percent (0-100)</label>
-            <input id="spiActualPercent" type="number" min="0" max="100" step="0.1" value="10">
+
+          <div class="card">
+            <div class="card-head">
+              <h2>Weather at the Site</h2>
+              <div class="spacer"></div>
+              <button id="btnRefreshLocWeather" class="ghost" type="button">Refresh</button>
+            </div>
+            <div id="locWeatherBody">
+              <div class="empty-state">Select a construction to see live weather at its site.</div>
+            </div>
           </div>
         </div>
-        <div class="field">
-          <label for="spiEnteredBy">Entered By</label>
-          <input id="spiEnteredBy" type="text" value="postman-user">
-        </div>
-        <div class="controls">
-          <button id="btnSpi" class="primary" disabled>Submit SPI</button>
-        </div>
-        <div id="outSpi" class="output">SPI response will appear here.</div>
       </section>
 
-      <section class="card">
-        <h2>Prediction (POST /progress/predict)</h2>
-        <div class="row">
-          <div class="field">
-            <label for="predDelayCategory">Delay Category</label>
-            <select id="predDelayCategory">
-              <option>Labour</option>
-              <option>Material Supply & Quality</option>
-              <option>Environmental & Site</option>
-              <option>Financial & Funding</option>
-              <option>Design & Technical</option>
-              <option>Land & Legal</option>
-              <option>Owner / Social / Behavioural</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="predLabour">Labour Availability</label>
-            <select id="predLabour">
-              <option>Very Low</option>
-              <option selected>Low</option>
-              <option>Medium</option>
-              <option>Good</option>
-              <option>Full</option>
-            </select>
-          </div>
+      <!-- ===================== ALERTS ===================== -->
+      <section class="view" id="view-alerts">
+        <div class="page-header">
+          <h1>Alerts</h1>
+          <p>Schedule warnings raised for the selected construction.</p>
         </div>
-        <div class="row">
-          <div class="field">
-            <label for="predMaterial">Material Supply</label>
-            <select id="predMaterial">
-              <option>Yes</option>
-              <option selected>No</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="predWeather">Weather Severity</label>
-            <select id="predWeather">
-              <option>No disruption</option>
-              <option>Minor</option>
-              <option selected>Moderate</option>
-              <option>Severe</option>
-            </select>
-          </div>
-        </div>
-        <div class="controls">
-          <button id="btnPredict" class="primary" disabled>Run Prediction</button>
-        </div>
-        <div id="outPredict" class="output">Prediction response will appear here.</div>
-      </section>
 
-      <section class="card">
-        <h2>Dashboard and Alerts (GET)</h2>
-        <div class="field">
-          <label for="viewProjectId">Project ID</label>
-          <input id="viewProjectId" type="number" min="1" value="">
+        <div class="card">
+          <div class="field" style="max-width:420px;margin-bottom:0;">
+            <label for="alertsProject">Construction</label>
+            <select id="alertsProject"><option value="">Select a construction</option></select>
+          </div>
         </div>
-        <div class="controls">
-          <button id="btnDashboard" class="primary">Get Dashboard</button>
-          <button id="btnAlerts" class="primary">Get Alerts</button>
-        </div>
-        <div id="outDashboard" class="output">Dashboard response will appear here.</div>
-        <div id="outAlerts" class="output" style="margin-top:10px;">Alerts response will appear here.</div>
-      </section>
 
-      <section class="card">
-        <h2>Activity Log</h2>
-        <p class="hint">Shows endpoint call sequence and quick status for troubleshooting.</p>
-        <div id="outLog" class="output"></div>
+        <div id="alertsContent" class="hidden">
+          <div class="alert-stats">
+            <div class="stat-card"><div class="n" id="alertStatTotal">0</div><div class="lbl">Active alerts</div></div>
+            <div class="stat-card crit"><div class="n" id="alertStatCritical">0</div><div class="lbl">Critical</div></div>
+            <div class="stat-card warn"><div class="n" id="alertStatWarning">0</div><div class="lbl">Warning</div></div>
+          </div>
+          <div class="filter-tabs">
+            <button class="toggle selected" data-filter="ALL" type="button">All</button>
+            <button class="toggle" data-filter="CRITICAL" type="button">Critical</button>
+            <button class="toggle" data-filter="WARNING" type="button">Warning</button>
+          </div>
+          <div id="alertsList"></div>
+        </div>
+        <div id="alertsEmpty" class="card empty-state">Select a construction above to view its alerts.</div>
       </section>
-    </div>
+    </main>
   </div>
 
   <script>
-    const sampleSchedule = {
-      project_id: "LARGE-HOUSE-001",
-      project_name: "Large Two Storey Residential House",
-      district: "Jaffna",
-      province: "Northern Province",
-      floors: 2,
-      building_type: "residential",
-      total_planned_duration_days: 316,
-      planned_start_date: "2024-01-01",
-      planned_end_date: "2024-11-11",
-      phases: [
-        {
-          phase_id: 1,
-          phase_group: "Foundations",
-          sub_phase: "Foundation work",
-          planned_start: "2024-01-01",
-          planned_end: "2024-01-27",
-          planned_duration_days: 27,
-          sequence: 1
-        },
-        {
-          phase_id: 2,
-          phase_group: "Structure",
-          sub_phase: "Columns, beams and slab work",
-          planned_start: "2024-01-28",
-          planned_end: "2024-03-28",
-          planned_duration_days: 61,
-          sequence: 2
-        },
-        {
-          phase_id: 3,
-          phase_group: "Envelope & Waterproofing",
-          sub_phase: "Masonry work",
-          planned_start: "2024-03-29",
-          planned_end: "2024-05-28",
-          planned_duration_days: 61,
-          sequence: 3
-        },
-        {
-          phase_id: 4,
-          phase_group: "Envelope & Waterproofing",
-          sub_phase: "Roofing / roof slab work",
-          planned_start: "2024-05-29",
-          planned_end: "2024-06-14",
-          planned_duration_days: 17,
-          sequence: 4
-        },
-        {
-          phase_id: 5,
-          phase_group: "MEP Rough-Ins",
-          sub_phase: "Electrical conduit work",
-          planned_start: "2024-06-15",
-          planned_end: "2024-07-02",
-          planned_duration_days: 18,
-          sequence: 5
-        },
-        {
-          phase_id: 6,
-          phase_group: "MEP Rough-Ins",
-          sub_phase: "Plumbing and drainage work",
-          planned_start: "2024-07-03",
-          planned_end: "2024-07-24",
-          planned_duration_days: 22,
-          sequence: 6
-        },
-        {
-          phase_id: 7,
-          phase_group: "Finishes",
-          sub_phase: "Internal plastering",
-          planned_start: "2024-07-25",
-          planned_end: "2024-08-30",
-          planned_duration_days: 37,
-          sequence: 7
-        },
-        {
-          phase_id: 8,
-          phase_group: "Finishes",
-          sub_phase: "Tiling and finishing work",
-          planned_start: "2024-08-31",
-          planned_end: "2024-10-02",
-          planned_duration_days: 33,
-          sequence: 8
-        },
-        {
-          phase_id: 9,
-          phase_group: "Finishes",
-          sub_phase: "Painting",
-          planned_start: "2024-10-03",
-          planned_end: "2024-10-29",
-          planned_duration_days: 27,
-          sequence: 9
-        },
-        {
-          phase_id: 10,
-          phase_group: "External Works & Handover",
-          sub_phase: "External works",
-          planned_start: "2024-10-30",
-          planned_end: "2024-11-07",
-          planned_duration_days: 9,
-          sequence: 10
-        },
-        {
-          phase_id: 11,
-          phase_group: "External Works & Handover",
-          sub_phase: "Client handover",
-          planned_start: "2024-11-08",
-          planned_end: "2024-11-11",
-          planned_duration_days: 4,
-          sequence: 11
-        }
-      ]
-    };
+    // ============================================================
+    // Safe DOM helpers
+    //
+    // SECURITY: server-supplied strings (validation errors that echo user
+    // input, RAG case text, phase names created via POST /schedule) must
+    // NEVER be interpolated into innerHTML. Everything below builds nodes
+    // and assigns via textContent instead. tests/test_frontend_safety.py
+    // fails the build if interpolated innerHTML reappears.
+    // ============================================================
+    function setText(elm, value) { elm.textContent = value == null ? "" : String(value); }
 
+    function clearNode(elm) { while (elm.firstChild) elm.removeChild(elm.firstChild); }
+
+    function h(tag, opts, children) {
+      const node = document.createElement(tag);
+      opts = opts || {};
+      if (opts.class) node.className = opts.class;
+      if (opts.text != null) node.textContent = String(opts.text);
+      if (opts.style) node.setAttribute("style", opts.style);
+      if (opts.attrs) Object.keys(opts.attrs).forEach((k) => node.setAttribute(k, opts.attrs[k]));
+      if (opts.onClick) node.addEventListener("click", opts.onClick);
+      const kids = Array.isArray(children) ? children : (children ? [children] : []);
+      kids.filter(Boolean).forEach((c) => node.appendChild(typeof c === "string" ? document.createTextNode(c) : c));
+      return node;
+    }
+
+    function replaceChildren(elm, nodes) {
+      clearNode(elm);
+      (Array.isArray(nodes) ? nodes : [nodes]).filter(Boolean).forEach((n) => elm.appendChild(n));
+    }
+
+    // ============================================================
+    // State
+    // ============================================================
     const state = {
       healthOk: false,
-      projectId: null,
-      phaseIds: [],
+      projects: [],
+      // Dashboard
+      dashProjectId: null,
+      project: null,
+      projectSummary: null,
+      phases: [],
+      progressHistory: [],
       phaseId: null,
       spiId: null,
-      alertLevel: null
+      // Location page - coordinates chosen BEFORE a project exists are held
+      // here and attached to the next POST /schedule (see runSchedule).
+      pendingLat: null,
+      pendingLon: null,
+      locProjectId: null,
+      mapMarker: null,
+      mapReady: false,
+      // Alerts
+      alertsProjectId: null,
+      alertsRaw: [],
+      alertsFilter: "ALL",
+      alertsPhaseNameMap: {},
     };
 
     const el = (id) => document.getElementById(id);
-    const baseUrl = () => el("baseUrl").value.trim().replace(/\/+$/, "");
+    // Fixed backend address - no longer user-editable in the UI. Kept as a
+    // function (not a plain constant) so every existing call site
+    // (apiGet/apiSend/error messages) is unchanged.
+    const API_BASE_URL = "http://localhost:5004";
+    const baseUrl = () => API_BASE_URL;
+    const pretty = (obj) => JSON.stringify(obj, null, 2);
 
-    function pretty(obj) {
-      return JSON.stringify(obj, null, 2);
+    // ============================================================
+    // Error surfacing (no more silent failures)
+    // ============================================================
+    function showBanner(message) {
+      setText(el("appBannerMsg"), message);
+      el("appBanner").classList.add("show");
+    }
+    function hideBanner() { el("appBanner").classList.remove("show"); }
+    el("appBannerClose").addEventListener("click", hideBanner);
+
+    function describeFailure(result, fallback) {
+      if (result && result.data) {
+        if (Array.isArray(result.data.details) && result.data.details.length) {
+          return result.data.details.join(" ");
+        }
+        if (result.data.error) return result.data.error;
+      }
+      return fallback;
     }
 
+    // ============================================================
+    // API
+    // ============================================================
+    async function apiGet(path) {
+      const res = await fetch(`${baseUrl()}${path}`);
+      const txt = await res.text();
+      let data; try { data = JSON.parse(txt); } catch (_) { data = { raw: txt }; }
+      return { ok: res.ok, status: res.status, data };
+    }
+    async function apiSend(path, bodyObj, method) {
+      const res = await fetch(`${baseUrl()}${path}`, {
+        method: method || "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bodyObj),
+      });
+      const txt = await res.text();
+      let data; try { data = JSON.parse(txt); } catch (_) { data = { raw: txt }; }
+      return { ok: res.ok, status: res.status, data };
+    }
+
+    // ============================================================
+    // Navigation
+    // ============================================================
+    document.querySelectorAll(".nav-item[data-view]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".nav-item[data-view]").forEach((b) => b.classList.remove("active"));
+        document.querySelectorAll(".view").forEach((v) => v.classList.remove("active"));
+        btn.classList.add("active");
+        el(`view-${btn.dataset.view}`).classList.add("active");
+      });
+    });
+
+    // ============================================================
+    // Health
+    // ============================================================
+    async function runHealth() {
+      // No visible health indicator by design - this still runs on load so
+      // an unreachable/unhealthy backend surfaces via the error banner
+      // instead of failing silently (see showBanner).
+      try {
+        const result = await apiGet("/health");
+        const ok = result.ok && result.data && result.data.status === "ok";
+        state.healthOk = ok;
+        if (!ok) showBanner("The backend reported an unhealthy state. Some features may not work.");
+      } catch (err) {
+        state.healthOk = false;
+        showBanner(`Cannot reach the backend at ${baseUrl()}. Check that it is running.`);
+      }
+    }
+
+    // ============================================================
+    // Projects
+    // ============================================================
+    function projectLabel(p) {
+      // Includes the id so duplicate names remain distinguishable.
+      return `${p.name} — ${p.district} (#${p.project_id})`;
+    }
+
+    function fillProjectSelect(selectEl, blankText, filterText) {
+      const current = selectEl.value;
+      const needle = (filterText || "").trim().toLowerCase();
+      clearNode(selectEl);
+      selectEl.appendChild(h("option", { text: blankText, attrs: { value: "" } }));
+      state.projects
+        .filter((p) => !needle || `${p.name} ${p.district}`.toLowerCase().includes(needle))
+        .forEach((p) => {
+          selectEl.appendChild(h("option", { text: projectLabel(p), attrs: { value: String(p.project_id) } }));
+        });
+      if (current && Array.from(selectEl.options).some((o) => o.value === current)) selectEl.value = current;
+    }
+
+    function refreshAllProjectSelects() {
+      fillProjectSelect(el("dashProject"), "Select your construction...", el("projectFilter").value);
+      fillProjectSelect(el("locProject"), "Select a construction");
+      fillProjectSelect(el("alertsProject"), "Select a construction");
+      updateLoadButton();
+    }
+
+    async function loadProjects() {
+      try {
+        const result = await apiGet("/projects");
+        if (result.ok && result.data.success) {
+          state.projects = result.data.projects || [];
+          hideBanner();
+        } else {
+          state.projects = [];
+          showBanner(describeFailure(result, "Could not load the list of constructions."));
+        }
+      } catch (err) {
+        state.projects = [];
+        showBanner(`Could not load constructions: ${err}. Is the backend running at ${baseUrl()}?`);
+      }
+      refreshAllProjectSelects();
+    }
+
+    el("projectFilter").addEventListener("input", () => {
+      fillProjectSelect(el("dashProject"), "Select your construction...", el("projectFilter").value);
+      updateLoadButton();
+    });
+
+    function updateLoadButton() {
+      el("btnLoadConstruction").disabled = !el("dashProject").value;
+    }
+    el("dashProject").addEventListener("change", updateLoadButton);
+
+    // ============================================================
+    // STEP 1 -> Load construction timeline
+    // ============================================================
+    function hideFrom(step) {
+      const order = ["summaryCard", "phasesCard", "progressCard", "spiResultCard", "assessmentCard", "predictionCard"];
+      order.slice(order.indexOf(step)).forEach((id) => el(id).classList.add("hidden"));
+    }
+
+    function resetPhaseSelection() {
+      state.phaseId = null;
+      state.spiId = null;
+      el("phaseSelectedChip").classList.add("hidden");
+      hideFrom("progressCard");
+    }
+
+    async function loadConstruction() {
+      const projectId = Number(el("dashProject").value) || null;
+      if (!projectId) return;
+      const btn = el("btnLoadConstruction");
+      btn.disabled = true;
+      replaceChildren(btn, [h("span", { class: "spinner" }), document.createTextNode("Loading timeline...")]);
+      setText(el("loadHint"), "");
+
+      state.dashProjectId = projectId;
+      state.phases = []; state.progressHistory = []; state.project = null; state.projectSummary = null;
+      resetPhaseSelection();
+      hideFrom("summaryCard");
+
+      try {
+        const result = await apiGet(`/project/${projectId}/dashboard`);
+        if (result.ok && result.data.success) {
+          state.project = result.data.project || null;
+          state.projectSummary = result.data.project_summary || null;
+          state.phases = (result.data.phases || []).slice().sort((a, b) => a.sequence - b.sequence);
+          state.progressHistory = result.data.progress_history || [];
+          renderProjectSummary();
+          renderPhaseTable();
+          el("summaryCard").classList.remove("hidden");
+          el("phasesCard").classList.remove("hidden");
+          el("stepNum1").classList.add("done");
+          // Auto-select this construction everywhere else too.
+          el("locProject").value = String(projectId);
+          el("alertsProject").value = String(projectId);
+          state.locProjectId = projectId;
+          syncLocationMapToSelectedProject();
+          loadAlertsForProject(projectId);
+          setText(el("loadHint"), "Timeline loaded. Choose a phase below.");
+          hideBanner();
+        } else {
+          showBanner(describeFailure(result, "Could not load that construction's timeline."));
+          setText(el("loadHint"), "Loading failed.");
+        }
+      } catch (err) {
+        showBanner(`Could not load the construction timeline: ${err}`);
+        setText(el("loadHint"), "Loading failed.");
+      } finally {
+        btn.disabled = false;
+        replaceChildren(btn, document.createTextNode("Load Construction Timeline"));
+        updateLoadButton();
+      }
+    }
+    el("btnLoadConstruction").addEventListener("click", loadConstruction);
+
+    // ============================================================
+    // Project summary
+    // ============================================================
+    function fmtDate(iso) {
+      if (!iso) return "Not set";
+      const d = new Date(iso + "T00:00:00");
+      return isNaN(d) ? iso : d.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+    }
+
+    function renderProjectSummary() {
+      const p = state.project || {};
+      const s = state.projectSummary || {};
+      setText(el("summaryName"), p.name || "Construction");
+      setText(el("summaryLocation"), [p.district, p.province].filter(Boolean).join(", ") || "Location not set");
+
+      const items = [
+        ["Building type", p.building_type || "Not set"],
+        ["Floors", p.floors != null ? p.floors : "Not set"],
+        ["Phases", s.total_phases != null ? s.total_phases : "-"],
+        ["Total duration", s.total_duration_days != null ? `${s.total_duration_days} days` : "Not available"],
+        ["Starts", fmtDate(s.overall_start)],
+        ["Expected finish", fmtDate(s.overall_end)],
+        ["Site coordinates", (p.latitude != null && p.longitude != null)
+          ? `${Number(p.latitude).toFixed(4)}, ${Number(p.longitude).toFixed(4)}`
+          : "Not pinned yet"],
+        ["Phases completed", s.total_phases ? `${s.completed_phases || 0} of ${s.total_phases}` : "-"],
+      ];
+      replaceChildren(el("summaryGrid"), items.map(([k, v]) =>
+        h("div", { class: "summary-item" }, [h("div", { class: "k", text: k }), h("div", { class: "v", text: v })])
+      ));
+
+      const total = s.total_phases || 0;
+      const done = s.completed_phases || 0;
+      const pct = total ? Math.round((done / total) * 100) : 0;
+      setText(el("summaryProgressLabel"), total
+        ? `${done} of ${total} phases recorded as fully complete (${pct}%). This counts only phases with 100% recorded progress.`
+        : "No phases found for this construction.");
+      el("summaryProgressFill").style.width = `${pct}%`;
+    }
+
+    // ============================================================
+    // STEP 2: Phase table
+    // ============================================================
+    const STATUS_META = {
+      COMPLETED:   { label: "Completed",   cls: "ok" },
+      ON_TRACK:    { label: "On track",    cls: "ok" },
+      AT_RISK:     { label: "At risk",     cls: "warn" },
+      OVERDUE:     { label: "Overdue",     cls: "crit" },
+      NOT_STARTED: { label: "Not started", cls: "neutral" },
+    };
+
+    function renderPhaseTable() {
+      const body = el("phaseTableBody");
+      if (!state.phases.length) {
+        replaceChildren(body, h("tr", {}, h("td", { class: "empty-state", attrs: { colspan: "6" },
+          text: "This construction has no phases yet." })));
+        return;
+      }
+      replaceChildren(body, state.phases.map((p) => {
+        const meta = STATUS_META[p.status] || STATUS_META.NOT_STARTED;
+        const tr = h("tr", { class: "phase-row" + (p.phase_id === state.phaseId ? " selected" : "") });
+        tr.addEventListener("click", () => selectPhase(p.phase_id));
+
+        tr.appendChild(h("td", {}, [
+          h("span", { class: "seq-pill", text: p.sequence }),
+          h("b", { text: p.sub_phase }),
+          h("div", { class: "hint", text: p.phase_group }),
+        ]));
+        tr.appendChild(h("td", { text: `${fmtDate(p.planned_start)} → ${fmtDate(p.planned_end)}` }));
+        tr.appendChild(h("td", { text: p.planned_duration_days != null ? `${p.planned_duration_days} days` : "-" }));
+        tr.appendChild(h("td", { text: p.actual_percent != null ? `${p.actual_percent}%` : "None recorded" }));
+        tr.appendChild(h("td", {}, h("span", { class: `badge ${meta.cls}`, text: meta.label })));
+        tr.appendChild(h("td", {}, p.latest_spi
+          ? h("span", { class: "badge " + (p.latest_spi.alert_level === "CRITICAL" ? "crit" : p.latest_spi.alert_level === "WARNING" ? "warn" : "ok"),
+                        text: Number(p.latest_spi.spi_value).toFixed(2) })
+          : h("span", { class: "hint", text: "Not checked yet" })));
+        return tr;
+      }));
+    }
+
+    function selectPhase(phaseId) {
+      state.phaseId = phaseId;
+      state.spiId = null;
+      renderPhaseTable();
+      const phase = state.phases.find((p) => p.phase_id === phaseId);
+      el("phaseSelectedChip").classList.remove("hidden");
+      setText(el("phaseSelectedChip"), `Selected: ${phase ? phase.sub_phase : phaseId}`);
+
+      hideFrom("spiResultCard");
+      el("progressCard").classList.remove("hidden");
+      setText(el("actualPercentLabel"), `How much of "${phase ? phase.sub_phase : ""}" is finished?`);
+
+      // Prefill from the latest recorded progress for THIS phase (never a
+      // hardcoded default); 0% only when nothing has been recorded yet.
+      const history = state.progressHistory.filter((x) => x.phase_id === phaseId);
+      if (history.length) {
+        const latest = history[0]; // backend returns newest-first (created_at DESC)
+        el("actualPercentInput").value = latest.actual_percent;
+        setText(el("actualPercentHint"),
+          `Last recorded: ${latest.actual_percent}% on ${fmtDate(latest.update_date)}` +
+          (latest.entered_by ? ` by ${latest.entered_by}` : "") + ". Edit if it has changed.");
+      } else {
+        el("actualPercentInput").value = 0;
+        setText(el("actualPercentHint"), "No progress recorded for this phase yet — starting at 0%.");
+      }
+      el("progressCard").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    // ============================================================
+    // STEP 3 -> 4: SPI
+    // ============================================================
+    async function runCalcSpi() {
+      if (!state.phaseId) return;
+      const btn = el("btnCalcSpi");
+      btn.disabled = true;
+      replaceChildren(btn, [h("span", { class: "spinner" }), document.createTextNode("Checking...")]);
+      try {
+        const result = await apiSend("/progress/spi", {
+          phase_id: state.phaseId,
+          actual_percent: Number(el("actualPercentInput").value),
+          entered_by: el("enteredByInput").value.trim() || "house-owner",
+        });
+        renderSpiResult(result);
+      } catch (err) {
+        renderSpiResult({ ok: false, data: { error: String(err) } });
+      } finally {
+        btn.disabled = false;
+        replaceChildren(btn, document.createTextNode("Check Performance"));
+      }
+    }
+    el("btnCalcSpi").addEventListener("click", runCalcSpi);
+
+    function renderSpiResult(result) {
+      el("spiResultCard").classList.remove("hidden");
+      hideFrom("assessmentCard");
+      const body = el("spiResultBody");
+
+      if (!result.ok || !result.data.success) {
+        replaceChildren(body, h("p", { class: "hint error", text: describeFailure(result, "Could not check performance.") }));
+        return;
+      }
+
+      const d = result.data;
+      state.spiId = d.spi_id;
+      const level = d.alert_level;
+      const cls = level === "CRITICAL" ? "crit" : level === "WARNING" ? "warn" : "ok";
+      const headline = level === "CRITICAL"
+        ? "This phase is running well behind schedule"
+        : level === "WARNING"
+        ? "This phase is slipping behind schedule"
+        : "This phase is keeping up with the plan";
+      const sub = level === "NORMAL"
+        ? "No further action needed right now."
+        : "Tell us what's causing it and we'll forecast the delay and suggest what to do.";
+
+      const verdict = h("div", { class: `verdict ${cls}` }, [
+        h("span", { class: `badge ${cls}`, text: level === "NORMAL" ? "On track" : level === "WARNING" ? "Slipping" : "Well behind" }),
+        h("h3", { text: headline }),
+        h("p", { text: sub }),
+      ]);
+
+      const tech = h("details", { class: "tech" }, [
+        h("summary", { text: "How was this worked out?" }),
+        h("div", { class: "tech-body" }, [
+          h("p", { class: "hint", text:
+            `We compare how much work you've reported (${d.actual_percent}%) against how much should be done by today (${d.planned_percent}%). ` +
+            `That ratio is the Schedule Performance Index (SPI).` }),
+          h("p", { class: "hint", text: `SPI = ${Number(d.spi_value).toFixed(3)} → ${level}. Above 0.85 is on track, 0.70–0.85 is slipping, below 0.70 is well behind.` }),
+        ]),
+      ]);
+
+      const controls = h("div", { class: "controls", style: "margin-top:12px;" });
+      if (d.requires_prediction_step) {
+        controls.appendChild(h("button", { class: "primary", text: "Continue →", onClick: showAssessment }));
+      }
+      controls.appendChild(h("button", { class: "outline", text: "Start over", onClick: () => selectPhase(state.phaseId) }));
+
+      replaceChildren(body, [verdict, tech, controls]);
+    }
+
+    function showAssessment() {
+      el("assessmentCard").classList.remove("hidden");
+      el("predictionCard").classList.add("hidden");
+      el("assessmentCard").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    el("assessMaterialYes").addEventListener("click", () => {
+      el("assessMaterialYes").classList.add("selected");
+      el("assessMaterialNo").classList.remove("selected");
+    });
+    el("assessMaterialNo").addEventListener("click", () => {
+      el("assessMaterialNo").classList.add("selected");
+      el("assessMaterialYes").classList.remove("selected");
+    });
+
+    // ============================================================
+    // STEP 5 -> 6: Prediction, homeowner-first
+    // ============================================================
+    async function runPrediction() {
+      if (!state.spiId || !state.phaseId) return;
+      const btn = el("btnRunPrediction");
+      btn.disabled = true;
+      replaceChildren(btn, [h("span", { class: "spinner" }), document.createTextNode("Working it out... this can take a moment")]);
+      try {
+        const result = await apiSend("/progress/predict", {
+          spi_id: state.spiId,
+          phase_id: state.phaseId,
+          delay_category: el("assessDelayCategory").value,
+          labour_availability: el("assessLabour").value,
+          material_supply: el("assessMaterialYes").classList.contains("selected") ? "Yes" : "No",
+          // weather_severity omitted on purpose - resolved server-side from
+          // the site's live weather (coordinates preferred, district fallback).
+        });
+        renderPrediction(result);
+      } catch (err) {
+        renderPrediction({ ok: false, data: { error: String(err) } });
+      } finally {
+        btn.disabled = false;
+        replaceChildren(btn, document.createTextNode("Get My Delay Forecast"));
+      }
+    }
+    el("btnRunPrediction").addEventListener("click", runPrediction);
+
+    function renderPrediction(result) {
+      el("predictionCard").classList.remove("hidden");
+      const body = el("predictionBody");
+
+      if (!result.ok || !result.data.success) {
+        replaceChildren(body, h("p", { class: "hint error", text: describeFailure(result, "Could not produce a forecast.") }));
+        return;
+      }
+
+      const d = result.data;
+      const pred = d.prediction || {};
+      const wx = d.weather_used || {};
+      const rec = d.recommendation || {};
+      const cases = d.similar_cases || [];
+      const phase = state.phases.find((p) => p.phase_id === state.phaseId);
+      const phaseName = phase ? phase.sub_phase : "this phase";
+
+      const cls = pred.delay_risk === "HIGH" ? "crit" : pred.delay_risk === "MEDIUM" ? "warn" : "ok";
+      const concern = pred.delay_risk === "HIGH" ? "High concern"
+                    : pred.delay_risk === "MEDIUM" ? "Moderate concern" : "Low concern";
+
+      // 1. WHAT IS HAPPENING - the headline
+      const verdict = h("div", { class: `verdict ${cls}` }, [
+        h("span", { class: `badge ${cls}`, text: concern }),
+        h("h3", { text: `${phaseName} is likely to finish about ${pred.estimated_delay_days} days late` }),
+        h("p", { text: "Based on your reported progress, current site conditions, and what happened on similar past constructions." }),
+      ]);
+
+      // 2. WHY  3. HOW SERIOUS  4. WHAT TO DO
+      const reasonBits = [
+        `you reported the main hold-up as "${el("assessDelayCategory").value.toLowerCase()}"`,
+        `worker availability is "${el("assessLabour").value.toLowerCase()}"`,
+        el("assessMaterialYes").classList.contains("selected") ? "materials are available" : "materials are not available",
+      ];
+      if (wx.weather_severity) {
+        reasonBits.push(`weather at your site is rated "${wx.weather_severity}"${wx.condition ? ` (${wx.condition})` : ""}`);
+      }
+
+      const seriousness = pred.delay_risk === "HIGH"
+        ? "This is the most serious category. Delays like this often grow if nothing changes, and can push back every phase that follows."
+        : pred.delay_risk === "MEDIUM"
+        ? "This is a moderate risk. It's recoverable, but it needs attention soon so it doesn't grow."
+        : "This is the lowest risk category. Keep an eye on it, but it should be manageable.";
+
+      const qa = h("div", { class: "qa-block" }, [
+        h("div", { class: "q", text: "Why is this happening?" }),
+        h("div", { class: "a", text: `We looked at ${reasonBits.length} things: ${reasonBits.join("; ")}.` }),
+        h("div", { class: "q", text: "How serious is it?" }),
+        h("div", { class: "a", text: seriousness }),
+        h("div", { class: "q", text: "What should you do?" }),
+      ]);
+
+      const actions = rec.corrective_actions || [];
+      const isFallback = String(rec.explanation || "").toLowerCase().includes("unable to generate");
+      qa.appendChild(h("ol", { class: "action-list" }, actions.map((a) => h("li", { text: a }))));
+      if (isFallback) {
+        qa.appendChild(h("p", { class: "hint", style: "margin-top:8px;color:#b45309;",
+          text: "Our AI advisor was unavailable just now, so these are general recovery steps rather than advice tailored to your construction." }));
+      }
+
+      // Explanation in its own block when it is genuinely AI-generated
+      const explanationBlock = (!isFallback && rec.explanation)
+        ? h("div", { class: "qa-block" }, [
+            h("div", { class: "q", text: "In plain terms" }),
+            h("div", { class: "a", text: rec.explanation }),
+          ])
+        : null;
+
+      // Weather - severity prominent, since it feeds the model
+      const weatherBlock = h("div", { class: "severity-banner", style: "margin-top:14px;" }, [
+        h("span", { class: "badge info", text: wx.weather_severity || "-" }),
+        h("div", {}, [
+          h("div", { style: "font-weight:700;", text: "Weather used in this forecast" }),
+          h("div", { class: "note", text:
+            [wx.temperature_c != null ? `${wx.temperature_c}°C` : null,
+             wx.condition || null,
+             wx.rainfall_mm != null ? `${wx.rainfall_mm} mm rain` : null].filter(Boolean).join(" · ") ||
+            "No live reading available" }),
+        ]),
+        h("div", { class: "spacer", style: "flex:1;" }),
+        h("span", { class: `source-tag ${wx.source === "live" ? "live" : "fallback"}`,
+                    text: wx.source === "live" ? "Live" : "Fallback" }),
+      ]);
+
+      // --- Technical details, secondary ---
+      const probs = pred.risk_probabilities || {};
+      const probBars = ["HIGH", "MEDIUM", "LOW"].map((k) =>
+        h("div", { class: "prob-bar" }, [
+          h("span", { text: k }),
+          h("div", { class: "prob-track" }, h("div", { class: `prob-fill ${k}`, style: `width:${((probs[k] || 0) * 100).toFixed(1)}%` })),
+          h("span", { text: `${((probs[k] || 0) * 100).toFixed(1)}%` }),
+        ])
+      );
+
+      const caseCards = cases.map((c) =>
+        h("div", { class: "case-card" }, [
+          h("div", { class: "rank-badge", text: `Rank ${c.rank}` }),
+          h("div", { class: "filename", text: c.case }),
+          h("p", {}, [h("b", { text: "Cause: " }), document.createTextNode(c.cause_of_delay || "-")]),
+          h("p", {}, [h("b", { text: "What they did: " }), document.createTextNode(c.corrective_action_taken || "-")]),
+          h("p", {}, [h("b", { text: "Outcome: " }), document.createTextNode(c.construction_status || "-")]),
+          h("div", { class: "distance" }, [
+            document.createTextNode("Distance: "),
+            h("b", { text: c.score != null ? Number(c.score).toFixed(4) : "-" }),
+            h("br"),
+            document.createTextNode("Lower distance = more similar."),
+          ]),
+        ])
+      );
+
+      const tech = h("details", { class: "tech", style: "margin-top:14px;" }, [
+        h("summary", { text: "Technical details (model outputs, similar cases)" }),
+        h("div", { class: "tech-body" }, [
+          h("div", { style: "font-weight:700;margin-bottom:6px;", text: "Delay risk model (XGBoost)" }),
+          h("p", { class: "hint", text: `Predicted risk: ${pred.delay_risk} · Estimated delay: ${pred.estimated_delay_days} days · Model confidence: ${pred.confidence}%` }),
+          h("div", { style: "margin:10px 0;" }, probBars),
+          h("div", { style: "font-weight:700;margin:14px 0 4px;", text: "Similar past constructions (retrieved by vector search)" }),
+          h("p", { class: "hint", text: "The three closest historical cases from 192 recorded Sri Lankan construction delays, used to ground the advice above." }),
+          h("div", { class: "case-grid" }, caseCards.length ? caseCards : h("div", { class: "empty-state", text: "No similar cases returned." })),
+        ]),
+      ]);
+
+      replaceChildren(body, [verdict, explanationBlock, qa, weatherBlock, tech].filter(Boolean));
+    }
+
+    // ============================================================
+    // Dev-only schedule seeding
+    // ============================================================
+    const sampleSchedule = {
+      project_name: "Large Two Storey Residential House",
+      district: "Jaffna", province: "Northern Province", floors: 2, building_type: "residential",
+      phases: [
+        { phase_group: "Foundations", sub_phase: "Foundation work", planned_start: "2026-06-01", planned_end: "2026-06-27", planned_duration_days: 27, sequence: 1 },
+        { phase_group: "Structure", sub_phase: "Columns, beams and slab work", planned_start: "2026-06-28", planned_end: "2026-08-28", planned_duration_days: 61, sequence: 2 },
+        { phase_group: "Envelope & Waterproofing", sub_phase: "Masonry work", planned_start: "2026-08-29", planned_end: "2026-10-28", planned_duration_days: 61, sequence: 3 },
+        { phase_group: "Envelope & Waterproofing", sub_phase: "Roofing / roof slab work", planned_start: "2026-10-29", planned_end: "2026-11-14", planned_duration_days: 17, sequence: 4 },
+        { phase_group: "MEP Rough-Ins", sub_phase: "Electrical conduit work", planned_start: "2026-11-15", planned_end: "2026-12-02", planned_duration_days: 18, sequence: 5 },
+        { phase_group: "Finishes", sub_phase: "Internal plastering", planned_start: "2026-12-03", planned_end: "2027-01-08", planned_duration_days: 37, sequence: 6 }
+      ]
+    };
+
     function mapSubPhaseName(rawName) {
-      const name = (rawName || "").trim();
       const mapping = {
         "Columns, beams and slab work": "Columns & beams",
         "Roofing / roof slab work": "Roof slab",
@@ -505,282 +1152,341 @@
         "Tiling and finishing work": "Tiling",
         "Painting": "External rendering",
         "External works": "Boundary wall & gate",
-        "Client handover": "Snagging & rectification"
+        "Client handover": "Snagging & rectification",
       };
+      const name = (rawName || "").trim();
       return mapping[name] || name;
     }
 
     function toApiSchedulePayload(input) {
-      if (!input || typeof input !== "object") {
-        throw new Error("Schedule payload must be a JSON object.");
-      }
-
-      // Already in backend-ready format.
-      if (input.project && typeof input.project === "object" && Array.isArray(input.phases)) {
-        return input;
-      }
-
-      // Adapter path: raw Component 03 payload -> backend schema.
+      if (!input || typeof input !== "object") throw new Error("Schedule payload must be a JSON object.");
+      if (input.project && typeof input.project === "object" && Array.isArray(input.phases)) return input;
       if (Array.isArray(input.phases)) {
-        const adapted = {
+        return {
           project: {
-            name: input.project_name ?? "",
-            district: input.district ?? "",
-            province: input.province ?? "",
+            name: input.project_name ?? "", district: input.district ?? "", province: input.province ?? "",
             floors: Number.isFinite(Number(input.floors)) ? Number(input.floors) : input.floors,
-            building_type: input.building_type ?? ""
+            building_type: input.building_type ?? "",
           },
           phases: input.phases.map((p) => ({
-            phase_group: p.phase_group,
-            sub_phase: mapSubPhaseName(p.sub_phase),
-            planned_start: p.planned_start,
-            planned_end: p.planned_end,
-            planned_duration_days: Number.isFinite(Number(p.planned_duration_days))
-              ? Number(p.planned_duration_days)
-              : p.planned_duration_days,
-            sequence: Number.isFinite(Number(p.sequence)) ? Number(p.sequence) : p.sequence
-          }))
+            phase_group: p.phase_group, sub_phase: mapSubPhaseName(p.sub_phase),
+            planned_start: p.planned_start, planned_end: p.planned_end,
+            planned_duration_days: Number.isFinite(Number(p.planned_duration_days)) ? Number(p.planned_duration_days) : p.planned_duration_days,
+            sequence: Number.isFinite(Number(p.sequence)) ? Number(p.sequence) : p.sequence,
+          })),
         };
-        return adapted;
       }
-
       throw new Error("Unsupported schedule payload schema.");
     }
 
-    function setOutput(id, payload, isError) {
-      const target = el(id);
-      target.textContent = typeof payload === "string" ? payload : pretty(payload);
-      target.style.borderColor = isError ? "#e6a49a" : "#d6e1ea";
-    }
-
-    function appendLog(msg, isError) {
-      const log = el("outLog");
-      const ts = new Date().toLocaleTimeString();
-      const line = `[${ts}] ${isError ? "ERROR" : "OK"} - ${msg}`;
-      log.textContent = log.textContent ? `${log.textContent}\n${line}` : line;
-      log.scrollTop = log.scrollHeight;
-    }
-
-    function setHealthState(ok) {
-      state.healthOk = !!ok;
-      const target = el("stateHealth");
-      target.textContent = ok ? "Healthy" : "Not healthy";
-      target.className = `value ${ok ? "ok" : "bad"}`;
-    }
-
-    function syncStateView() {
-      el("stateProjectId").textContent = state.projectId ?? "-";
-      el("statePhaseIds").textContent = state.phaseIds.length ? state.phaseIds.join(", ") : "-";
-      el("statePhaseId").textContent = state.phaseId ?? "-";
-      el("stateSpiId").textContent = state.spiId ?? "-";
-      el("stateAlertLevel").textContent = state.alertLevel ?? "-";
-      el("viewProjectId").value = state.projectId ?? "";
-
-      const phaseSelect = el("spiPhaseId");
-      phaseSelect.innerHTML = "";
-      if (state.phaseIds.length === 0) {
-        const opt = document.createElement("option");
-        opt.value = "";
-        opt.textContent = "No phase IDs available";
-        phaseSelect.appendChild(opt);
-      } else {
-        state.phaseIds.forEach((id) => {
-          const opt = document.createElement("option");
-          opt.value = String(id);
-          opt.textContent = String(id);
-          phaseSelect.appendChild(opt);
-        });
-        if (!state.phaseId || !state.phaseIds.includes(state.phaseId)) {
-          state.phaseId = state.phaseIds[0];
-        }
-        phaseSelect.value = String(state.phaseId);
-      }
-
-      el("btnSpi").disabled = !(state.projectId && state.phaseIds.length);
-      el("btnPredict").disabled = !(state.projectId && state.phaseId && state.spiId);
-    }
-
-    async function apiGet(path) {
-      const res = await fetch(`${baseUrl()}${path}`);
-      const txt = await res.text();
-      let data;
-      try {
-        data = JSON.parse(txt);
-      } catch (_) {
-        data = { raw: txt };
-      }
-      return { ok: res.ok, status: res.status, data };
-    }
-
-    async function apiPost(path, bodyObj) {
-      const res = await fetch(`${baseUrl()}${path}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(bodyObj)
-      });
-      const txt = await res.text();
-      let data;
-      try {
-        data = JSON.parse(txt);
-      } catch (_) {
-        data = { raw: txt };
-      }
-      return { ok: res.ok, status: res.status, data };
-    }
-
-    async function runHealth() {
-      try {
-        const result = await apiGet("/health");
-        setOutput("outHealth", result.data, !result.ok);
-        setHealthState(result.ok && result.data && result.data.status === "ok");
-        appendLog(`/health -> ${result.status}`, !result.ok);
-        syncStateView();
-      } catch (err) {
-        setOutput("outHealth", { error: String(err) }, true);
-        setHealthState(false);
-        appendLog(`/health failed: ${err}`, true);
-      }
-    }
+    el("btnLoadSample").addEventListener("click", () => { el("schedulePayload").value = pretty(sampleSchedule); });
 
     async function runSchedule() {
-      let payload;
-      try {
-        payload = JSON.parse(el("schedulePayload").value);
-      } catch (err) {
-        setOutput("outSchedule", { error: "Invalid JSON in schedule payload", details: String(err) }, true);
-        appendLog("Schedule blocked: invalid JSON", true);
-        return;
-      }
+      let payload, apiPayload;
+      try { payload = JSON.parse(el("schedulePayload").value); }
+      catch (err) { setText(el("outSchedule"), "Invalid JSON: " + err); return; }
+      try { apiPayload = toApiSchedulePayload(payload); }
+      catch (err) { setText(el("outSchedule"), "Adapter failed: " + err); return; }
 
-      let apiPayload;
-      try {
-        apiPayload = toApiSchedulePayload(payload);
-      } catch (err) {
-        setOutput("outSchedule", { error: "Adapter failed", details: String(err) }, true);
-        appendLog(`Schedule blocked: adapter failed (${err})`, true);
-        return;
+      // Attach any location pinned on the Site & Weather map before this
+      // construction existed, so a new construction keeps its coordinates.
+      if (state.pendingLat != null && state.pendingLon != null) {
+        apiPayload.project.latitude = state.pendingLat;
+        apiPayload.project.longitude = state.pendingLon;
       }
 
       try {
-        const result = await apiPost("/schedule", apiPayload);
-        setOutput("outSchedule", result.data, !result.ok);
-        appendLog(`/schedule -> ${result.status}`, !result.ok);
-
+        const result = await apiSend("/schedule", apiPayload);
+        setText(el("outSchedule"), pretty(result.data));
         if (result.ok && result.data.success) {
-          state.projectId = result.data.project_id ?? null;
-          state.phaseIds = Array.isArray(result.data.phase_ids) ? result.data.phase_ids : [];
-          state.phaseId = state.phaseIds.length ? state.phaseIds[0] : null;
-          state.spiId = null;
-          state.alertLevel = null;
+          state.pendingLat = null; state.pendingLon = null;
+          setText(el("pendingCoordHint"), "");
+          await loadProjects();
+          el("dashProject").value = String(result.data.project_id);
+          updateLoadButton();
+          await loadConstruction();
+        } else {
+          showBanner(describeFailure(result, "Could not create that construction."));
         }
-        syncStateView();
       } catch (err) {
-        setOutput("outSchedule", { error: String(err) }, true);
-        appendLog(`/schedule failed: ${err}`, true);
+        setText(el("outSchedule"), "Error: " + err);
+        showBanner(`Could not create the construction: ${err}`);
       }
     }
-
-    async function runSpi() {
-      const phaseId = Number(el("spiPhaseId").value || state.phaseId);
-      const actualPercent = Number(el("spiActualPercent").value);
-      const enteredBy = el("spiEnteredBy").value.trim() || "web-user";
-
-      const payload = {
-        phase_id: phaseId,
-        actual_percent: actualPercent,
-        entered_by: enteredBy
-      };
-
-      try {
-        const result = await apiPost("/progress/spi", payload);
-        setOutput("outSpi", result.data, !result.ok);
-        appendLog(`/progress/spi -> ${result.status}`, !result.ok);
-
-        if (result.ok && result.data.success) {
-          state.phaseId = result.data.phase_id ?? phaseId;
-          state.spiId = result.data.spi_id ?? null;
-          state.alertLevel = result.data.alert_level ?? null;
-        }
-        syncStateView();
-      } catch (err) {
-        setOutput("outSpi", { error: String(err) }, true);
-        appendLog(`/progress/spi failed: ${err}`, true);
-      }
-    }
-
-    async function runPredict() {
-      const payload = {
-        spi_id: Number(state.spiId),
-        phase_id: Number(state.phaseId),
-        delay_category: el("predDelayCategory").value,
-        labour_availability: el("predLabour").value,
-        material_supply: el("predMaterial").value,
-        weather_severity: el("predWeather").value
-      };
-
-      try {
-        const result = await apiPost("/progress/predict", payload);
-        setOutput("outPredict", result.data, !result.ok);
-        appendLog(`/progress/predict -> ${result.status}`, !result.ok);
-      } catch (err) {
-        setOutput("outPredict", { error: String(err) }, true);
-        appendLog(`/progress/predict failed: ${err}`, true);
-      }
-    }
-
-    async function runDashboard() {
-      const pid = Number(el("viewProjectId").value);
-      if (!pid) {
-        setOutput("outDashboard", { error: "Project ID is required." }, true);
-        appendLog("Dashboard blocked: missing project ID", true);
-        return;
-      }
-      try {
-        const result = await apiGet(`/project/${pid}/dashboard`);
-        setOutput("outDashboard", result.data, !result.ok);
-        appendLog(`/project/${pid}/dashboard -> ${result.status}`, !result.ok);
-      } catch (err) {
-        setOutput("outDashboard", { error: String(err) }, true);
-        appendLog(`/dashboard failed: ${err}`, true);
-      }
-    }
-
-    async function runAlerts() {
-      const pid = Number(el("viewProjectId").value);
-      if (!pid) {
-        setOutput("outAlerts", { error: "Project ID is required." }, true);
-        appendLog("Alerts blocked: missing project ID", true);
-        return;
-      }
-      try {
-        const result = await apiGet(`/project/${pid}/alerts`);
-        setOutput("outAlerts", result.data, !result.ok);
-        appendLog(`/project/${pid}/alerts -> ${result.status}`, !result.ok);
-      } catch (err) {
-        setOutput("outAlerts", { error: String(err) }, true);
-        appendLog(`/alerts failed: ${err}`, true);
-      }
-    }
-
-    function loadSample() {
-      el("schedulePayload").value = pretty(sampleSchedule);
-      appendLog("Loaded sample schedule payload", false);
-    }
-
-    el("btnHealth").addEventListener("click", runHealth);
-    el("btnLoadSample").addEventListener("click", loadSample);
     el("btnSchedule").addEventListener("click", runSchedule);
-    el("btnSpi").addEventListener("click", runSpi);
-    el("btnPredict").addEventListener("click", runPredict);
-    el("btnDashboard").addEventListener("click", runDashboard);
-    el("btnAlerts").addEventListener("click", runAlerts);
-    el("spiPhaseId").addEventListener("change", (e) => {
-      state.phaseId = Number(e.target.value) || null;
-      syncStateView();
+
+    // ============================================================
+    // Site & Weather
+    // ============================================================
+    const DEFAULT_MAP_CENTER = [7.8731, 80.7718];
+    let locationMap = null;
+
+    function initLocationMap() {
+      locationMap = L.map("locationMap").setView(DEFAULT_MAP_CENTER, 7);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors", maxZoom: 19,
+      }).addTo(locationMap);
+      state.mapMarker = L.marker(DEFAULT_MAP_CENTER, { draggable: true }).addTo(locationMap);
+      state.mapReady = true;
+      // dragend (not drag) so we fire once per placement, not per pixel.
+      state.mapMarker.on("dragend", () => {
+        const pos = state.mapMarker.getLatLng();
+        onLocationChanged(pos.lat, pos.lng);
+      });
+      locationMap.on("click", (e) => {
+        state.mapMarker.setLatLng(e.latlng);
+        onLocationChanged(e.latlng.lat, e.latlng.lng);
+      });
+    }
+
+    const formatCoord = (v) => (typeof v === "number" ? v.toFixed(5) : "-");
+
+    async function onLocationChanged(lat, lon) {
+      setText(el("locLat"), formatCoord(lat));
+      setText(el("locLon"), formatCoord(lon));
+
+      if (state.locProjectId) {
+        try {
+          const result = await apiSend(`/project/${state.locProjectId}/location`, { latitude: lat, longitude: lon }, "PATCH");
+          if (result.ok && result.data.success) {
+            setText(el("locTarget"), `${projectNameById(state.locProjectId)} (saved)`);
+            const proj = state.projects.find((p) => p.project_id === state.locProjectId);
+            if (proj) { proj.latitude = lat; proj.longitude = lon; }
+            if (state.project && state.project.project_id === state.locProjectId) {
+              state.project.latitude = lat; state.project.longitude = lon;
+              if (!el("summaryCard").classList.contains("hidden")) renderProjectSummary();
+            }
+            await refreshLocationWeather(state.locProjectId);
+            hideBanner();
+          } else {
+            setText(el("locTarget"), "Save failed");
+            showBanner(describeFailure(result, "Could not save the new site location."));
+          }
+        } catch (err) {
+          setText(el("locTarget"), "Save failed");
+          showBanner(`Could not save the new site location: ${err}`);
+        }
+      } else {
+        // No construction selected yet - hold these for the next one created.
+        state.pendingLat = lat; state.pendingLon = lon;
+        setText(el("locTarget"), "The next construction you create");
+        setText(el("pendingCoordHint"), `Site pinned at ${formatCoord(lat)}, ${formatCoord(lon)} — will be saved with this construction.`);
+      }
+    }
+
+    function projectNameById(id) {
+      const p = state.projects.find((x) => x.project_id === id);
+      return p ? p.name : `Construction #${id}`;
+    }
+
+    async function refreshLocationWeather(projectId) {
+      const wrap = el("locWeatherBody");
+      replaceChildren(wrap, h("div", { class: "empty-state", text: "Fetching current weather..." }));
+      try {
+        const result = await apiGet(`/project/${projectId}/weather`);
+        if (!result.ok) {
+          replaceChildren(wrap, h("div", { class: "empty-state", text: describeFailure(result, "Weather is unavailable right now.") }));
+          return;
+        }
+        const wx = (result.data && result.data.weather) || {};
+        const basedOn = wx.location_source === "coordinates"
+          ? "Based on the exact site coordinates you pinned."
+          : "Based on the district name — pin the exact site on the map for a more accurate reading.";
+
+        const metrics = [
+          ["Temperature", wx.temperature_c != null ? `${wx.temperature_c}°C` : "N/A"],
+          ["Rainfall", wx.rainfall_mm != null ? `${wx.rainfall_mm} mm` : "N/A"],
+          ["Wind", wx.wind_mps != null ? `${wx.wind_mps} m/s` : "N/A"],
+          ["Condition", wx.condition || "N/A"],
+        ].map(([k, v]) => h("div", { class: "weather-metric" }, [
+          h("div", { class: "label", text: k }), h("div", { class: "val", text: v }),
+        ]));
+
+        replaceChildren(wrap, [
+          h("div", { class: "severity-banner" }, [
+            h("span", { class: "badge info", text: wx.weather_severity || "-" }),
+            h("div", {}, [
+              h("div", { style: "font-weight:700;", text: "Weather impact rating" }),
+              h("div", { class: "note", text: "This rating is fed into the delay-risk forecast, not just displayed." }),
+            ]),
+            h("div", { style: "flex:1;" }),
+            h("span", { class: `source-tag ${wx.source === "live" ? "live" : "fallback"}`,
+                        text: wx.source === "live" ? "Live data" : "Fallback" }),
+          ]),
+          h("div", { class: "weather-grid" }, metrics),
+          h("p", { class: "hint", style: "margin-top:10px;", text: basedOn }),
+          h("p", { class: "hint", style: "margin-top:4px;", text: `Last updated: ${new Date().toLocaleTimeString()}` }),
+          wx.error ? h("p", { class: "hint error", style: "margin-top:4px;", text: wx.error }) : null,
+        ].filter(Boolean));
+
+        el("locSourceBadge").classList.remove("hidden");
+        setText(el("locSourceBadge"), wx.location_source === "coordinates" ? "Exact coordinates" : "District fallback");
+      } catch (err) {
+        replaceChildren(wrap, h("div", { class: "empty-state", text: `Weather could not be loaded: ${err}` }));
+        showBanner(`Weather could not be loaded: ${err}`);
+      }
+    }
+    el("btnRefreshLocWeather").addEventListener("click", () => {
+      if (state.locProjectId) refreshLocationWeather(state.locProjectId);
+      else showBanner("Select a construction first to load its site weather.");
     });
 
-    loadSample();
-    syncStateView();
+    async function syncLocationMapToSelectedProject() {
+      if (!state.mapReady) return;
+      if (!state.locProjectId) {
+        setText(el("locTarget"), "The next construction you create");
+        el("locSourceBadge").classList.add("hidden");
+        replaceChildren(el("locWeatherBody"), h("div", { class: "empty-state", text: "Select a construction to see live weather at its site." }));
+        return;
+      }
+      const proj = state.projects.find((p) => p.project_id === state.locProjectId);
+      if (proj && proj.latitude != null && proj.longitude != null) {
+        const latlng = [proj.latitude, proj.longitude];
+        state.mapMarker.setLatLng(latlng);
+        locationMap.setView(latlng, 13);
+        setText(el("locLat"), formatCoord(proj.latitude));
+        setText(el("locLon"), formatCoord(proj.longitude));
+        setText(el("locTarget"), `${proj.name} (saved)`);
+      } else {
+        setText(el("locTarget"), `${projectNameById(state.locProjectId)} — no site pinned yet`);
+      }
+      await refreshLocationWeather(state.locProjectId);
+    }
+
+    el("locProject").addEventListener("change", (e) => {
+      state.locProjectId = Number(e.target.value) || null;
+      syncLocationMapToSelectedProject();
+    });
+
+    async function runLocationSearch() {
+      const query = el("locSearch").value.trim();
+      if (!query) return;
+      const btn = el("btnLocSearch");
+      btn.disabled = true;
+      try {
+        // Nominatim (OpenStreetMap geocoding) - no API key needed. Separate
+        // from the OpenWeatherMap key, which stays backend-only.
+        const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(query)}`;
+        const res = await fetch(url, { headers: { "Accept": "application/json" } });
+        if (!res.ok) { showBanner(`Location search failed (HTTP ${res.status}). Try again shortly.`); return; }
+        const results = await res.json();
+        if (!results.length) { showBanner(`No place found matching "${query}". Try a different search.`); return; }
+        const lat = parseFloat(results[0].lat), lon = parseFloat(results[0].lon);
+        state.mapMarker.setLatLng([lat, lon]);
+        locationMap.setView([lat, lon], 13);
+        await onLocationChanged(lat, lon);
+        hideBanner();
+      } catch (err) {
+        showBanner(`Location search failed: ${err}`);
+      } finally {
+        btn.disabled = false;
+      }
+    }
+    el("btnLocSearch").addEventListener("click", runLocationSearch);
+    el("locSearch").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); runLocationSearch(); } });
+
+    // ============================================================
+    // Alerts (per construction)
+    // ============================================================
+    function renderAlertStats() {
+      const total = state.alertsRaw.length;
+      setText(el("alertStatTotal"), total);
+      setText(el("alertStatCritical"), state.alertsRaw.filter((a) => a.alert_type === "CRITICAL").length);
+      setText(el("alertStatWarning"), state.alertsRaw.filter((a) => a.alert_type === "WARNING").length);
+      el("sidebarAlertCount").classList.toggle("hidden", total === 0);
+      setText(el("sidebarAlertCount"), total);
+    }
+
+    function renderAlertsList() {
+      const list = el("alertsList");
+      const filtered = state.alertsFilter === "ALL"
+        ? state.alertsRaw
+        : state.alertsRaw.filter((a) => a.alert_type === state.alertsFilter);
+      if (!filtered.length) {
+        replaceChildren(list, h("div", { class: "empty-state", text: "No alerts in this category." }));
+        return;
+      }
+      replaceChildren(list, filtered.map((a) =>
+        h("div", { class: `alert-item ${a.alert_type}` }, [
+          h("div", { class: "alert-top" }, [
+            h("span", { class: `badge ${a.alert_type === "CRITICAL" ? "crit" : "warn"}`, text: a.alert_type }),
+            h("span", { class: "chip", text: state.alertsPhaseNameMap[a.phase_id] || `Phase #${a.phase_id}` }),
+          ]),
+          h("div", { class: "alert-msg", text: a.message }),
+          h("div", { class: "alert-meta", text: a.created_at ? new Date(a.created_at).toLocaleString() : "" }),
+        ])
+      ));
+    }
+
+    document.querySelectorAll(".filter-tabs button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-tabs button").forEach((b) => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        state.alertsFilter = btn.dataset.filter;
+        renderAlertsList();
+      });
+    });
+
+    async function loadAlertsForProject(projectId) {
+      state.alertsProjectId = projectId;
+      const emptyEl = el("alertsEmpty");
+      if (!projectId) {
+        el("alertsContent").classList.add("hidden");
+        emptyEl.classList.remove("hidden");
+        setText(emptyEl, "Select a construction above to view its alerts.");
+        return;
+      }
+      emptyEl.classList.remove("hidden");
+      el("alertsContent").classList.add("hidden");
+      setText(emptyEl, "Loading alerts...");
+      try {
+        // Real phase names, from real data - never invented identifiers.
+        if (projectId === state.dashProjectId && state.phases.length) {
+          state.alertsPhaseNameMap = {};
+          state.phases.forEach((p) => { state.alertsPhaseNameMap[p.phase_id] = `${p.phase_group} / ${p.sub_phase}`; });
+        } else {
+          const dash = await apiGet(`/project/${projectId}/dashboard`);
+          state.alertsPhaseNameMap = {};
+          if (dash.ok && dash.data.success) {
+            (dash.data.phases || []).forEach((p) => {
+              state.alertsPhaseNameMap[p.phase_id] = `${p.phase_group} / ${p.sub_phase}`;
+            });
+          }
+        }
+
+        const result = await apiGet(`/project/${projectId}/alerts?active_only=true`);
+        if (!result.ok || !result.data.success) {
+          setText(emptyEl, describeFailure(result, "Could not load alerts for this construction."));
+          return;
+        }
+        state.alertsRaw = result.data.alerts || [];
+        renderAlertStats();
+        if (!state.alertsRaw.length) {
+          el("alertsContent").classList.add("hidden");
+          emptyEl.classList.remove("hidden");
+          setText(emptyEl, "No active alerts for this construction.");
+          return;
+        }
+        emptyEl.classList.add("hidden");
+        el("alertsContent").classList.remove("hidden");
+        renderAlertsList();
+      } catch (err) {
+        setText(emptyEl, `Could not load alerts: ${err}`);
+        showBanner(`Could not load alerts: ${err}`);
+      }
+    }
+
+    el("alertsProject").addEventListener("change", (e) => {
+      loadAlertsForProject(Number(e.target.value) || null);
+    });
+
+    // ============================================================
+    // Bootstrap
+    // ============================================================
+    el("schedulePayload").value = pretty(sampleSchedule);
+    runHealth();
+    initLocationMap();
+    loadProjects();
   </script>
 </body>
 </html>

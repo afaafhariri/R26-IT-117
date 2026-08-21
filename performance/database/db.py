@@ -7,7 +7,10 @@ import os
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
-engine = create_engine(DATABASE_URL)
+# pool_pre_ping validates a pooled connection before use, so a DB restart or
+# an idle-timeout drop surfaces as a transparent reconnect instead of an error
+# on the next request.
+engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(bind=engine)
 Base = declarative_base()
 
@@ -65,6 +68,8 @@ class Project(Base):
     floors = Column(Integer, nullable=False)
     building_type = Column(String(100))
     start_date = Column(Date)
+    latitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=True)
 
 
 class Phase(Base):
@@ -179,7 +184,35 @@ def _create_projects_table(conn):
     )
     if not _column_exists(conn, "projects", "province"):
         conn.execute(text("ALTER TABLE projects ADD COLUMN province VARCHAR(100)"))
-    conn.execute(text("ALTER TABLE projects ALTER COLUMN province SET NOT NULL"))
+
+    # Site coordinates (map-based location picker). Nullable - existing
+    # projects created before this feature simply have NULL here and keep
+    # working via the district-name weather fallback (see
+    # weather/weather_client.py). No NOT NULL guard needed since there is
+    # no constraint to enforce.
+    if not _column_exists(conn, "projects", "latitude"):
+        conn.execute(text("ALTER TABLE projects ADD COLUMN latitude FLOAT"))
+    if not _column_exists(conn, "projects", "longitude"):
+        conn.execute(text("ALTER TABLE projects ADD COLUMN longitude FLOAT"))
+
+    # Guarded migration: only enforce NOT NULL if it can actually apply. An
+    # unconditional ALTER TABLE here would hard-crash app startup for the
+    # entire application if any existing row has a NULL province - not just
+    # for the affected project. Skips gracefully instead, logs a warning,
+    # and leaves those specific rows exactly as they are; the constraint
+    # will apply automatically on a future startup once the data is clean.
+    null_count = conn.execute(
+        text("SELECT COUNT(*) FROM projects WHERE province IS NULL")
+    ).scalar()
+    if null_count:
+        print(
+            f"[performance] WARNING: {null_count} project(s) have NULL province; "
+            "skipping NOT NULL enforcement on 'projects.province' until resolved. "
+            "Predictions for those specific project(s) will fail validation "
+            "until province is set - see pipeline/feature_engineer.py."
+        )
+    else:
+        conn.execute(text("ALTER TABLE projects ALTER COLUMN province SET NOT NULL"))
 
 
 def _create_phases_table(conn):

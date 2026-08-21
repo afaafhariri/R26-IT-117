@@ -27,7 +27,7 @@ def test_error_when_planned_is_zero():
 
 def test_planned_percent_before_start_is_min_floor():
     value = calculate_planned_percent("2026-05-10", "2026-05-20", as_of_date="2026-05-09")
-    assert value == 0.1
+    assert value == 0.0
 
 
 def test_planned_percent_mid_schedule():

@@ -11,7 +11,7 @@ def _get_model():
     global _model
     if _model is None:
         genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-        _model = genai.GenerativeModel("gemini-2.0-flash")
+        _model = genai.GenerativeModel("gemini-flash-latest")
     return _model
 
 
@@ -24,7 +24,19 @@ def _build_prompt(
     delay_risk: str,
     delay_days: int,
     similar_cases: list[dict],
+    delay_category: str = None,
+    labour_availability: str = None,
+    material_supply: str = None,
+    weather_info: dict = None,
 ) -> str:
+    """
+    Phase 2 - widened per the finalized workflow: Gemini now receives the
+    raw delay-assessment inputs (main reason for delay, labour/material
+    availability) and the resolved weather reading, in addition to the
+    context it already received. All four new parameters are optional
+    (default None) so existing callers that don't pass them keep working
+    unchanged - if omitted, that line is simply left out of the prompt.
+    """
     case_lines = []
     for c in similar_cases:
         case_lines.append(
@@ -34,6 +46,34 @@ def _build_prompt(
         )
 
     cases_text = "\n".join(case_lines) if case_lines else "- No similar cases available"
+
+    assessment_lines = []
+    if delay_category:
+        assessment_lines.append(f"- Main reason for delay: {delay_category}")
+    if labour_availability:
+        assessment_lines.append(f"- Labour availability: {labour_availability}")
+    if material_supply:
+        assessment_lines.append(f"- Material availability: {material_supply}")
+    if weather_info:
+        weather_desc = weather_info.get("weather_severity", "unknown")
+        condition = weather_info.get("condition")
+        temperature = weather_info.get("temperature_c")
+        rainfall = weather_info.get("rainfall_mm")
+        weather_bits = [f"severity={weather_desc}"]
+        if condition:
+            weather_bits.append(f"condition={condition}")
+        if temperature is not None:
+            weather_bits.append(f"temperature={temperature}C")
+        if rainfall is not None:
+            weather_bits.append(f"rainfall={rainfall}mm")
+        assessment_lines.append(f"- Current weather: {', '.join(weather_bits)}")
+
+    assessment_text = (
+        "\n".join(assessment_lines)
+        if assessment_lines
+        else "- No additional delay-assessment details provided"
+    )
+
     return f"""You are an expert advisor for Sri Lankan coastal residential construction projects.
 
 Current project context:
@@ -42,6 +82,9 @@ Current project context:
 - SPI alert level: {spi_alert}
 - ML delay risk level: {delay_risk}
 - Estimated delay days: {delay_days}
+
+Delay assessment details:
+{assessment_text}
 
 Top similar historical cases:
 {cases_text}
@@ -105,6 +148,10 @@ def generate_recommendations(
     delay_risk: str,
     delay_days: int,
     similar_cases: list[dict],
+    delay_category: str = None,
+    labour_availability: str = None,
+    material_supply: str = None,
+    weather_info: dict = None,
 ) -> dict:
     try:
         model = _get_model()
@@ -117,6 +164,10 @@ def generate_recommendations(
             delay_risk,
             delay_days,
             similar_cases,
+            delay_category=delay_category,
+            labour_availability=labour_availability,
+            material_supply=material_supply,
+            weather_info=weather_info,
         )
         response = model.generate_content(prompt)
         text = response.text.strip()

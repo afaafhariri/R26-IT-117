@@ -15,11 +15,11 @@ from a FAISS vector index, and generates corrective action recommendations via G
 |------------------|------------------------------------------|
 | Web framework    | Flask 3 + Flask-CORS                     |
 | Database         | PostgreSQL 15 via SQLAlchemy             |
-| ML model         | XGBoost (classifier + regressor)         |
+| ML model         | XGBoost (classifier + regressor), CPU-only build (`xgboost-cpu`) |
 | Embeddings       | Sentence Transformers (all-MiniLM-L6-v2) |
 | Vector search    | FAISS (Flat L2 index, 192 vectors)       |
-| LLM              | Google Gemini 2.0 Flash                  |
-| Weather data     | External Weather API (integration planned)|
+| LLM              | Google Gemini (`gemini-flash-latest`)    |
+| Weather data     | OpenWeatherMap "Current Weather" API, live per-district lookup with graceful fallback |
 | Containerisation | Docker + Docker Compose                  |
 | Language         | Python 3.11                              |
 
@@ -47,6 +47,13 @@ performance/
 │   └── gemini_client.py       # Gemini prompt building, response parsing, fallback
 ├── monitoring/
 │   └── dashboard_feed.py      # Project dashboard aggregation queries
+├── weather/
+│   └── weather_client.py      # Live weather lookup, condition→severity mapping, fallback
+├── timeline_source/
+│   ├── base.py                 # TimelineProvider interface (see Architecture below)
+│   ├── local_provider.py       # LocalMockTimelineProvider — default, backed by Performance's own tables
+│   ├── remote_provider.py      # RemoteTimelineProvider — scaffolded, not implemented yet
+│   └── factory.py              # Picks the active provider via TIMELINE_SOURCE
 ├── data/
 │   ├── delay_data.csv         # 192 historical delay cases
 │   └── rag_cases/             # 192 generated story .txt files for FAISS indexing
@@ -60,8 +67,19 @@ performance/
     ├── test_model.py
     ├── test_spi.py
     ├── test_rag.py
-    └── test_feature_engineer.py
+    ├── test_feature_engineer.py
+    └── test_weather.py
 ```
+
+### Architecture note — Timeline data
+
+Performance does not own project/phase schedule data long-term. All reads of that
+data go through the `TimelineProvider` interface (`timeline_source/`), never direct
+SQL. `TIMELINE_SOURCE=local` (default) backs it with Performance's own Postgres
+tables as a development convenience; `TIMELINE_SOURCE=remote` will call the real
+Timeline component's API once it exists (not implemented yet — see
+`timeline_source/remote_provider.py`). `POST /schedule` is a temporary dev-only
+seeding endpoint for the local provider and is disabled when `TIMELINE_SOURCE=remote`.
 
 ---
 
@@ -74,6 +92,24 @@ DATABASE_URL=postgresql://postgres:password@localhost:5432/r26_db
 GEMINI_API_KEY=your_gemini_api_key_here
 FLASK_ENV=development
 PORT=5004
+
+# Downstream component notification (sent on HIGH delay risk)
+C02_URL=http://cost-estimation:5002
+C03_URL=http://timeline:5003
+NOTIFY_TIMEOUT_SECONDS=5
+
+# Weather integration (weather/weather_client.py) — optional. If unset or the
+# live call fails, weather calls fall back to "No disruption" gracefully.
+WEATHER_API_KEY=your_openweathermap_api_key_here
+WEATHER_API_BASE_URL=https://api.openweathermap.org/data/2.5/weather
+WEATHER_API_COUNTRY_CODE=LK
+WEATHER_API_TIMEOUT_SECONDS=5
+
+# Timeline data source (timeline_source/) — see Architecture note above.
+# "local" (default) = Performance's own tables, for development only.
+# "remote" = real Timeline component API (not implemented yet).
+TIMELINE_SOURCE=local
+TIMELINE_SERVICE_BASE_URL=http://timeline:5003
 ```
 
 ---
@@ -106,8 +142,20 @@ Service runs on `http://localhost:5004`.
 ### GET /health
 Returns live database connection status.
 
+### GET /projects
+Lists all projects (name, district, province, floors, building type). Read-only,
+sourced via `TimelineProvider`. Feeds a project-name dropdown for clients instead of
+requiring a raw numeric `project_id`.
+
+### GET /project/\<id\>/weather
+Live weather preview for a project's district — returns the same server-side weather
+resolution `/progress/predict` uses internally, so a client can see what will feed the
+prediction before submitting. Never hard-fails: on a weather-provider error this still
+returns `200` with `"success": false` and a fallback severity.
+
 ### POST /schedule
 Creates a project and saves its phase schedule baseline. Entry point for all new projects.
+Temporary/dev-only — see the Architecture note above; disabled when `TIMELINE_SOURCE=remote`.
 
 **Request body**
 ```json
@@ -180,7 +228,11 @@ Runs the full delay prediction pipeline. Only callable after a WARNING or CRITIC
 | `delay_category`      | `Labour`, `Material Supply & Quality`, `Environmental & Site`, `Financial & Funding`, `Design & Technical`, `Land & Legal`, `Owner / Social / Behavioural` |
 | `labour_availability` | `Very Low`, `Low`, `Medium`, `Good`, `Full` |
 | `material_supply`     | `Yes`, `No` |
-| `weather_severity`    | `No disruption`, `Minor`, `Moderate`, `Severe` |
+| `weather_severity`    | `No disruption`, `Minor`, `Moderate`, `Severe` (optional — see below) |
+
+> `weather_severity` is optional. If omitted, it is resolved automatically server-side
+> from live weather for the project's district (see Weather API Integration below). If
+> supplied, it's used as an explicit manual override and no live call is made.
 
 ---
 
@@ -189,6 +241,15 @@ Returns full project status — phases, latest SPI, prediction, recommendation, 
 
 ### GET /project/\<id\>/alerts
 Returns active alerts. Add `?active_only=false` to include resolved alerts.
+
+---
+
+### Deprecated endpoints
+
+`POST /project`, `POST /project/<id>/phases`, `POST /progress`, and `POST /predict` are
+legacy routes from an earlier API shape. They now return `410 Gone` with a message
+pointing to their replacement (`POST /schedule`, `POST /progress/spi` +
+`POST /progress/predict`) — kept only so old clients get a clear error instead of a 404.
 
 ---
 
@@ -226,17 +287,25 @@ Uses SentenceTransformer embeddings and FAISS Flat L2 index over 192 case docume
 
 ## LLM Integration
 
-Gemini 2.0 Flash generates a plain-language explanation and up to 5 corrective actions
-based on project context and retrieved historical cases. Falls back to generic
-recommendations if the API is unavailable.
+Gemini (`gemini-flash-latest`) generates a plain-language explanation and up to 5
+corrective actions based on project context, the delay-assessment inputs (main delay
+category, labour/material availability), resolved weather, and retrieved historical
+cases. Falls back to generic recommendations if the API is unavailable (invalid key,
+rate limit, quota, network error, etc.) — `/progress/predict` never hard-fails just
+because Gemini is unreachable.
 
 ---
 
 ## Weather API Integration
 
-External weather data integration is planned for a future release. The intent is to
-automatically populate `weather_severity` from a live weather API based on the
-project district, removing the need for manual input by site supervisors.
+Implemented (`weather/weather_client.py`), using OpenWeatherMap's "Current Weather
+Data" endpoint. `GET /project/<id>/weather` previews live weather for a project's
+district; `POST /progress/predict` resolves `weather_severity` automatically the same
+way server-side unless a manual override is supplied in the request body. Weather
+condition, rainfall, and wind are mapped onto the model's existing 4-label severity
+scale (`No disruption` / `Minor` / `Moderate` / `Severe`). If `WEATHER_API_KEY` is
+unset, or the live call fails or times out, this falls back to `"No disruption"`
+rather than failing the prediction request.
 
 ---
 
@@ -247,4 +316,6 @@ project district, removing the need for manual input by site supervisors.
 - No correction or delete endpoints
 - No email or SMS alert delivery
 - ML model is static — no retraining pipeline on live data
-- Weather severity currently entered manually — external API integration planned
+- `TIMELINE_SOURCE=remote` (the real Timeline component integration) is scaffolded but
+  not implemented yet — every method raises `NotImplementedError` until Timeline's API
+  exists; `TIMELINE_SOURCE=local` (default) is the only usable mode today

@@ -53,6 +53,7 @@ nosetests.xml
 .ipynb_checkpoints/
 *.ipynb_checkpoints
 research/notebooks/delay_model.ipynb
+research/notebooks/delaymodel_final.ipynb
 
 # ── Logs ──────────────────────────────────────────────────────────────────────
 *.log
