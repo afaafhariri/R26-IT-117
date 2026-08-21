@@ -98,6 +98,11 @@ yarn-error.log*
 *.orig
 .cache/
 
+# ── Local database backups ──────────────────────────────────────────────────
+# pg_dump snapshots taken before destructive operations - local recovery aid
+# only, never meant to be committed.
+_db_backups/
+
 .claude/
 .vscode/
 
