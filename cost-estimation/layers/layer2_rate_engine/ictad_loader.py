@@ -124,10 +124,9 @@ class ICTADLoader:
             logger.warning("No rate found for item '%s'.", item_key)
         return rate
 
-    def get_rates_for_district_view(self, district: str) -> list[dict]:
-        """Return all rates formatted for the GET /rates/{district} endpoint.
+    def get_rates_view(self) -> list[dict]:
+        """Return all rates formatted for the GET /rates endpoint.
 
-        The district multiplier is NOT applied here — that is done in RateEngine.
         This method returns the raw ICTAD schedule.
         """
         rates = self.load_all()

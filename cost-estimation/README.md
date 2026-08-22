@@ -21,8 +21,8 @@ Building Schema (JSON)
                        ▼
 ┌──────────────────────────────────────────────────┐
 │  Layer 2 — Rate Engine                           │
-│  Applies ICTAD unit rates, district multiplier,  │
-│  and time-based price escalation                 │
+│  Applies ICTAD unit rates and time-based         │
+│  price escalation                                │
 └──────────────────────┬───────────────────────────┘
                        │
                        ▼
@@ -49,7 +49,7 @@ Building Schema (JSON)
 | Layer | Module | Responsibility |
 |-------|--------|----------------|
 | 1 | `layers/layer1_boq/` | Structural, finishing, and services quantity take-off |
-| 2 | `layers/layer2_rate_engine/` | ICTAD rate loading, district multiplier, escalation |
+| 2 | `layers/layer2_rate_engine/` | ICTAD rate loading, price escalation |
 | 3 | `layers/layer3_ml_prediction/` | Feature engineering, XGBoost (point + quantile), SHAP |
 | 4 | `layers/layer4_risk_adjuster/` | Risk scoring, contingency, report builder |
 
@@ -61,7 +61,7 @@ Building Schema (JSON)
 |--------|------|-------------|
 | `POST` | `/estimate` | Full 4-layer cost report |
 | `POST` | `/boq` | Layer 1 BOQ quantities only |
-| `GET` | `/rates/{district}` | ICTAD rates for a Sri Lankan district |
+| `GET` | `/rates` | ICTAD unit rate schedule |
 | `GET` | `/materials` | Material variants per BOQ part with current rates |
 | `POST` | `/retrain` | Trigger model retraining *(admin only)* |
 | `GET` | `/health` | Liveness check |
@@ -82,7 +82,6 @@ The `/retrain` endpoint requires an `X-Admin-Key` header matching the `ADMIN_API
 | `floor_height` | float | Floor-to-floor height (m) |
 | `finish_grade` | string | `economy` \| `mid` \| `luxury` |
 | `roof_type` | string | `flat` \| `gable` \| `hip` \| `mansard` |
-| `district` | string | Sri Lankan district name |
 | `terrain` | string | `flat` \| `sloped` \| `hilly` \| `rocky` |
 | `is_coastal` | bool | Coastal site flag (affects risk) |
 | `road_access` | string | `paved` \| `gravel` \| `track` \| `none` |
@@ -141,22 +140,22 @@ Four models were benchmarked on 500 synthetic CIDA-calibrated records:
 
 | Model | MAE (LKR) | MAPE (%) | R² | Prediction Interval |
 |-------|-----------|----------|----|---------------------|
-| Linear Regression | 1,763,255 | 12.38 | −2.98 | — |
-| Random Forest | 1,993,548 | 13.72 | −2.98 | — |
-| XGBoost (Point) | 1,954,597 | 13.87 | −2.98 | — |
-| **XGBoost (Quantile)** | **2,667,688** | **16.81** | **0.76** | **52% (90% target)** |
+| Linear Regression | 1,481,316 | 12.60 | −3.54 | — |
+| Random Forest | 1,576,527 | 13.75 | −3.54 | — |
+| XGBoost (Point) | 1,616,699 | 13.78 | −3.54 | — |
+| **XGBoost (Quantile)** | **2,004,142** | **15.99** | **0.81** | **52% (90% target)** |
 
 XGBoost Quantile was selected for production because it:
-- Explains **76% of cost variance** (R² = 0.76)
+- Explains **81% of cost variance** (R² = 0.81)
 - Provides **native 90% confidence intervals** without bootstrap overhead
-- Produces **SHAP attributions** per prediction (footprint, district, finish grade, etc.)
+- Produces **SHAP attributions** per prediction (footprint, concrete volume, finish grade, etc.)
 - Runs at **<1 ms inference** on CPU; model file ~2 MB
 
 
 ### Training Data
 
 - 500 synthetic buildings, ICTAD/CIDA 2024-Q4 rates, 15% lognormal market noise
-- 19 engineered features from building geometry, location, and finish grade
+- 18 engineered features from building geometry, site conditions, and finish grade
 - All models trained on `log1p(cost)`; predictions exponentiated back to LKR
 
 ---
@@ -210,7 +209,6 @@ cost-estimation/
     ├── layer2_rate_engine/
     │   ├── rate_engine.py         # Orchestrates pricing
     │   ├── ictad_loader.py
-    │   ├── district_multiplier.py
     │   └── price_escalation.py
     ├── layer3_ml_prediction/
     │   ├── ensemble.py            # XGBoost point + quantile predictor

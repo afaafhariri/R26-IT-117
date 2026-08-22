@@ -1,15 +1,15 @@
 """Component 02 — Cost Estimation API.
 
-Five-layer pipeline:
+Four-layer pipeline:
   Layer 1 (BOQ Engine)         → structural, finishing, and services quantities
-  Layer 2 (Rate Engine)        → ICTAD unit rates + district adjustment + escalation
+  Layer 2 (Rate Engine)        → ICTAD unit rates + price escalation
   Layer 3 (ML Prediction)      → XGBoost with 90% confidence interval
   Layer 4 (Risk Adjuster)      → risk scoring, contingency build-up, report assembly
 
 Endpoints:
   POST /estimate               Full cost report (material selection via 'materials')
   POST /boq                    BOQ quantities only (Layer 1)
-  GET  /rates/{district}       ICTAD rates for a district (Layer 2)
+  GET  /rates                  ICTAD unit rate schedule (Layer 2)
   GET  /materials              Material variants per BOQ part (Layer 2)
   POST /retrain                Trigger model retraining (admin-only)
 """
@@ -41,7 +41,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="AI-Driven Construction Planner — Component 02: Cost Estimation",
     version="1.0.0",
-    description="5-layer cost estimation pipeline for Project R26-IT-117.",
+    description="4-layer cost estimation pipeline for Project R26-IT-117.",
 )
 
 # ---------------------------------------------------------------------------
@@ -94,7 +94,6 @@ class BuildingSchema(BaseModel):
     roof_type: str = Field(default="gable", description="flat | gable | hip | mansard")
 
     # Site / location
-    district: str = Field(..., description="Sri Lankan district name")
     is_coastal: bool = Field(default=False)
     terrain: str = Field(default="flat", description="flat | sloped | hilly | rocky")
     road_access: str = Field(default="paved", description="paved | gravel | track | none")
@@ -221,7 +220,6 @@ def _run_full_pipeline(schema: BuildingSchema) -> dict:
     target_date = schema.target_date or str(date.today())
     rates = _rate_engine.price_boq(
         boq,
-        district=schema.district,
         base_date=schema.base_rate_date,
         target_date=target_date,
         material_selections=selections,
@@ -273,13 +271,13 @@ async def boq(schema: BuildingSchema) -> dict:
         raise HTTPException(status_code=500, detail=str(exc))
 
 
-@app.get("/rates/{district}", summary="ICTAD rates for a district (Layer 2)")
-async def get_rates(district: str) -> dict:
-    """Return the current ICTAD unit rate schedule with district multiplier applied."""
+@app.get("/rates", summary="ICTAD unit rate schedule (Layer 2)")
+async def get_rates() -> dict:
+    """Return the current ICTAD unit rate schedule."""
     try:
-        return _rate_engine.get_district_rates(district)
+        return _rate_engine.get_rates()
     except Exception as exc:
-        logger.exception("Error fetching rates for district '%s': %s", district, exc)
+        logger.exception("Error fetching rates: %s", exc)
         raise HTTPException(status_code=500, detail=str(exc))
 
 

@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-This analysis compares 4 regression models for construction cost estimation on 500 synthetic CIDA-calibrated project records. All models predict log-transformed cost using features engineered from building geometry, location, and finishes.
+This analysis compares 4 regression models for construction cost estimation on 500 synthetic CIDA-calibrated project records. All models predict log-transformed cost using features engineered from building geometry, site conditions, and finishes.
 
 **Key Finding:** XGBoost Quantile delivers the best accuracy and native prediction intervals, making it the clear choice for production use alongside your existing MLP ensemble.
 
@@ -25,10 +25,10 @@ This analysis compares 4 regression models for construction cost estimation on 5
 
 | Model | MAE (LKR) | RMSE (LKR) | MAPE (%) | MdAPE (%) | R² | Training Time (s) | Prediction Interval |
 |-------|-----------|------------|----------|-----------|----|-------------------|---------------------|
-| Linear Regression | 1,763,255 | 2,511,673 | 12.38 | 11.27 | -2.98 | 0.00 | ✗ |
-| Random Forest | 1,993,548 | 2,880,160 | 13.72 | 11.39 | -2.98 | 0.09 | ✗ |
-| XGBoost | 1,954,597 | 2,737,144 | 13.87 | 11.87 | -2.98 | 0.50 | ✗ |
-| XGBoost Quantile | 2,667,688 | 4,164,425 | 16.81 | 14.31 | 0.76 | 0.95 | 52.0% |
+| Linear Regression | 1,481,316 | 1,964,080 | 12.60 | 10.08 | -3.54 | 0.01 | ✗ |
+| Random Forest | 1,576,527 | 2,131,884 | 13.75 | 13.41 | -3.54 | 0.08 | ✗ |
+| XGBoost | 1,616,699 | 2,170,144 | 13.78 | 11.60 | -3.54 | 0.46 | ✗ |
+| XGBoost Quantile | 2,004,142 | 2,915,752 | 15.99 | 13.35 | 0.81 | 0.89 | 52.0% |
 
 ### Interpretation
 
@@ -69,7 +69,7 @@ XGBoost captures non-linear cost patterns (luxury finishes compound; remote prem
 Native quantile regression avoids expensive retraining. One pipeline gives point + confidence bounds automatically—other approaches require bootstrap (5–10x slower).
 
 ### 3. **Interpretability** 🔍
-SHAP explains cost drivers to stakeholders. "Your estimate is ₹55M because: footprint (₹18M), district remoteness (₹12M), luxury finish (₹15M)..."
+SHAP explains cost drivers to stakeholders. "Your estimate is ₹55M because: footprint (₹18M), concrete volume (₹12M), luxury finish (₹15M)..."
 
 ### 4. **Production Ready** ⚡
 - Inference: <1ms per prediction
@@ -102,6 +102,6 @@ Your production stack combines 65% XGBoost + 35% MLP (neural network):
 
 **Data:** 500 synthetic buildings, CIDA 2024-Q4 rates, 15% lognormal noise (contractor/market variance)
 
-**Features:** 19 engineered from: footprint, floors, district, finish_grade, terrain, roof_type, etc.
+**Features:** 18 engineered from: footprint, floors, finish_grade, terrain, roof_type, etc.
 
 Metrics data exported to `figures/metrics.csv` for visualization in Excel, Tableau, or plotting tools.

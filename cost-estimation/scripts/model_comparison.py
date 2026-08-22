@@ -2,7 +2,7 @@
 """
 Model comparison: XGBoost vs Linear Regression, Random Forest, SVM, Neural Network.
 
-Trains 5 models on the same 19-feature dataset, evaluates on test set with:
+Trains 5 models on the same 18-feature dataset, evaluates on test set with:
   - MAE, RMSE, R², MAPE, Median Absolute % Error (MdAPE)
   - Prediction interval coverage (for quantile models)
   - Training time and inference latency
@@ -328,7 +328,7 @@ class ModelComparison:
 
 ## Executive Summary
 
-This analysis compares 4 regression models for construction cost estimation on 500 synthetic CIDA-calibrated project records. All models predict log-transformed cost using features engineered from building geometry, location, and finishes.
+This analysis compares 4 regression models for construction cost estimation on 500 synthetic CIDA-calibrated project records. All models predict log-transformed cost using features engineered from building geometry, site conditions, and finishes.
 
 **Key Finding:** XGBoost Quantile delivers the best accuracy and native prediction intervals, making it the clear choice for production use alongside your existing MLP ensemble.
 
@@ -391,7 +391,7 @@ XGBoost captures non-linear cost patterns (luxury finishes compound; remote prem
 Native quantile regression avoids expensive retraining. One pipeline gives point + confidence bounds automatically—other approaches require bootstrap (5–10x slower).
 
 ### 3. **Interpretability** 🔍
-SHAP explains cost drivers to stakeholders. "Your estimate is ₹55M because: footprint (₹18M), district remoteness (₹12M), luxury finish (₹15M)..."
+SHAP explains cost drivers to stakeholders. "Your estimate is ₹55M because: footprint (₹18M), concrete volume (₹12M), luxury finish (₹15M)..."
 
 ### 4. **Production Ready** ⚡
 - Inference: <1ms per prediction
@@ -424,7 +424,7 @@ Your production stack combines 65% XGBoost + 35% MLP (neural network):
 
 **Data:** 500 synthetic buildings, CIDA 2024-Q4 rates, 15% lognormal noise (contractor/market variance)
 
-**Features:** 19 engineered from: footprint, floors, district, finish_grade, terrain, roof_type, etc.
+**Features:** 18 engineered from: footprint, floors, finish_grade, terrain, roof_type, etc.
 
 Metrics data exported to `figures/metrics.csv` for visualization in Excel, Tableau, or plotting tools.
 """

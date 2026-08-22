@@ -37,57 +37,9 @@ OUTPUT_PATH = ROOT.parent / "research" / "datasets" / "cost-records" / "cost.csv
 N_SAMPLES = 500
 RANDOM_SEED = 42
 
-DISTRICTS = [
-    "Colombo", "Gampaha", "Kalutara", "Kandy", "Matale", "Nuwara Eliya",
-    "Galle", "Matara", "Hambantota", "Jaffna", "Kilinochchi", "Mannar",
-    "Vavuniya", "Mullaitivu", "Batticaloa", "Ampara", "Trincomalee",
-    "Kurunegala", "Puttalam", "Anuradhapura", "Polonnaruwa", "Badulla",
-    "Monaragala", "Ratnapura", "Kegalle",
-]
 
-# Approximate residential construction activity per district (normalised below)
-_RAW_WEIGHTS = [
-    15, 10, 6, 7, 3, 2, 5, 4, 3, 3, 1, 1, 2, 1, 2, 2, 2, 5, 3, 4, 2, 3, 2, 4, 4,
-]
-
-COASTAL_DISTRICTS = {
-    "Colombo", "Gampaha", "Kalutara", "Galle", "Matara",
-    "Hambantota", "Puttalam", "Jaffna", "Trincomalee", "Batticaloa", "Ampara",
-}
-
-TERRAIN_BY_DISTRICT = {
-    "Colombo": ["flat"],
-    "Gampaha": ["flat"],
-    "Kalutara": ["flat", "sloped"],
-    "Kandy": ["hilly", "sloped"],
-    "Matale": ["hilly", "sloped"],
-    "Nuwara Eliya": ["hilly", "rocky"],
-    "Galle": ["flat", "sloped"],
-    "Matara": ["flat", "sloped"],
-    "Hambantota": ["flat"],
-    "Jaffna": ["flat"],
-    "Kilinochchi": ["flat"],
-    "Mannar": ["flat"],
-    "Vavuniya": ["flat", "sloped"],
-    "Mullaitivu": ["flat"],
-    "Batticaloa": ["flat"],
-    "Ampara": ["flat", "sloped"],
-    "Trincomalee": ["flat", "sloped"],
-    "Kurunegala": ["flat", "sloped"],
-    "Puttalam": ["flat"],
-    "Anuradhapura": ["flat"],
-    "Polonnaruwa": ["flat"],
-    "Badulla": ["hilly", "rocky"],
-    "Monaragala": ["hilly", "sloped"],
-    "Ratnapura": ["hilly", "rocky"],
-    "Kegalle": ["hilly", "sloped"],
-}
-
-
-def _sample_schema(rng: np.random.Generator, district_weights: np.ndarray) -> dict:
+def _sample_schema(rng: np.random.Generator) -> dict:
     """Sample a randomised but realistic building schema dict."""
-    district = str(rng.choice(DISTRICTS, p=district_weights))
-
     # Footprint: log-normal centred on 120 m² (typical Sri Lankan house)
     footprint_sqm = float(np.clip(rng.lognormal(np.log(120), 0.4), 50, 350))
 
@@ -104,8 +56,10 @@ def _sample_schema(rng: np.random.Generator, district_weights: np.ndarray) -> di
     finish_grade = str(rng.choice(["economy", "mid", "luxury"], p=[0.25, 0.55, 0.20]))
     roof_type = str(rng.choice(["flat", "gable", "hip", "mansard"], p=[0.15, 0.50, 0.25, 0.10]))
 
-    is_coastal = bool(district in COASTAL_DISTRICTS and rng.random() < 0.65)
-    terrain = str(rng.choice(TERRAIN_BY_DISTRICT.get(district, ["flat"])))
+    # Marginal rates preserved from the earlier district-conditioned sampling:
+    # ~37% of residential activity was in coastal locations, terrain flat-dominant
+    is_coastal = bool(rng.random() < 0.37)
+    terrain = str(rng.choice(["flat", "sloped", "hilly", "rocky"], p=[0.55, 0.20, 0.17, 0.08]))
     road_access = str(rng.choice(["paved", "gravel", "track", "none"], p=[0.60, 0.25, 0.10, 0.05]))
     plot_area = round(float(np.clip(rng.lognormal(np.log(400), 0.6), 80, 2000)), 1)
 
@@ -141,7 +95,6 @@ def _sample_schema(rng: np.random.Generator, district_weights: np.ndarray) -> di
         "internal_wall_length": internal_wall_length,
         "finish_grade": finish_grade,
         "roof_type": roof_type,
-        "district": district,
         "is_coastal": is_coastal,
         "terrain": terrain,
         "road_access": road_access,
@@ -156,8 +109,6 @@ def _sample_schema(rng: np.random.Generator, district_weights: np.ndarray) -> di
 
 def generate(n: int = N_SAMPLES) -> pd.DataFrame:
     rng = np.random.default_rng(RANDOM_SEED)
-    weights = np.array(_RAW_WEIGHTS, dtype=float)
-    weights /= weights.sum()
 
     boq_engine = BOQEngine()
     rate_engine = RateEngine()
@@ -169,7 +120,7 @@ def generate(n: int = N_SAMPLES) -> pd.DataFrame:
     failed = 0
 
     for i in range(n):
-        schema = _sample_schema(rng, weights)
+        schema = _sample_schema(rng)
         finish_grade = schema["finish_grade"]
 
         try:
@@ -179,7 +130,6 @@ def generate(n: int = N_SAMPLES) -> pd.DataFrame:
             # Layer 2: priced trade breakdown
             rates = rate_engine.price_boq(
                 boq,
-                district=schema["district"],
                 base_date=schema["base_rate_date"],
                 target_date=schema["target_date"],
             )
@@ -207,7 +157,6 @@ def generate(n: int = N_SAMPLES) -> pd.DataFrame:
                 "perimeter": schema["perimeter"],
                 "floors": schema["floors"],
                 "finish_grade": finish_grade,
-                "district": schema["district"],
                 "is_coastal": int(schema["is_coastal"]),
                 "terrain": schema["terrain"],
                 "road_access": schema["road_access"],
@@ -249,7 +198,5 @@ if __name__ == "__main__":
     print(f"  Max  : LKR {df['grand_total_lkr'].max():>15,.0f}")
     print(f"  Mean : LKR {df['grand_total_lkr'].mean():>15,.0f}")
     print(f"  Median: LKR {df['grand_total_lkr'].median():>14,.0f}")
-    print(f"\nTop districts in dataset:")
-    print(df["district"].value_counts().head(8).to_string())
     print(f"\nFinish grade distribution:")
     print(df["finish_grade"].value_counts().to_string())

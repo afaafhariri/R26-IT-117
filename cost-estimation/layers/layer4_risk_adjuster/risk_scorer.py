@@ -4,17 +4,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# Remote districts (Vavuniya multiplier >= 1.18 is used as the proxy threshold)
-_REMOTE_DISTRICTS = {
-    "Vavuniya", "Mullaitivu", "Kilinochchi", "Mannar",
-    "Monaragala", "Badulla", "Nuwara Eliya",
-}
-
-_COASTAL_DISTRICTS = {
-    "Colombo", "Gampaha", "Kalutara", "Galle", "Matara",
-    "Hambantota", "Puttalam", "Jaffna", "Trincomalee", "Batticaloa", "Ampara",
-}
-
 
 class RiskScorer:
     """Evaluates construction risk factors and returns a total risk percentage."""
@@ -28,25 +17,20 @@ class RiskScorer:
         """Compute additive risk factors and total risk percentage.
 
         Risk factors (additive):
-          - Remote district: +8%
           - Coastal site: +5%
           - Multi-storey (floors > 1): +7%
           - Constrained plot (< 200 m²): +5%
           - Luxury finish grade: +10%
 
         Args:
-            site_schema: Site metadata dict (district, is_coastal, plot_area, terrain).
+            site_schema: Site metadata dict (is_coastal, plot_area, terrain).
             building_schema: Building schema dict (floors, footprint_sqm, etc.).
             finish_grade: 'economy', 'mid', or 'luxury'.
 
         Returns:
             Dict with 'factors_applied' (list of dicts) and 'total_risk_pct' (float).
         """
-        district = str(site_schema.get("district", "Colombo"))
-        is_coastal = bool(
-            site_schema.get("is_coastal", False)
-            or district in _COASTAL_DISTRICTS
-        )
+        is_coastal = bool(site_schema.get("is_coastal", False))
         floors = int(building_schema.get("floors", 1))
         plot_area = float(
             site_schema.get("plot_area", building_schema.get("plot_area", 500.0))
@@ -61,13 +45,6 @@ class RiskScorer:
             total_risk += pct
             factors_applied.append(
                 {"factor": name, "added_pct": round(pct * 100, 1), "reason": reason}
-            )
-
-        if district in _REMOTE_DISTRICTS:
-            _add_factor(
-                "remote_district",
-                0.08,
-                f"District '{district}' has limited material supply chains and labour.",
             )
 
         if is_coastal:
@@ -99,8 +76,8 @@ class RiskScorer:
             )
 
         logger.info(
-            "Risk score for district=%s coastal=%s floors=%d grade=%s: %.1f%%",
-            district, is_coastal, floors, grade, total_risk * 100,
+            "Risk score for coastal=%s floors=%d grade=%s: %.1f%%",
+            is_coastal, floors, grade, total_risk * 100,
         )
 
         return {

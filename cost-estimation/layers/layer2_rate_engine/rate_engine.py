@@ -1,5 +1,5 @@
-"""Rate Engine — applies ICTAD rates, district multipliers, and price escalation
-to a BOQ to produce a priced trade breakdown in LKR.
+"""Rate Engine — applies ICTAD rates and price escalation to a BOQ to produce
+a priced trade breakdown in LKR.
 """
 
 import logging
@@ -7,7 +7,6 @@ from datetime import date
 from typing import Optional, Union
 
 from .ictad_loader import ICTADLoader
-from .district_multiplier import DistrictMultiplier
 from .price_escalation import PriceEscalationModel
 from .material_catalog import MaterialCatalog
 
@@ -20,19 +19,16 @@ class RateEngine:
     def __init__(
         self,
         ictad_loader: Optional[ICTADLoader] = None,
-        district_multiplier: Optional[DistrictMultiplier] = None,
         escalation_model: Optional[PriceEscalationModel] = None,
         material_catalog: Optional[MaterialCatalog] = None,
     ) -> None:
         self._loader = ictad_loader or ICTADLoader()
-        self._district = district_multiplier or DistrictMultiplier()
         self._escalation = escalation_model or PriceEscalationModel()
         self._catalog = material_catalog or MaterialCatalog()
 
     def price_boq(
         self,
         boq: dict,
-        district: str,
         base_date: Union[str, date] = "2024-10-01",
         target_date: Optional[Union[str, date]] = None,
         material_selections: Optional[dict[str, str]] = None,
@@ -42,7 +38,6 @@ class RateEngine:
         Args:
             boq: Consolidated BOQ dict from BOQEngine.run() (contains 'structural',
                  'finishing', 'services', 'summary' keys).
-            district: Target construction district for multiplier lookup.
             base_date: Date the ICTAD rates are valid from (ISO string or date).
             target_date: Projection date for escalation; defaults to today.
             material_selections: Optional map of BOQ part key -> material variant
@@ -51,15 +46,14 @@ class RateEngine:
                  unselected parts keep the ICTAD rate unchanged.
 
         Returns:
-            Dict with 'trade_breakdown' (per-item costs), 'district_multiplier',
-            'escalation_factor', 'direct_cost_lkr', raw 'rates_used', plus
-            'material_selections' applied and per-part 'material_alternatives'.
+            Dict with 'trade_breakdown' (per-item costs), 'escalation_factor',
+            'direct_cost_lkr', raw 'rates_used', plus 'material_selections'
+            applied and per-part 'material_alternatives'.
         """
         if target_date is None:
             target_date = date.today()
 
         rates = self._loader.load_all()
-        multiplier = self._district.get_multiplier(district)
         esc_factor = self._escalation.escalation_factor(base_date, target_date)
 
         trade_breakdown: dict[str, dict] = {}
@@ -103,7 +97,7 @@ class RateEngine:
                 unit = rate_entry.get("unit", "")
                 description = rate_entry.get("description", "")
 
-            adjusted_rate = base_rate * multiplier * esc_factor
+            adjusted_rate = base_rate * esc_factor
             line_cost = adjusted_rate * quantity
 
             trade_breakdown[item_key] = {
@@ -120,18 +114,16 @@ class RateEngine:
             direct_cost_lkr += line_cost
 
         material_alternatives = self._build_alternatives(
-            quantities, selections_applied, multiplier, esc_factor
+            quantities, selections_applied, esc_factor
         )
 
         logger.info(
-            "RateEngine: district=%s multiplier=%.3f esc=%.4f direct_cost=%.0f LKR",
-            district, multiplier, esc_factor, direct_cost_lkr,
+            "RateEngine: esc=%.4f direct_cost=%.0f LKR",
+            esc_factor, direct_cost_lkr,
         )
 
         return {
             "trade_breakdown": trade_breakdown,
-            "district": district,
-            "district_multiplier": multiplier,
             "escalation_factor": round(esc_factor, 4),
             "base_date": str(base_date),
             "target_date": str(target_date),
@@ -145,7 +137,6 @@ class RateEngine:
         self,
         quantities: dict[str, float],
         selections_applied: dict[str, str],
-        multiplier: float,
         esc_factor: float,
     ) -> dict[str, list[dict]]:
         """Per-part cost comparison across all material variants present in the BOQ."""
@@ -156,7 +147,7 @@ class RateEngine:
                 continue
             rows = []
             for variant in self._catalog.variants(part_key):
-                adjusted_rate = variant["rate_lkr"] * multiplier * esc_factor
+                adjusted_rate = variant["rate_lkr"] * esc_factor
                 rows.append({
                     "material": variant["material_key"],
                     "description": variant["description"],
@@ -187,16 +178,8 @@ class RateEngine:
             for part_key in self._catalog.parts()
         }
 
-    def get_district_rates(self, district: str) -> dict:
-        """Return ICTAD rates with district adjustment applied — for the API endpoint."""
-        multiplier = self._district.get_multiplier(district)
-        raw_rates = self._loader.get_rates_for_district_view(district)
-        for item in raw_rates:
-            item["district_adjusted_rate_lkr"] = round(
-                item["base_rate_lkr"] * multiplier, 2
-            )
+    def get_rates(self) -> dict:
+        """Return the ICTAD unit rate schedule — for the API endpoint."""
         return {
-            "district": district,
-            "multiplier": multiplier,
-            "rates": raw_rates,
+            "rates": self._loader.get_rates_view(),
         }

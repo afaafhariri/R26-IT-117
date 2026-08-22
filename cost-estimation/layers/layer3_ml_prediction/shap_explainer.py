@@ -22,7 +22,6 @@ _FEATURE_LABELS: dict[str, str] = {
     "steel_to_concrete_ratio": "steel-to-concrete ratio",
     "opening_to_wall_ratio": "openings-to-wall ratio",
     "perimeter_to_area_ratio": "perimeter-to-area ratio",
-    "district_multiplier": "district location factor",
     "is_coastal": "coastal site surcharge",
     "terrain_encoded": "site terrain difficulty",
     "road_access_encoded": "road access quality",

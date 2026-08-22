@@ -18,7 +18,6 @@ def sample_building_schema() -> dict:
         "internal_wall_length": 30.0,
         "finish_grade": "mid",
         "roof_type": "gable",
-        "district": "Colombo",
         "is_coastal": False,
         "terrain": "flat",
         "road_access": "paved",
@@ -39,12 +38,11 @@ def sample_building_schema() -> dict:
 
 @pytest.fixture
 def luxury_building_schema(sample_building_schema) -> dict:
-    """Variant with luxury grade in a remote coastal district."""
+    """Variant with luxury grade on a constrained coastal site."""
     schema = dict(sample_building_schema)
     schema.update(
         {
             "finish_grade": "luxury",
-            "district": "Mullaitivu",
             "is_coastal": True,
             "floors": 3,
             "plot_area": 180.0,
@@ -55,7 +53,7 @@ def luxury_building_schema(sample_building_schema) -> dict:
 
 @pytest.fixture
 def economy_building_schema(sample_building_schema) -> dict:
-    """Single-storey economy build in Gampaha."""
+    """Single-storey economy build."""
     schema = dict(sample_building_schema)
-    schema.update({"finish_grade": "economy", "district": "Gampaha", "floors": 1})
+    schema.update({"finish_grade": "economy", "floors": 1})
     return schema
