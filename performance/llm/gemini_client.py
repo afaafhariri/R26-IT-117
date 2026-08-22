@@ -4,127 +4,197 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# ── Configure Gemini ──────────────────────────────────────────────────────────
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 _model = None
 
 
 def _get_model():
     global _model
     if _model is None:
-        _model = genai.GenerativeModel("gemini-1.5-flash")
+        genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+        _model = genai.GenerativeModel("gemini-flash-latest")
     return _model
 
 
-# ── Prompt builder ────────────────────────────────────────────────────────────
-
 def _build_prompt(
-    phase_group:   str,
-    sub_phase:     str,
-    district:      str,
-    province:      str,
-    alert_level:   str,
-    delay_risk:    str,
-    delay_days:    int,
+    phase_group: str,
+    sub_phase: str,
+    district: str,
+    province: str,
+    spi_alert: str,
+    delay_risk: str,
+    delay_days: int,
     similar_cases: list[dict],
+    delay_category: str = None,
+    labour_availability: str = None,
+    material_supply: str = None,
+    weather_info: dict = None,
 ) -> str:
-
-    cases_text = ""
+    """
+    Phase 2 - widened per the finalized workflow: Gemini now receives the
+    raw delay-assessment inputs (main reason for delay, labour/material
+    availability) and the resolved weather reading, in addition to the
+    context it already received. All four new parameters are optional
+    (default None) so existing callers that don't pass them keep working
+    unchanged - if omitted, that line is simply left out of the prompt.
+    """
+    case_lines = []
     for c in similar_cases:
-        cases_text += f"\n---\n{c['summary']}\n"
-
-    return f"""You are an expert construction project advisor specializing in Sri Lankan residential construction.
-
-A construction project has triggered a {alert_level} schedule alert.
-
-PROJECT CONTEXT:
-- Location     : {district}, {province}
-- Phase        : {phase_group} / {sub_phase}
-- Predicted Risk: {delay_risk}
-- Estimated Delay: {delay_days} days
-
-SIMILAR HISTORICAL CASES FROM SRI LANKA:
-{cases_text}
-
-Based on the project context and the similar historical cases above, provide a concise advisory response with exactly these three sections:
-
-1. LIKELY CAUSES
-List the most probable causes of this delay based on the location, phase, and similar cases.
-
-2. CORRECTIVE ACTIONS
-List specific, actionable steps the project manager should take immediately.
-
-3. RECOVERY ESTIMATE
-Estimate how many days could be recovered if corrective actions are taken promptly.
-
-Keep each section to 3-4 bullet points. Be specific to the Sri Lankan construction context."""
-
-
-# ── Main function ─────────────────────────────────────────────────────────────
-
-def generate_recommendations(
-    phase_group:   str,
-    sub_phase:     str,
-    district:      str,
-    province:      str,
-    alert_level:   str,
-    delay_risk:    str,
-    delay_days:    int,
-    similar_cases: list[dict],
-) -> dict:
-    """
-    Call Gemini with project context + RAG cases.
-
-    Returns:
-        {
-            "likely_causes":      "...",
-            "corrective_actions": "...",
-            "recovery_estimate":  "..."
-        }
-    """
-    try:
-        model  = _get_model()
-        prompt = _build_prompt(
-            phase_group, sub_phase, district, province,
-            alert_level, delay_risk, delay_days, similar_cases
+        case_lines.append(
+            f"- Cause: {c.get('cause_of_delay', '')}\n"
+            f"  Action: {c.get('corrective_action_taken', '')}\n"
+            f"  Status: {c.get('construction_status', '')}"
         )
 
-        response = model.generate_content(prompt)
-        text     = response.text.strip()
+    cases_text = "\n".join(case_lines) if case_lines else "- No similar cases available"
 
-        # ── Parse the 3 sections from Gemini's response ───────────────────────
-        likely_causes      = _extract_section(text, "LIKELY CAUSES",      "CORRECTIVE ACTIONS")
-        corrective_actions = _extract_section(text, "CORRECTIVE ACTIONS",  "RECOVERY ESTIMATE")
-        recovery_estimate  = _extract_section(text, "RECOVERY ESTIMATE",   None)
+    assessment_lines = []
+    if delay_category:
+        assessment_lines.append(f"- Main reason for delay: {delay_category}")
+    if labour_availability:
+        assessment_lines.append(f"- Labour availability: {labour_availability}")
+    if material_supply:
+        assessment_lines.append(f"- Material availability: {material_supply}")
+    if weather_info:
+        weather_desc = weather_info.get("weather_severity", "unknown")
+        condition = weather_info.get("condition")
+        temperature = weather_info.get("temperature_c")
+        rainfall = weather_info.get("rainfall_mm")
+        weather_bits = [f"severity={weather_desc}"]
+        if condition:
+            weather_bits.append(f"condition={condition}")
+        if temperature is not None:
+            weather_bits.append(f"temperature={temperature}C")
+        if rainfall is not None:
+            weather_bits.append(f"rainfall={rainfall}mm")
+        assessment_lines.append(f"- Current weather: {', '.join(weather_bits)}")
 
-        return {
-            "likely_causes":      likely_causes.strip(),
-            "corrective_actions": corrective_actions.strip(),
-            "recovery_estimate":  recovery_estimate.strip(),
-        }
+    assessment_text = (
+        "\n".join(assessment_lines)
+        if assessment_lines
+        else "- No additional delay-assessment details provided"
+    )
 
-    except Exception as e:
-        return {
-            "likely_causes":      None,
-            "corrective_actions": None,
-            "recovery_estimate":  None,
-            "error":              str(e),
-        }
+    return f"""You are an expert advisor for Sri Lankan coastal residential construction projects.
+
+Current project context:
+- Location: {district}, {province}
+- Phase: {phase_group} / {sub_phase}
+- SPI alert level: {spi_alert}
+- ML delay risk level: {delay_risk}
+- Estimated delay days: {delay_days}
+
+Delay assessment details:
+{assessment_text}
+
+Top similar historical cases:
+{cases_text}
+
+Respond in exactly this format:
+EXPLANATION:
+<plain language explanation in 2-4 sentences>
+
+CORRECTIVE ACTIONS:
+- <specific action 1>
+- <specific action 2>
+- <specific action 3>
+- <optional action 4>
+- <optional action 5>
+"""
 
 
-def _extract_section(text: str, start_heading: str, end_heading: str | None) -> str:
-    """Extract content between two headings in Gemini's response."""
+def _parse_actions(text: str) -> list[str]:
+    actions = []
+    in_actions = False
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        upper = line.upper()
+        if upper.startswith("CORRECTIVE ACTIONS"):
+            in_actions = True
+            continue
+        if upper.startswith("EXPLANATION"):
+            in_actions = False
+            continue
+        if in_actions and line.startswith("-"):
+            actions.append(line[1:].strip())
+    return actions[:5]
+
+
+def _parse_explanation(text: str) -> str:
+    lines = []
+    in_explanation = False
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        upper = line.upper()
+        if upper.startswith("EXPLANATION"):
+            in_explanation = True
+            continue
+        if upper.startswith("CORRECTIVE ACTIONS"):
+            break
+        if in_explanation:
+            lines.append(line)
+    return " ".join(lines).strip()
+
+
+def generate_recommendations(
+    phase_group: str,
+    sub_phase: str,
+    district: str,
+    province: str,
+    spi_alert: str,
+    delay_risk: str,
+    delay_days: int,
+    similar_cases: list[dict],
+    delay_category: str = None,
+    labour_availability: str = None,
+    material_supply: str = None,
+    weather_info: dict = None,
+) -> dict:
     try:
-        start_idx = text.upper().find(start_heading.upper())
-        if start_idx == -1:
-            return ""
-        # skip past the heading line
-        start_idx = text.find("\n", start_idx) + 1
+        model = _get_model()
+        prompt = _build_prompt(
+            phase_group,
+            sub_phase,
+            district,
+            province,
+            spi_alert,
+            delay_risk,
+            delay_days,
+            similar_cases,
+            delay_category=delay_category,
+            labour_availability=labour_availability,
+            material_supply=material_supply,
+            weather_info=weather_info,
+        )
+        response = model.generate_content(prompt)
+        text = response.text.strip()
 
-        if end_heading:
-            end_idx = text.upper().find(end_heading.upper(), start_idx)
-            return text[start_idx:end_idx].strip() if end_idx != -1 else text[start_idx:].strip()
-        else:
-            return text[start_idx:].strip()
-    except Exception:
-        return ""
+        explanation = _parse_explanation(text)
+        actions = _parse_actions(text)
+        if not explanation:
+            explanation = "Delay risk has increased based on SPI trend and contextual factors."
+        if not actions:
+            actions = [
+                "Prioritize critical path tasks and update the weekly execution sequence.",
+                "Secure near-term labour and material commitments with daily follow-up.",
+                "Escalate blockers immediately to avoid compounding schedule slippage.",
+            ]
+
+        return {
+            "explanation": explanation,
+            "corrective_actions": actions,
+            "raw_text": text,
+        }
+    except Exception as exc:
+        return {
+            "explanation": "Unable to generate detailed recommendation due to LLM error.",
+            "corrective_actions": [
+                "Review site bottlenecks and refresh the 2-week lookahead plan.",
+                "Stabilize labour/material availability for critical path tasks.",
+                "Track daily recovery against the updated micro-schedule.",
+            ],
+            "error": str(exc),
+        }

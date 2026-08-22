@@ -53,6 +53,7 @@ nosetests.xml
 .ipynb_checkpoints/
 *.ipynb_checkpoints
 research/notebooks/delay_model.ipynb
+research/notebooks/delaymodel_final.ipynb
 
 # ── Logs ──────────────────────────────────────────────────────────────────────
 *.log
@@ -96,6 +97,11 @@ yarn-error.log*
 *.bak
 *.orig
 .cache/
+
+# ── Local database backups ──────────────────────────────────────────────────
+# pg_dump snapshots taken before destructive operations - local recovery aid
+# only, never meant to be committed.
+_db_backups/
 
 .claude/
 .vscode/
