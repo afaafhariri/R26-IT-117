@@ -10,8 +10,6 @@ from typing import Union
 import numpy as np
 import pandas as pd
 
-from ..layer2_rate_engine.district_multiplier import DistrictMultiplier
-
 logger = logging.getLogger(__name__)
 
 _TERRAIN_MAP = {"flat": 0, "sloped": 1, "hilly": 2, "rocky": 3}
@@ -23,9 +21,6 @@ _FINISH_GRADE_MAP = {"economy": 0, "mid": 1, "luxury": 2}
 class FeatureEngineer:
     """Builds a numeric feature DataFrame from BOQ + site data."""
 
-    def __init__(self) -> None:
-        self._district_multiplier = DistrictMultiplier()
-
     def build_features(
         self,
         boq: dict,
@@ -36,7 +31,7 @@ class FeatureEngineer:
 
         Args:
             boq: Consolidated BOQ dict returned by BOQEngine.run().
-            site_schema: Site/building metadata (district, coastal flag, terrain, etc.).
+            site_schema: Site/building metadata (coastal flag, terrain, road access, etc.).
             finish_grade: 'economy', 'mid', or 'luxury'.
 
         Returns:
@@ -69,8 +64,6 @@ class FeatureEngineer:
         perimeter_to_area_ratio = perimeter / max(floor_area_sqm, 1.0)
 
         # ---- Location features -------------------------------------------
-        district = str(site_schema.get("district", "Colombo"))
-        district_multiplier = self._district_multiplier.get_multiplier(district)
         is_coastal = int(bool(site_schema.get("is_coastal", False)))
         terrain_raw = str(site_schema.get("terrain", "flat")).lower()
         terrain_encoded = _TERRAIN_MAP.get(terrain_raw, 0)
@@ -99,7 +92,6 @@ class FeatureEngineer:
             "opening_to_wall_ratio": opening_to_wall_ratio,
             "perimeter_to_area_ratio": perimeter_to_area_ratio,
             # Location
-            "district_multiplier": district_multiplier,
             "is_coastal": is_coastal,
             "terrain_encoded": terrain_encoded,
             "road_access_encoded": road_access_encoded,
@@ -121,7 +113,7 @@ class FeatureEngineer:
             "concrete_m3", "steel_kg", "brickwork_m3", "floor_area_sqm",
             "wall_plaster_sqm", "door_count", "window_count", "bathroom_count",
             "concrete_per_sqm", "steel_to_concrete_ratio", "opening_to_wall_ratio",
-            "perimeter_to_area_ratio", "district_multiplier", "is_coastal",
+            "perimeter_to_area_ratio", "is_coastal",
             "terrain_encoded", "road_access_encoded", "finish_grade_encoded",
             "roof_type_encoded", "floors",
         ]

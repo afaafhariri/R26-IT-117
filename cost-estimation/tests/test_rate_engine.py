@@ -1,52 +1,11 @@
-"""Tests for Layer 2: district multipliers, price escalation, and rate engine."""
+"""Tests for Layer 2: price escalation, ICTAD loading, and rate engine."""
 
 import pytest
 from datetime import date
 
-from layers.layer2_rate_engine.district_multiplier import DistrictMultiplier
 from layers.layer2_rate_engine.price_escalation import PriceEscalationModel
 from layers.layer2_rate_engine.rate_engine import RateEngine
 from layers.layer2_rate_engine.ictad_loader import ICTADLoader
-
-
-# ---------------------------------------------------------------------------
-# DistrictMultiplier
-# ---------------------------------------------------------------------------
-
-class TestDistrictMultiplier:
-    def setup_method(self):
-        self.dm = DistrictMultiplier()
-
-    def test_colombo_is_baseline_1_00(self):
-        assert self.dm.get_multiplier("Colombo") == 1.00
-
-    def test_mullaitivu_is_highest(self):
-        assert self.dm.get_multiplier("Mullaitivu") == 1.22
-
-    def test_gampaha_is_1_02(self):
-        assert self.dm.get_multiplier("Gampaha") == 1.02
-
-    def test_unknown_district_returns_1_05(self):
-        assert self.dm.get_multiplier("Atlantis") == 1.05
-
-    def test_apply_multiplies_rate(self):
-        rate = 10_000.0
-        result = self.dm.apply(rate, "Kandy")
-        assert result == pytest.approx(10_000.0 * 1.05, rel=1e-6)
-
-    def test_all_districts_returns_list(self):
-        districts = self.dm.all_districts
-        assert "Colombo" in districts
-        assert "Vavuniya" in districts
-        assert len(districts) >= 17  # at least the 17 specified
-
-    def test_custom_multipliers_override_defaults(self):
-        dm = DistrictMultiplier(custom_multipliers={"Colombo": 1.50})
-        assert dm.get_multiplier("Colombo") == 1.50
-
-    def test_all_multipliers_gte_1(self):
-        for district, mult in self.dm.as_dict().items():
-            assert mult >= 1.00, f"{district} multiplier {mult} < 1.00"
 
 
 # ---------------------------------------------------------------------------
@@ -118,8 +77,8 @@ class TestICTADLoader:
         rate = self.loader.get_rate("nonexistent_item_xyz")
         assert rate == 0.0
 
-    def test_district_view_includes_base_rate(self):
-        view = self.loader.get_rates_for_district_view("Kandy")
+    def test_rates_view_includes_base_rate(self):
+        view = self.loader.get_rates_view()
         assert all("base_rate_lkr" in item for item in view)
 
 
@@ -143,32 +102,25 @@ class TestRateEngine:
 
     def test_price_boq_returns_direct_cost(self):
         boq = self._make_boq()
-        result = self.engine.price_boq(boq, district="Colombo")
+        result = self.engine.price_boq(boq)
         assert result["direct_cost_lkr"] > 0
-
-    def test_higher_multiplier_district_costs_more(self):
-        boq = self._make_boq()
-        colombo = self.engine.price_boq(boq, district="Colombo")
-        mullaitivu = self.engine.price_boq(boq, district="Mullaitivu")
-        assert mullaitivu["direct_cost_lkr"] > colombo["direct_cost_lkr"]
 
     def test_escalation_increases_cost(self):
         boq = self._make_boq()
-        today = self.engine.price_boq(boq, district="Colombo",
+        today = self.engine.price_boq(boq,
                                        base_date="2024-01-01", target_date="2024-01-01")
-        future = self.engine.price_boq(boq, district="Colombo",
+        future = self.engine.price_boq(boq,
                                         base_date="2024-01-01", target_date="2026-01-01")
         assert future["direct_cost_lkr"] > today["direct_cost_lkr"]
 
-    def test_get_district_rates_returns_district_adjusted_rates(self):
-        result = self.engine.get_district_rates("Kandy")
-        assert result["multiplier"] == 1.05
+    def test_get_rates_returns_schedule(self):
+        result = self.engine.get_rates()
         assert len(result["rates"]) > 0
         for item in result["rates"]:
-            assert "district_adjusted_rate_lkr" in item
+            assert "base_rate_lkr" in item
 
     def test_trade_breakdown_contains_line_cost(self):
         boq = self._make_boq()
-        result = self.engine.price_boq(boq, district="Colombo")
+        result = self.engine.price_boq(boq)
         for key, entry in result["trade_breakdown"].items():
             assert "line_cost_lkr" in entry

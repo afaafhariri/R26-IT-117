@@ -132,9 +132,9 @@ def boq(sample_building_schema):
 class TestRateEngineMaterials:
     def test_no_selection_is_backward_compatible(self, boq):
         engine = RateEngine()
-        base = engine.price_boq(boq, district="Colombo", target_date="2025-06-01")
+        base = engine.price_boq(boq, target_date="2025-06-01")
         with_empty = engine.price_boq(
-            boq, district="Colombo", target_date="2025-06-01", material_selections={}
+            boq, target_date="2025-06-01", material_selections={}
         )
         assert base["direct_cost_lkr"] == with_empty["direct_cost_lkr"]
         assert base["trade_breakdown"] == with_empty["trade_breakdown"]
@@ -142,9 +142,9 @@ class TestRateEngineMaterials:
 
     def test_selection_changes_line_cost(self, boq):
         engine = RateEngine()
-        baseline = engine.price_boq(boq, district="Colombo", target_date="2025-06-01")
+        baseline = engine.price_boq(boq, target_date="2025-06-01")
         cheaper = engine.price_boq(
-            boq, district="Colombo", target_date="2025-06-01",
+            boq, target_date="2025-06-01",
             material_selections={"door_count": "plywood_flush"},
         )
         # Plywood (26k) is cheaper than the ICTAD solid timber baseline (45k)
@@ -156,31 +156,31 @@ class TestRateEngineMaterials:
 
     def test_unknown_material_falls_back_to_ictad(self, boq):
         engine = RateEngine()
-        baseline = engine.price_boq(boq, district="Colombo", target_date="2025-06-01")
+        baseline = engine.price_boq(boq, target_date="2025-06-01")
         result = engine.price_boq(
-            boq, district="Colombo", target_date="2025-06-01",
+            boq, target_date="2025-06-01",
             material_selections={"door_count": "unobtainium"},
         )
         assert result["direct_cost_lkr"] == baseline["direct_cost_lkr"]
         assert result["material_selections"] == {}
 
-    def test_district_multiplier_applies_to_material_rates(self, boq):
+    def test_escalation_applies_to_material_rates(self, boq):
         engine = RateEngine()
-        colombo = engine.price_boq(
-            boq, district="Colombo", target_date="2025-06-01",
+        near = engine.price_boq(
+            boq, base_date="2024-10-01", target_date="2024-10-01",
             material_selections={"door_count": "plywood_flush"},
         )
-        remote = engine.price_boq(
-            boq, district="Mullaitivu", target_date="2025-06-01",
+        far = engine.price_boq(
+            boq, base_date="2024-10-01", target_date="2026-10-01",
             material_selections={"door_count": "plywood_flush"},
         )
-        assert (remote["trade_breakdown"]["door_count"]["adjusted_rate_lkr"]
-                > colombo["trade_breakdown"]["door_count"]["adjusted_rate_lkr"])
+        assert (far["trade_breakdown"]["door_count"]["adjusted_rate_lkr"]
+                > near["trade_breakdown"]["door_count"]["adjusted_rate_lkr"])
 
     def test_alternatives_present_for_boq_parts(self, boq):
         engine = RateEngine()
         result = engine.price_boq(
-            boq, district="Colombo", target_date="2025-06-01",
+            boq, target_date="2025-06-01",
             material_selections={"door_count": "solid_timber_teak"},
         )
         alts = result["material_alternatives"]

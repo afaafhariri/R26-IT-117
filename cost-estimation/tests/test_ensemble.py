@@ -60,10 +60,9 @@ class TestFeatureEngineer:
         assert not feature_df.isnull().any().any()
         assert not np.isinf(feature_df.values).any()
 
-    def test_district_multiplier_colombo_is_1(self, sample_boq, sample_building_schema):
-        fe = FeatureEngineer()
-        df = fe.build_features(sample_boq, sample_building_schema, "mid")
-        assert df["district_multiplier"].iloc[0] == pytest.approx(1.00)
+    def test_feature_count_is_18(self, feature_df):
+        assert feature_df.shape[1] == 18
+        assert len(FeatureEngineer.feature_names()) == 18
 
     def test_finish_grade_economy_encodes_0(self, sample_boq, sample_building_schema):
         fe = FeatureEngineer()

@@ -125,8 +125,6 @@ class ReportBuilder:
                 "model": "xgboost",
             },
             "rate_metadata": {
-                "district": rates.get("district", ""),
-                "district_multiplier": rates.get("district_multiplier", 1.0),
                 "escalation_factor": rates.get("escalation_factor", 1.0),
                 "base_date": rates.get("base_date", ""),
                 "target_date": rates.get("target_date", ""),

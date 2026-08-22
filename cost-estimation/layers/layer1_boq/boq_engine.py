@@ -32,8 +32,7 @@ class BOQEngine:
         finish_grade: str = building_schema.get("finish_grade", "mid")
         rooms: dict = building_schema.get("rooms", {})
 
-        logger.info("Running BOQ Engine for district=%s floors=%s grade=%s",
-                    building_schema.get("district", "unknown"),
+        logger.info("Running BOQ Engine for floors=%s grade=%s",
                     building_schema.get("floors", 1),
                     finish_grade)
 
