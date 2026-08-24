@@ -1,1 +1,3 @@
-@afaafhariri
+# Every file in this repo requires review from @afaafhariri.
+# Format: <path-pattern> <owner>   (last matching rule wins)
+* @afaafhariri
