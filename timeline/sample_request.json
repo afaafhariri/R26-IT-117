@@ -1,0 +1,42 @@
+{
+  "project_id": "P001",
+  "project_name": "Two Storey Residential House",
+  "location": "Colombo",
+  "built_up_area": 2000,
+  "number_of_floors": 2,
+  "room_count": 5,
+  "building_type": "residential",
+  "foundation_type": "shallow",
+  "structural_type": "reinforced_concrete",
+  "material_quantities": {
+    "cement_bags": 500,
+    "steel_kg": 2500,
+    "bricks": 12000,
+    "sand_cubes": 20,
+    "aggregate_cubes": 15,
+    "tiles_sqft": 1500,
+    "paint_liters": 200
+  },
+  "labor_requirements": {
+    "masons": 6,
+    "helpers": 8,
+    "carpenters": 3,
+    "electricians": 2,
+    "plumbers": 2,
+    "painters": 3
+  },
+  "phase_wise_cost": {
+    "foundation": 800000,
+    "structure": 2500000,
+    "roofing": 700000,
+    "electrical_plumbing": 900000,
+    "finishing": 1500000
+  },
+  "total_estimated_cost": 6400000,
+  "project_constraints": {
+    "start_week": 1,
+    "available_workers": 24,
+    "weather_risk": "medium",
+    "material_availability": "good"
+  }
+}
