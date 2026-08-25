@@ -1,0 +1,22 @@
+Case 141: Construction Delay - Pre-Construction & Approvals / Site selection & surveying
+
+Location   : Ampara, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Site selection & surveying
+Risk Level : MEDIUM
+Delay Days : 44 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : Post-tsunami Ampara owner relocated temporarily delaying construction start
+
+Site Conditions:
+  - Labour availability  : 0.86
+  - Material supply      : available
+  - Weather severity     : 0.81
+  - Cumulative delay so far: 17 days
+
+Corrective Action Taken:
+  Community mobiliser assigned by UN-Habitat field office to assist
+
+Construction Status:
+  Under NHDA review

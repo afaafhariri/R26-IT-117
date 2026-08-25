@@ -1,0 +1,22 @@
+Case 48: Construction Delay - Structure / Floor slabs
+
+Location   : Vavuniya, Northern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Floor slabs
+Risk Level : HIGH
+Delay Days : 100 days
+
+Delay Category : Financial & Funding
+Cause of Delay : Owner financial difficulties due to 2022 economic crisis in Vavuniya
+
+Site Conditions:
+  - Labour availability  : 0.79
+  - Material supply      : available
+  - Weather severity     : 0.29
+  - Cumulative delay so far: 50 days
+
+Corrective Action Taken:
+  Phased approach adopted and specification reduced to manage cash flow
+
+Construction Status:
+  Completed with delay

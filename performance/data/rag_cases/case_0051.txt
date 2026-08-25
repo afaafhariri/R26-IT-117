@@ -1,0 +1,22 @@
+Case 51: Construction Delay - Pre-Construction & Approvals / BOQ preparation & tendering
+
+Location   : Mannar, Northern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > BOQ preparation & tendering
+Risk Level : HIGH
+Delay Days : 65 days
+
+Delay Category : Financial & Funding
+Cause of Delay : Bank loan rejected due to inadequate collateral value for Mannar property
+
+Site Conditions:
+  - Labour availability  : 0.82
+  - Material supply      : available
+  - Weather severity     : 0.28
+  - Cumulative delay so far: 21 days
+
+Corrective Action Taken:
+  Alternative microfinance obtained through NGO partner in Mannar district
+
+Construction Status:
+  Completed after alternative financing

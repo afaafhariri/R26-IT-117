@@ -1,0 +1,22 @@
+Case 73: Construction Delay - Pre-Construction & Approvals / BOQ preparation & tendering
+
+Location   : Galle, Southern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > BOQ preparation & tendering
+Risk Level : MEDIUM
+Delay Days : 28 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : Owner dispute with contractor over quality standard in Galle coastal home
+
+Site Conditions:
+  - Labour availability  : 0.65
+  - Material supply      : available
+  - Weather severity     : 0.85
+  - Cumulative delay so far: 17 days
+
+Corrective Action Taken:
+  Independent QS engaged and contractor dispute resolved amicably
+
+Construction Status:
+  Completed after dispute resolution

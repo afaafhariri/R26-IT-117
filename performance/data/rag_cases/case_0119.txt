@@ -1,0 +1,22 @@
+Case 119: Construction Delay - Foundations / Foundation work
+
+Location   : Batticaloa, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 22 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Northeast monsoon flooding inundated foundation excavation in Batticaloa
+
+Site Conditions:
+  - Labour availability  : 0.74
+  - Material supply      : available
+  - Weather severity     : 0.89
+  - Cumulative delay so far: 5 days
+
+Corrective Action Taken:
+  Dewatering pumps and perimeter drainage channel installed on site
+
+Construction Status:
+  Completed after weather delay

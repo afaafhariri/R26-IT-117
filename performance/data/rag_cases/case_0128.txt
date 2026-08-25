@@ -1,0 +1,22 @@
+Case 128: Construction Delay - Pre-Construction & Approvals / Authority approvals
+
+Location   : Mullaitivu, Northern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Authority approvals
+Risk Level : HIGH
+Delay Days : 622 days
+
+Delay Category : Land & Legal
+Cause of Delay : House site under military High Security Zone restriction in Mullaitivu
+
+Site Conditions:
+  - Labour availability  : 0.84
+  - Material supply      : available
+  - Weather severity     : 0.32
+  - Cumulative delay so far: 18 days
+
+Corrective Action Taken:
+  HSZ gazette notification obtained after government ministry application
+
+Construction Status:
+  Suspended awaiting HSZ release

@@ -1,0 +1,22 @@
+Case 177: Construction Delay - Structure / Floor slabs
+
+Location   : Galle, Southern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Floor slabs
+Risk Level : HIGH
+Delay Days : 120 days
+
+Delay Category : Financial & Funding
+Cause of Delay : Construction cost exceeded initial estimate by 40 percent in Galle project
+
+Site Conditions:
+  - Labour availability  : 0.87
+  - Material supply      : available
+  - Weather severity     : 0.33
+  - Cumulative delay so far: 49 days
+
+Corrective Action Taken:
+  Scope reduced and owner obtained approved top-up loan from bank
+
+Construction Status:
+  Completed with reduced specification scope

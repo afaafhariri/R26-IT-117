@@ -1,0 +1,22 @@
+Case 17: Construction Delay - Pre-Construction & Approvals / Site selection & surveying
+
+Location   : Hambantota, Southern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Site selection & surveying
+Risk Level : MEDIUM
+Delay Days : 35 days
+
+Delay Category : Land & Legal
+Cause of Delay : Land boundary dispute with neighbour delayed Hambantota site clearance and survey
+
+Site Conditions:
+  - Labour availability  : 0.76
+  - Material supply      : available
+  - Weather severity     : 0.23
+  - Cumulative delay so far: 6 days
+
+Corrective Action Taken:
+  Licensed boundary survey conducted and formal agreement signed
+
+Construction Status:
+  Completed after legal resolution

@@ -1,0 +1,22 @@
+Case 4: Construction Delay - Envelope & Waterproofing / External rendering
+
+Location   : Matara, Southern Province
+Building   : 1-floor residential construction
+Phase      : Envelope & Waterproofing > External rendering
+Risk Level : HIGH
+Delay Days : 55 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Coastal erosion near Matara beach site threatened external rendering stability
+
+Site Conditions:
+  - Labour availability  : 0.8
+  - Material supply      : available
+  - Weather severity     : 0.77
+  - Cumulative delay so far: 59 days
+
+Corrective Action Taken:
+  Retaining wall and rock armouring constructed on coastal site boundary
+
+Construction Status:
+  Completed with coastal protection measures

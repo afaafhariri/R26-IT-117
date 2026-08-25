@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: r26_postgres
+    environment:
+      POSTGRES_DB: constructiondb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d constructiondb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  performance:
+    build:
+      context: ./performance
+      dockerfile: Dockerfile
+    container_name: r26_performance
+    env_file:
+      - ./performance/.env
+    environment:
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/constructiondb
+      PORT: "5004"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "5004:5004"
+
+volumes:
+  postgres_data:

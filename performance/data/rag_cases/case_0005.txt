@@ -1,0 +1,22 @@
+Case 5: Construction Delay - Structure / Columns & beams
+
+Location   : Ampara, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : HIGH
+Delay Days : 120 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Cement and steel unavailable in Ampara during 2022 foreign exchange crisis
+
+Site Conditions:
+  - Labour availability  : 0.83
+  - Material supply      : unavailable
+  - Weather severity     : 0.36
+  - Cumulative delay so far: 44 days
+
+Corrective Action Taken:
+  Bulk materials procured from Colombo at additional transport cost
+
+Construction Status:
+  Completed with significant cost overrun

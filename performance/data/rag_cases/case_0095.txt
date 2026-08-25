@@ -1,0 +1,22 @@
+Case 95: Construction Delay - Foundations / Foundation work
+
+Location   : Matara, Southern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 25 days
+
+Delay Category : Design & Technical
+Cause of Delay : Incorrect floor level set causing water pooling inside completed Matara house
+
+Site Conditions:
+  - Labour availability  : 0.59
+  - Material supply      : available
+  - Weather severity     : 0.31
+  - Cumulative delay so far: 19 days
+
+Corrective Action Taken:
+  Floor level raised and comprehensive internal drainage system installed
+
+Construction Status:
+  Completed after remedial work

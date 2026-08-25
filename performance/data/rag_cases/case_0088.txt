@@ -1,0 +1,22 @@
+Case 88: Construction Delay - Foundations / Foundation work
+
+Location   : Galle, Southern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : LOW
+Delay Days : 10 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Saltwater corrosion of steel reinforcement in Galle coastal foundation site
+
+Site Conditions:
+  - Labour availability  : 0.69
+  - Material supply      : available
+  - Weather severity     : 0.87
+  - Cumulative delay so far: 0 days
+
+Corrective Action Taken:
+  Epoxy coated marine grade steel used and affected sections replaced
+
+Construction Status:
+  Ongoing - wall construction stage

@@ -1,0 +1,22 @@
+Case 149: Construction Delay - Pre-Construction & Approvals / Authority approvals
+
+Location   : Vavuniya, Northern Province
+Building   : 2-floor residential construction
+Phase      : Pre-Construction & Approvals > Authority approvals
+Risk Level : HIGH
+Delay Days : 60 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : Family dispute over Vavuniya land ownership delayed construction commencement
+
+Site Conditions:
+  - Labour availability  : 0.73
+  - Material supply      : available
+  - Weather severity     : 0.3
+  - Cumulative delay so far: 19 days
+
+Corrective Action Taken:
+  Legal mediation at DS office resolved ownership dispute
+
+Construction Status:
+  Completed after resolution

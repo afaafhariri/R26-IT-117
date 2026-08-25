@@ -1,0 +1,22 @@
+Case 64: Construction Delay - Foundations / Foundation work
+
+Location   : Ampara, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : LOW
+Delay Days : 13 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Monsoon flooding inundated foundation excavation in Ampara coastal area
+
+Site Conditions:
+  - Labour availability  : 0.88
+  - Material supply      : available
+  - Weather severity     : 0.82
+  - Cumulative delay so far: 3 days
+
+Corrective Action Taken:
+  Water pumps installed and site drainage channel constructed
+
+Construction Status:
+  Ongoing - superstructure stage

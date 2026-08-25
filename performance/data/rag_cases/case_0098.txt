@@ -1,0 +1,22 @@
+Case 98: Construction Delay - Site Preparation / Site clearing & hoarding
+
+Location   : Hambantota, Southern Province
+Building   : 1-floor residential construction
+Phase      : Site Preparation > Site clearing & hoarding
+Risk Level : LOW
+Delay Days : 8 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Wild elephant intrusion damaged partially built site hoarding in Hambantota
+
+Site Conditions:
+  - Labour availability  : 0.7
+  - Material supply      : available
+  - Weather severity     : 0.69
+  - Cumulative delay so far: 5 days
+
+Corrective Action Taken:
+  Heavy duty electric fence installed around entire construction perimeter
+
+Construction Status:
+  Completed with additional protection cost

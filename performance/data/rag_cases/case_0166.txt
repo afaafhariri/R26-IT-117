@@ -1,0 +1,22 @@
+Case 166: Construction Delay - Structure / Roof slab
+
+Location   : Mannar, Northern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Roof slab
+Risk Level : HIGH
+Delay Days : 174 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Cement unavailability in Mannar during 2022 foreign exchange crisis
+
+Site Conditions:
+  - Labour availability  : 0.7
+  - Material supply      : unavailable
+  - Weather severity     : 0.29
+  - Cumulative delay so far: 38 days
+
+Corrective Action Taken:
+  Alternative Colombo supplier found and bulk purchase arranged
+
+Construction Status:
+  Completed with cost overrun

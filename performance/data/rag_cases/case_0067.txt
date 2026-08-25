@@ -1,0 +1,22 @@
+Case 67: Construction Delay - Envelope & Waterproofing / Roof waterproofing
+
+Location   : Batticaloa, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Envelope & Waterproofing > Roof waterproofing
+Risk Level : MEDIUM
+Delay Days : 35 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Termite infestation destroyed timber roof framework in Batticaloa house
+
+Site Conditions:
+  - Labour availability  : 0.87
+  - Material supply      : available
+  - Weather severity     : 0.92
+  - Cumulative delay so far: 18 days
+
+Corrective Action Taken:
+  Full termite chemical treatment and complete timber replacement carried out
+
+Construction Status:
+  Completed after treatment

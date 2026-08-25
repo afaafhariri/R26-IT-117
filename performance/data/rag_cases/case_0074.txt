@@ -1,0 +1,22 @@
+Case 74: Construction Delay - Pre-Construction & Approvals / Site selection & surveying
+
+Location   : Mullaitivu, Northern Province
+Building   : 2-floor residential construction
+Phase      : Pre-Construction & Approvals > Site selection & surveying
+Risk Level : MEDIUM
+Delay Days : 14 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : War trauma affecting owner decision making and construction planning in Mullaitivu
+
+Site Conditions:
+  - Labour availability  : 0.72
+  - Material supply      : available
+  - Weather severity     : 0.33
+  - Cumulative delay so far: 13 days
+
+Corrective Action Taken:
+  Community support worker assisted owner in project management and decisions
+
+Construction Status:
+  Completed with community support

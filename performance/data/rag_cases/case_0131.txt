@@ -1,0 +1,22 @@
+Case 131: Construction Delay - Site Preparation / Site clearing & hoarding
+
+Location   : Jaffna, Northern Province
+Building   : 1-floor residential construction
+Phase      : Site Preparation > Site clearing & hoarding
+Risk Level : LOW
+Delay Days : 12 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Wild elephant entry damaged site hoarding and equipment in Jaffna rural area
+
+Site Conditions:
+  - Labour availability  : 0.56
+  - Material supply      : available
+  - Weather severity     : 0.78
+  - Cumulative delay so far: 6 days
+
+Corrective Action Taken:
+  Electric fence erected around construction perimeter before restart
+
+Construction Status:
+  Completed with additional cost

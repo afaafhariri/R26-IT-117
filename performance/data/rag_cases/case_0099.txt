@@ -1,0 +1,22 @@
+Case 99: Construction Delay - Structure / Floor slabs
+
+Location   : Trincomalee, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Floor slabs
+Risk Level : HIGH
+Delay Days : 107 days
+
+Delay Category : Financial & Funding
+Cause of Delay : Incomplete documentation prevented IFRC grant disbursement in Trincomalee
+
+Site Conditions:
+  - Labour availability  : 0.74
+  - Material supply      : available
+  - Weather severity     : 0.41
+  - Cumulative delay so far: 21 days
+
+Corrective Action Taken:
+  Documents completed with legal aid and grant released after verification
+
+Construction Status:
+  Ongoing - roof level reached

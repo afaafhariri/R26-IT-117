@@ -1,0 +1,22 @@
+Case 84: Construction Delay - Foundations / Foundation work
+
+Location   : Mannar, Northern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 20 days
+
+Delay Category : Labour
+Cause of Delay : Death of primary mason during foundation work phase in Mannar
+
+Site Conditions:
+  - Labour availability  : 0.29
+  - Material supply      : available
+  - Weather severity     : 0.27
+  - Cumulative delay so far: 10 days
+
+Corrective Action Taken:
+  Replacement mason found from Vavuniya and work resumed after two weeks
+
+Construction Status:
+  Completed with net delay

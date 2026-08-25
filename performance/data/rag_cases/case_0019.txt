@@ -1,0 +1,22 @@
+Case 19: Construction Delay - Structure / Floor slabs
+
+Location   : Ampara, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Floor slabs
+Risk Level : HIGH
+Delay Days : 65 days
+
+Delay Category : Financial & Funding
+Cause of Delay : Bank housing loan application rejected in Ampara due to low income level
+
+Site Conditions:
+  - Labour availability  : 0.64
+  - Material supply      : available
+  - Weather severity     : 0.36
+  - Cumulative delay so far: 15 days
+
+Corrective Action Taken:
+  Microfinance through Samurdhi Development Bank obtained as alternative
+
+Construction Status:
+  Completed after alternative financing arranged

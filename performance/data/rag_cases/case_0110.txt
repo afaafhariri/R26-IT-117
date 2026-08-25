@@ -1,0 +1,22 @@
+Case 110: Construction Delay - Pre-Construction & Approvals / Architectural & structural design
+
+Location   : Matara, Southern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Architectural & structural design
+Risk Level : MEDIUM
+Delay Days : 35 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : Matara owner changed house interior plan after partition walls were built
+
+Site Conditions:
+  - Labour availability  : 0.63
+  - Material supply      : available
+  - Weather severity     : 0.29
+  - Cumulative delay so far: 14 days
+
+Corrective Action Taken:
+  Structural engineer consulted and changes formally incorporated
+
+Construction Status:
+  Completed with revised approved plan

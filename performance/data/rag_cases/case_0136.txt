@@ -1,0 +1,22 @@
+Case 136: Construction Delay - Finishes / Tiling
+
+Location   : Gampaha, Western Province
+Building   : 1-floor residential construction
+Phase      : Finishes > Tiling
+Risk Level : MEDIUM
+Delay Days : 20 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Roof sheet supplier delayed delivery causing Gampaha work stoppage
+
+Site Conditions:
+  - Labour availability  : 0.58
+  - Material supply      : unavailable
+  - Weather severity     : 0.25
+  - Cumulative delay so far: 19 days
+
+Corrective Action Taken:
+  Alternative Colombo supplier identified and expedited priority delivery
+
+Construction Status:
+  Completed after supply arrangement

@@ -1,0 +1,22 @@
+Case 10: Construction Delay - Structure / Roof slab
+
+Location   : Jaffna, Northern Province
+Building   : 2-floor residential construction
+Phase      : Structure > Roof slab
+Risk Level : MEDIUM
+Delay Days : 21 days
+
+Delay Category : Labour
+Cause of Delay : Wage disputes between owner and daily-wage labourers halted roof slab work
+
+Site Conditions:
+  - Labour availability  : 0.27
+  - Material supply      : available
+  - Weather severity     : 0.36
+  - Cumulative delay so far: 16 days
+
+Corrective Action Taken:
+  Wage agreement mediated by Grama Niladhari officer in Jaffna
+
+Construction Status:
+  Completed after negotiation

@@ -1,0 +1,22 @@
+Case 56: Construction Delay - Foundations / Foundation work
+
+Location   : Mullaitivu, Northern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 35 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Saltwater corrosion of reinforcement near Mullaitivu lagoon site
+
+Site Conditions:
+  - Labour availability  : 0.69
+  - Material supply      : available
+  - Weather severity     : 0.76
+  - Cumulative delay so far: 16 days
+
+Corrective Action Taken:
+  Galvanised steel used and all affected foundation sections replaced
+
+Construction Status:
+  Completed with additional cost

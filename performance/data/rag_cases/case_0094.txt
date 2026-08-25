@@ -1,0 +1,22 @@
+Case 94: Construction Delay - Finishes / Internal plastering
+
+Location   : Batticaloa, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Finishes > Internal plastering
+Risk Level : HIGH
+Delay Days : 70 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Delays in material delivery to Batticaloa island locations near lagoon
+
+Site Conditions:
+  - Labour availability  : 0.8
+  - Material supply      : unavailable
+  - Weather severity     : 0.37
+  - Cumulative delay so far: 49 days
+
+Corrective Action Taken:
+  Advance ordering and boat transport via Batticaloa lagoon arranged
+
+Construction Status:
+  Ongoing - plastering stage

@@ -1,0 +1,22 @@
+Case 76: Construction Delay - Envelope & Waterproofing / Roof waterproofing
+
+Location   : Mannar, Northern Province
+Building   : 1-floor residential construction
+Phase      : Envelope & Waterproofing > Roof waterproofing
+Risk Level : MEDIUM
+Delay Days : 14 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Northeast monsoon strong winds damaged temporary roofing framework in Mannar
+
+Site Conditions:
+  - Labour availability  : 0.9
+  - Material supply      : available
+  - Weather severity     : 0.7
+  - Cumulative delay so far: 7 days
+
+Corrective Action Taken:
+  Reinforced temporary structure installed before recommencing waterproofing
+
+Construction Status:
+  Completed after weather delay

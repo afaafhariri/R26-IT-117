@@ -1,0 +1,43 @@
+# ── Web framework ────────────────────────────────────────────────────────────
+fastapi==0.115.12
+uvicorn[standard]==0.34.2
+python-multipart==0.0.31
+
+# ── Data validation ───────────────────────────────────────────────────────────
+pydantic==2.11.3
+
+# ── Data processing ───────────────────────────────────────────────────────────
+pandas==2.2.3
+numpy==1.26.4
+
+# ── ML — XGBoost ──────────────────────────────────────────────────────────────
+xgboost==2.1.4
+scikit-learn==1.6.1
+joblib==1.4.2
+
+# ── Explainability ────────────────────────────────────────────────────────────
+shap==0.46.0
+
+# ── Database ──────────────────────────────────────────────────────────────────
+psycopg2-binary==2.9.10
+sqlalchemy==2.0.40
+geoalchemy2==0.15.2
+
+# ── OCR (shared with Component 01) ────────────────────────────────────────────
+paddlepaddle==2.6.2; sys_platform != "darwin"
+paddleocr==2.9.1
+
+# ── HTTP client (inter-component calls) ───────────────────────────────────────
+httpx==0.28.1
+
+# ── Price scraper (scripts/scrape_stockpile.py) ───────────────────────────────
+beautifulsoup4==4.12.3
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+python-dotenv==1.2.2
+python-dateutil==2.9.0.post0
+
+# ── Testing ───────────────────────────────────────────────────────────────────
+pytest==9.0.3
+pytest-asyncio==1.4.0
+httpx==0.28.1

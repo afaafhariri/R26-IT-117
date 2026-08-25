@@ -1,0 +1,22 @@
+Case 18: Construction Delay - Foundations / Foundation work
+
+Location   : Trincomalee, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 25 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Northeast monsoon flooding inundated foundation excavation in Trincomalee
+
+Site Conditions:
+  - Labour availability  : 0.9
+  - Material supply      : available
+  - Weather severity     : 0.86
+  - Cumulative delay so far: 5 days
+
+Corrective Action Taken:
+  Pumps installed and drainage channel constructed along site perimeter
+
+Construction Status:
+  Completed after weather delay

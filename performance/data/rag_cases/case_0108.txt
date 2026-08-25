@@ -1,0 +1,22 @@
+Case 108: Construction Delay - Structure / Floor slabs
+
+Location   : Mannar, Northern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Floor slabs
+Risk Level : HIGH
+Delay Days : 75 days
+
+Delay Category : Financial & Funding
+Cause of Delay : Owner personal savings exhausted mid-construction in Mannar district
+
+Site Conditions:
+  - Labour availability  : 0.71
+  - Material supply      : available
+  - Weather severity     : 0.27
+  - Cumulative delay so far: 50 days
+
+Corrective Action Taken:
+  NHDA supplementary grant applied and construction resumed after approval
+
+Construction Status:
+  Under NHDA review

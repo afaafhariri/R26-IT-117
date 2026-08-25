@@ -1,0 +1,22 @@
+Case 33: Construction Delay - Foundations / Foundation work
+
+Location   : Mannar, Northern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : HIGH
+Delay Days : 55 days
+
+Delay Category : Design & Technical
+Cause of Delay : Foundation design unsuitable for Mannar coastal sandy and limestone bedrock
+
+Site Conditions:
+  - Labour availability  : 0.72
+  - Material supply      : available
+  - Weather severity     : 0.73
+  - Cumulative delay so far: 56 days
+
+Corrective Action Taken:
+  Geotechnical consultant engaged and raft foundation on piles designed
+
+Construction Status:
+  Completed after redesign
