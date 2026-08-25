@@ -246,7 +246,7 @@ def _run_full_pipeline(schema: BuildingSchema) -> dict:
 # Endpoints
 # ---------------------------------------------------------------------------
 
-@app.post("/estimate", response_model=EstimateResponse, summary="Full 5-layer cost estimate")
+@app.post("/estimate", response_model=EstimateResponse, summary="Full 4-layer cost estimate")
 async def estimate(schema: BuildingSchema) -> dict:
     """Accept a Building Schema JSON and return a full Cost Report.
 

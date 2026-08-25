@@ -1,5 +1,5 @@
 """
-Component 04 - Timeline Generation Service.
+Component 03 - Timeline Generation Service.
 
 Endpoints
 ---------
@@ -37,7 +37,7 @@ logger = logging.getLogger(__name__)
 # -- App ----------------------------------------------------------------------
 app = FastAPI(
     title="AI-Driven Construction Planner - Timeline Service",
-    description="Component 04: predicts construction phase durations for Sri Lankan residential buildings, computes the critical path, and returns a Gantt-ready task list.",
+    description="Component 03: predicts construction phase durations for Sri Lankan residential buildings, computes the critical path, and returns a Gantt-ready task list.",
     version="2.0.0",
 )
 

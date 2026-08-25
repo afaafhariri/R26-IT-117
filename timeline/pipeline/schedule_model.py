@@ -1,5 +1,5 @@
 """
-ScheduleModel — Component 04 Pipeline Step 3.
+ScheduleModel — Component 03 Pipeline Step 3.
 
 Loads models/schedule_xgboost.json and predicts duration (weeks) for each
 of the 5 construction phases.

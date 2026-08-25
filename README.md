@@ -8,15 +8,53 @@ Github Repo : https://github.com/afaafhariri/R26-IT-117
 This document combines all four components of the system in pipeline order:
 1. [Architectural Planning](#component-01--architectural-planning-api)
 2. [Cost Estimation](#component-02--cost-estimation-service)
-3. [Project Timeline](#component-03--ai-powered-construction-timeline-prediction-and-project-management-model)
+3. [Project Management & Timeline Prediction](#component-03--project-management--timeline-prediction)
 4. [Performance Monitoring](#component-04--construction-performance-monitoring-and-delay-prediction)
+
+---
+
+## Repository Layout
+
+```
+R26-IT-117/
+├── Architecture/       # Component 01 — Architectural Planning API      (FastAPI, :8001)
+├── cost-estimation/    # Component 02 — Cost Estimation Service         (FastAPI, :8002)
+├── timeline/           # Component 03 — Timeline Prediction              (FastAPI, :8000)
+├── performance/        # Component 04 — Performance Monitoring          (Flask,   :5004)
+├── frontend/           # Static single-file API test UI for Component 04
+├── gateway/            # Route definitions shared across services
+├── shared/
+│   └── schemas/        # site_schema.json, building_schema.json — the C01→C02 contract
+├── data/               # Cadastral plans, OCR results, spaCy training data
+├── research/           # Notebooks and datasets
+└── docker-compose.yml  # postgres + performance
+```
+
+Component 01 also ships its own React + TypeScript client at
+`Architecture/frontend/` (the CadaPlan UI). The top-level `frontend/` directory
+is a separate, single-file test page for Component 04 — the two are unrelated
+despite the similar names.
+
+### Data flow
+
+```
+Cadastral plan  →  C01 Architecture  →  BuildingSchema  →  C02 Cost Estimation
+                                                    ↓
+                        C04 Performance  ←  C03 Timeline
+```
+
+### Docker Compose coverage
+
+`docker-compose.yml` currently defines only two services — `postgres` and
+`performance`. Components 01, 02 and 03 each have their own `Dockerfile` but
+are not yet added to the compose file, so they must be run individually. See
+each component's *Running Locally* section.
 
 ---
 
 # Component 01 — Architectural Planning API
 
 **Project:** R26-IT-117 — AI-Driven Construction Planner for Sri Lankan Residential Construction  
-**Branch:** `dev/shazni`  
 **Service Port:** `8001`  
 **API Version:** `v0.1.0`
 
@@ -24,7 +62,7 @@ This document combines all four components of the system in pipeline order:
 
 ## Overview
 
-Component 01 is a FastAPI microservice that turns a Sri Lankan cadastral plan upload (PDF or image) into a fully validated Building Schema ready for downstream cost estimation (Component 02). It implements a **4-stage sequential pipeline** — Extraction → Buildable Zone → Floor Plan Generation → Rendering — each exposed as an independent REST endpoint under `/api/v1`.
+Component 01 is a FastAPI microservice that turns a Sri Lankan cadastral plan upload (PDF or image) into a fully validated Building Schema ready for downstream cost estimation (Component 02). It implements a **6-stage pipeline** — Extraction → Buildable Zone → Floor Plan Generation → Rendering → Visualisation → Packaging. Stages 1-4 are exposed as independent REST endpoints under `/api/v1`; stages 5-6 are driven by the newer job-based routers under `/api`.
 
 The pipeline is built around Sri Lankan-specific constraints: NBC setback and BCR rules per district, SLD99 coordinate parsing, and a custom SpaCy NER model trained on local deed formats. Floor plans are generated asynchronously via Celery, using three parallel Gemini LLM calls at different creativity temperatures, then validated geometrically and scored before being returned.
 
@@ -93,6 +131,25 @@ The pipeline is built around Sri Lankan-specific constraints: NBC setback and BC
 │                     ↓                                   │
 │  SVG file + 6-page PDF + BuildingSchema (→ C02)         │
 └─────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────────────────┐
+│  Stage 5 — Visualisation      POST /api/generate-video  │
+│                                                         │
+│  Local Pillow renderers (blueprint + isometric 3D) and  │
+│  optional Gemini image / text / video generation        │
+│                     ↓                                   │
+│      Blueprint PNG, isometric view, optional video      │
+└─────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────────────────┐
+│  Stage 6 — Packaging                                    │
+│                                                         │
+│  PackageAssembler collects every upstream stage output  │
+│                     ↓                                   │
+│               FullDesignPackage                         │
+└─────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -102,7 +159,6 @@ The pipeline is built around Sri Lankan-specific constraints: NBC setback and BC
 ```
 Architecture/
 ├── main.py                         # FastAPI app, all route definitions
-├── app.py                          # Deprecated 1-line placeholder (do not edit)
 ├── requirements.txt                # Python dependencies (Python 3.11)
 ├── Dockerfile                      # Container build (Python 3.11-slim, port 8001)
 ├── .env                            # Local environment variables (not committed)
@@ -132,6 +188,28 @@ Architecture/
 │       ├── svg_renderer.py         # svgwrite: rooms, furniture, dimensions, scale bar, north arrow
 │       ├── pdf_renderer.py         # ReportLab: 6-page professional document
 │       └── schema_serialiser.py    # Flat BuildingSchema for C02 handoff
+│   │
+│   ├── stage5_visualization/
+│   │   ├── local_blueprint_renderer.py  # Pillow 2D blueprint (cost-free)
+│   │   ├── local_isometric_renderer.py  # Pillow isometric 3D dollhouse view
+│   │   ├── gemini_image_gen.py     # Gemini image generation
+│   │   ├── gemini_text_gen.py      # gemini-2.5-flash text generation
+│   │   ├── gemini_video_gen.py     # veo-2.0-generate-001 video generation
+│   │   └── prompt_templates.py     # Prompt factories for the Gemini calls
+│   │
+│   └── stage6_packager/
+│       └── package_assembler.py    # Assembles FullDesignPackage from stages 1-5
+│
+├── routers/                        # Job-based API surface, mounted at /api
+│   ├── cadastral.py                # POST /process-cadastral
+│   ├── floorplans.py               # POST /generate-floorplans, GET /floorplans/status/{job_id}
+│   ├── design.py                   # POST /select-plan
+│   └── video.py                    # POST /generate-video
+│
+├── frontend/                       # CadaPlan React + TypeScript + Vite client
+│   ├── src/                        # Views, components, apiService
+│   ├── package.json
+│   └── vite.config.ts
 │
 ├── tasks/
 │   └── celery_app.py               # Celery app (Redis broker/backend) + async floor plan task
@@ -245,9 +323,10 @@ Dispatches an asynchronous Celery task for floor plan generation. Returns immedi
 
 ---
 
-### `GET /api/v1/floor-plan-status/{task_id}` — Stage 3 (poll)
+### `GET /api/floorplans/status/{job_id}` — Stage 3 (poll)
 
-Polls the Celery result backend for the task status.
+Polls the Celery result backend for the job status. Note this route lives on
+the `floorplans` router and is mounted under `/api`, **not** `/api/v1`.
 
 **Status values:** `pending` | `processing` | `complete` | `failed`
 
@@ -274,7 +353,28 @@ Renders the selected floor plan to SVG and PDF, serialises the Building Schema, 
 
 Downloads a rendered SVG or PDF from the temp directory.
 
-**Query param:** `dir` (optional) — subdirectory within `UPLOAD_DIR`.
+**Query param:** `dir` (optional) — subdirectory within `TEMP_FILES_DIR`.
+
+---
+
+### Job-based routers (mounted at `/api`)
+
+A second, newer API surface drives the stage 5-6 work as background jobs. These
+routers are registered in `main.py` with `prefix="/api"`.
+
+| Method | Path | Router | Description |
+|--------|------|--------|-------------|
+| `POST` | `/api/process-cadastral` | `cadastral.py` | Upload and process a cadastral plan as a job |
+| `POST` | `/api/generate-floorplans` | `floorplans.py` | Kick off asynchronous floor plan generation |
+| `GET` | `/api/floorplans/status/{job_id}` | `floorplans.py` | Poll job status |
+| `POST` | `/api/select-plan` | `design.py` | Select one of the generated alternatives |
+| `POST` | `/api/generate-video` | `video.py` | Stage 5 video generation (rate limited) |
+
+> **Note —** rendered SVG and PDF artefacts are served by
+> `GET /api/v1/download/{filename}` (Stage 4), which reads from the per-render
+> output directory. An earlier `routers/downloads.py` expected job-keyed files
+> in `TEMP_FILES_DIR` that no code path ever wrote; it was never registered and
+> has been removed.
 
 ---
 
@@ -425,7 +525,18 @@ Downloads a rendered SVG or PDF from the temp directory.
 | `SUPABASE_KEY` | No | — | Supabase anon/service key |
 | `SCHEMA_DIR` | No | `../shared/schemas` | Path to directory containing `site_schema.json` and `building_schema.json` |
 | `C02_BASE_URL` | No | — | Component 02 base URL; when unset, Stage 4 skips the integration POST |
-| `UPLOAD_DIR` | No | `/tmp/r26_uploads` | Directory for temp file storage (uploads, SVG, PDF outputs) |
+| `COMPONENT02_ENDPOINT` | No | — | Explicit C02 endpoint path used by the Stage 4 handoff |
+| `TEMP_FILES_DIR` | No | — | Directory for temp file storage (uploads, SVG, PDF outputs) |
+| `MAX_UPLOAD_SIZE_MB` | No | — | Rejects uploads larger than this |
+| `MODEL_DIR` | No | `../Architecture/models` | Directory containing the Stage 1 CNN classifier |
+| `CORPUS_DIR` | No | `../Architecture/knowledge_base/corpus` | Local RAG corpus ingested by `knowledge_base.ingest` |
+| `CHROMA_HOST` | No | `localhost` | ChromaDB host for the local RAG vector store |
+| `CHROMA_PORT` | No | `8000` | ChromaDB port |
+| `GEMINI_FLOOR_PLAN_MODEL` | No | — | Overrides the Gemini model used for Stage 3 generation |
+| `USE_VERTEX_AI` | No | `false` | Route Gemini calls through Vertex AI instead of the public API |
+| `GOOGLE_CLOUD_PROJECT` | No | — | GCP project id, required when `USE_VERTEX_AI` is set |
+| `GOOGLE_CLOUD_LOCATION` | No | — | GCP region, required when `USE_VERTEX_AI` is set |
+| `VIDEO_RATE_LIMIT_HOURS` | No | — | Minimum hours between Stage 5 video generations |
 | `LOG_LEVEL` | No | `INFO` | Logging level (`DEBUG`, `INFO`, `WARNING`, `ERROR`) |
 | `FLAGS_enable_pir_api` | No | `0` | Set to `0` on Windows to suppress PaddleOCR PIR warnings |
 | `FLAGS_use_mkldnn` | No | `0` | Set to `0` on Windows to disable MKL-DNN |
@@ -770,7 +881,8 @@ Building Schema (JSON)
 |--------|------|-------------|
 | `POST` | `/estimate` | Full 4-layer cost report |
 | `POST` | `/boq` | Layer 1 BOQ quantities only |
-| `GET` | `/rates/{district}` | ICTAD rates for a Sri Lankan district |
+| `GET` | `/rates` | ICTAD unit rate schedule (Layer 2) |
+| `GET` | `/materials` | Material variants available per BOQ part (Layer 2) |
 | `POST` | `/retrain` | Trigger model retraining *(admin only)* |
 | `GET` | `/health` | Liveness check |
 
@@ -868,6 +980,11 @@ cost-estimation/
 ├── main.py                        # FastAPI app + pipeline orchestration
 ├── requirements.txt
 ├── Dockerfile
+├── README.md                      # Component-level documentation
+├── data/                          # ICTAD rates, material catalog, scraped prices
+├── models/                        # Trained model artefacts (gitignored)
+├── scripts/                       # Training and data-preparation utilities
+├── tests/
 └── layers/
     ├── layer1_boq/
     │   ├── boq_engine.py          # Orchestrates quantity take-off
@@ -877,7 +994,7 @@ cost-estimation/
     ├── layer2_rate_engine/
     │   ├── rate_engine.py         # Orchestrates pricing
     │   ├── ictad_loader.py
-    │   ├── district_multiplier.py
+    │   ├── material_catalog.py
     │   └── price_escalation.py
     ├── layer3_ml_prediction/
     │   ├── ensemble.py            # XGBoost point + quantile predictor
@@ -900,450 +1017,227 @@ cost-estimation/
 
 ---
 
-# Component 03 — AI-Powered Construction Timeline Prediction and Project Management Model
+# Component 03 — Project Management & Timeline Prediction
 
-## 1. Project Title
+**Service Port:** `8000`
+**Framework:** FastAPI + Uvicorn
+**Entry point:** `app.main:app`
+**API Version:** `1.0.0`
 
-**AI-Powered Construction Timeline Prediction and Project Management Model**
+---
 
-This component is part of an AI-based construction planning and management system. It focuses on planned construction timeline prediction and project management schedule generation for residential building projects.
+## Overview
 
-## 2. Student Details
+Component 03 takes the Cost Estimation output from Component 02 and produces a
+full construction schedule. It predicts **phase-wise durations** with Random
+Forest and XGBoost, predicts **total project duration** with a PyTorch LSTM
+over the phase sequence, then derives the critical path, milestones, task
+dependencies, basic resource allocation, and a Gantt-ready task list.
 
-| Field | Details |
-|---|---|
-| Student Name | Hanfi AMM |
-| Student ID | IT22074454 |
-| Component | Timeline Prediction and Project Management Model |
-| Submission | PP1 Checklist 1 |
+It also emits a *planned schedule* payload shaped for Component 04, which is
+what links the planning half of the system to the monitoring half.
 
-## 3. Component Overview
+The service deliberately does **not** do cost estimation, site monitoring,
+delay prediction, or progress tracking — those belong to Components 02 and 04.
 
-This component receives Cost Estimation JSON as input and predicts the planned construction schedule for a residential building project.
+---
 
-The component extracts BOQ, labour, building, and construction scope details from the Cost Estimation output. It then predicts phase-wise construction durations, total project duration, Gantt chart data, milestones, task dependencies, critical path, and a basic resource allocation plan.
+## Pipeline Architecture
 
-The output is also converted into a planned schedule payload that can be sent to the Performance Monitoring and Delay Prediction Component.
-
-## 4. Problem Addressed
-
-Residential construction projects often need a planned timeline before construction begins. Manual schedule preparation can be inconsistent because it depends on project size, BOQ quantities, labour availability, phase dependencies, and the customer-selected construction scope.
-
-This component solves that problem by generating a planned construction timeline from the Cost Estimation Component output.
-
-## 5. System Workflow
-
-```text
-Cost Estimation Component JSON
-        |
-        v
-AI-Powered Construction Timeline Prediction and Project Management Model
-        |
-        v
-Timeline prediction + Gantt data + milestones + critical path + resources
-        |
-        v
-Performance Monitoring and Delay Prediction Component
+```
+[Cost Estimation JSON from C02]
+        │
+        ▼
+┌─────────────────────────────────────────────────────────┐
+│  ml_service / random_forest_service                     │
+│  Random Forest + XGBoost → per-phase durations (weeks)  │
+└─────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────────────────┐
+│  lstm_service                                           │
+│  PyTorch LSTM over the phase sequence → total duration  │
+└─────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────────────────┐
+│  cpm_service          → critical path, float, milestones│
+│  gantt_service        → Gantt rows and dependencies     │
+│  resource_service     → basic resource allocation       │
+└─────────────────────────────────────────────────────────┘
+        │
+        ├──────────────► timeline_service → prediction response
+        │
+        └──────────────► performance_format_service
+                         → planned schedule payload for C04
 ```
 
-Main workflow:
+---
 
-1. Cost Estimation Component sends JSON output.
-2. Timeline Component extracts BOQ, labour, building, and construction scope features.
-3. XGBoost predicts phase-wise construction durations.
-4. Random Forest is kept as a fallback model.
-5. PyTorch LSTM predicts total duration from the construction phase sequence.
-6. CPM logic generates task dependencies and critical path.
-7. Gantt chart data and milestones are generated.
-8. A planned schedule payload is created for the Performance Monitoring and Delay Prediction Component.
+## Directory Structure
 
-## 6. Input JSON Overview
-
-The backend accepts Cost Estimation JSON containing fields such as:
-
-- `estimate_id`
-- `project_name`
-- `planned_start_date`
-- `summary`
-- `boq_summary`
-- `trade_breakdown`
-- `risk_factors_applied`
-- `model_metadata`
-- `rate_metadata`
-- `feeds_downstream`
-- `construction_scope`
-
-Important extracted features include:
-
-- floor area
-- built-up area
-- number of floors
-- room count
-- bathroom count
-- concrete quantity
-- steel quantity
-- brickwork quantity
-- roof area
-- electrical points
-- plumbing fixtures
-- labour count
-- total labour days
-- structural complexity score
-- customer-selected construction scope
-
-## 7. Output JSON Overview
-
-The `/api/timeline/predict` endpoint returns:
-
-- `predicted_phase_durations_days`
-- `predicted_phase_durations_weeks`
-- `total_project_duration_days`
-- `total_project_duration_weeks`
-- `model_predictions`
-- `task_dependencies`
-- `critical_path`
-- `milestones`
-- `gantt_chart_data`
-- `resource_allocation_plan`
-- `construction_scope_summary`
-- `performance_monitoring_payload`
-
-The `performance_monitoring_payload` is the planned schedule payload sent to the Performance Monitoring and Delay Prediction Component.
-
-## 8. Machine Learning Models
-
-### Random Forest
-
-Random Forest is used as the baseline and fallback model.
-
-- Purpose: fallback phase duration prediction
-- Model file: `models/timeline_random_forest_model.pkl`
-- MAE: 1.9211 days
-- RMSE: 3.0609
-- R2: 0.8276
-- MAPE: 6.97%
-
-### XGBoost
-
-XGBoost is the main model for phase-wise duration prediction.
-
-- Purpose: main phase duration prediction model
-- Model file: `models/timeline_xgboost_model.pkl`
-- MAE: 1.4344 days
-- RMSE: 2.2792
-- R2: 0.8747
-- MAPE: 5.48%
-
-XGBoost is selected as the main model because it achieved the lowest MAE, RMSE, and MAPE compared with Random Forest.
-
-### PyTorch LSTM
-
-PyTorch LSTM is used for total project duration prediction from construction phase sequence data.
-
-- Purpose: total duration sequence prediction
-- Model file: `models/timeline_lstm_pytorch.pt`
-- X scaler: `models/lstm_x_scaler.pkl`
-- y scaler: `models/lstm_y_scaler.pkl`
-- MAE: 14.4788 days
-- RMSE: 18.7255
-- R2: 0.9783
-- MAPE: 5.94%
-
-The LSTM uses the predicted construction phase duration sequence as input and predicts the total project duration.
-
-## 9. Model Evaluation Results
-
-| Model | Prediction Type | MAE | RMSE | R2 | MAPE |
-|---|---|---:|---:|---:|---:|
-| Random Forest | Phase duration prediction | 1.9211 days | 3.0609 | 0.8276 | 6.97% |
-| XGBoost | Phase duration prediction | 1.4344 days | 2.2792 | 0.8747 | 5.48% |
-| PyTorch LSTM | Total duration sequence prediction | 14.4788 days | 18.7255 | 0.9783 | 5.94% |
-
-**Selected main model:** XGBoost  
-**Reason:** XGBoost achieved the lowest MAE, RMSE, and MAPE for phase-wise construction duration prediction.
-
-## 10. Dataset Details
-
-The model was trained using a synthetic residential construction dataset.
-
-Synthetic data was used because real residential house timeline data is difficult to collect and may be confidential. The dataset is suitable for prototype development and can be improved in the future using real residential construction project records.
-
-Dataset features include:
-
-- floor area
-- built-up area
-- number of floors
-- room count
-- bathroom count
-- foundation excavation quantity
-- foundation concrete quantity
-- total concrete quantity
-- steel quantity
-- brickwork quantity
-- roof area
-- floor tile area
-- wall plaster area
-- paint area
-- electrical points
-- plumbing fixtures
-- labour count
-- total labour days
-- structural complexity score
-- phase-wise construction durations
-
-## 11. Construction Scope Support
-
-The system supports customer-selected construction scope.
-
-Example:
-
-A building design may contain 2 floors, and the Cost Estimation Component may calculate quantities for the full 2-floor building. However, the customer may want to construct only 1 floor at the current stage.
-
-To handle this, the system separates:
-
-- `planned_total_floors`
-- `timeline_required_floors`
-
-Example input:
-
-```json
-{
-  "construction_scope": {
-    "planned_total_floors": 2,
-    "timeline_required_floors": 1,
-    "scope_type": "partial_construction",
-    "scope_description": "Customer wants to construct only ground floor at this stage"
-  }
-}
 ```
-
-If `timeline_required_floors` is 1 and `planned_total_floors` is 2, the timeline is generated only for the selected 1-floor construction scope while keeping the full planned floor count for reference.
-
-## 12. API Endpoints
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/` | Backend health check |
-| POST | `/api/timeline/predict` | Generate full timeline prediction and project management output |
-| POST | `/api/timeline/performance-format` | Generate planned schedule payload for the Performance Monitoring and Delay Prediction Component |
-
-Swagger documentation:
-
-```text
-http://127.0.0.1:8000/docs
-```
-
-## 13. How to Run Backend
-
-Open a terminal in the project root and run:
-
-```bash
-cd timeline
-python -m uvicorn app.main:app --reload
-```
-
-Backend URL:
-
-```text
-http://127.0.0.1:8000
-```
-
-Swagger UI:
-
-```text
-http://127.0.0.1:8000/docs
-```
-
-## 14. How to Run Frontend Demo
-
-The file `dashboard.html` is a PP1 demo frontend used to show:
-
-- Cost Estimation JSON input
-- Timeline prediction output
-- Gantt chart visualization
-- construction scope result
-- performance monitoring payload
-
-Run the frontend demo:
-
-```bash
-cd timeline
-python -m http.server 5500
-```
-
-Open:
-
-```text
-http://127.0.0.1:5500/dashboard.html
-```
-
-## 15. Sample Input JSON
-
-```json
-{
-  "estimate_id": "EST-DEMO-001",
-  "planned_start_date": "2026-06-01",
-  "project_name": "Two Storey Residential House",
-  "district": "Colombo",
-  "rate_metadata": {
-    "district": "Colombo",
-    "province": "Western"
-  },
-  "feeds_downstream": {
-    "floor_area_sqm": 185.8,
-    "built_up_area_sqft": 2000,
-    "floors": 2,
-    "room_count": 5,
-    "bathroom_count": 3,
-    "labour_count": 20,
-    "total_labour_days": 780,
-    "structural_complexity_score": 1.8,
-    "building_type": "residential"
-  },
-  "construction_scope": {
-    "planned_total_floors": 2,
-    "timeline_required_floors": 1,
-    "scope_type": "partial_construction",
-    "scope_description": "Customer wants to construct only ground floor at this stage"
-  },
-  "boq_summary": {
-    "structural": {
-      "foundation_excavation_m3": 70,
-      "foundation_concrete_m3": 35,
-      "total_concrete_m3": 110,
-      "steel_kg_estimate": 8500,
-      "total_brickwork_m3": 80,
-      "roof_area_sqm": 190
-    },
-    "finishing": {
-      "floor_tile_sqm": 310,
-      "wall_plaster_sqm": 920,
-      "paint_sqm": 850
-    },
-    "services": {
-      "electrical_points": 58,
-      "total_plumbing_fixtures": 16
-    },
-    "aggregates": {}
-  },
-  "summary": {
-    "total_estimated_cost": 6400000
-  },
-  "risk_factors_applied": {
-    "multi_storey": true
-  },
-  "model_metadata": {
-    "source_component": "cost_estimation"
-  }
-}
-```
-
-## 16. Sample Output Summary
-
-The prediction response includes:
-
-```json
-{
-  "project_id": "EST-DEMO-001",
-  "project_name": "Two Storey Residential House",
-  "total_project_duration_days": 123,
-  "total_project_duration_weeks": 17.57,
-  "model_predictions": {
-    "phase_duration_model": "xgboost",
-    "xgboost_status": "trained model used",
-    "random_forest_status": "fallback available",
-    "lstm_status": "trained PyTorch LSTM model used"
-  },
-  "construction_scope_summary": {
-    "planned_total_floors": 2,
-    "timeline_required_floors": 1,
-    "scope_type": "partial_construction",
-    "message": "Timeline generated for selected construction scope only"
-  },
-  "critical_path": [
-    "foundation",
-    "structure",
-    "masonry",
-    "plastering",
-    "finishing",
-    "painting",
-    "handover"
-  ],
-  "gantt_chart_data": [],
-  "milestones": [],
-  "resource_allocation_plan": {},
-  "performance_monitoring_payload": {}
-}
-```
-
-## 17. Project Folder Structure
-
-```text
 timeline/
-|
+├── Dockerfile                     # EXPOSE 8000, runs uvicorn app.main:app
+├── requirements.txt
+├── README.md
+├── sample_request.json            # Example C02-shaped request body
+├── Timeline_Prediction_Research.ipynb
 ├── app/
-│   ├── main.py
-│   ├── config.py
+│   ├── main.py                    # FastAPI app, CORS, router registration
+│   ├── config.py                  # Settings dataclass (DATABASE_URL, origins)
 │   ├── database.py
 │   ├── models/
-│   │   └── schemas.py
+│   │   └── schemas.py             # Pydantic request/response models
 │   ├── routes/
-│   │   └── timeline_routes.py
+│   │   └── timeline_routes.py     # /api/timeline/predict, /performance-format
 │   ├── services/
-│   │   ├── timeline_service.py
+│   │   ├── timeline_service.py    # Orchestrates the full prediction
+│   │   ├── ml_service.py          # XGBoost phase-duration inference
 │   │   ├── random_forest_service.py
-│   │   ├── lstm_service.py
-│   │   ├── cpm_service.py
-│   │   ├── gantt_service.py
-│   │   ├── performance_format_service.py
-│   │   └── resource_service.py
-│   └── training/
-│       ├── generate_synthetic_dataset.py
-│       ├── train_random_forest.py
-│       ├── train_xgboost.py
-│       ├── train_lstm_pytorch.py
-│       └── evaluate_models.py
+│   │   ├── lstm_service.py        # PyTorch LSTM total-duration inference
+│   │   ├── cpm_service.py         # Critical path method
+│   │   ├── gantt_service.py       # Gantt chart assembly
+│   │   ├── resource_service.py    # Resource allocation
+│   │   └── performance_format_service.py  # C04 handoff payload
+│   ├── training/
+│   │   ├── generate_synthetic_dataset.py
+│   │   ├── train_random_forest.py
+│   │   ├── train_xgboost.py
+│   │   ├── train_lstm_pytorch.py
+│   │   ├── train_lstm_model.py
+│   │   └── evaluate_models.py
+│   └── utils/
+│       └── response_utils.py
 ├── data/
-│   └── residential_timeline_dataset.csv
-├── models/
+│   ├── residential_timeline_dataset.csv   # 1,000 rows — primary training set
+│   ├── construction_projects.csv          # 500 rows
+│   └── generate_dataset.py
+├── models/                        # Trained artefacts (committed)
 │   ├── timeline_random_forest_model.pkl
 │   ├── timeline_xgboost_model.pkl
 │   ├── timeline_lstm_pytorch.pt
 │   ├── lstm_x_scaler.pkl
 │   └── lstm_y_scaler.pkl
-├── dashboard.html
-├── requirements.txt
-├── Dockerfile
-└── README.md
+└── output/                        # Evaluation plots and metrics
+    ├── model_evaluation_results.csv
+    ├── correlation_heatmap.png
+    ├── phase_distributions.png
+    ├── avg_phase_duration.png
+    ├── boxplots.png
+    └── lstm_training_plot.png
 ```
 
-## 18. PP1 Completion Status
+> **Legacy code —** `timeline/main.py` together with `timeline/pipeline/` and
+> `timeline/output/*.py` is an earlier, separate implementation of this service.
+> Nothing runs it: the Dockerfile launches `app.main:app`, and `app/` imports
+> nothing from `pipeline/`. It is reachable only from
+> `timeline/tests/test_schedule.py`. The extra artefacts in `models/`
+> (`*_weeks_model.pkl`, `scaler.pkl`, `encoders.pkl`, `features.pkl`,
+> `schedule_xgboost.json`, `lstm_total_model.h5`) belong to that older path,
+> as do the root-level `train.py` and `train_lstm.py`. Pending removal.
 
-| Requirement | Status |
-|---|---|
-| Backend FastAPI service created | Completed |
-| Cost Estimation JSON accepted as input | Completed |
-| Feature extraction from BOQ and labour data | Completed |
-| Synthetic residential dataset generated | Completed |
-| Random Forest baseline/fallback model trained | Completed |
-| XGBoost main phase-duration model trained | Completed |
-| PyTorch LSTM total-duration model trained | Completed |
-| Gantt chart data generation | Completed |
-| Milestone generation | Completed |
-| Task dependency generation | Completed |
-| Critical path generation | Completed |
-| Resource allocation plan generation | Completed |
-| Construction scope support | Completed |
-| Performance monitoring payload generation | Completed |
-| PP1 demo frontend using `dashboard.html` | Completed |
+---
 
-## Future Improvements
+## API Endpoints
 
-- Improve the dataset using real residential project timeline records.
-- Add more Sri Lankan district-wise productivity factors.
-- Add weather and material availability factors using historical project data.
-- Improve LSTM performance using real sequential construction schedules.
-- Store generated predictions in a database for reporting and audit history.
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/` | Health check |
+| `POST` | `/api/timeline/predict` | Full timeline prediction and project management output |
+| `POST` | `/api/timeline/performance-format` | Planned schedule payload for Component 04 |
+
+Interactive docs at `http://localhost:8000/docs`. A ready-made request body is
+committed at `timeline/sample_request.json`.
+
+---
+
+## Machine Learning Models
+
+| Model | Predicts | Artefact |
+|-------|----------|----------|
+| Random Forest | Phase durations + total duration | `timeline_random_forest_model.pkl` |
+| XGBoost | Phase durations + total duration | `timeline_xgboost_model.pkl` |
+| PyTorch LSTM | Total duration from the phase sequence | `timeline_lstm_pytorch.pt` (+ `lstm_x_scaler.pkl`, `lstm_y_scaler.pkl`) |
+
+### Evaluation results
+
+From `output/model_evaluation_results.csv`:
+
+| Model | MAE | RMSE | R² | MAPE (%) |
+|-------|-----|------|----|----------|
+| Random Forest | 1.92 | 3.06 | 0.828 | 6.97 |
+| **XGBoost** | **1.43** | **2.28** | **0.875** | **5.48** |
+| PyTorch LSTM | 14.48 | 18.73 | 0.978 | 5.94 |
+
+XGBoost is the strongest on the phase-duration task. The LSTM's MAE and RMSE
+are on a different scale because it predicts total project duration rather than
+individual phases — compare it on R² and MAPE, not on absolute error.
+
+---
+
+## Training
+
+All training scripts live in `app/training/` and are run from the `timeline/`
+directory. Datasets are committed, so training is reproducible from a fresh
+clone.
+
+```bash
+cd timeline
+python -m app.training.generate_synthetic_dataset   # regenerate the dataset (optional)
+python -m app.training.train_random_forest
+python -m app.training.train_xgboost
+python -m app.training.train_lstm_pytorch
+python -m app.training.evaluate_models              # writes output/model_evaluation_results.csv
+```
+
+---
+
+## Environment Variables
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `DATABASE_URL` | No | `sqlite:///./timeline_predictions.db` | Persistence for stored predictions |
+
+No API keys or external service credentials are needed — Component 03 runs
+entirely offline against its committed models.
+
+---
+
+## Running Locally
+
+```bash
+cd timeline
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
+```
+
+## Running with Docker
+
+```bash
+docker build -t r26-timeline ./timeline
+docker run -p 8000:8000 r26-timeline
+```
+
+## Testing
+
+```bash
+pytest timeline/tests -v
+```
+
+Note the current test file targets the legacy `pipeline/` implementation, not
+`app/`; the live service has no test coverage yet.
+
+---
+
+## Known Limitations / TODO
+
+- Two parallel implementations coexist — see the *Legacy code* note above.
+- The live `app/` service has no tests.
+- The service is not yet added to `docker-compose.yml`.
+- Port `8000` is the FastAPI/uvicorn default and is easy to collide with; C01
+  uses 8001, C02 8002, C04 5004.
+
 
 ---
 
@@ -1396,6 +1290,13 @@ performance/
 │   └── gemini_client.py       # Gemini prompt building, response parsing, fallback
 ├── monitoring/
 │   └── dashboard_feed.py      # Project dashboard aggregation queries
+├── weather/
+│   └── weather_client.py      # Weather API client for location-based risk
+├── timeline_source/
+│   ├── base.py                # Provider interface
+│   ├── factory.py             # Selects provider from TIMELINE_SOURCE
+│   ├── local_provider.py      # Reads a schedule from disk
+│   └── remote_provider.py     # Calls the Component 03 timeline service
 ├── data/
 │   ├── delay_data.csv         # 192 historical delay cases
 │   └── rag_cases/             # 192 generated story .txt files for FAISS indexing
@@ -1409,7 +1310,12 @@ performance/
     ├── test_model.py
     ├── test_spi.py
     ├── test_rag.py
-    └── test_feature_engineer.py
+    ├── test_feature_engineer.py
+    ├── test_frontend_safety.py
+    ├── test_phase_status.py
+    ├── test_schedule_validation.py
+    ├── test_timeline_source.py
+    └── test_weather.py
 ```
 
 ---
@@ -1419,10 +1325,30 @@ performance/
 Create a `.env` file inside `performance/`:
 
 ```env
+# ── Core ──────────────────────────────────────────────────────────────────────
 DATABASE_URL=postgresql://postgres:password@localhost:5432/r26_db
 GEMINI_API_KEY=your_gemini_api_key_here
 FLASK_ENV=development
 PORT=5004
+
+# ── Delay case data (RAG corpus source) ───────────────────────────────────────
+DELAY_CASES_CSV_PATH=data/delay_data.csv
+
+# ── Component 03 timeline source ──────────────────────────────────────────────
+# TIMELINE_SOURCE selects the provider in timeline_source/factory.py:
+#   local  → read a schedule from disk
+#   remote → call the Component 03 service at TIMELINE_SERVICE_BASE_URL
+TIMELINE_SOURCE=local
+TIMELINE_SERVICE_BASE_URL=http://localhost:8000
+
+# ── Weather API ───────────────────────────────────────────────────────────────
+WEATHER_API_KEY=your_weather_api_key_here
+WEATHER_API_BASE_URL=
+WEATHER_API_COUNTRY_CODE=LK
+WEATHER_API_TIMEOUT_SECONDS=10
+
+# ── Outbound notifications ────────────────────────────────────────────────────
+NOTIFY_TIMEOUT_SECONDS=10
 ```
 
 ---
@@ -1538,6 +1464,23 @@ Returns full project status — phases, latest SPI, prediction, recommendation, 
 
 ### GET /project/\<id\>/alerts
 Returns active alerts. Add `?active_only=false` to include resolved alerts.
+
+---
+
+### Additional routes
+
+These are implemented in `main.py` alongside the endpoints documented above.
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/` | Service banner / root check |
+| `GET` | `/projects` | List all projects |
+| `POST` | `/project` | Create a project |
+| `POST` | `/project/\<id\>/phases` | Attach or replace a project's phase list |
+| `PATCH` | `/project/\<id\>/location` | Update a project's location (drives the weather lookup) |
+| `GET` | `/project/\<id\>/weather` | Current weather for the project location |
+| `POST` | `/predict` | Delay prediction without the SPI wrapper |
+| `POST` | `/progress` | Record raw progress data |
 
 ---
 

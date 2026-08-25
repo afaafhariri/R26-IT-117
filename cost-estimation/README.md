@@ -166,7 +166,7 @@ XGBoost Quantile was selected for production because it:
 
 ```bash
 docker build -t cost-estimation .
-docker run -p 8000:8000 \
+docker run -p 8002:8002 \
   -e ADMIN_API_KEY=your-key \
   cost-estimation
 ```
@@ -177,10 +177,10 @@ docker run -p 8000:8000 \
 cd cost-estimation
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-uvicorn main:app --reload --port 8000
+uvicorn main:app --reload --port 8002
 ```
 
-Interactive docs available at `http://localhost:8000/docs`.
+Interactive docs available at `http://localhost:8002/docs`.
 
 ---
 

@@ -1,6 +1,6 @@
 """
 LSTM Training Script — Total Project Duration Prediction
-Project : AI-Driven Construction Planner — Component 04: Timeline Prediction
+Project : AI-Driven Construction Planner — Component 03: Timeline Prediction
 Student : Hanfi A.M.M | IT22074454 | SLIIT
 """
 

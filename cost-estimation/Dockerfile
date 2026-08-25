@@ -30,13 +30,13 @@ RUN useradd --create-home --shell /bin/bash appuser && \
     chown -R appuser:appuser /component02
 USER appuser
 
-EXPOSE 8000
+EXPOSE 8002
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
-    CMD wget -qO- http://localhost:8000/health || exit 1
+    CMD wget -qO- http://localhost:8002/health || exit 1
 
 CMD ["uvicorn", "main:app", \
      "--host", "0.0.0.0", \
-     "--port", "8000", \
+     "--port", "8002", \
      "--workers", "2", \
      "--log-level", "info"]

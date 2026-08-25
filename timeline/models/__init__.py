@@ -1,5 +1,5 @@
 """
-models/__init__.py - model loader for Component 04 (8 phases)
+models/__init__.py - model loader for Component 03 (8 phases)
 Author: Hanfi A.M.M - IT22074454 - SLIIT
 """
 

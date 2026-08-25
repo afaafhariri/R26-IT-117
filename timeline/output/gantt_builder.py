@@ -1,5 +1,5 @@
 """
-GanttBuilder — Component 04 Output Step 1.
+GanttBuilder — Component 03 Output Step 1.
 
 Translates working-day early-start/finish values from the CPM result into
 real calendar dates, accounting for weekends and Sri Lankan public holidays.

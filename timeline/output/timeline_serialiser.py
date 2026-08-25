@@ -1,5 +1,5 @@
 """
-TimelineSerialiser — Component 04 Output Step 2.
+TimelineSerialiser — Component 03 Output Step 2.
 
 Assembles the final Timeline JSON document from the outputs of the pipeline
 and the Gantt builder.  This document is what gets stored in PostgreSQL and

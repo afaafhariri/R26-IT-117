@@ -1,5 +1,5 @@
 """
-pipeline/critical_path.py — Component 04 Pipeline Step 4.
+pipeline/critical_path.py — Component 03 Pipeline Step 4.
 
 Implements the Critical Path Method (CPM) over the 5-phase sequential
 dependency graph and converts working-day offsets to real Sri Lankan

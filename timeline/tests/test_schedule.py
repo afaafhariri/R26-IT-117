@@ -1,5 +1,5 @@
 """
-Tests for Component 04 — Timeline Generation.
+Tests for Component 03 — Timeline Generation.
 
 Coverage:
   - Full pipeline integration (preprocess → feature-engineer → predict)
