@@ -1,11 +1,37 @@
+"""
+seed_plans.py — Seeds curated Sri Lankan residential plan descriptions into the
+Supabase sl_residential_plans RAG store, with sentence-transformer embeddings.
+
+Run from Architecture/:
+    python seed_plans.py
+
+Requires SUPABASE_URL and SUPABASE_KEY in .env — see .env.example.
+"""
+
+import os
+import sys
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+# Repo-root .env matches main.py; Architecture/.env matches seed_from_images.py.
+# load_dotenv never overrides an already-set var, so the first hit wins.
+_HERE = Path(__file__).resolve().parent
+load_dotenv(_HERE.parent / ".env")
+load_dotenv(_HERE / ".env")
+
 from sentence_transformers import SentenceTransformer
 from supabase import create_client
 
-client = create_client(
-    'https://huljdcykcuuwxmlkhnxc.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1bGpkY3lrY3V1d3htbGtobnhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1Nzk0MTMsImV4cCI6MjA5MzE1NTQxM30.o1h4pkpPW0mpIjBy-QmTaE40xHaAc9YgmKjQPwOQJhM'
-)
-model = SentenceTransformer('all-MiniLM-L6-v2')
+supabase_url = os.getenv("SUPABASE_URL", "")
+supabase_key = os.getenv("SUPABASE_KEY", "")
+
+if not all([supabase_url, supabase_key]):
+    print("Missing SUPABASE_URL / SUPABASE_KEY in .env")
+    sys.exit(1)
+
+client = create_client(supabase_url, supabase_key)
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
 descriptions = [
     "3-bedroom single storey house in Batticaloa district, coastal location, 120 sqm footprint, modern style. Living room faces south toward road. Dining and kitchen at rear. Three bedrooms with one shared bathroom and one attached. Elevated foundation 600mm above ground level for coastal flood protection. Aluminum windows for salt air resistance.",
