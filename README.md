@@ -1087,7 +1087,6 @@ timeline/
 ├── requirements.txt
 ├── README.md
 ├── sample_request.json            # Example C02-shaped request body
-├── Timeline_Prediction_Research.ipynb
 ├── app/
 │   ├── main.py                    # FastAPI app, CORS, router registration
 │   ├── config.py                  # Settings dataclass (DATABASE_URL, origins)

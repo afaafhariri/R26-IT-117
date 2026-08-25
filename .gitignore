@@ -52,8 +52,8 @@ nosetests.xml
 # ── Jupyter ───────────────────────────────────────────────────────────────────
 .ipynb_checkpoints/
 *.ipynb_checkpoints
-research/notebooks/delay_model.ipynb
-research/notebooks/delaymodel_final.ipynb
+# Notebooks are exploratory and are never committed — share them out of band.
+*.ipynb
 
 # ── Logs ──────────────────────────────────────────────────────────────────────
 *.log
