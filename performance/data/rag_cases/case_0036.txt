@@ -1,0 +1,22 @@
+Case 36: Construction Delay - Foundations / Foundation work
+
+Location   : Jaffna, Northern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 35 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Saltwater corrosion of steel reinforcement in coastal Jaffna foundation near sea
+
+Site Conditions:
+  - Labour availability  : 0.61
+  - Material supply      : available
+  - Weather severity     : 0.79
+  - Cumulative delay so far: 13 days
+
+Corrective Action Taken:
+  Epoxy coated marine grade steel used as replacement material
+
+Construction Status:
+  Completed with additional cost

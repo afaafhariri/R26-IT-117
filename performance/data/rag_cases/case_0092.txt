@@ -1,0 +1,22 @@
+Case 92: Construction Delay - Envelope & Waterproofing / Masonry work
+
+Location   : Jaffna, Northern Province
+Building   : 1-floor residential construction
+Phase      : Envelope & Waterproofing > Masonry work
+Risk Level : HIGH
+Delay Days : 60 days
+
+Delay Category : Land & Legal
+Cause of Delay : Boundary dispute with neighbour halted masonry work on Jaffna plot
+
+Site Conditions:
+  - Labour availability  : 0.8
+  - Material supply      : available
+  - Weather severity     : 0.32
+  - Cumulative delay so far: 29 days
+
+Corrective Action Taken:
+  Licensed surveyor engaged and legal agreement signed with neighbour
+
+Construction Status:
+  Completed after legal resolution

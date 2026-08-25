@@ -1,0 +1,22 @@
+Case 184: Construction Delay - Structure / Roof slab
+
+Location   : Galle, Southern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Roof slab
+Risk Level : HIGH
+Delay Days : 65 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Cement price spike during 2022 economic crisis halted Galle construction
+
+Site Conditions:
+  - Labour availability  : 0.74
+  - Material supply      : unavailable
+  - Weather severity     : 0.28
+  - Cumulative delay so far: 29 days
+
+Corrective Action Taken:
+  Owner obtained additional bank loan and construction recommenced
+
+Construction Status:
+  Completed with cost overrun

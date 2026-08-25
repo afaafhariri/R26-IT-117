@@ -1,0 +1,22 @@
+Case 102: Construction Delay - Structure / Roof slab
+
+Location   : Kilinochchi, Northern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Roof slab
+Risk Level : MEDIUM
+Delay Days : 18 days
+
+Delay Category : Labour
+Cause of Delay : Shortage of skilled tradesmen in Kilinochchi rural post-war area
+
+Site Conditions:
+  - Labour availability  : 0.32
+  - Material supply      : available
+  - Weather severity     : 0.29
+  - Cumulative delay so far: 8 days
+
+Corrective Action Taken:
+  Labour imported from Jaffna and Vavuniya towns with transport
+
+Construction Status:
+  Completed after delay

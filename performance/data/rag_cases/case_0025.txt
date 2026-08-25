@@ -1,0 +1,22 @@
+Case 25: Construction Delay - Pre-Construction & Approvals / Architectural & structural design
+
+Location   : Trincomalee, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Architectural & structural design
+Risk Level : MEDIUM
+Delay Days : 44 days
+
+Delay Category : Design & Technical
+Cause of Delay : Building footprint encroached on road reservation in Trincomalee town
+
+Site Conditions:
+  - Labour availability  : 0.64
+  - Material supply      : available
+  - Weather severity     : 0.41
+  - Cumulative delay so far: 7 days
+
+Corrective Action Taken:
+  Plan revised and resubmitted to Urban Development Authority office
+
+Construction Status:
+  Completed after plan revision

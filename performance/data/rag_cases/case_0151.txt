@@ -1,0 +1,22 @@
+Case 151: Construction Delay - Envelope & Waterproofing / Roof waterproofing
+
+Location   : Galle, Southern Province
+Building   : 2-floor residential construction
+Phase      : Envelope & Waterproofing > Roof waterproofing
+Risk Level : LOW
+Delay Days : 12 days
+
+Delay Category : Design & Technical
+Cause of Delay : Roof drainage inadequate causing water damage to external walls in Galle
+
+Site Conditions:
+  - Labour availability  : 0.69
+  - Material supply      : available
+  - Weather severity     : 0.86
+  - Cumulative delay so far: 0 days
+
+Corrective Action Taken:
+  Roof eave extended and proper box guttering system installed
+
+Construction Status:
+  Completed after roof remedial work

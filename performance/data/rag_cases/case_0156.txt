@@ -1,0 +1,22 @@
+Case 156: Construction Delay - Finishes / Carpentry & joinery
+
+Location   : Colombo, Western Province
+Building   : 2-floor residential construction
+Phase      : Finishes > Carpentry & joinery
+Risk Level : LOW
+Delay Days : 10 days
+
+Delay Category : Labour
+Cause of Delay : Shortage of skilled finishing carpenters for joinery work in Colombo
+
+Site Conditions:
+  - Labour availability  : 0.21
+  - Material supply      : available
+  - Weather severity     : 0.29
+  - Cumulative delay so far: 2 days
+
+Corrective Action Taken:
+  Experienced carpenters engaged from Gampaha district on contract
+
+Construction Status:
+  Completed

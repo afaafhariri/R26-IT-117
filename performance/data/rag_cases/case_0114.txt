@@ -1,0 +1,22 @@
+Case 114: Construction Delay - Structure / Columns & beams
+
+Location   : Batticaloa, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : MEDIUM
+Delay Days : 18 days
+
+Delay Category : Labour
+Cause of Delay : Skilled masons migrated to Colombo or Middle East from Batticaloa
+
+Site Conditions:
+  - Labour availability  : 0.41
+  - Material supply      : available
+  - Weather severity     : 0.4
+  - Cumulative delay so far: 9 days
+
+Corrective Action Taken:
+  Workers recruited from Ampara district with accommodation on site
+
+Construction Status:
+  Completed after personnel sourcing

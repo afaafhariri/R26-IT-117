@@ -1,0 +1,22 @@
+Case 6: Construction Delay - Finishes / Tiling
+
+Location   : Gampaha, Western Province
+Building   : 1-floor residential construction
+Phase      : Finishes > Tiling
+Risk Level : LOW
+Delay Days : 7 days
+
+Delay Category : Labour
+Cause of Delay : Skilled tiler unavailable locally for bathroom and kitchen tiling in Gampaha
+
+Site Conditions:
+  - Labour availability  : 0.27
+  - Material supply      : available
+  - Weather severity     : 0.25
+  - Cumulative delay so far: 3 days
+
+Corrective Action Taken:
+  Experienced tiler hired from Colombo for complete finishing phase
+
+Construction Status:
+  Completed

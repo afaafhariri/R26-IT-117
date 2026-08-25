@@ -1,0 +1,22 @@
+Case 61: Construction Delay - Structure / Columns & beams
+
+Location   : Colombo, Western Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : HIGH
+Delay Days : 55 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Cement shortage in Colombo market during 2022 economic crisis
+
+Site Conditions:
+  - Labour availability  : 0.69
+  - Material supply      : unavailable
+  - Weather severity     : 0.28
+  - Cumulative delay so far: 57 days
+
+Corrective Action Taken:
+  Bulk purchase arranged through DS Colombo office procurement channel
+
+Construction Status:
+  Completed with cost overrun

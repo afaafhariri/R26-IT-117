@@ -1,0 +1,18 @@
+item_key,description,unit,rate_lkr
+foundation_excavation_m3,Excavation in ordinary soil,m³,3500.00
+blinding_concrete_m3,Plain concrete C10 blinding,m³,38000.00
+foundation_concrete_m3,Reinforced concrete C25 foundation,m³,62000.00
+rc_columns_m3,RC columns C30 including formwork,m³,95000.00
+rc_slab_m3,RC suspended slab C25,m³,88000.00
+external_brickwork_m3,225mm solid brick wall,m³,28000.00
+internal_blockwork_m3,115mm concrete block partition,m³,22000.00
+roof_area_sqm,Roof covering including structure,m²,4500.00
+floor_tile_sqm,Ceramic floor tile 300x300,m²,3800.00
+wall_plaster_sqm,Sand-cement plaster 13mm,m²,850.00
+ceiling_sqm,PVC ceiling panel,m²,1200.00
+door_count,Solid timber door set,nr,45000.00
+window_count,Aluminium sliding window,nr,28000.00
+paint_sqm,Two coats emulsion paint,m²,350.00
+electrical_points,Wiring point complete,point,4500.00
+total_plumbing_fixtures,Plumbing fixture installed,nr,12000.00
+steel_kg_estimate,Reinforcement steel Y-bar,kg,260.00

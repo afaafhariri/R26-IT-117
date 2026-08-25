@@ -1,0 +1,22 @@
+Case 160: Construction Delay - Structure / Roof slab
+
+Location   : Ampara, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Roof slab
+Risk Level : HIGH
+Delay Days : 95 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Material price spike during 2022 crisis forced Ampara owner to pause work
+
+Site Conditions:
+  - Labour availability  : 0.84
+  - Material supply      : unavailable
+  - Weather severity     : 0.37
+  - Cumulative delay so far: 58 days
+
+Corrective Action Taken:
+  Phased purchasing strategy adopted to manage escalating material costs
+
+Construction Status:
+  Ongoing - roof level reached

@@ -1,0 +1,22 @@
+Case 59: Construction Delay - MEP Rough-Ins / Electrical conduit work
+
+Location   : Jaffna, Northern Province
+Building   : 1-floor residential construction
+Phase      : MEP Rough-Ins > Electrical conduit work
+Risk Level : LOW
+Delay Days : 7 days
+
+Delay Category : Labour
+Cause of Delay : Skilled electrician unavailable in Jaffna for conduit and wiring work
+
+Site Conditions:
+  - Labour availability  : 0.31
+  - Material supply      : available
+  - Weather severity     : 0.37
+  - Cumulative delay so far: 2 days
+
+Corrective Action Taken:
+  Electrician brought from Colombo with accommodation and transport provided
+
+Construction Status:
+  Completed

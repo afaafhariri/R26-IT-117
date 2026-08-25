@@ -1,0 +1,22 @@
+Case 113: Construction Delay - Structure / Columns & beams
+
+Location   : Ampara, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : MEDIUM
+Delay Days : 16 days
+
+Delay Category : Labour
+Cause of Delay : Skilled masons unavailable in remote Ampara Oluvil coastal area
+
+Site Conditions:
+  - Labour availability  : 0.4
+  - Material supply      : available
+  - Weather severity     : 0.77
+  - Cumulative delay so far: 6 days
+
+Corrective Action Taken:
+  Workers brought from Kalmunai town with daily transport arranged
+
+Construction Status:
+  Completed after delay

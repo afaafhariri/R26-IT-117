@@ -1,0 +1,22 @@
+Case 34: Construction Delay - Finishes / Internal plastering
+
+Location   : Batticaloa, Eastern Province
+Building   : 2-floor residential construction
+Phase      : Finishes > Internal plastering
+Risk Level : MEDIUM
+Delay Days : 14 days
+
+Delay Category : Labour
+Cause of Delay : Plastering subcontractor abandoned work mid-phase in Batticaloa
+
+Site Conditions:
+  - Labour availability  : 0.25
+  - Material supply      : available
+  - Weather severity     : 0.39
+  - Cumulative delay so far: 7 days
+
+Corrective Action Taken:
+  New subcontractor engaged within one week at same contract rate
+
+Construction Status:
+  Completed after personnel change

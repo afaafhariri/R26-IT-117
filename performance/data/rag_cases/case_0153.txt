@@ -1,0 +1,22 @@
+Case 153: Construction Delay - Structure / Columns & beams
+
+Location   : Trincomalee, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : HIGH
+Delay Days : 55 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Cement quality issue discovered during structural inspection in Trincomalee
+
+Site Conditions:
+  - Labour availability  : 0.6
+  - Material supply      : unavailable
+  - Weather severity     : 0.37
+  - Cumulative delay so far: 28 days
+
+Corrective Action Taken:
+  Failed structural sections demolished and rebuilt with verified premium cement
+
+Construction Status:
+  Completed after quality rework

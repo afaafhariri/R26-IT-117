@@ -1,0 +1,22 @@
+Case 52: Construction Delay - Pre-Construction & Approvals / Authority approvals
+
+Location   : Colombo, Western Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Authority approvals
+Risk Level : HIGH
+Delay Days : 90 days
+
+Delay Category : Design & Technical
+Cause of Delay : Building plan approval delayed at Colombo Municipal Council due to setback violation
+
+Site Conditions:
+  - Labour availability  : 0.73
+  - Material supply      : available
+  - Weather severity     : 0.28
+  - Cumulative delay so far: 30 days
+
+Corrective Action Taken:
+  Plan revised and resubmitted to CMC planning division for approval
+
+Construction Status:
+  Ongoing - foundation stage only

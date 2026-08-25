@@ -1,0 +1,22 @@
+Case 72: Construction Delay - Pre-Construction & Approvals / Site selection & surveying
+
+Location   : Batticaloa, Eastern Province
+Building   : 2-floor residential construction
+Phase      : Pre-Construction & Approvals > Site selection & surveying
+Risk Level : HIGH
+Delay Days : 384 days
+
+Delay Category : Land & Legal
+Cause of Delay : Inherited land with no clear title deed among multiple siblings in Batticaloa
+
+Site Conditions:
+  - Labour availability  : 0.89
+  - Material supply      : available
+  - Weather severity     : 0.38
+  - Cumulative delay so far: 31 days
+
+Corrective Action Taken:
+  Land Registry partition action and settlement reached through mediation
+
+Construction Status:
+  Stalled awaiting legal resolution

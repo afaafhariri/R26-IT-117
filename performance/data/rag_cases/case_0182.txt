@@ -1,0 +1,22 @@
+Case 182: Construction Delay - Site Preparation / Site clearing & hoarding
+
+Location   : Batticaloa, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Site Preparation > Site clearing & hoarding
+Risk Level : MEDIUM
+Delay Days : 22 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : Religious auspicious date delay for Tamil Hindu household in Batticaloa
+
+Site Conditions:
+  - Labour availability  : 0.8
+  - Material supply      : available
+  - Weather severity     : 0.39
+  - Cumulative delay so far: 6 days
+
+Corrective Action Taken:
+  Construction recommenced after auspicious date and pooja ceremony
+
+Construction Status:
+  Completed on revised schedule

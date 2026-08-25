@@ -1,0 +1,22 @@
+Case 31: Construction Delay - Structure / Roof slab
+
+Location   : Ampara, Eastern Province
+Building   : 2-floor residential construction
+Phase      : Structure > Roof slab
+Risk Level : MEDIUM
+Delay Days : 20 days
+
+Delay Category : Labour
+Cause of Delay : Labour shortage in remote Ampara Mahaoya area for roof slab construction
+
+Site Conditions:
+  - Labour availability  : 0.26
+  - Material supply      : available
+  - Weather severity     : 0.37
+  - Cumulative delay so far: 19 days
+
+Corrective Action Taken:
+  Contractor sourced workers from Ampara town with transport support
+
+Construction Status:
+  Completed after sourcing delay

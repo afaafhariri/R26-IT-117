@@ -1,0 +1,22 @@
+Case 11: Construction Delay - Foundations / Ground beams
+
+Location   : Batticaloa, Eastern Province
+Building   : 2-floor residential construction
+Phase      : Foundations > Ground beams
+Risk Level : MEDIUM
+Delay Days : 35 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Batticaloa lagoon saltwater intrusion corroded steel in ground beams
+
+Site Conditions:
+  - Labour availability  : 0.88
+  - Material supply      : available
+  - Weather severity     : 0.92
+  - Cumulative delay so far: 9 days
+
+Corrective Action Taken:
+  Epoxy coated marine grade steel used as full replacement
+
+Construction Status:
+  Completed with additional cost

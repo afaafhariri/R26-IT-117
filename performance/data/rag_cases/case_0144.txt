@@ -1,0 +1,22 @@
+Case 144: Construction Delay - Foundations / Foundation work
+
+Location   : Colombo, Western Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : LOW
+Delay Days : 8 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Tree root damage to Colombo foundation during excavation in garden area
+
+Site Conditions:
+  - Labour availability  : 0.71
+  - Material supply      : available
+  - Weather severity     : 0.82
+  - Cumulative delay so far: 2 days
+
+Corrective Action Taken:
+  Roots professionally cleared by arborist and trench properly reinstated
+
+Construction Status:
+  Completed after site clearance

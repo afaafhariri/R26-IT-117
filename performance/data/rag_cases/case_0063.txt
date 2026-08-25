@@ -1,0 +1,22 @@
+Case 63: Construction Delay - Structure / Columns & beams
+
+Location   : Kalutara, Western Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : MEDIUM
+Delay Days : 16 days
+
+Delay Category : Labour
+Cause of Delay : Skilled masons scarce in Kalutara during peak construction holiday season
+
+Site Conditions:
+  - Labour availability  : 0.41
+  - Material supply      : available
+  - Weather severity     : 0.33
+  - Cumulative delay so far: 19 days
+
+Corrective Action Taken:
+  Workers brought from Galle district on short-term contract with transport
+
+Construction Status:
+  Completed after delay

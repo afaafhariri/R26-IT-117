@@ -1,0 +1,22 @@
+Case 69: Construction Delay - Pre-Construction & Approvals / Authority approvals
+
+Location   : Jaffna, Northern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Authority approvals
+Risk Level : LOW
+Delay Days : 8 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : Religious auspicious date delay waiting for Tamil New Year period before starting
+
+Site Conditions:
+  - Labour availability  : 0.56
+  - Material supply      : available
+  - Weather severity     : 0.33
+  - Cumulative delay so far: 3 days
+
+Corrective Action Taken:
+  New construction date set and work recommenced immediately after
+
+Construction Status:
+  Completed on revised schedule

@@ -1,0 +1,22 @@
+Case 79: Construction Delay - Foundations / Foundation work
+
+Location   : Galle, Southern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 15 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : River sand supply disrupted by flooding of Gin Ganga river in Galle
+
+Site Conditions:
+  - Labour availability  : 0.81
+  - Material supply      : unavailable
+  - Weather severity     : 0.87
+  - Cumulative delay so far: 12 days
+
+Corrective Action Taken:
+  Quarry dust approved as substitute material with structural engineer sign-off
+
+Construction Status:
+  Completed with alternative material

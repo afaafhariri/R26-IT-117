@@ -1,0 +1,22 @@
+Case 111: Construction Delay - MEP Rough-Ins / Electrical conduit work
+
+Location   : Matara, Southern Province
+Building   : 1-floor residential construction
+Phase      : MEP Rough-Ins > Electrical conduit work
+Risk Level : LOW
+Delay Days : 7 days
+
+Delay Category : Labour
+Cause of Delay : Qualified electrician not available locally in Matara for wiring work
+
+Site Conditions:
+  - Labour availability  : 0.39
+  - Material supply      : available
+  - Weather severity     : 0.26
+  - Cumulative delay so far: 1 days
+
+Corrective Action Taken:
+  Electrician contracted from Galle on short-term basis with transport
+
+Construction Status:
+  Completed

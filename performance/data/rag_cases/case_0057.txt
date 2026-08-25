@@ -1,0 +1,22 @@
+Case 57: Construction Delay - Foundations / Ground beams
+
+Location   : Mullaitivu, Northern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Ground beams
+Risk Level : MEDIUM
+Delay Days : 30 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Northeast monsoon flooding of Mullaitivu coastal construction site
+
+Site Conditions:
+  - Labour availability  : 0.82
+  - Material supply      : available
+  - Weather severity     : 0.75
+  - Cumulative delay so far: 5 days
+
+Corrective Action Taken:
+  Pumps installed and work recommenced after flood water receded
+
+Construction Status:
+  Completed with delay

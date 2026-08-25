@@ -1,0 +1,22 @@
+Case 101: Construction Delay - Pre-Construction & Approvals / Authority approvals
+
+Location   : Trincomalee, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Authority approvals
+Risk Level : HIGH
+Delay Days : 97 days
+
+Delay Category : Financial & Funding
+Cause of Delay : Bank loan application rejected in Trincomalee due to unclear land title
+
+Site Conditions:
+  - Labour availability  : 0.6
+  - Material supply      : available
+  - Weather severity     : 0.39
+  - Cumulative delay so far: 44 days
+
+Corrective Action Taken:
+  Title cleared with legal aid and alternative lender found through NGO
+
+Construction Status:
+  Ongoing - roof level reached

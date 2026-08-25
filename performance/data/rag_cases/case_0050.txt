@@ -1,0 +1,22 @@
+Case 50: Construction Delay - Structure / Columns & beams
+
+Location   : Galle, Southern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : MEDIUM
+Delay Days : 20 days
+
+Delay Category : Labour
+Cause of Delay : Construction workers unavailable during peak SW monsoon season in Galle
+
+Site Conditions:
+  - Labour availability  : 0.27
+  - Material supply      : available
+  - Weather severity     : 0.84
+  - Cumulative delay so far: 18 days
+
+Corrective Action Taken:
+  Work scheduled around weather windows and core crew retained on site
+
+Construction Status:
+  Completed on revised schedule

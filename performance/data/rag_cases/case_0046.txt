@@ -1,0 +1,22 @@
+Case 46: Construction Delay - Envelope & Waterproofing / Roof waterproofing
+
+Location   : Kalutara, Western Province
+Building   : 1-floor residential construction
+Phase      : Envelope & Waterproofing > Roof waterproofing
+Risk Level : LOW
+Delay Days : 12 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Heavy rainfall during southwest monsoon delayed roofing and waterproofing in Kalutara
+
+Site Conditions:
+  - Labour availability  : 0.74
+  - Material supply      : available
+  - Weather severity     : 0.81
+  - Cumulative delay so far: 4 days
+
+Corrective Action Taken:
+  Temporary weather protection installed and work resumed after rain stopped
+
+Construction Status:
+  Completed

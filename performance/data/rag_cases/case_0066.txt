@@ -1,0 +1,22 @@
+Case 66: Construction Delay - Foundations / Soil investigation
+
+Location   : Galle, Southern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Soil investigation
+Risk Level : MEDIUM
+Delay Days : 30 days
+
+Delay Category : Design & Technical
+Cause of Delay : Foundation design unsuitable for Galle coastal sandy soil near beach area
+
+Site Conditions:
+  - Labour availability  : 0.74
+  - Material supply      : available
+  - Weather severity     : 0.84
+  - Cumulative delay so far: 11 days
+
+Corrective Action Taken:
+  Geotechnical consultant redesigned foundation to pile type for coastal soil
+
+Construction Status:
+  Completed after foundation redesign

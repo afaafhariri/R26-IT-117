@@ -1,0 +1,22 @@
+Case 58: Construction Delay - Structure / Columns & beams
+
+Location   : Colombo, Western Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : MEDIUM
+Delay Days : 14 days
+
+Delay Category : Labour
+Cause of Delay : Skilled construction workers unavailable in Colombo during Sinhala Tamil New Year
+
+Site Conditions:
+  - Labour availability  : 0.26
+  - Material supply      : available
+  - Weather severity     : 0.29
+  - Cumulative delay so far: 13 days
+
+Corrective Action Taken:
+  Work rescheduled and accelerated during post-festival period
+
+Construction Status:
+  Completed on revised schedule

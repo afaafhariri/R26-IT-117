@@ -1,0 +1,22 @@
+Case 137: Construction Delay - MEP Rough-Ins / Electrical conduit work
+
+Location   : Kilinochchi, Northern Province
+Building   : 1-floor residential construction
+Phase      : MEP Rough-Ins > Electrical conduit work
+Risk Level : MEDIUM
+Delay Days : 15 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Steel and conduit delivery delayed due to transport disruption in Kilinochchi
+
+Site Conditions:
+  - Labour availability  : 0.71
+  - Material supply      : unavailable
+  - Weather severity     : 0.32
+  - Cumulative delay so far: 7 days
+
+Corrective Action Taken:
+  Alternative transport route via Vavuniya town arranged for delivery
+
+Construction Status:
+  Completed after supply delay

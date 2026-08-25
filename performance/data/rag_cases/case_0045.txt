@@ -1,0 +1,22 @@
+Case 45: Construction Delay - Site Preparation / Site clearing & hoarding
+
+Location   : Kilinochchi, Northern Province
+Building   : 2-floor residential construction
+Phase      : Site Preparation > Site clearing & hoarding
+Risk Level : MEDIUM
+Delay Days : 21 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Wild elephant entry damaged site hoarding and equipment in Kilinochchi
+
+Site Conditions:
+  - Labour availability  : 0.56
+  - Material supply      : available
+  - Weather severity     : 0.71
+  - Cumulative delay so far: 12 days
+
+Corrective Action Taken:
+  Electric fence erected around entire construction perimeter before restart
+
+Construction Status:
+  Completed with additional protection cost

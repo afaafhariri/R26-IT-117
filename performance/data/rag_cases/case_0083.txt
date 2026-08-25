@@ -1,0 +1,22 @@
+Case 83: Construction Delay - Foundations / Foundation work
+
+Location   : Jaffna, Northern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 14 days
+
+Delay Category : Labour
+Cause of Delay : Shortage of skilled masons in Jaffna due to migration to Colombo and Middle East
+
+Site Conditions:
+  - Labour availability  : 0.44
+  - Material supply      : available
+  - Weather severity     : 0.34
+  - Cumulative delay so far: 7 days
+
+Corrective Action Taken:
+  Subcontractors hired from Vavuniya at increased daily wage of LKR 2500
+
+Construction Status:
+  Completed with 2-week delay

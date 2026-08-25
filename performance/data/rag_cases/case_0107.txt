@@ -1,0 +1,22 @@
+Case 107: Construction Delay - Pre-Construction & Approvals / Site selection & surveying
+
+Location   : Gampaha, Western Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Site selection & surveying
+Risk Level : HIGH
+Delay Days : 120 days
+
+Delay Category : Land & Legal
+Cause of Delay : Land title disputed between inherited siblings in Gampaha district
+
+Site Conditions:
+  - Labour availability  : 0.9
+  - Material supply      : available
+  - Weather severity     : 0.27
+  - Cumulative delay so far: 54 days
+
+Corrective Action Taken:
+  Partition action filed and settlement reached through DS mediation
+
+Construction Status:
+  Completed after legal resolution
