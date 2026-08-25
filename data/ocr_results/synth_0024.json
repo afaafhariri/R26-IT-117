@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0024.pdf",
+  "raw_text": "R.M.Silva, CSSI Sri Lanka\nRegistered Licensed Surveyor Leveller and Court Commissioner\n5, Galle Road, Kalutara\nLicence No.125611\nLand Survey Council Registration No.2221854\n\nPLAN No.BT/2642\n\nScale 1:1000\n\nPLAN\nof an allotment of Land called \"Aanaikulaththukadu\"\nsituated in Wadduwa within the local limits of Wadduwa Pradeshiya Sabha\nin Wadduwa Divisional Secretariat Area in\n\nKALUTARA DISTRICT\nWESTERN PROVINCE\n\nLot A bounded as follows:\nNorth by : Garden, Claimed by Road and Private Lane\nEast by  : Private Lane and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining in Extent of Lot 1  0.0390  0.  0.  15.42\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2022.07.21\nPlan issued on : 2024.04.23\n\nR.M.Silva\nRegistered Licensed Surveyor. (Regtn. No 61536717)\n",
+  "token_count": 137,
+  "ner_auto": {
+    "plan_number": "BT/2642",
+    "district": "Kalutara",
+    "area_sqm": 389.9,
+    "scale": 1000,
+    "surveyor": "R.M.Silva",
+    "road_access": "Private Lane",
+    "lot_number": "A",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "125611"
+  },
+  "ner_corrected": {
+    "plan_number": "BT/2642",
+    "district": "Kalutara",
+    "area_sqm": 389.9,
+    "scale": 1000,
+    "surveyor": "R.M.Silva",
+    "road_access": "Private Lane",
+    "lot_number": "A",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "125611"
+  }
+}

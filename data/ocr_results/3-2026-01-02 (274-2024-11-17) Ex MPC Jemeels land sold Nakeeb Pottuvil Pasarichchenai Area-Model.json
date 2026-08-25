@@ -1,0 +1,20 @@
+{
+  "filename": "3-2026-01-02 (274-2024-11-17) Ex MPC Jemeels land sold Nakeeb Pottuvil Pasarichchenai Area-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2701 _ (Chartered Surveyor), Reference Registered Licensed  Surveyor, Leveller BS(CCD} Boundary   Stone(Coast Conservation  Department) Stake and Court Commissioner; Wall Wire Fence 1 1/A, Main Street; Kaanady Lane, Dry Fence Gate Sainthamaruthu- Water Tank Concrete Edge Telephone: 077 6550260 Undefined 076 2610260 and 071 8080722 Scale_ LlooQ Licence No.250123. Land Survey Council Registration No.19911083. Note: The  Notional Survey Grid Coordinates werl uscd the Survbyino Which derived 480775 from RTK (Cors Net) receiver: Kudakkalli 8 Garden Sahul Hameed presently Shim Beoch Resort 8 onc premises BS(CCD) 8 Kudakkalli 1 Gayaen Inoon BS(CCD; presently 5.1.Alhamnkandu Sea Shore 480700 SEA BS(CCD) PLAN 0f an allotment of Garden called 'Kudakkalli-part of (being re-survey of lot Plan No.2366 dated 2024. 1.18, prepared by me) marked aS Lot situated ot Kudakkalli  Road in the village of Pasarichchenai within the local  limits Ot Pottuvil Pradeshiya Sabha Panamai Pattu and within the administrative Limits ot Pottuvil-Pasarichchenai Grama Niladhari   Division No.P/18 Pottuvil  Divisional Secretary' s Area in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded as follows: North by Kudakkalli  Road and Kudakkalli, Garden, claimed by M.I.Sahul Hameed presently Shim Beach Resort and premises. East by Kudakalli, Garden, claimed by M.I.Sahul Hameed presently Shim Beach Resort and premises ana Sea Shore  South by Sea Shore and Kudakkalli, Garden, claimed by Aliyar Inoon presently S.l.Athamkandu. West by Garden, claimed by Aliyar Inoon presently SI.Athamkandu and Kudakkalli Road. The entire Land is containing in extent :0.14173 Hectare (OA-1R-16.03P): The survey was requested by Thambi Lebbe Mohamed Nakeeb (NIC No.672342236X) and the boundaries pointed ouf by Athambawa Mansoor No.131, Znd Cross Road, Nintavur-3 on behalf of the present occupant_ Presently  occupied by Thambi Lebbe Mohamed Nakeeb on Permit No.P/34/ES/356 dated 1980.05.02, issued by the Government Agent; Ampara. Surveyed on 2026.01.02 Drawn January 2026 Plan issued on 2026.01.03. 8 8 1 1 1 3 E line Dune Sand",
+  "token_count": 253,
+  "ner_auto": {
+    "plan_number": "2701",
+    "district": "Ampara",
+    "area_sqm": 1417.3,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 0.0,
+    "coordinate_e": 1.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

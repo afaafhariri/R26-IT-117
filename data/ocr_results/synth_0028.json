@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0028.pdf",
+  "raw_text": "B.G.Ranasinghe, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n6, New Town Road, Hambantota\nLicence No.452457\nLand Survey Council Registration No.9961107\n\nPLAN No.N/3670\n\nScale 1:2500\n\nPLAN\nof an allotment of Land called \"Sinnakkadai\"\nsituated in Weeraketiya within the local limits of Weeraketiya Pradeshiya Sabha\nin Weeraketiya Divisional Secretariat Area in\n\nHAMBANTOTA DISTRICT\nSOUTHERN PROVINCE\n\nLot 2 bounded as follows:\nNorth by : Garden, Claimed by Road and Main Road\nEast by  : Main Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining in Extent of Lot 1  0.1095  0.  1.  3.27\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2015.07.19\nPlan issued on : 2024.11.01\n\nB.G.Ranasinghe\nRegistered Licensed Surveyor. (Regtn. No 21267237)\n",
+  "token_count": 136,
+  "ner_auto": {
+    "plan_number": "N/3670",
+    "district": "Hambantota",
+    "area_sqm": 1094.5,
+    "scale": 2500,
+    "surveyor": "B.G.Ranasinghe",
+    "road_access": "Main Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "452457"
+  },
+  "ner_corrected": {
+    "plan_number": "N/3670",
+    "district": "Hambantota",
+    "area_sqm": 1094.5,
+    "scale": 2500,
+    "surveyor": "B.G.Ranasinghe",
+    "road_access": "Main Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "452457"
+  }
+}

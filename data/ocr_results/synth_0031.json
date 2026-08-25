@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0031.pdf",
+  "raw_text": "V.Karunakaran, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n12, Inner Harbour Road, Trincomalee\nLicence No.307963\nLand Survey Council Registration No.3030966\n\nPLAN No.N/4816\n\nScale 1:2500\nThe National Survey Grid Coordinates were used for the surveying.\nN : 639529\nE : 635724\n\nPLAN\nof an allotment of Land called \"Nintavur East\"\nsituated in Nilaveli within the local limits of Nilaveli Pradeshiya Sabha\nin Nilaveli Divisional Secretariat Area in\n\nTRINCOMALEE DISTRICT\nEASTERN PROVINCE\n\nLot A bounded as follows:\nNorth by : Garden, Claimed by Road and Mosque Road\nEast by  : Mosque Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining Total Extent 0.0900 Hectare or 0A:0R:35.60P\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2024.01.12\nPlan issued on : 2023.07.22\n\nV.Karunakaran\nRegistered Licensed Surveyor. (Regtn. No 59737181)\n",
+  "token_count": 150,
+  "ner_auto": {
+    "plan_number": "N/4816",
+    "district": "Trincomalee",
+    "area_sqm": 900.4,
+    "scale": 2500,
+    "surveyor": "V.Karunakaran",
+    "road_access": "Mosque Road",
+    "lot_number": "A",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 639529.0,
+    "coordinate_e": 635724.0,
+    "licence_number": "307963"
+  },
+  "ner_corrected": {
+    "plan_number": "N/4816",
+    "district": "Trincomalee",
+    "area_sqm": 900.4,
+    "scale": 2500,
+    "surveyor": "V.Karunakaran",
+    "road_access": "Mosque Road",
+    "lot_number": "A",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 639529.0,
+    "coordinate_e": 635724.0,
+    "licence_number": "307963"
+  }
+}

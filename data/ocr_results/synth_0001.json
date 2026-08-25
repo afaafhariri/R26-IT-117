@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0001.pdf",
+  "raw_text": "H.D.Perera, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n12, Marine Drive, Beruwala\nLicence No.809570\nLand Survey Council Registration No.1445199\n* Hand GPS Coordinates were used for Location\n\nPLAN No.T/1928\n\nScale 1:1000\n366140 N\n394328 E\n\nPLAN\nof an allotment of Land called \"Roadadykandam\"\nsituated in Panadura within the local limits of Panadura Pradeshiya Sabha\nin Panadura Divisional Secretariat Area in\n\nKALUTARA DISTRICT\nWESTERN PROVINCE\n\nLot 3 bounded as follows:\nNorth by : Garden, Claimed by Road and New Road\nEast by  : New Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining in Extent of Lot 1  0.0158  0.  0.  6.24\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2023.04.23\nPlan issued on : 2025.12.18\n\nH.D.Perera\nRegistered Licensed Surveyor. (Regtn. No 66306997)\n",
+  "token_count": 147,
+  "ner_auto": {
+    "plan_number": "T/1928",
+    "district": "Kalutara",
+    "area_sqm": 157.8,
+    "scale": 1000,
+    "surveyor": "H.D.Perera",
+    "road_access": "New Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": 366140.0,
+    "coordinate_e": 394328.0,
+    "licence_number": "809570"
+  },
+  "ner_corrected": {
+    "plan_number": "T/1928",
+    "district": "Kalutara",
+    "area_sqm": 157.8,
+    "scale": 1000,
+    "surveyor": "H.D.Perera",
+    "road_access": "New Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": 366140.0,
+    "coordinate_e": 394328.0,
+    "licence_number": "809570"
+  }
+}

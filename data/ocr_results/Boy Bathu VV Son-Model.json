@@ -1,0 +1,33 @@
+{
+  "filename": "Boy Bathu VV Son-Model.pdf",
+  "raw_text": "ALMohamed Husyen, FSI. PLAN No. 1905 Registered Licensed Land Surveyor and Court Commissioner: 370, Union Road, Akkaraipattu. TP-067-2277686 Land Claimed U.L.M Mustaffa 8 Land Claimed 2 Lot ULMMustaffa Reference Stake Land Claimed  by Fence Post BS Boundary   Stone ULMMustaffa 8 1Hectore -2.47105 Acres SCALE 500 PLAN an allotment of land marked Lot Situated in KT /5 C.N Division in Akkaraipattu Village  within the Akkaraipattu Municipal Council Limits in Akkaraipattu Divisional Secretariat. AMPARA DISTRICT EASTERN PROVINCE Schedule of Lots: Lot Extent Remarks No. Hect North East South West 0.0748 29.6 Land Claimed Poth - 12Feet Land  Claimed and Claimed by by by U.LMMustaffa U.L.M Mustaffa U.LM Mustaffa Total: 0.0748 29.6 Land Claimed by Deed No.3078 of 2014-08-29 Attested by A.J.M.Nazeem Attorney at law and N.P. Boundaries  Surveyed Pointed out by and to: 30-09-2014 A.L Nawzard of 31, Jinna Road Akkaraipattu-04. A.L.Mohamed Husyen, Registered Licensed Land Surveyor_ (Regtn. No 19900575) E/FB 108 Surveyed on 01-09 2014. ] 3 1",
+  "token_count": 116,
+  "ner_auto": {
+    "plan_number": "1905",
+    "district": "Ampara",
+    "area_sqm": null,
+    "scale": null,
+    "surveyor": "and Court Commissioner",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Akkaraipattu Village",
+    "coordinate_n": 1.0,
+    "coordinate_e": 500.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": {
+    "plan_number": "1905",
+    "district": "Ampara",
+    "area_sqm": 748.0,
+    "scale": null,
+    "surveyor": "and Court Commissioner",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Akkaraipattu Village",
+    "coordinate_n": 1.0,
+    "coordinate_e": 500.0,
+    "licence_number": "d"
+  }
+}

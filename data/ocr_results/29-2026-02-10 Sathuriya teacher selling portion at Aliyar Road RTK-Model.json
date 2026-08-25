@@ -1,0 +1,20 @@
+{
+  "filename": "29-2026-02-10 Sathuriya teacher selling portion at Aliyar Road RTK-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2721 (Chartered Surveyor), 544550 Registered Licensed Surveyor; Leveller and Court Commissioner, 11/4, Main Street, Kaanady Lane, 8 Sainthamaruthu-11. Telephone: 077 6550260, 076 2610260 and 071 8080722 Licence No.260651_ Land Survey Council Registration No.19911083. Reference Nail Wail BW Building Wall MFn Mosonry Foundation Gale Permanent  building Scale_ 1.500 Note: The  National Survey Grid Coordinates erc Vseo tor the surveying which derived trom RTK receiver (CORS Net): Main Aliyar   Road To Road TZ2300- Hon Garden BW KMZeithoon ana Subaitha Garden 23*00 MAR.Ummu Sothuriyo Remaining portion of the {and 1 544475 PLAN 0f an allotment of Garden marked as Lot situated at Aliyar Road the village of Kalmunai   within the Iocal  limits of   Kalmunai Municipal Council in Karavaku Pattu ana within the administrative limits ot Kalmunaikudy-13 Grama Niladhari Division No.KP/54/A Kalmunai   Divisional Secretary' s Area   in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded as follows: North by Aliyar Road. East by Garden, claimed by KMZeithoon and Subaitha. South by Garden, claimed   by M.A.R Ummu Sathuriya-Remaining  portion of the land: West by Garden, cloimed by MAR. Ummu Sathuriya-Remaining portion Ot the land. The entire Land containing in extent :0.00770 Hectare (OA-OR-03.04P)=77.0 Square metre_ The survey was requested by Mohamed Jaufar Mohamed Rukshan and the boundaries pointed out by  Mohamed Jaufar Mohamed Rukshan of No.306, Market Road, Sainthamaruthu-7 and Mohamed Abdul Rahuman Ummu Sathuriya No.54/C, Aliyar Road, Kalmunaikudy-13 both are on behalf of the claimant: Claimed by  Buhary Mohamed Firaz and the property mentioned Deed bearing No.79 dated  2023.12.30, attested by Mohamed Musthafa Sufair; Attorney- at-Law and Public Surveyed on 2026.02.10. Drawn February 2026_ Plan issued on 2026.02. From Road Beach Notary",
+  "token_count": 217,
+  "ner_auto": {
+    "plan_number": "2721",
+    "district": "Ampara",
+    "area_sqm": 77.0,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 23.0,
+    "coordinate_e": 77.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

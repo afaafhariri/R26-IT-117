@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0014.pdf",
+  "raw_text": "Abdul Hameed, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n12, Inner Harbour Road, Trincomalee\nLicence No.808011\nLand Survey Council Registration No.8033426\n\nPLAN No.TR/1622\n\nScale 1:500\nThe National Survey Grid Coordinates were used for the surveying.\nN : 677924\nE : 582604\n\nPLAN\nof an allotment of Land called \"Roadadykandam\"\nsituated in Trincomalee within the local limits of Trincomalee Pradeshiya Sabha\nin Trincomalee Divisional Secretariat Area in\n\nTRINCOMALEE DISTRICT\nEASTERN PROVINCE\n\nLot B bounded as follows:\nNorth by : Garden, Claimed by Road and Beach Road\nEast by  : Beach Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nTotal Extent 623.6 sq.m (0.0624 Ha)\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2025.10.19\nPlan issued on : 2023.06.09\n\nAbdul Hameed\nRegistered Licensed Surveyor. (Regtn. No 37415205)\n",
+  "token_count": 150,
+  "ner_auto": {
+    "plan_number": "TR/1622",
+    "district": "Trincomalee",
+    "area_sqm": 623.6,
+    "scale": 500,
+    "surveyor": "Abdul Hameed",
+    "road_access": "Beach Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 677924.0,
+    "coordinate_e": 582604.0,
+    "licence_number": "808011"
+  },
+  "ner_corrected": {
+    "plan_number": "TR/1622",
+    "district": "Trincomalee",
+    "area_sqm": 623.6,
+    "scale": 500,
+    "surveyor": "Abdul Hameed",
+    "road_access": "Beach Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 677924.0,
+    "coordinate_e": 582604.0,
+    "licence_number": "808011"
+  }
+}

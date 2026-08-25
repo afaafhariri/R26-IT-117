@@ -1,0 +1,33 @@
+{
+  "filename": "Plan-49-Model.pdf",
+  "raw_text": "CC CUUiuWOic) VCi UOCL 9liui 546365 N 8 T Garden Claimed by Sathyaseelan & Wife Reference Garden WF Wire Fence Presently claimed by ZF Zinc Fence 3 KSutharshini Wall 8 Gate 546315 N Road(MC) Road (Municipal Council) Scale 1 500 PLAN AN ALLOTMENT OF LAND CALLED \"Thalavedduvanpoomi\" Bearing Assessment No: situated at No.96, CEB Road, Natpittimunai-03 (GN Division No: KP/62/3) in Ward No: 08 within the Municipal Council limits of Kalmunai under Kalmunai Divisional Secretary (TD) vithin Karavahu Pattu in Ampara District in the Eastern Province of the DEMOCRATIC SOCIALIST REPUBLIC OF SRILANKA Bounded as follows North by Road (Municipal Council) East by Garden, Claimed by Sathyaseelan & Wife South by Garden, Presently claimed by KSutharshini West by Path As pointed out by and to claimant Kathiresu Sulojini and the boundaries were surveyed by me. Claimed by Kathiresu Sulojini on Deed No: 21291 dated 2015.05.27, attested by C Varoathayan, Notary Public & Justice of Peace, Pandiruppu-02_ Hectares A R P Containing in Extent of Lot 1 0.0244 0_ 0_ 9.65 as at present Pandiruppu Road(MC) Natpittimunai From 2 754 {",
+  "token_count": 68,
+  "ner_auto": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": null,
+    "scale": null,
+    "surveyor": "Karavahu Pattu",
+    "road_access": null,
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "Kalmunai",
+    "coordinate_n": 546365.0,
+    "coordinate_e": 3.0,
+    "licence_number": "OF"
+  },
+  "ner_corrected": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": 244.0,
+    "scale": null,
+    "surveyor": "Karavahu Pattu",
+    "road_access": null,
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "Kalmunai",
+    "coordinate_n": 546365.0,
+    "coordinate_e": 3.0,
+    "licence_number": "OF"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "filename": "15-2026-01-22 Kethsirigama Semis Son-in-Laws Land at Main Alahena Damana-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2714. (Chartered Surveyor); 521825 Registered Licensed  Surveyor; Leveller and Court Commissioner; 1/4, Main Street; Kaanady Lane, Sainthamaruthu_ Telephone: 077 6550260, 076 2610260 and 071 8080722. Licence No.260651_ Land Survey Council Registration No. 19911083. Reference Boundary Post Nail Stoke Wall Permanent building WM Water Meter Road(RDA) Road(Road Development Authority} Tar Edge Telephone Post Electric Post Old boundary am} 2171 46 PP am/2171 Scale 1.500 Note: The National  Survey Grid Coordinotes were used tor tne surveying which &] derived Trom RTk receiver 2 (CORS Net): Lot 25 PP am2171 4 EP (Uncer` Cons WVcuon Lot 26 am/2171 Lot 26 PP 0m/2171 8 521750 N PLAN ot an allotment of Garden called 'Alahenayaya part of lot 26 PP aml 2171 marked aS Lot situated at Road (Road Development Authority) in the  village of Posonpura within the Iocal   limits of   Damana Pradeshiya Sabha in Wewgam Pattu South and within the administrative Limits of Alahena Grama Niladhari Division No.W/27/c in Damana Divisional Secretary'5 Area in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded a5 follows: North by Lots 46 and 25 PP am} 2171. East by Lots  25 and 26 PP am} 2171 . South by Lot 26 in PP aml 2171_ West by Lots 26 and 46 PP am} 2171. The entire Land is containing in extent :0.02036 Hectare (OA-OR-08.05P)-203.6 Square metre The survey was requested by Lahiru Sharanka Weerathunge and the boundaries pointed out by Lahiru Sharanka Weerathunge of No.104, Posonpura Junction_ Alahena, Damana. Presently occupied by Lahiru Sharanka Weerathunge and the property (north western portion) mentioned in Grant No.aml/9/px/3085 dated 1998.01.26 Surveyed on 2026.01.22_ Drawn January 2026. Plan issued on 2026.01.24. 7 Lot 3 ] L J 1 92m12 22.06m 8 1 PP",
+  "token_count": 240,
+  "ner_auto": {
+    "plan_number": "2714",
+    "district": "Ampara",
+    "area_sqm": 203.6,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": "25",
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 521750.0,
+    "coordinate_e": 77.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

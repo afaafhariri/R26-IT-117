@@ -1,0 +1,20 @@
+{
+  "filename": "19-2026-01-29 Aslam Big Mart Jabeer Sister Land at Gaffoor Road-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2717. (Chartered Surveyor); 543100 Registered Licensed  Surveyor; Leveller and Court Commissioner; 1/4, Main Street; Kaanady Lane, Sainthamaruthu_ Garden 3 M.Janooffa Telephone: 077 6550260, 076 2610260 and MH.Mowfiya and 071 8080722. Lot Claimed on 64363 Licence No.260651_ 232'00 Land Survey Council Registration No. 19911083. Tsw\" Reference Garden Nail Garden AR.Siyana and husband Nail l{ate SAamina Ummah Lot 12-Claimed on TP  68067 Wall Gote and late husband MDn Mosonry Drain ALAAbdul Razak [829 Tube Well WM Water Meter Lot 12-Claimed on 15*06 2300\" TP 68067 8 Private ne Scale 1.500 Note: The National Survey Grid Coordinates were used 7 tor the surveying which derived from RTK receiver CORS Net). 8 8 MDr Gaffoor Vaithiyor Roaa 543050 From PLAN of two allotments of Garden called 12th kandappoomi-part of-Claimed on part of TP 68067 marked 0s Lots and situated at Gaffoor Vaiyhiyar Road the   village of Sainthamaruthu within the Iocal   limits 0f Kalmunai  Municipal Council in Karavaku Pattu and within the administrative   limits of  Sainthamaruthu 1 6 Grama Niladhari Division No.KP/47/C in Sainthamaruthu Divisional Secretary' s Area   in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded as follows: North by Garden, claimed by M.Janooffa and M.H.Mowfiya-Lot I3_Claimed on 64363. East by Garden, claimed by A.R.Siyana and husband Lot 12 Claimed on TP 68067 South by Private Lane: West by Garden, claimed by late S.Aamina   Ummah and late husband ALAAbdul Razak-Lot 12 = Claimed on TP 68067. The entire Land containing in extent :0.01709 Hectare (OA-OR-06.76P)=170.9 Square metre. The survey was requested by Abdul Razak Mohamed Jabeer and the boundaries pointed out by Abdul Razak Mohamed Jabeer of No.542 /B, Gaffoor Vaithiyar Road, Sainthamaruthu-16 on behalf of the claimant: Claimed   by Abdul Razak Izzath Rihana and the property mentioned Deed bearing No.4649 dated 2004.04.20, attested by A.L Natheer; Attorney-at-Law and Notary Public. SCHEDULE Lot Present Extent Schedule Boundaries Remarks Land Hectore North South West Carden 0.01 04.50 Garden, Carden, Private Lane: Lot eastern portion: M.Janooffa and A.R.Siyana and (113.8 Square metre). MAMowfiya- husband-Lot 12_ Lot Claimed Claimed 64363. 68067. Garden 0.00571 02.26 Garden, Lot Private Lane: Garden; Iate western portion: MJanooffa and S.Aamina Ummah (57. Square metre). M.A.Mowfiya- and {ate husband Lot Claimed ALAAbdul 64363. Razak-Lot 12 - Claimed 68067. Total 0.01709 06.76 Surveyed on 2026.01.29. Drawn January 2026. Plan issued on 2026.01.30. Jron Road Kalyana Road Lotus Eost",
+  "token_count": 337,
+  "ner_auto": {
+    "plan_number": "2717",
+    "district": "Ampara",
+    "area_sqm": 170.9,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": "12",
+    "is_coastal": true,
+    "province": "Sainthamaruthu",
+    "coordinate_n": 3.0,
+    "coordinate_e": 77.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

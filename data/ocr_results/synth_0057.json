@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0057.pdf",
+  "raw_text": "D.C.Fernando, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n12, Anagarika Dharmapala Mawatha, Matara\nLicence No.952547\nLand Survey Council Registration No.1047572\n\nPLAN No.4640\n\nScale 1:1000\n\nPLAN\nof an allotment of Land called \"Thennanthoddapoomi\"\nsituated in Dikwella within the local limits of Dikwella Pradeshiya Sabha\nin Dikwella Divisional Secretariat Area in\n\nMATARA DISTRICT\nSOUTHERN PROVINCE\n\nLot B bounded as follows:\nNorth by : Garden, Claimed by Road and Beach Road\nEast by  : Beach Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining Total Extent 0.0513 Hectare or 0A:0R:20.28P\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2019.03.05\nPlan issued on : 2023.05.26\n\nD.C.Fernando\nRegistered Licensed Surveyor. (Regtn. No 33420607)\n",
+  "token_count": 133,
+  "ner_auto": {
+    "plan_number": "4640",
+    "district": "Matara",
+    "area_sqm": 513.0,
+    "scale": 1000,
+    "surveyor": "D.C.Fernando",
+    "road_access": "Beach Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "952547"
+  },
+  "ner_corrected": {
+    "plan_number": "4640",
+    "district": "Matara",
+    "area_sqm": 513.0,
+    "scale": 1000,
+    "surveyor": "D.C.Fernando",
+    "road_access": "Beach Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "952547"
+  }
+}

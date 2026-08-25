@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0055.pdf",
+  "raw_text": "W.A.Jayasinghe, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n8, Kurunegala Road, Puttalam\nLicence No.803055\nLand Survey Council Registration No.2661307\n\nPLAN No.AP/1211\n\nScale 1:2500\n\nPLAN\nof an allotment of Land called \"Kadatkaraippalli\"\nsituated in Chilaw within the local limits of Chilaw Pradeshiya Sabha\nin Chilaw Divisional Secretariat Area in\n\nPUTTALAM DISTRICT\nNORTH WESTERN PROVINCE\n\nLot 3 bounded as follows:\nNorth by : Garden, Claimed by Road and Church Road\nEast by  : Church Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining Total Extent 0.0646 Hectare or 0A:0R:25.54P\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2022.10.14\nPlan issued on : 2019.01.23\n\nW.A.Jayasinghe\nRegistered Licensed Surveyor. (Regtn. No 59731689)\n",
+  "token_count": 133,
+  "ner_auto": {
+    "plan_number": "AP/1211",
+    "district": "Puttalam",
+    "area_sqm": 646.1,
+    "scale": 2500,
+    "surveyor": "W.A.Jayasinghe",
+    "road_access": "Church Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "NORTH WESTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "803055"
+  },
+  "ner_corrected": {
+    "plan_number": "AP/1211",
+    "district": "Puttalam",
+    "area_sqm": 646.1,
+    "scale": 2500,
+    "surveyor": "W.A.Jayasinghe",
+    "road_access": "Church Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "NORTH WESTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "803055"
+  }
+}

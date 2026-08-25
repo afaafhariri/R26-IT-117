@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0002.pdf",
+  "raw_text": "T.Nadarajah, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n7, Hospital Road, Chavakachcheri\nLicence No.456778\nLand Survey Council Registration No.6770619\n* Hand GPS Coordinates were used for Location\n\nPLAN No.TR/153\n\nScale 1:1000\n769797 N\n526338 E\n\nPLAN\nof an allotment of Land called \"Sinnakkadai\"\nsituated in Delft within the local limits of Delft Pradeshiya Sabha\nin Delft Divisional Secretariat Area in\n\nJAFFNA DISTRICT\nNORTHERN PROVINCE\n\nLot 1 bounded as follows:\nNorth by : Garden, Claimed by Road and New Road\nEast by  : New Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\ncontaining in extent :258.6 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2024.05.26\nPlan issued on : 2015.12.15\n\nT.Nadarajah\nRegistered Licensed Surveyor. (Regtn. No 81971316)\n",
+  "token_count": 143,
+  "ner_auto": {
+    "plan_number": "TR/153",
+    "district": "Jaffna",
+    "area_sqm": 258.6,
+    "scale": 1000,
+    "surveyor": "T.Nadarajah",
+    "road_access": "New Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "NORTHERN PROVINCE",
+    "coordinate_n": 769797.0,
+    "coordinate_e": 526338.0,
+    "licence_number": "456778"
+  },
+  "ner_corrected": {
+    "plan_number": "TR/153",
+    "district": "Jaffna",
+    "area_sqm": 258.6,
+    "scale": 1000,
+    "surveyor": "T.Nadarajah",
+    "road_access": "New Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "NORTHERN PROVINCE",
+    "coordinate_n": 769797.0,
+    "coordinate_e": 526338.0,
+    "licence_number": "456778"
+  }
+}

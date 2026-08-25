@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0011.pdf",
+  "raw_text": "S.B.Dissanayake, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n12, Marine Drive, Beruwala\nLicence No.777568\nLand Survey Council Registration No.2833230\n\nPLAN No.K/3925\n\nScale 1:500\n\nPLAN\nof an allotment of Land called \"Karaitivu North\"\nsituated in Matugama within the local limits of Matugama Pradeshiya Sabha\nin Matugama Divisional Secretariat Area in\n\nKALUTARA DISTRICT\nWESTERN PROVINCE\n\nLot A bounded as follows:\nNorth by : Garden, Claimed by Road and Harbour Road\nEast by  : Harbour Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\ncontaining in extent :119.1 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2018.04.07\nPlan issued on : 2023.08.05\n\nS.B.Dissanayake\nRegistered Licensed Surveyor. (Regtn. No 66623995)\n",
+  "token_count": 132,
+  "ner_auto": {
+    "plan_number": "K/3925",
+    "district": "Kalutara",
+    "area_sqm": 119.1,
+    "scale": 500,
+    "surveyor": "S.B.Dissanayake",
+    "road_access": "Harbour Road",
+    "lot_number": "A",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "777568"
+  },
+  "ner_corrected": {
+    "plan_number": "K/3925",
+    "district": "Kalutara",
+    "area_sqm": 119.1,
+    "scale": 500,
+    "surveyor": "S.B.Dissanayake",
+    "road_access": "Harbour Road",
+    "lot_number": "A",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "777568"
+  }
+}

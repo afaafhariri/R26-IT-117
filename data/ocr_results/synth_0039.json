@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0039.pdf",
+  "raw_text": "T.Rajaratnam, CSSI Sri Lanka\nRegistered Licensed Surveyor Leveller and Court Commissioner\n12, Inner Harbour Road, Trincomalee\nLicence No.592738\nLand Survey Council Registration No.8617381\n\nPLAN No.3446\n\nScale 1:2500\n\nPLAN\nof an allotment of Land called \"Oluvil South\"\nsituated in Thambalagamuwa within the local limits of Thambalagamuwa Pradeshiya Sabha\nin Thambalagamuwa Divisional Secretariat Area in\n\nTRINCOMALEE DISTRICT\nEASTERN PROVINCE\n\nLot 1 bounded as follows:\nNorth by : Garden, Claimed by Road and New Road\nEast by  : New Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\ncontaining in extent :78.0 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2016.11.08\nPlan issued on : 2019.11.19\n\nT.Rajaratnam\nRegistered Licensed Surveyor. (Regtn. No 98742485)\n",
+  "token_count": 135,
+  "ner_auto": {
+    "plan_number": "3446",
+    "district": "Trincomalee",
+    "area_sqm": 78.0,
+    "scale": 2500,
+    "surveyor": "T.Rajaratnam",
+    "road_access": "New Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "592738"
+  },
+  "ner_corrected": {
+    "plan_number": "3446",
+    "district": "Trincomalee",
+    "area_sqm": 78.0,
+    "scale": 2500,
+    "surveyor": "T.Rajaratnam",
+    "road_access": "New Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "592738"
+  }
+}

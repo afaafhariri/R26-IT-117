@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0042.pdf",
+  "raw_text": "P.K.Wickramasinghe, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n5, Galle Road, Kalutara\nLicence No.464863\nLand Survey Council Registration No.6533187\n\nPLAN No.AP/3670\n\nScale 1:2500\n\nPLAN\nof an allotment of Land called \"Periyapandivirichchan\"\nsituated in Horana within the local limits of Horana Pradeshiya Sabha\nin Horana Divisional Secretariat Area in\n\nKALUTARA DISTRICT\nWESTERN PROVINCE\n\nLot 2 bounded as follows:\nNorth by : Garden, Claimed by Road and Provincial Road\nEast by  : Provincial Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nThe entire Land is containing in extent :0.05200 Hectare (0A-0R-20.56P)=520.0 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2021.12.16\nPlan issued on : 2019.11.13\n\nP.K.Wickramasinghe\nRegistered Licensed Surveyor. (Regtn. No 83832717)\n",
+  "token_count": 137,
+  "ner_auto": {
+    "plan_number": "AP/3670",
+    "district": "Kalutara",
+    "area_sqm": 520.0,
+    "scale": 2500,
+    "surveyor": "P.K.Wickramasinghe",
+    "road_access": "Provincial Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "464863"
+  },
+  "ner_corrected": {
+    "plan_number": "AP/3670",
+    "district": "Kalutara",
+    "area_sqm": 520.0,
+    "scale": 2500,
+    "surveyor": "P.K.Wickramasinghe",
+    "road_access": "Provincial Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "464863"
+  }
+}

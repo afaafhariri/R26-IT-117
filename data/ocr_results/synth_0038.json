@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0038.pdf",
+  "raw_text": "B.G.Ranasinghe, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n14, Tangalle Road, Hambantota\nLicence No.751194\nLand Survey Council Registration No.4486102\n\nPLAN No.TR/4921\n\nScale 1:2500\n\nPLAN\nof an allotment of Land called \"Oluvil South\"\nsituated in Lunugamvehera within the local limits of Lunugamvehera Pradeshiya Sabha\nin Lunugamvehera Divisional Secretariat Area in\n\nHAMBANTOTA DISTRICT\nSOUTHERN PROVINCE\n\nLot A bounded as follows:\nNorth by : Garden, Claimed by Road and Grama Road\nEast by  : Grama Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nThe entire Land is containing in extent :0.09262 Hectare (0A-0R-36.62P)=926.2 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2025.04.09\nPlan issued on : 2025.02.06\n\nB.G.Ranasinghe\nRegistered Licensed Surveyor. (Regtn. No 42194159)\n",
+  "token_count": 138,
+  "ner_auto": {
+    "plan_number": "TR/4921",
+    "district": "Hambantota",
+    "area_sqm": 926.2,
+    "scale": 2500,
+    "surveyor": "B.G.Ranasinghe",
+    "road_access": "Grama Road",
+    "lot_number": "A",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "751194"
+  },
+  "ner_corrected": {
+    "plan_number": "TR/4921",
+    "district": "Hambantota",
+    "area_sqm": 926.2,
+    "scale": 2500,
+    "surveyor": "B.G.Ranasinghe",
+    "road_access": "Grama Road",
+    "lot_number": "A",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "751194"
+  }
+}

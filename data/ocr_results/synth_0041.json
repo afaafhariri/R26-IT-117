@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0041.pdf",
+  "raw_text": "S.Yogaratnam, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n12, Duplication Road, Colombo 04\nLicence No.437978\nLand Survey Council Registration No.1348050\n\nPLAN No.4999\n\nScale 1:500\nThe National Survey Grid Coordinates were used for the surveying.\nN : 432095\nE : 417392\n\nPLAN\nof an allotment of Land called \"Nintavur East\"\nsituated in Wellawatte within the local limits of Wellawatte Pradeshiya Sabha\nin Wellawatte Divisional Secretariat Area in\n\nCOLOMBO DISTRICT\nWESTERN PROVINCE\n\nLot 3 bounded as follows:\nNorth by : Garden, Claimed by Road and Mosque Road\nEast by  : Mosque Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nThe entire Land is containing in extent :0.03980 Hectare (0A-0R-15.74P)=398.0 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2025.05.19\nPlan issued on : 2015.03.16\n\nS.Yogaratnam\nRegistered Licensed Surveyor. (Regtn. No 79654147)\n",
+  "token_count": 155,
+  "ner_auto": {
+    "plan_number": "4999",
+    "district": "Colombo",
+    "area_sqm": 398.0,
+    "scale": 500,
+    "surveyor": "S.Yogaratnam",
+    "road_access": "Mosque Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": 432095.0,
+    "coordinate_e": 417392.0,
+    "licence_number": "437978"
+  },
+  "ner_corrected": {
+    "plan_number": "4999",
+    "district": "Colombo",
+    "area_sqm": 398.0,
+    "scale": 500,
+    "surveyor": "S.Yogaratnam",
+    "road_access": "Mosque Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": 432095.0,
+    "coordinate_e": 417392.0,
+    "licence_number": "437978"
+  }
+}

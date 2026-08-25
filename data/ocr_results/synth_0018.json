@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0018.pdf",
+  "raw_text": "S.M.Ibrahim, CSSI Sri Lanka\nRegistered Licensed Surveyor Leveller and Court Commissioner\n370, Union Road, Akkaraipattu\nLicence No.679364\nLand Survey Council Registration No.5186414\n* Hand GPS Coordinates were used for Location\n\nPLAN No.T/4569\n\nScale 1:500\n485229 N\n623449 E\n\nPLAN\nof an allotment of Land called \"Oluvil South\"\nsituated in Sammanthurai within the local limits of Sammanthurai Pradeshiya Sabha\nin Sammanthurai Divisional Secretariat Area in\n\nAMPARA DISTRICT\nEASTERN PROVINCE\n\nLot B bounded as follows:\nNorth by : Garden, Claimed by Road and School Road\nEast by  : School Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nThe entire Land is containing in extent :0.06618 Hectare (0A-0R-26.17P)=661.8 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2025.02.12\nPlan issued on : 2023.07.20\n\nS.M.Ibrahim\nRegistered Licensed Surveyor. (Regtn. No 30743797)\n",
+  "token_count": 152,
+  "ner_auto": {
+    "plan_number": "T/4569",
+    "district": "Ampara",
+    "area_sqm": 661.8,
+    "scale": 500,
+    "surveyor": "S.M.Ibrahim",
+    "road_access": "School Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 485229.0,
+    "coordinate_e": 623449.0,
+    "licence_number": "679364"
+  },
+  "ner_corrected": {
+    "plan_number": "T/4569",
+    "district": "Ampara",
+    "area_sqm": 661.8,
+    "scale": 500,
+    "surveyor": "S.M.Ibrahim",
+    "road_access": "School Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 485229.0,
+    "coordinate_e": 623449.0,
+    "licence_number": "679364"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0037.pdf",
+  "raw_text": "T.Rajaratnam, CSSI Sri Lanka\nRegistered Licensed Surveyor Leveller and Court Commissioner\n15, Trinco Road, Eravur\nLicence No.950544\nLand Survey Council Registration No.2987287\n\nPLAN No.K/706\n\nScale 1:500\n\nPLAN\nof an allotment of Land called \"Aanaikulaththukadu\"\nsituated in Paddiruppu within the local limits of Paddiruppu Pradeshiya Sabha\nin Paddiruppu Divisional Secretariat Area in\n\nBATTICALOA DISTRICT\nEASTERN PROVINCE\n\nLot 3 bounded as follows:\nNorth by : Garden, Claimed by Road and Road (RDA)\nEast by  : Road (RDA) and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nThe entire Land is containing in extent :0.14252 Hectare (0A-1R-16.35P)=1425.2 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2023.07.20\nPlan issued on : 2024.10.08\n\nT.Rajaratnam\nRegistered Licensed Surveyor. (Regtn. No 80138498)\n",
+  "token_count": 139,
+  "ner_auto": {
+    "plan_number": "K/706",
+    "district": "Batticaloa",
+    "area_sqm": 1425.2,
+    "scale": 500,
+    "surveyor": "T.Rajaratnam",
+    "road_access": "Road (RDA)",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "950544"
+  },
+  "ner_corrected": {
+    "plan_number": "K/706",
+    "district": "Batticaloa",
+    "area_sqm": 1425.2,
+    "scale": 500,
+    "surveyor": "T.Rajaratnam",
+    "road_access": "Road (RDA)",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "950544"
+  }
+}

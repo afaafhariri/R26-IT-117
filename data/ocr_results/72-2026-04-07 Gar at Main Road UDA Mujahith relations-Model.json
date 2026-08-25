@@ -1,0 +1,20 @@
+{
+  "filename": "72-2026-04-07 Gar at Main Road UDA Mujahith relations-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2761_ (Chartered Surveyor), Registered Licensed Surveyor; Leveller and Court Commissioner, 11/4, Main Street, Kaanady Lane, Sainthamaruthu-11. Telephone: 077 6550260, 076 2610260 and 071 8080722 543125 Licence No.260651_ Land Survey Council Registration No.19911083. Reference Woll Bw Building Wall 2 MDn Musonty Drain Gate Tar Edge Roaa(RDA) Road( Road Development Authority} Undefined Scale_ 1.5oQ Note: The National Survey Grid Coordinates were useg for the surveying which cene8 from RTK receiver (CORS Net) Path Common 3'03 Garden 8 LL.Usan Beevi BW 31\"03 and husband 9 Garden AR.Fahim 3 L 543075 PLAN 0f an allotment of    Garden called 'Poomaraththady valavu marked 05 Lot situated at Road (Road Development Authority) in the  village 0f Sainthamaruthu within the local limits of  Kalmunai Municipal Council in Karavaku Pattu and within the administrative limits of Sainthamaruthu-16 Grama Niladhari   Division No_ KP/46/C in Sainthamaruthu Divisional Secretary'$ Area in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded as follows: North by Common Path and Garden, claimedby 1.L.Usan Beevi and husband. East by Garden, claimed by I.L.Usan Beevi and husband. South by Garden, claimed   by ARFahim. West by Road (Road Development Authority). The entire Land containing in extent :0.00321 Hectare  (OA-OR-01.27P)=32.1 Square metre The survey was requested by Ahamed Lebbe Mohamed Faizar and the boundaries pointed out by Ahamed Lebbe Mohamed Faizar No.238B/ 1 , Veppaiyady Road, Sainthamaruthu-12. Claimed by Ahamed Lebbe Mohamed Faizar and the property mentioned in Deed bearing No.19537 dated 2025.06.26, attested by B.M.Razeen, Attorney- at-Law and Notary Public Surveyed on 2026.04.07. Drawn April 2026. Plan issued on 2026.04.07. 3 L Gardens 3 1 3 1",
+  "token_count": 221,
+  "ner_auto": {
+    "plan_number": "2761",
+    "district": "Ampara",
+    "area_sqm": 32.1,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Karavaku",
+    "coordinate_n": 3.0,
+    "coordinate_e": 77.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

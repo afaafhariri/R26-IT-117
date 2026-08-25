@@ -1,0 +1,20 @@
+{
+  "filename": "3659-15.7.23.Akp.Akp.Akp-Model.pdf",
+  "raw_text": "AA.Mohamed Thasleem, FSI PLAN No.3659 Registered Licensed Surveyor Leveller 674,Town Mosque Road Akkaraipattu 03 Tel.  067-2278148, Garden Mob._0779363632. Presently Claimed bV MMMazeetha 5 8 Garden 1 Presently Claimed  by M.M.F Safna From Main Road MDn VVRoad MDr To Kalmunai Main Road REEERENCE Wall Nail BW Building   Wall SCALE 1:500 MDn Masonry Drain Permanent Building PLAN of two(02)_allotments of_ land_marked lots being survey ond subdivision of the Iand colled \"'Neykottanadi Valavu' situated G.N.division_no.AP Akkaraipattu-02 Village, within the limits of_Akkaraipattu_Municipal_Council Akkaraipatty_Divisional_Secretariat Ampara District EASTERN PROVINCE ILot Present Name Claimant Extent Bounded a5 follows Hectares No. and use and deed no. North East South West Gorden Mohamed Hashim Fairose, 0.0047 Garden Lot A.V.V.Road 2/3 Common No.42/4, A.VV.  Road, Akkaraipattu-02. (QA,OR,01.85P) Presently Road Claimed by Deed No.4172 dated 1987.08.27 M.M.Mazeetha attested by M.U.Thaho Zoinudeen ottorney Iow and Notary Public: 8o 3o 0.0130 do Garden do Lot (OA,OR,05.14P) Presently Claimed by MM.E Safna Total 0.0177 (OA,OR,06.99P) Containing in Extent 177 m.sq. (OA,OR,06.99P) Boundaries Surveyed pointed out by MA.Fairose, No.42/A, AvV.  Road, Registered Licensed Surveyor Leveller Akkaraipattu-02. Regtr. No. 19930566 Date of Survey 2023.07.15 FRTi-t Date 2023.07.17 1 1 1 3 J Ampara 2 8 1 1 /16",
+  "token_count": 149,
+  "ner_auto": {
+    "plan_number": "3659",
+    "district": "Ampara",
+    "area_sqm": 46.7919,
+    "scale": 500,
+    "surveyor": "Leveller",
+    "road_access": "Main Road",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 1.0,
+    "coordinate_e": 1.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

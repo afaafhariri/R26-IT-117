@@ -1,0 +1,33 @@
+{
+  "filename": "Plan-76-Model.pdf",
+  "raw_text": "Regd. No 19921671 TP Nos. 0777049279 & 0714399932 Hand GPS Coordinates were used for Location 541265 N Garden 8 Claimed by T Shanmuganathan & Wife WF WF 52'9 Garden Claimed by SJeyasangar Garden Claimed by MPirunthajini WF To Reference Undefined 8 WF Wire Fence 541220 N W Wall Scale 1 500 PLAN OF AN ALLOTMENT OF LAND CALLED \"Mawadivalavu\" Part of TP 98729, situated at Cross Lane, Kandasuwamy Kovil Road, Karaitivu-10 (GN DIvision No: 42A) in Ward No: 04 within the Pradeshiya Sabha limits of Karaitivu under Karaitivu Divisional Secretary within Karavahu Pattu in Ampara District in the Eastern Province of the DEMOCRATIC SOCIALIST REPUBLIC OF SRILANKA Bounded as follows Lot Extent Remarks Land use No_ Hectares North East South West 0.0304 12.00 Garden , contains Garden, claimed by Garden claimed by Lane Garden, claimed by mixed cultivation T.Shanmuganathan S_Jeyasangar MPirunthajini & Wife As pointed out by and to claimant Francis Newton Nisanth of No.1ll, Saratha Road, Karaitivu-06 and the boundaries were surveyed by me on of 2022 Claimed by Francis Newton Nisanth on Deed No: 72 dated 2022.05.19,attested by Uruthiran Umathasan; Attorney-at-Law & Notary Public, Karaitivu. Road Kovil Kandasuwamy Lane Road Main From Yoga 21St € May",
+  "token_count": 82,
+  "ner_auto": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": 7143999320000.0,
+    "scale": null,
+    "surveyor": "SJeyasangar Garden Claimed",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Karaitivu",
+    "coordinate_n": 541265.0,
+    "coordinate_e": 541220.0,
+    "licence_number": "OF"
+  },
+  "ner_corrected": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": 304.0,
+    "scale": null,
+    "surveyor": "SJeyasangar Garden Claimed",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Karaitivu",
+    "coordinate_n": 541265.0,
+    "coordinate_e": 541220.0,
+    "licence_number": "OF"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0016.pdf",
+  "raw_text": "S.M.Ibrahim, CSSI Sri Lanka\nRegistered Licensed Surveyor Leveller and Court Commissioner\n15, Trinco Road, Eravur\nLicence No.785743\nLand Survey Council Registration No.2795765\n* Hand GPS Coordinates were used for Location\n\nPLAN No.T/3689\n\nScale 1:2000\n533577 N\n638800 E\n\nPLAN\nof an allotment of Land called \"Ninthavur Garden\"\nsituated in Valaichenai within the local limits of Valaichenai Pradeshiya Sabha\nin Valaichenai Divisional Secretariat Area in\n\nBATTICALOA DISTRICT\nEASTERN PROVINCE\n\nLot 3 bounded as follows:\nNorth by : Garden, Claimed by Road and Beach Road\nEast by  : Beach Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nTotal Extent 41.5 sq.m (0.0042 Ha)\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2023.03.09\nPlan issued on : 2019.10.07\n\nS.M.Ibrahim\nRegistered Licensed Surveyor. (Regtn. No 56020613)\n",
+  "token_count": 146,
+  "ner_auto": {
+    "plan_number": "T/3689",
+    "district": "Batticaloa",
+    "area_sqm": 41.5,
+    "scale": 2000,
+    "surveyor": "S.M.Ibrahim",
+    "road_access": "Beach Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 533577.0,
+    "coordinate_e": 638800.0,
+    "licence_number": "785743"
+  },
+  "ner_corrected": {
+    "plan_number": "T/3689",
+    "district": "Batticaloa",
+    "area_sqm": 41.5,
+    "scale": 2000,
+    "surveyor": "S.M.Ibrahim",
+    "road_access": "Beach Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 533577.0,
+    "coordinate_e": 638800.0,
+    "licence_number": "785743"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0051.pdf",
+  "raw_text": "A.M.Farook, CSSI Sri Lanka\nRegistered Licensed Surveyor Leveller and Court Commissioner\n24, Akkaraipattu Road, Kalmunai\nLicence No.620856\nLand Survey Council Registration No.6910964\n\nPLAN No.N/166\n\nScale 1:500\n\nPLAN\nof an allotment of Land called \"Nintavur East\"\nsituated in Irakkamam within the local limits of Irakkamam Pradeshiya Sabha\nin Irakkamam Divisional Secretariat Area in\n\nAMPARA DISTRICT\nEASTERN PROVINCE\n\nLot 1 bounded as follows:\nNorth by : Garden, Claimed by Road and Beach Road\nEast by  : Beach Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining Total Extent 0.1170 Hectare or 0A:1R:6.27P\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2018.11.07\nPlan issued on : 2024.05.22\n\nA.M.Farook\nRegistered Licensed Surveyor. (Regtn. No 98473848)\n",
+  "token_count": 135,
+  "ner_auto": {
+    "plan_number": "N/166",
+    "district": "Ampara",
+    "area_sqm": 1170.3,
+    "scale": 500,
+    "surveyor": "A.M.Farook",
+    "road_access": "Beach Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "620856"
+  },
+  "ner_corrected": {
+    "plan_number": "N/166",
+    "district": "Ampara",
+    "area_sqm": 1170.3,
+    "scale": 500,
+    "surveyor": "A.M.Farook",
+    "road_access": "Beach Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "620856"
+  }
+}

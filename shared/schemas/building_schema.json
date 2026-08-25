@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://r26-it-117.sliit/schemas/building_schema.json",
+  "title": "Building Schema",
+  "description": "Flat C02 data contract produced by Component 01 Stage 4 (SchemaSerialiser).",
+  "type": "object",
+  "required": [
+    "footprint_sqm",
+    "perimeter",
+    "floors",
+    "floor_height",
+    "wall_height",
+    "excavation_depth",
+    "column_count",
+    "openings_sqm",
+    "internal_wall_length",
+    "finish_grade",
+    "roof_type",
+    "district",
+    "is_coastal",
+    "terrain",
+    "road_access",
+    "plot_area",
+    "rooms",
+    "bathroom_count",
+    "room_count",
+    "base_rate_date",
+    "target_date"
+  ],
+  "properties": {
+    "footprint_sqm":        { "type": "number", "minimum": 0 },
+    "perimeter":            { "type": "number", "minimum": 0 },
+    "floors":               { "type": "integer", "minimum": 1, "maximum": 5 },
+    "floor_height":         { "type": "number", "minimum": 0 },
+    "wall_height":          { "type": "number", "minimum": 0 },
+    "excavation_depth":     { "type": "number", "minimum": 0 },
+    "column_count":         { "type": "integer", "minimum": 0 },
+    "openings_sqm":         { "type": "number", "minimum": 0 },
+    "internal_wall_length": { "type": "number", "minimum": 0 },
+    "finish_grade": {
+      "type": "string",
+      "enum": ["economy", "mid", "luxury"]
+    },
+    "roof_type": {
+      "type": "string",
+      "enum": ["flat", "hip", "gable"]
+    },
+    "district":    { "type": ["string", "null"] },
+    "is_coastal":  { "type": "boolean" },
+    "terrain": {
+      "type": "string",
+      "enum": ["flat", "sloped", "hilly", "rocky"]
+    },
+    "road_access": {
+      "type": "string",
+      "enum": ["paved", "gravel", "unpaved"]
+    },
+    "plot_area":      { "type": "number", "minimum": 0 },
+    "rooms":          { "type": "object", "additionalProperties": { "type": "integer", "minimum": 0 } },
+    "bathroom_count": { "type": "integer", "minimum": 0 },
+    "room_count":     { "type": "integer", "minimum": 0 },
+    "base_rate_date": { "type": "string", "format": "date" },
+    "target_date":    { "type": "string", "format": "date" },
+    "_meta": {
+      "type": "object",
+      "description": "Internal metadata — not sent to C02."
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0047.pdf",
+  "raw_text": "D.C.Fernando, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n14, Tangalle Road, Hambantota\nLicence No.986088\nLand Survey Council Registration No.3589751\n\nPLAN No.1134\n\nScale 1:2000\nThe National Survey Grid Coordinates were used for the surveying.\nN : 298894\nE : 523736\n\nPLAN\nof an allotment of Land called \"Akkaraipattu South\"\nsituated in Sooriyawewa within the local limits of Sooriyawewa Pradeshiya Sabha\nin Sooriyawewa Divisional Secretariat Area in\n\nHAMBANTOTA DISTRICT\nSOUTHERN PROVINCE\n\nLot 2 bounded as follows:\nNorth by : Garden, Claimed by Road and Provincial Road\nEast by  : Provincial Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining in Extent of Lot 1  0.0177  0.  0.  6.98\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2016.08.26\nPlan issued on : 2019.06.20\n\nD.C.Fernando\nRegistered Licensed Surveyor. (Regtn. No 63349308)\n",
+  "token_count": 152,
+  "ner_auto": {
+    "plan_number": "1134",
+    "district": "Hambantota",
+    "area_sqm": 176.6,
+    "scale": 2000,
+    "surveyor": "D.C.Fernando",
+    "road_access": "Provincial Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": 298894.0,
+    "coordinate_e": 523736.0,
+    "licence_number": "986088"
+  },
+  "ner_corrected": {
+    "plan_number": "1134",
+    "district": "Hambantota",
+    "area_sqm": 176.6,
+    "scale": 2000,
+    "surveyor": "D.C.Fernando",
+    "road_access": "Provincial Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": 298894.0,
+    "coordinate_e": 523736.0,
+    "licence_number": "986088"
+  }
+}

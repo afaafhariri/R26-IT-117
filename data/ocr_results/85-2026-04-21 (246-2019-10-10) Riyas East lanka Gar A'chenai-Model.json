@@ -1,0 +1,20 @@
+{
+  "filename": "85-2026-04-21 (246-2019-10-10) Riyas East lanka Gar A'chenai-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2774. (Chartered Surveyor), 227300 Registered Licensed Surveyor; Leveller and Court Commissioner; 1 1 /A, Main Street; Kaanady Lane, 1 Sainthamaruthu- Telephone: 067 2222937, 077 6550260 and 071 8080722. Licence No.260651_ Land Survey Council Registration No.19911083. Reference Wall Bw Building Wall MFn Mosonry Foundation Well Masonry Well Masonry Tank Centre Gate From Kalmunai Road Scale 1.500 Sea Note: The National Survey Grid Coordinates were used for the surveying which derived from hand held GPS receiver (Garmin etrex-3o) ana area fallen within street Iine Sirept 0.00733 hectare=OA-OR-02.90p, Garden AMAtham Lebbe Garden A.M.Atham Lebbe el Garden A.Seenathummah 1 227225 PLAN of an allotment of  Garden-Lots and in Plan No.3482 dated 2008.01.31 , prepared  by Ahmed M.Mahroff, Licensed  Surveyor (being re- survey of lot in Plan No.1120 dated 2019.10.11, prepared  by me) situated at Vammiyady Road in the village of Addalaichenai   within the Iocal  limits of Addalaichenai Pradeshiya Sabha Akkrai Pattu and within the administrative   limits of Addalaichenai- 12 Grama Niladhari Division No.AD/ S0A/1 in Addalaichenai Divisional Secretary'$ Area in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded as follows: North: Vammiyady  Road. East Garden, claimed by A.M.Atham Lebbe South: Gorden, claimed by ASeenathummah West Garden, claimed by A.MAtham Lebbe The entire Land containing extent :0.07220 Hectare (OA-OR-28.53P)-722.0 Square metre The survey was requested by Abdul Careem Mohamed Nahar and the boundaries pointed ou by Mohamed Samsudeen Rizna and Abdul Careem Mohamed Nahar of No.50, Wammiyady Road, Addalaichenai-12. Claimed by Mohamed Samsudeen Rizna and Abdul Careem Mohamed Nahar and the property  mentioned Deed bearing No.4098 dated  2008.01.27, attested by KLAathamlebbe, Public Surveyed on 2026.04.21. Drawn April 2026. Plan issued on 2026.04.21. Roca Vammiyady Road _ Beach Tne Notary",
+  "token_count": 220,
+  "ner_auto": {
+    "plan_number": "2774",
+    "district": "Ampara",
+    "area_sqm": 73.3,
+    "scale": null,
+    "surveyor": "Ahmed M.Mahroff",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "OA",
+    "coordinate_n": 2026.04,
+    "coordinate_e": 67.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

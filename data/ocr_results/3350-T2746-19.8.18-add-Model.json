@@ -1,0 +1,20 @@
+{
+  "filename": "3350-T2746-19.8.18-add-Model.pdf",
+  "raw_text": "AA.Mohamed Thasleem, FSI PLAN No. 3350 Registered Licensed Surveyor Leveller 674,Town Mosque Road Akkaraipattu 03 Tel_067-2278148 Mob: 0779363632 0 Road reseration \"ine 1Om trom road center 0 Carden Claimed by PM.Raseena Umma 1 2 Garden Claimed by Road reservation  line AAamina Umma 1Om from road center Garden Claimedby Reference 1 A.Pamila Others BW Building   Wall MDn Masorry   Drain (RDA} Road   Development Authorityl SCALE 1:500 PLAN of two(02 allotments of  land marked Lots A&B being resurvey of Lots &2 in my plan no. T/2746 Part of_TP103119, situated in  Addalaichenai division no.11, G.N.division no. ADL31A_village, within the limits of Addalaichenai Pradeshiya Sabha in Addalaichenai Divisional Secretariat Ampara District EASTERN PROVINCE Lotl Present Name   of Extent in Bounded CS follows Hectares No. Land use Claimant 4 R North East South West Carden Farook  Fawmiyo, No. 1A,Main street; 0.0326 Garden Gorden Gorden Lot Addaloichenai- 1 Claimed by Claimed  by Claimed by Road(RDA) and Part of property in deed 88 dated (OA,OR,12.9P) PMRaseena A.Aamina APamila Reservation 1997.11.01 attested by M.MAbul Kalam Umnma Umma ond Lot attorney at law and Notary public. Garden Farook Fawmiya, No.1A,Main streel, 0.0036 Lot Lot Garden Road(RDA) ana Addalaichenai - Claimed  by Reservotion (OA,OR,01.4P) APamila Deed no.- 3369 dated 2018.10.07 attested by M.S Junaideen atlorney ond Others ICw and Notary public: Total 0.0362 (0A,OR,14.3P) Containing in Total Extent 362sq.m. (OA,OR,14,3P) Boundaries Surveyed pointed out   by Forook Fowmiya, No. IA,Main streel; Registered Licensed  Surveyor & Leveller Addalaichenai - Regtn. No.  19930566 Date of  Survey 2021.10.15 Date 2021.10.20 66 73 Wall 1",
+  "token_count": 181,
+  "ner_auto": {
+    "plan_number": "3350",
+    "district": "Ampara",
+    "area_sqm": 326.2784,
+    "scale": 500,
+    "surveyor": "Leveller",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 1997.11,
+    "coordinate_e": 1.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

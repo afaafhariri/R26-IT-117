@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0030.pdf",
+  "raw_text": "A.M.Farook, CSSI Sri Lanka\nRegistered Licensed Surveyor Leveller and Court Commissioner\n42, Bar Road, Batticaloa\nLicence No.121369\nLand Survey Council Registration No.8801975\n\nPLAN No.TR/354\n\nScale 1:1000\nThe National Survey Grid Coordinates were used for the surveying.\nN : 534993\nE : 666960\n\nPLAN\nof an allotment of Land called \"Akkaraipattu South\"\nsituated in Mankerni within the local limits of Mankerni Pradeshiya Sabha\nin Mankerni Divisional Secretariat Area in\n\nBATTICALOA DISTRICT\nEASTERN PROVINCE\n\nLot 3 bounded as follows:\nNorth by : Garden, Claimed by Road and Private Lane\nEast by  : Private Lane and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining Total Extent 0.0254 Hectare or 0A:0R:10.04P\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2019.06.06\nPlan issued on : 2024.10.24\n\nA.M.Farook\nRegistered Licensed Surveyor. (Regtn. No 25372341)\n",
+  "token_count": 151,
+  "ner_auto": {
+    "plan_number": "TR/354",
+    "district": "Batticaloa",
+    "area_sqm": 254.0,
+    "scale": 1000,
+    "surveyor": "A.M.Farook",
+    "road_access": "Private Lane",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 534993.0,
+    "coordinate_e": 666960.0,
+    "licence_number": "121369"
+  },
+  "ner_corrected": {
+    "plan_number": "TR/354",
+    "district": "Batticaloa",
+    "area_sqm": 254.0,
+    "scale": 1000,
+    "surveyor": "A.M.Farook",
+    "road_access": "Private Lane",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 534993.0,
+    "coordinate_e": 666960.0,
+    "licence_number": "121369"
+  }
+}

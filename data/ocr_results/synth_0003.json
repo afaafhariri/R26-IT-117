@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0003.pdf",
+  "raw_text": "T.Rajaratnam, CSSI Sri Lanka\nRegistered Licensed Surveyor Leveller and Court Commissioner\n15, Trinco Road, Eravur\nLicence No.148050\nLand Survey Council Registration No.2694522\n\nPLAN No.TR/3062\n\nScale 1:1000\n\nPLAN\nof an allotment of Land called \"Roadadykandam\"\nsituated in Koddaikallar within the local limits of Koddaikallar Pradeshiya Sabha\nin Koddaikallar Divisional Secretariat Area in\n\nBATTICALOA DISTRICT\nEASTERN PROVINCE\n\nLot B bounded as follows:\nNorth by : Garden, Claimed by Road and New Road\nEast by  : New Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nThe entire Land is containing in extent :0.11664 Hectare (0A-1R-6.12P)=1166.4 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2021.05.15\nPlan issued on : 2025.06.06\n\nT.Rajaratnam\nRegistered Licensed Surveyor. (Regtn. No 59684848)\n",
+  "token_count": 139,
+  "ner_auto": {
+    "plan_number": "TR/3062",
+    "district": "Batticaloa",
+    "area_sqm": 1166.4,
+    "scale": 1000,
+    "surveyor": "T.Rajaratnam",
+    "road_access": "New Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "148050"
+  },
+  "ner_corrected": {
+    "plan_number": "TR/3062",
+    "district": "Batticaloa",
+    "area_sqm": 1166.4,
+    "scale": 1000,
+    "surveyor": "T.Rajaratnam",
+    "road_access": "New Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "148050"
+  }
+}

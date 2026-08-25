@@ -1,0 +1,33 @@
+{
+  "filename": "Plan-144-Model.pdf",
+  "raw_text": "Regd: No 9921671 TP Nos. 0777049279 & 0754913765 532010 Garden 8 Claimed by 8 Nandana Garden Claimed by 25.75m Dissanayoke 2 6 2 Garden Claimed by 25,25m4 Reference Rajapaksha Garden 6 Wall 8 Claimed by Permanent building K.KSuhanthini Road(RDD) Road (Road Development Department) m531940 Scale 1000 PLAN OF AN ALLOTMENT OF LAND CALLED \"Board Land\" Lot in PPam| 4790, situated at No: 5, 2nd avenue, Senanayakapura, Ampara (GN Division No: W/89D) under Ampara Divisional Secretary in Urban Council limits of Ampara within Wewgampattu North in Ampara District in the Eastern Province of the DEMOCRATIC SOCIALIST REPUBLIC OF SRILANKA Schedule Lot Extent Boundary Schedule Land use No_ Hectare North East South West 0.0615 24.30 Garden, contains mixed Garden Road(RDD) Garden Garden cullivation and a claimed by claimed by claimed by permanent building Nandana KKSuhanthini Rajapaksha & Dissanayake As pointed out by and to occupant Koththigoda Kankanamge Upendra Pathmakumara of 2nd avenue, Senanayakapura, Ampara and the boundaries were surveyed by me. The plan was issued on requested of the above occupant: 3 ; 2 1 1",
+  "token_count": 81,
+  "ner_auto": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": null,
+    "scale": null,
+    "surveyor": "Nandana Garden Claimed",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 8.0,
+    "coordinate_e": 2.0,
+    "licence_number": "OF"
+  },
+  "ner_corrected": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": 615.0,
+    "scale": 1000,
+    "surveyor": "Nandana Garden Claimed",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 8.0,
+    "coordinate_e": 2.0,
+    "licence_number": "OF"
+  }
+}

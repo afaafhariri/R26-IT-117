@@ -107,3 +107,15 @@ _db_backups/
 .vscode/
 
 RESEARCH_PANEL_PRESENTATION.md
+
+# ── Component 01 (Architecture) ──────────────────────────────
+Architecture/inner-legacy-492011-b4-14087a733318.json
+Architecture/r26-imagen-a0d373168dc9.json
+Architecture/tmp/
+Architecture/models/*.pt
+Architecture/models/*.pth
+Architecture/benchmark_results.csv
+/tmp/r26/
+.mypy_cache/
+.ruff_cache/
+.vite/

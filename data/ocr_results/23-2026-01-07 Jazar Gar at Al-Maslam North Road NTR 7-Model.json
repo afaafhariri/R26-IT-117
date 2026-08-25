@@ -1,0 +1,20 @@
+{
+  "filename": "23-2026-01-07 Jazar Gar at Al-Maslam North Road NTR 7-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2719. (Chartered Surveyor), Registered Licensed  Surveyor; Leveller and Court  Commissioner; 11/A, Main Street; Kaanady Lane, Sainthamaruthu-11. 538175 N Telephone: 077 6550260, 076 2610260 and 071 8080722. Licence No.260651_ Gardens 8 Land Survey Council Registration No.19911083. presently Reference 1.Sulaiha Ummah Nail Onc others Wail Min Mosonty Foundation Gate Well Mosonty Well Scale 1.500 Garden Garden K Badurdeen Farook Ummah Well 8 North To 538125 Note:   The National Survey Crid Coordinates were used torthe surveying which Gerived trom RTK receiver CORS Net). PLAN ot an allotment of Garden called 'Vembukkkaddu poomi Claimed on part of TP 104569 marked aS Lot situated at Al-Maslam North  Road in the Of  Nintavur within the local   limits 0f Nintavur Pradeshiya Sabha in Nintavur Pattu and within the administrative   limits of  Nintavur-7 Grama Niladhari   Division No.37/A in Nintavur Divisional Secretary's Area in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded a5 follows: North by Gardens, claimed by presently !.Sulaiha Ummah and others East by Garden, claimed by  Farook Ummah. South by AI-Maslam North Road. West by Garden, claimed by KBadurdeen. The entire Land containing in extent :0.03252 Hectare (OA-OR-12.86P)-325.2 Square metre. survey was requested by Abdul Raheem Mohamed Jazer and the boundaries pointed out by Abdul Raheem Mohamed Jazer of No.98, Sub-Post  Office Road, Nintavur-7. Claimed by Abdul Raheem Mohamed Jazer and the property mentioned Deed  bearing No.3762 dated 2017.04.21, attested by A.L.Riyas Atham, Attorney-at-law and Notary Public_ Surveyed on 2026.02.07. Drawn February 2026. Plan issued on 2026.02.08. From Second Cross Road AI-Maslam Roac Third Cross Road village The",
+  "token_count": 221,
+  "ner_auto": {
+    "plan_number": "2719",
+    "district": "Ampara",
+    "area_sqm": 325.2,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 538175.0,
+    "coordinate_e": 77.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}
