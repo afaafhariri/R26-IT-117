@@ -1,4 +1,0 @@
-Section,Metric,Value
-NER,Macro-F1,1.000
-NER,Avg Latency (ms/doc),13.5
-RAG Embedder,Retrieval Accuracy,100%
