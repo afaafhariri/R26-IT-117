@@ -20,8 +20,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
-INPUT_DIR  = Path(__file__).resolve().parent.parent / "data" / "cadastral_plans"
-OUTPUT_DIR = Path(__file__).resolve().parent.parent / "data" / "ocr_results"
+INPUT_DIR  = Path(__file__).resolve().parent / "data" / "cadastral_plans"
+OUTPUT_DIR = Path(__file__).resolve().parent / "data" / "ocr_results"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 

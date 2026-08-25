@@ -25,7 +25,6 @@ R26-IT-117/
 ├── gateway/            # Route definitions shared across services
 ├── shared/
 │   └── schemas/        # site_schema.json, building_schema.json — the C01→C02 contract
-├── data/               # Cadastral plans, OCR results, spaCy training data
 ├── research/           # Notebooks and datasets
 └── docker-compose.yml  # postgres + performance
 ```
@@ -223,6 +222,12 @@ Architecture/
 │   └── ner_cadastral/              # Fine-tuned SpaCy NER model
 │       ├── config.cfg
 │       └── ner/, tok2vec/, vocab/, tokenizer/, ...
+│
+├── data/                           # NER training corpus (12 MB, C01-only)
+│   ├── cadastral_plans/            # 69 source survey plan PDFs
+│   ├── ocr_results/                # 129 JSON — 69 OCR'd + 60 synthetic
+│   └── spacy_training/
+│       └── train.spacy             # Compiled training file for train_ner.py
 │
 ├── knowledge_base/
 │   ├── embedder.py                 # sentence-transformers embedding wrapper

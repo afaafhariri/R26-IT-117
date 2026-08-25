@@ -16,8 +16,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-OUTPUT_DIR = Path(__file__).resolve().parent.parent / "data" / "ocr_results"
-TRAIN_DIR  = Path(__file__).resolve().parent.parent / "data" / "spacy_training"
+OUTPUT_DIR = Path(__file__).resolve().parent / "data" / "ocr_results"
+TRAIN_DIR  = Path(__file__).resolve().parent / "data" / "spacy_training"
 TRAIN_DIR.mkdir(parents=True, exist_ok=True)
 
 
