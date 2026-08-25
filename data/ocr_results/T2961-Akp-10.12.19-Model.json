@@ -1,0 +1,33 @@
+{
+  "filename": "T2961-Akp-10.12.19-Model.pdf",
+  "raw_text": "AA.Mohamed Thasleem, FSI PLAN No: T/2961 Registered Licensed Surveyor & Leveller 67A,Town Mosque Road Akkaraipattu 03 Tel: 067-2278148 Mob._0779363632. From 5/6 Common Rood Meersahaji Road Jinnah Road Gate ] Garden J Claimed  by ALLareefa { Garden Presently Claimed by AM Farvina REFERENCE Wall Foundation Nail SCALE 1.500 PLAN an allotment of land marked Lot part of TP195972, situated n Akkaraipattu-18, G.N.division 120 . AP/19A4 within the limits of Akkaraipattu_Municipal Council in Akkaraipattu_Divisional_Secretariat Ampara District EASTERN PROVINCE Lo Presenl of Claimant Extent n Bounded CS follows Hectares No: Land use cnta deed no. R, P) North East South West Garden Athamlebbe Selva   Puthalviya 0.0130 Meersahoji Road Garden Garden Lane(private) No.1284, Meersahaji Rood; (OA-OR-05.1P) Claimed by Presently Akkaraipattu- A.LLoreefo Claimed by Claimed deed 3172 dated AM.Farvina 1996.06.28 attested by AALetheef Attorney at {ow and_Notory Public: Containing in Extent 130 m.sq_(OA,OR,05.1P) Boundaries  Surveyed pointed out   by Alhamlebbe Selva Pulhalviya No.1284, Meersahaj; Road, Akkaraipatlu-18. Registered Licensed  Surveyor Leveller Regtn No. 9930566 Date of   Survey 2019.12.10 Date 2019.12.11 Gole 1 Narne",
+  "token_count": 127,
+  "ner_auto": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": null,
+    "scale": null,
+    "surveyor": "Leveller Regtn No.",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Meersahaj",
+    "coordinate_n": 120.0,
+    "coordinate_e": 1.5,
+    "licence_number": "d"
+  },
+  "ner_corrected": {
+    "plan_number": "T/2961",
+    "district": "Ampara",
+    "area_sqm": 130.0,
+    "scale": null,
+    "surveyor": "Leveller Regtn No.",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Meersahaj",
+    "coordinate_n": 120.0,
+    "coordinate_e": 1.5,
+    "licence_number": "d"
+  }
+}

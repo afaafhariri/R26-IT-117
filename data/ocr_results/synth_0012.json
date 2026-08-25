@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0012.pdf",
+  "raw_text": "A.R.Nazar, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n12, Inner Harbour Road, Trincomalee\nLicence No.153045\nLand Survey Council Registration No.4965789\n\nPLAN No.TR/717\n\nScale 1:2500\n\nPLAN\nof an allotment of Land called \"Roadadykandam\"\nsituated in Nilaveli within the local limits of Nilaveli Pradeshiya Sabha\nin Nilaveli Divisional Secretariat Area in\n\nTRINCOMALEE DISTRICT\nEASTERN PROVINCE\n\nLot 3 bounded as follows:\nNorth by : Garden, Claimed by Road and Temple Road\nEast by  : Temple Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nThe entire Land is containing in extent :0.12590 Hectare (0A-1R-9.78P)=1259.0 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2017.07.16\nPlan issued on : 2022.04.28\n\nA.R.Nazar\nRegistered Licensed Surveyor. (Regtn. No 63826716)\n",
+  "token_count": 138,
+  "ner_auto": {
+    "plan_number": "TR/717",
+    "district": "Trincomalee",
+    "area_sqm": 1259.0,
+    "scale": 2500,
+    "surveyor": "A.R.Nazar",
+    "road_access": "Temple Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "153045"
+  },
+  "ner_corrected": {
+    "plan_number": "TR/717",
+    "district": "Trincomalee",
+    "area_sqm": 1259.0,
+    "scale": 2500,
+    "surveyor": "A.R.Nazar",
+    "road_access": "Temple Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "153045"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0013.pdf",
+  "raw_text": "Abdul Hameed, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n11/A, Main Street, Kaanady Lane, Sainthamaruthu\nLicence No.830429\nLand Survey Council Registration No.2022698\n\nPLAN No.K/2272\n\nScale 1:2500\nThe National Survey Grid Coordinates were used for the surveying.\nN : 518890\nE : 614267\n\nPLAN\nof an allotment of Land called \"Sinnakkadai\"\nsituated in Addalaichenai within the local limits of Addalaichenai Pradeshiya Sabha\nin Addalaichenai Divisional Secretariat Area in\n\nAMPARA DISTRICT\nEASTERN PROVINCE\n\nLot 3 bounded as follows:\nNorth by : Garden, Claimed by Road and Grama Road\nEast by  : Grama Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining in Extent of Lot 1  0.1003  0.  0.  39.66\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2020.01.02\nPlan issued on : 2024.08.17\n\nAbdul Hameed\nRegistered Licensed Surveyor. (Regtn. No 81286543)\n",
+  "token_count": 155,
+  "ner_auto": {
+    "plan_number": "K/2272",
+    "district": "Ampara",
+    "area_sqm": 1003.0,
+    "scale": 2500,
+    "surveyor": "Abdul Hameed",
+    "road_access": "Grama Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 518890.0,
+    "coordinate_e": 614267.0,
+    "licence_number": "830429"
+  },
+  "ner_corrected": {
+    "plan_number": "K/2272",
+    "district": "Ampara",
+    "area_sqm": 1003.0,
+    "scale": 2500,
+    "surveyor": "Abdul Hameed",
+    "road_access": "Grama Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 518890.0,
+    "coordinate_e": 614267.0,
+    "licence_number": "830429"
+  }
+}

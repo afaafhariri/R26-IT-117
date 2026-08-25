@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0056.pdf",
+  "raw_text": "S.Yogaratnam, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n23, Stanley Road, Jaffna\nLicence No.670913\nLand Survey Council Registration No.2538024\n\nPLAN No.TR/3071\n\nScale 1:500\nThe National Survey Grid Coordinates were used for the surveying.\nN : 736011\nE : 575576\n\nPLAN\nof an allotment of Land called \"Kadatkaraippalli\"\nsituated in Delft within the local limits of Delft Pradeshiya Sabha\nin Delft Divisional Secretariat Area in\n\nJAFFNA DISTRICT\nNORTHERN PROVINCE\n\nLot 1 bounded as follows:\nNorth by : Garden, Claimed by Road and Harbour Road\nEast by  : Harbour Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\ncontaining in extent :119.0 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2025.04.21\nPlan issued on : 2025.10.01\n\nS.Yogaratnam\nRegistered Licensed Surveyor. (Regtn. No 16788532)\n",
+  "token_count": 147,
+  "ner_auto": {
+    "plan_number": "TR/3071",
+    "district": "Jaffna",
+    "area_sqm": 119.0,
+    "scale": 500,
+    "surveyor": "S.Yogaratnam",
+    "road_access": "Harbour Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "NORTHERN PROVINCE",
+    "coordinate_n": 736011.0,
+    "coordinate_e": 575576.0,
+    "licence_number": "670913"
+  },
+  "ner_corrected": {
+    "plan_number": "TR/3071",
+    "district": "Jaffna",
+    "area_sqm": 119.0,
+    "scale": 500,
+    "surveyor": "S.Yogaratnam",
+    "road_access": "Harbour Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "NORTHERN PROVINCE",
+    "coordinate_n": 736011.0,
+    "coordinate_e": 575576.0,
+    "licence_number": "670913"
+  }
+}

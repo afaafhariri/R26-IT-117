@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://r26-it-117.sliit/schemas/site_schema.json",
+  "title": "Site Schema",
+  "description": "Validated extraction output from Component 01 Stage 1 (cadastral plan parsing). Produced by SchemaAssembler from OCR + boundary detection + NER.",
+  "type": "object",
+  "required": [
+    "plan_id",
+    "district",
+    "area_sqm",
+    "road_access",
+    "is_coastal",
+    "orientation_degrees",
+    "frontage_m",
+    "boundary_polygon",
+    "page_dimensions"
+  ],
+  "properties": {
+    "plan_id": {
+      "type": "string",
+      "description": "Generated plan identifier, format: PLAN-{plan_number}-{district2}-{YYYYMMDD}",
+      "pattern": "^PLAN-[A-Z0-9]+-[A-Z]{2}-[0-9]{8}$"
+    },
+    "plan_number": {
+      "type": ["string", "null"],
+      "description": "Surveyor's original plan number (e.g. '2362')."
+    },
+    "district": {
+      "type": "string",
+      "description": "Sri Lankan district name in title case.",
+      "enum": [
+        "Ampara", "Anuradhapura", "Badulla", "Batticaloa", "Colombo",
+        "Galle", "Gampaha", "Hambantota", "Jaffna", "Kalutara", "Kandy",
+        "Kegalle", "Kilinochchi", "Kurunegala", "Mannar", "Matale",
+        "Matara", "Monaragala", "Mullaitivu", "Nuwara Eliya", "Polonnaruwa",
+        "Puttalam", "Ratnapura", "Trincomalee", "Vavuniya"
+      ]
+    },
+    "province": {
+      "type": ["string", "null"]
+    },
+    "area_sqm": {
+      "type": "number",
+      "description": "Plot area in square metres (converted from perches/hectares).",
+      "exclusiveMinimum": 0
+    },
+    "scale": {
+      "type": ["integer", "null"],
+      "description": "Map scale denominator (e.g. 500 for 1:500).",
+      "minimum": 1
+    },
+    "surveyor": {
+      "type": ["string", "null"]
+    },
+    "lot_number": {
+      "type": ["string", "null"]
+    },
+    "road_access": {
+      "type": "string",
+      "description": "Road access classification used by NBC setback engine.",
+      "enum": ["national_road", "provincial", "local", "lane"]
+    },
+    "is_coastal": {
+      "type": "boolean",
+      "description": "True if the district is in the coastal-zone list (stricter BCR/setback)."
+    },
+    "orientation_degrees": {
+      "type": "number",
+      "description": "Bearing of the dominant boundary edge from north (0 = N, 90 = E).",
+      "minimum": 0,
+      "maximum": 360
+    },
+    "frontage_m": {
+      "type": "number",
+      "description": "Estimated frontage width in metres (or normalised units when CRS unknown).",
+      "minimum": 0
+    },
+    "boundary_polygon": {
+      "type": "array",
+      "description": "Closed polygon as a list of [x, y] pairs (normalised 0–1 to image dimensions).",
+      "minItems": 3,
+      "items": {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 2,
+        "items": {"type": "number"}
+      }
+    },
+    "page_dimensions": {
+      "type": "object",
+      "required": ["width", "height"],
+      "properties": {
+        "width": {"type": "integer", "minimum": 1},
+        "height": {"type": "integer", "minimum": 1}
+      }
+    },
+    "coordinate_n": {
+      "type": ["number", "null"],
+      "description": "Northing coordinate (decimal degrees or grid value, when present)."
+    },
+    "coordinate_e": {
+      "type": ["number", "null"],
+      "description": "Easting coordinate (decimal degrees or grid value, when present)."
+    },
+    "licence_number": {
+      "type": ["string", "null"]
+    }
+  },
+  "additionalProperties": false
+}

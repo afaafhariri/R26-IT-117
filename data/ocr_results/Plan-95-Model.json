@@ -1,0 +1,33 @@
+{
+  "filename": "Plan-95-Model.pdf",
+  "raw_text": "Regd. No 19921671 TP Nos. 0777049279 & 0714399932 Hand GPS Coordinates were used for ocation 511345 N Garden 68 Presently claimed by 8 Sasikaran Garden Presently claimed by 16.50m Gowry 13. 0 Garden 3 Presently claimed by Vijitha 14.40M Qom Reference WF Wire Fence To ZF Zinc Fence 8 Wall 511300 N Road(PS) Road (Pradeshiya Sabha) Scale 1 500 PLAN OF TWO ALLOTMENTS OF LAND CALLED \"Colonyboomi' marked as Lots 1-2 Lots 43 & 44 in PPam/3887 (Part of TP 170184) , situated at Kalaimagal Road, Vinayagapuram-0l (GN Division No: TK 1OA) in Ward No: 7, within the Pradeshiya Sabha limits of Thirukkovil under Thirukkovil Divisional Secretary in Ampara District in the Eastern Province of the DEMOCRATIC SOCIALIST REPUBLIC OF SRILANKA Bounded as follows Lot No Extent Land Use North East South West Total 0.0573 Ha Containing in Extent 0.0573 Ha (OA-OR-22.65P) as at present (OA OR 22.65P) As pointed out by and to son of claimant Tharmalingam Jeyaraj of Kalaimagal Road, Vinayagapuram-0l and the boundaries were surveyed and subdivision of Lot 43 in PPam/3887 according to the requested of the son of claimant: Claimed by Veluppillai Nageswary on Jayaboomi Grant No. GR/16/027458 dated 2016.03.14 8 65m 3 From Main Road Road(PS) Beach 3 8",
+  "token_count": 76,
+  "ner_auto": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": 7143999320000.0,
+    "scale": null,
+    "surveyor": "Tharmalingam Jeyaraj",
+    "road_access": "Main Road",
+    "lot_number": "43",
+    "is_coastal": true,
+    "province": null,
+    "coordinate_n": 511345.0,
+    "coordinate_e": 8.0,
+    "licence_number": "OF"
+  },
+  "ner_corrected": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": 573.0,
+    "scale": null,
+    "surveyor": "Tharmalingam Jeyaraj",
+    "road_access": "Main Road",
+    "lot_number": "43",
+    "is_coastal": true,
+    "province": null,
+    "coordinate_n": 511345.0,
+    "coordinate_e": 8.0,
+    "licence_number": "OF"
+  }
+}

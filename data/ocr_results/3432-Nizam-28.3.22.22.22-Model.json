@@ -1,0 +1,20 @@
+{
+  "filename": "3432-Nizam-28.3.22.22.22-Model.pdf",
+  "raw_text": "AA.Mohamed Thasleem, FSI PLAN No. 3432 Registered Licensed Surveyor Leveller 674,Town Mosque Road Akkaraipattu 03 Tel. 067-2278148 Mob 0779363632 Main Rood( Gote Sloirs Presently Garden Land Claimed by L Presently KMAmeen Land Claimed by Packiyawalhy Presently Lot Land Claimed Gate Romas REFERENCE Woll Well Channel Undefined Presently Bw Building Wail Presently Land Claimed WF Wire   Fence Land Claimed by Open Waste S.Dinasan and Permanent  Duilding Packiyawathy Land 5.Balosundoram SCALE : 1.2000 PLAN an allotment_of_land_marked_Lot being resurvey_of_lot in plan n0. T2453 and the_land_called Kandakkulaththumunmari, situated in Akkaraipattu 09 villagewithin the limits of Alayadivembu Pradeshiya  Sabah in Alayadivembu Divisional Secrelarial Ampara District EASTERN PROVINCE Lotl Present Name   of Claimant Exlent in Bounded a8  follows Remarks Hectares No Land use and Deed No. North East South West Extent) Garden Mohamed {smail Monamed Nisam, 0656 Presently Presently Channel Presently Garden Open Waste| 106/1,A1 Fathimiya Road, (24,2R,21.3P) | Road(PS) Lond Cloimed Presently and Claimed -0.6854Hect Land Akkaraipattu-01. by KMAmeen, Land Claimed (JA,2R,31P) Claimed deed no. 163 of Ramas, Packiyawathy Open Waste S.Dinosan Pockiyowathy Land 2015.03.24 ottested by Munas 0.3802Hectl S. Balasundaram attorney Iaw ond Notary Public: (OA,3R,JO_SP Containing in Extent 0656Hectares_ (24,2R.21.3P) Boundaries Surveyed pointed out by M.IM Nisam, 106/1,Al Fathimiya Rood, Registered Licensed  Surveyor Leveller Regtn: No; 9930566 Date of  Survey 2022.03.28 Akkaraipattu = Date 2022.03.29 From Road Village Pottuvil Riage mY",
+  "token_count": 164,
+  "ner_auto": {
+    "plan_number": "3432",
+    "district": "Ampara",
+    "area_sqm": 538.7388,
+    "scale": null,
+    "surveyor": "Leveller",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": null,
+    "coordinate_n": 0.0,
+    "coordinate_e": 1.2,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

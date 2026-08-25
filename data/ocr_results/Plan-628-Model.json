@@ -1,0 +1,33 @@
+{
+  "filename": "Plan-628-Model.pdf",
+  "raw_text": "ENadesamoorthy, M.S.I (Sri Lanka) Licensed Surveyor, Leveller & Court Commissioner No.IOOB, Udayar Road, Karaitivu-02 Plan No 628 Regd: No 19921671 TP Nos. 0777049279 & 0754913765 Hand GPS Coordinates were used for Location 540045N r To 12,95M Garden Presently claimed by M.A_ 'Sithy Nissa Garden Presently claimed CPF 12.928 by Nishama Garden Presently claimed Reference by { Mark on Wall Wall 7540020 CPF Concrete Fence Road(PS) Road (Pradeshiya Sabha) Scale 250 PLAN OF AN ALLOTMENT OF LAND CALLED 'Thennanthottapoomi\" Part of Lot in PP5881 (TP49221), situated at No. IOP, Meera Nagar; Nintavur-01 (GN Division No: 41) under Nintavur Divisional Secretary in Pradeshiya Sabha limits of lintavur within Nintavur Pattu in Ampara District in the Eastern Province of the DEMOCRATIC SOCIALIST REPUBLIC OF SRILANKA Schedule Lot Present Extent Boundary Schedule Lana use No_ Hectare North East South West 0.0131 5.18 Garden contains mixed Road(PS) Gardens Garden Lane cultivation and presently claimed presently permanent building_ by MA.Sithy Nissa claimed by & Nishama Fayiz As pointed out by and to representative of claimant Abdul Manaf Jareena of No: IOP , Meera Nagar, Nintavur-0I and the boundaries were surveyed by me. Claimed by Ismalebbe Faizal on Deed No: 5810 dated 2019.04.09 , attested by AL Riyas Atham, Attorney-at-Law & Notary Public, Nintavur: Surveyed on 2025.06.05, Plan issued on 2025.06.06 Beach Road(PS) Road Main rom 5 Fayiz Post",
+  "token_count": 97,
+  "ner_auto": {
+    "plan_number": "628",
+    "district": "Ampara",
+    "area_sqm": 7549137650000.0,
+    "scale": null,
+    "surveyor": "Licensed Surveyor",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "M.S.I",
+    "coordinate_n": 540045.0,
+    "coordinate_e": 250.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": {
+    "plan_number": "628",
+    "district": "Ampara",
+    "area_sqm": 131.0,
+    "scale": null,
+    "surveyor": "Licensed Surveyor",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "M.S.I",
+    "coordinate_n": 540045.0,
+    "coordinate_e": 250.0,
+    "licence_number": "d"
+  }
+}

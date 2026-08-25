@@ -1,0 +1,33 @@
+{
+  "filename": "Plan-14-Model.pdf",
+  "raw_text": "Regd. No 19921671 TP Nos. 0777049279 & 0714399932 Hand GPS Coordinates were used for Location 515100 N 8 Garden Claimed by P Karunampigai & Husband Garden Claimed by MThileepan & Wife Garden Presently claimed by V.Umakanthan Reference 40 Garden WF Wire Fence Claimed by NF Net Fence KMeenampigai & Husband Wall 3 515000 N Road(RDA) Road (Road Development Authority) Scale 1 : 1000 PLAN AN ALLOTMENT OF LAND CALLED \"Thennanthoddapoomi' Bearing Assessment No: in Ward No: 02 within the Pradeshiya Sabha limits of Thirukkovil situated at Main Street; Thambiluvil-0l under Thirukkovil Divisional Secretary in Ampara District in the Eastern Province of the DEMOCRATIC SOCIALIST REPUBLIC OF SRILANKA Bounded as follows North by Gardens, Claimed by PKarunampigai & M.Thileepan East by Garden Claimed by M.Thileepan & Road (RDA) South by Road (RDA) & Garden; Claimed by KMeenampigai West by Gardens, Claimed by KMeenampigai & Presently claimed by VUmakanthan As pointed out by and to claimant Pandiyan Ratheeshkumar and the boundaries were surveyed by me_ Claimed by Mahendrakumar Sushmitha & husband Pandiyan Ratheeshkumar on Deed No: 10090 dated 2017.02.18, Attested by ARM.Shafee, Notary Public, Maruthamunai. Hectares A R P Containing in Extent of Lot 1 0.0798 0. 0_ 31.55 18.63w Akkaraipattu Road(RDA) Pottuvil From",
+  "token_count": 71,
+  "ner_auto": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": 7143999320000.0,
+    "scale": 1000,
+    "surveyor": "KMeenampigai West",
+    "road_access": null,
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 515100.0,
+    "coordinate_e": 40.0,
+    "licence_number": "OF"
+  },
+  "ner_corrected": {
+    "plan_number": null,
+    "district": "Ampara",
+    "area_sqm": 798.0,
+    "scale": 1000,
+    "surveyor": "KMeenampigai West",
+    "road_access": null,
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 515100.0,
+    "coordinate_e": 40.0,
+    "licence_number": "OF"
+  }
+}

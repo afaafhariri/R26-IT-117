@@ -1,0 +1,20 @@
+{
+  "filename": "36-2026-02-25 Athamlebbe Sarfin at haniffa road KKy-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2727. (Chartered Surveyor), Registered Licensed Surveyor; Leveller and Court Commissioner, 11/4, Main Street, Kaanady Lane, Sainthamaruthu-11. Telephone: 077 6550260, 076 2610260 and 071 8080722 544550 Licence No.260651_ Land Survey Council Registration No.19911083. Reference WFn Wasonry Foundation 8 Garden Gate WM Water Meter A.M.Ismail and wife Tube Well presently M.I.Ali Akbar and Scale 1.500 others Note: The National Survey Grid Loorcinates were usec the surveying which derived {rom RIK receiver (CORS Net): Garden presently R.Fowzul Inaya MFn Road From 2 6 544475 PLAN 0f an allotment of   Garden called 'Sinnappulavar valavu marked aS Lot situated at Haniffa Road meets with Idroos Lane the village of Kalmunai   within the Iocal  limits of   Kalmunai Municipal Council in Karavaku Pattu ana within the administrative limits ot Kalmunaikudy-6 Grama Niladhari Division No.KP/56 /F Kalmunai   Divisional Secretary' s Area in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded as follows: North by Garden, claimedby A.M.Ismail and wife   presently M.IAli Akbar and others and Idroos Lane_ East by Idroos Lane and Haniffa Road. South by Haniffa Road and Garden, claimed by presently RFowzul Inaya. West by Gardens, claimed by presently R.Fowzul Inaya and A.M.Ismail and wife presently M.I.Ali Akbar and others The entire Land is   containing in extent :0.01750 Hectare (OA-OR-06.92P)=175.0 Square metre:. The survey was requested by Aliyar Fathima Sahani and the boundaries pointed out by   Aliyar Fathima Sahani of No.85/B, Haniffa Road, Kalmunaikudy-6. Claimed by Aliyar Fathima Sahani and the property mentioned Deed bearing No.10816 dated 2026.02.12, attested by Meerasahib Razzaaq, Attorney-at-Law and Public Surveyed on 2026.02.25. Drawn February 2026_ Plan issued on 2026.02.25 3 1 8 1 Road 5 Haniffa Road Main Beach 1 2 Notary",
+  "token_count": 234,
+  "ner_auto": {
+    "plan_number": "2727",
+    "district": "Ampara",
+    "area_sqm": 175.0,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 8.0,
+    "coordinate_e": 77.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

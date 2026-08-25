@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0021.pdf",
+  "raw_text": "M.R.Gunasekara, CSSI Sri Lanka\nRegistered Licensed Surveyor Leveller and Court Commissioner\n12, Anagarika Dharmapala Mawatha, Matara\nLicence No.843215\nLand Survey Council Registration No.4305700\n\nPLAN No.K/4823\n\nScale 1:1000\n\nPLAN\nof an allotment of Land called \"Thennamthottam\"\nsituated in Hakmana within the local limits of Hakmana Pradeshiya Sabha\nin Hakmana Divisional Secretariat Area in\n\nMATARA DISTRICT\nSOUTHERN PROVINCE\n\nLot 2 bounded as follows:\nNorth by : Garden, Claimed by Road and Grama Road\nEast by  : Grama Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nTotal Extent 32.5 sq.m (0.0032 Ha)\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2020.07.03\nPlan issued on : 2025.06.20\n\nM.R.Gunasekara\nRegistered Licensed Surveyor. (Regtn. No 52133044)\n",
+  "token_count": 134,
+  "ner_auto": {
+    "plan_number": "K/4823",
+    "district": "Matara",
+    "area_sqm": 32.5,
+    "scale": 1000,
+    "surveyor": "M.R.Gunasekara",
+    "road_access": "Grama Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "843215"
+  },
+  "ner_corrected": {
+    "plan_number": "K/4823",
+    "district": "Matara",
+    "area_sqm": 32.5,
+    "scale": 1000,
+    "surveyor": "M.R.Gunasekara",
+    "road_access": "Grama Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "843215"
+  }
+}

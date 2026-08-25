@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0006.pdf",
+  "raw_text": "M.I.Mohideen, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n12, Inner Harbour Road, Trincomalee\nLicence No.680099\nLand Survey Council Registration No.5476583\n\nPLAN No.K/3226\n\nScale 1:2500\n\nPLAN\nof an allotment of Land called \"Puthukudiyiruppu\"\nsituated in Kuchchaveli within the local limits of Kuchchaveli Pradeshiya Sabha\nin Kuchchaveli Divisional Secretariat Area in\n\nTRINCOMALEE DISTRICT\nEASTERN PROVINCE\n\nLot A bounded as follows:\nNorth by : Garden, Claimed by Road and Temple Road\nEast by  : Temple Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nThe entire Land is containing in extent :0.10300 Hectare (0A-1R-0.72P)=1030.0 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2025.06.04\nPlan issued on : 2019.07.06\n\nM.I.Mohideen\nRegistered Licensed Surveyor. (Regtn. No 70897765)\n",
+  "token_count": 138,
+  "ner_auto": {
+    "plan_number": "K/3226",
+    "district": "Trincomalee",
+    "area_sqm": 1030.0,
+    "scale": 2500,
+    "surveyor": "M.I.Mohideen",
+    "road_access": "Temple Road",
+    "lot_number": "A",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "680099"
+  },
+  "ner_corrected": {
+    "plan_number": "K/3226",
+    "district": "Trincomalee",
+    "area_sqm": 1030.0,
+    "scale": 2500,
+    "surveyor": "M.I.Mohideen",
+    "road_access": "Temple Road",
+    "lot_number": "A",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "680099"
+  }
+}

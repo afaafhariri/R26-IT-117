@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0053.pdf",
+  "raw_text": "R.M.Silva, CSSI Sri Lanka\nRegistered Licensed Surveyor Leveller and Court Commissioner\n5, Wakwella Road, Galle\nLicence No.807166\nLand Survey Council Registration No.3073474\n* Hand GPS Coordinates were used for Location\n\nPLAN No.1253\n\nScale 1:1000\n331818 N\n405858 E\n\nPLAN\nof an allotment of Land called \"Nintavur East\"\nsituated in Ambalangoda within the local limits of Ambalangoda Pradeshiya Sabha\nin Ambalangoda Divisional Secretariat Area in\n\nGALLE DISTRICT\nSOUTHERN PROVINCE\n\nLot 2 bounded as follows:\nNorth by : Garden, Claimed by Road and Harbour Road\nEast by  : Harbour Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nTotal Extent 1451.9 sq.m (0.1452 Ha)\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2022.06.22\nPlan issued on : 2025.05.19\n\nR.M.Silva\nRegistered Licensed Surveyor. (Regtn. No 61140376)\n",
+  "token_count": 146,
+  "ner_auto": {
+    "plan_number": "1253",
+    "district": "Galle",
+    "area_sqm": 1451.9,
+    "scale": 1000,
+    "surveyor": "R.M.Silva",
+    "road_access": "Harbour Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": 331818.0,
+    "coordinate_e": 405858.0,
+    "licence_number": "807166"
+  },
+  "ner_corrected": {
+    "plan_number": "1253",
+    "district": "Galle",
+    "area_sqm": 1451.9,
+    "scale": 1000,
+    "surveyor": "R.M.Silva",
+    "road_access": "Harbour Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": 331818.0,
+    "coordinate_e": 405858.0,
+    "licence_number": "807166"
+  }
+}

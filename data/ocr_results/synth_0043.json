@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0043.pdf",
+  "raw_text": "S.M.Ibrahim, CSSI Sri Lanka\nRegistered Licensed Surveyor Leveller and Court Commissioner\n24, Akkaraipattu Road, Kalmunai\nLicence No.639593\nLand Survey Council Registration No.9363326\n\nPLAN No.N/2748\n\nScale 1:500\nThe National Survey Grid Coordinates were used for the surveying.\nN : 487104\nE : 612293\n\nPLAN\nof an allotment of Land called \"Akkaraipattu South\"\nsituated in Sainthamaruthu within the local limits of Sainthamaruthu Pradeshiya Sabha\nin Sainthamaruthu Divisional Secretariat Area in\n\nAMPARA DISTRICT\nEASTERN PROVINCE\n\nLot A bounded as follows:\nNorth by : Garden, Claimed by Road and Mosque Road\nEast by  : Mosque Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nTotal Extent 996.8 sq.m (0.0997 Ha)\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2025.08.25\nPlan issued on : 2015.04.09\n\nS.M.Ibrahim\nRegistered Licensed Surveyor. (Regtn. No 83715012)\n",
+  "token_count": 150,
+  "ner_auto": {
+    "plan_number": "N/2748",
+    "district": "Ampara",
+    "area_sqm": 996.8,
+    "scale": 500,
+    "surveyor": "S.M.Ibrahim",
+    "road_access": "Mosque Road",
+    "lot_number": "A",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 487104.0,
+    "coordinate_e": 612293.0,
+    "licence_number": "639593"
+  },
+  "ner_corrected": {
+    "plan_number": "N/2748",
+    "district": "Ampara",
+    "area_sqm": 996.8,
+    "scale": 500,
+    "surveyor": "S.M.Ibrahim",
+    "road_access": "Mosque Road",
+    "lot_number": "A",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 487104.0,
+    "coordinate_e": 612293.0,
+    "licence_number": "639593"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0019.pdf",
+  "raw_text": "T.Rajaratnam, CSSI Sri Lanka\nRegistered Licensed Surveyor Leveller and Court Commissioner\n7, Hospital Road, Chavakachcheri\nLicence No.802448\nLand Survey Council Registration No.4348276\n* Hand GPS Coordinates were used for Location\n\nPLAN No.1569\n\nScale 1:2000\n725075 N\n576268 E\n\nPLAN\nof an allotment of Land called \"Ninthavur Garden\"\nsituated in Chavakachcheri within the local limits of Chavakachcheri Pradeshiya Sabha\nin Chavakachcheri Divisional Secretariat Area in\n\nJAFFNA DISTRICT\nNORTHERN PROVINCE\n\nLot B bounded as follows:\nNorth by : Garden, Claimed by Road and Mosque Road\nEast by  : Mosque Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nThe entire Land is containing in extent :0.04222 Hectare (0A-0R-16.69P)=422.2 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2022.06.10\nPlan issued on : 2018.04.01\n\nT.Rajaratnam\nRegistered Licensed Surveyor. (Regtn. No 98588154)\n",
+  "token_count": 152,
+  "ner_auto": {
+    "plan_number": "1569",
+    "district": "Jaffna",
+    "area_sqm": 422.2,
+    "scale": 2000,
+    "surveyor": "T.Rajaratnam",
+    "road_access": "Mosque Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "NORTHERN PROVINCE",
+    "coordinate_n": 725075.0,
+    "coordinate_e": 576268.0,
+    "licence_number": "802448"
+  },
+  "ner_corrected": {
+    "plan_number": "1569",
+    "district": "Jaffna",
+    "area_sqm": 422.2,
+    "scale": 2000,
+    "surveyor": "T.Rajaratnam",
+    "road_access": "Mosque Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "NORTHERN PROVINCE",
+    "coordinate_n": 725075.0,
+    "coordinate_e": 576268.0,
+    "licence_number": "802448"
+  }
+}

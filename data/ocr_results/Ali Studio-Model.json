@@ -1,0 +1,20 @@
+{
+  "filename": "Ali Studio-Model.pdf",
+  "raw_text": "A.LMohamed Husyen, FSI PLAN No. 3614 Registered Licensed Land Surveyor and Court Commissioner: 370, Union Road; Akkaraipattu. TP-0773316713 2 J 8 Land Claimed by Thaiyoob 28 Land Claimed by Lot Rasheed 0 Land Claimedby M.H.M Nasreen Reference (Presently, Shareefdeen  Jaleel) Wall Boundary Mork Tor SCALE: 500 Foundation Wall S/p Septic   Pit Hectare =2.47105 Acres PLAN of an allotment of land marked Lot Called Eluvattuvan Situated in No.AP/154/3, Akkaraipattu-12 C.N.Division within the Akkaraipattu Municipal Council Limits in Akkaraipattu Divisional Secretariat Area. AMPARA DISTRICT EASTERN PROVINCE Bounded as Follows North and Claimed by Thaiyoob East Land Claimed by Abdul Rosheed South Land Claimed by Riyas (Presently, Shareefdeen Jaleel) West Road(Road Development Authority) Reservation. Schedule of Lots: Lot Extent in Remarks Name of Claimant No_ Hectares 0.02149 Mohamed Thamby Mohamed  Ali Claimed by Grant No. OA: OR: 8.5P Main Street, Y11 /%1u (916n 2450 KT/12, Akkaraipattu. Total 0.02149 Containing in Extent: OA:OR:_8 SP 214.9 Sq.m:m Eight Five Perches Survey Requested and Mohamed  Thamby Mohamed Ali Boundaries Pointed out by 8 Main Street, KT/12, Akkaraipattu. 2023_10-10. AL.Mohamed Husyen_ Registered Licensed Lana 'Surveyor: Date of  Surveyed on 2023-10-08_ FB-155 Regtn. No  19900575) J 3 1 1 8 Edge and point",
+  "token_count": 124,
+  "ner_auto": {
+    "plan_number": "3614",
+    "district": "Ampara",
+    "area_sqm": 214.9,
+    "scale": null,
+    "surveyor": "and Court Commissioner",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Husyen",
+    "coordinate_n": 916.0,
+    "coordinate_e": 500.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

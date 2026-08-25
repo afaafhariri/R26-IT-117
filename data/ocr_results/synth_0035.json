@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0035.pdf",
+  "raw_text": "P.K.Wickramasinghe, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n18, Closenberg Road, Galle\nLicence No.661894\nLand Survey Council Registration No.5747930\n\nPLAN No.1677\n\nScale 1:2000\nThe National Survey Grid Coordinates were used for the surveying.\nN : 318639\nE : 429820\n\nPLAN\nof an allotment of Land called \"Nintavur East\"\nsituated in Balapitiya within the local limits of Balapitiya Pradeshiya Sabha\nin Balapitiya Divisional Secretariat Area in\n\nGALLE DISTRICT\nSOUTHERN PROVINCE\n\nLot B bounded as follows:\nNorth by : Garden, Claimed by Road and Provincial Road\nEast by  : Provincial Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining in Extent of Lot 1  0.0312  0.  0.  12.32\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2016.04.10\nPlan issued on : 2018.06.06\n\nP.K.Wickramasinghe\nRegistered Licensed Surveyor. (Regtn. No 50569669)\n",
+  "token_count": 152,
+  "ner_auto": {
+    "plan_number": "1677",
+    "district": "Galle",
+    "area_sqm": 311.6,
+    "scale": 2000,
+    "surveyor": "P.K.Wickramasinghe",
+    "road_access": "Provincial Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": 318639.0,
+    "coordinate_e": 429820.0,
+    "licence_number": "661894"
+  },
+  "ner_corrected": {
+    "plan_number": "1677",
+    "district": "Galle",
+    "area_sqm": 311.6,
+    "scale": 2000,
+    "surveyor": "P.K.Wickramasinghe",
+    "road_access": "Provincial Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "SOUTHERN PROVINCE",
+    "coordinate_n": 318639.0,
+    "coordinate_e": 429820.0,
+    "licence_number": "661894"
+  }
+}

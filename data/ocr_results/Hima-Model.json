@@ -1,0 +1,33 @@
+{
+  "filename": "Hima-Model.pdf",
+  "raw_text": "A.LMohamed Husyen, FSI: PLAN No. 2806 Registered Licensed Land Surveyor and Court Commissioner: 370, Union Road, Akkaraipattu. TP-067-2277686 Road(MC) Houses ] Land   Claimed Lof by A.CM.Ismail Land  Claimed Reference 2 by Wall AL.Abithaummah Wire Fence 5 bw Building   Wall Foundation Wall Hectore =2.47105 Acres SCALE: 500 PLAN of an allotment of land marked Lot Situated in No. AP /15/3, KT-12 C.N.Division in Akkaraipattu Village within the Akkaraipattu Municipal Council Limits in Akkaraipattu Divisional Secretariat Area. AMPARA DISTRICT EASTERN PROVINCE Bounded @S Follows North Road(Municipal Council) Fast Land Claimed by A.C.M.Ismail South Land Claimed  by A.LAbithaummah Schedule of Lots; West Road(Municipal Council) Lot Extent in Land used Name of Cloimant Remarks No Hectares 0.0317 Garden M.S Fathullah Noor 'Hima Work  Shop and permises_ OA: OR: 12.5P 54, Post  Office Road Claimed by Deed No.1588 of 2016-11-04 of Akkaraipattu-12. Attested by A.C.M.Faleel Attorney at law and Public. Total 0.0317 QA:_OR: 12 SP Containing in Extent Twelve_point Perches Boundaries Surveyed Pointed out by: MA.MFathullah Noor of, 54, Sup Post Office Road 16-05-2019, of Akkaraipattu-12. A.L.Mohamed Husyen: Registered Licensed and Surveyor. Date   of  Surveyed 14 05 2019. FE / 123 'Regtn. No 9900575) 1 J 8 Gle 1 Sup Notary Five",
+  "token_count": 132,
+  "ner_auto": {
+    "plan_number": "2806",
+    "district": "Ampara",
+    "area_sqm": null,
+    "scale": null,
+    "surveyor": "and Court Commissioner",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Husyen",
+    "coordinate_n": null,
+    "coordinate_e": 2.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": {
+    "plan_number": "2806",
+    "district": "Ampara",
+    "area_sqm": 317.0,
+    "scale": null,
+    "surveyor": "and Court Commissioner",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Husyen",
+    "coordinate_n": null,
+    "coordinate_e": 2.0,
+    "licence_number": "d"
+  }
+}

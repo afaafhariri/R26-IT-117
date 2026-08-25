@@ -1,0 +1,33 @@
+{
+  "filename": "Plan-933-Model.pdf",
+  "raw_text": "ENadesamoorthy, M.S.I (Sri Lanka) Licensed Surveyor, Leveller & Court Commissioner No.IOOB, Udayar Road, Karaitivu-02 Plan No 933 Regd: No 19921671 TP Nos. 0777049279 & 0754913765 541695 Garden Claimed by T.Thiyagarasa C Garden laimed by Carden S.Saraniya Visnnu Vidyalaya Premises V To Thesigar Reference 2 From Wall Toilet 541645 Permanent Building Road(PS) Road (Pradeshiya Sabha) Scale 500 PLAN OF AN ALLOTMENT OF LAND CALLED \"Palavadivalaru\" Part of TP] 15065 (Part of Lot 10161 in PP854), situated at Vishnu Vidyalaya Road, Karaitivu-07 (GN Division No: 42) under Karaitivu Divisional Secretary in Pradeshiya Sabha limits of Karaitivu within Karavahu Pattu in Ampara District in the Eastern Province of the DEMOCRATIC SOCIALIST REPUBLIC OF SRILANKA Schedule Lot Present Extent Boundary Schedule Lana use No_ Hectares  North East South West 0.0496 19.61 Garden; contains mixed Garden Garden Road(PS) Garden cultivation, permanent Claimed by Claimed by Vishnu Vidyalaya building 0 well; toilet T.Thiyagarasa S.Saraniya Premises and two toilet pits _ As pointed out by and to mother of claimant Markandu Thevamalar of Vishnu Vidyalaya Road, Karaitivu-07 and the boundaries were surveyed by me. Claimed by Nagarasa Kugenthini and husband Sinnathamby Puvanenthiran on Deed No: 27 dated 2023.05.04, attested by Uruthiran Umathasan, Attorney-at-Law & Notary Public, Karaitivu-I. Surveyed on 2026.03.13, Plan issued on 2026.03.19 Road Road(PS) Road Main",
+  "token_count": 88,
+  "ner_auto": {
+    "plan_number": "933",
+    "district": "Ampara",
+    "area_sqm": null,
+    "scale": null,
+    "surveyor": "Licensed Surveyor",
+    "road_access": null,
+    "lot_number": "10161",
+    "is_coastal": true,
+    "province": "M.S.I",
+    "coordinate_n": 2026.03,
+    "coordinate_e": 2.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": {
+    "plan_number": "933",
+    "district": "Ampara",
+    "area_sqm": 496.0,
+    "scale": null,
+    "surveyor": "Licensed Surveyor",
+    "road_access": null,
+    "lot_number": "10161",
+    "is_coastal": true,
+    "province": "M.S.I",
+    "coordinate_n": 2026.03,
+    "coordinate_e": 2.0,
+    "licence_number": "d"
+  }
+}

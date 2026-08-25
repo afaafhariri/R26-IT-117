@@ -1,0 +1,20 @@
+{
+  "filename": "3298-3243.AKP-Model.pdf",
+  "raw_text": "AAMohamed Thasleem, FSI PLAN No. 3243 Licensed Land Surveyor & Leveller 2 67A,Town Mosque Road Akkaraipattu 6 Tel067-2278148 Gorden Mob_ 0779363632 Claimed Athom Lebbe 1 Garden Claimed A.K Naotheek Lot 8 8 ana Others Garden Reference Claimed 2 5,Riyana WF Wire   Fence (MC) Municipal Council 8 Permanent Building SCALE 1:500 1 PLAN of an allotment of land marked Lot situated Konawatntnai; Akkaraipattu-14 GNno AF /15A/5_village, within the Iimits of Akkaraipattu Municipal Council Akkaraipattu_Divisional_Secretoriat Ampara District EASTERN PROVINCE ot Present Name of Claimant xtent Bounded 0s  follows ectares No and use and Deed nc; ARP North East South West Gorden Mustafa Kamal Nisar; 0.0722 Garden Road(MC) Garden Carden No.142, Central Road, (OA,OR,28.SP) Claimed  by Claimed Claimed by Akkoraipattu-14. Atham Lebbe S Riyana A,X Noatheek and  Others Claimed on deed no.1441 dated 2020.09.03 attested by ALM: Allorney Iaw & Notary Public: Containing in Extent 722sq.m. (OA,OR,28.SP) Boundaries Surveyed pointed out by Mustafa Kamol No. 142, Central Road, Akkaraipattu-14, Licensed Land Surveyor Leveller Regtn: No. 19930566 Date of Survey 2021.05.28 Date 2021.04.04 -8_72 1 Rifas Nisor,",
+  "token_count": 121,
+  "ner_auto": {
+    "plan_number": "3243",
+    "district": "Ampara",
+    "area_sqm": 722.0,
+    "scale": 500,
+    "surveyor": "Leveller Regtn",
+    "road_access": null,
+    "lot_number": "8",
+    "is_coastal": true,
+    "province": "OA",
+    "coordinate_n": null,
+    "coordinate_e": 1.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

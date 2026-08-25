@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0017.pdf",
+  "raw_text": "A.Mahendran, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n7, Hospital Road, Chavakachcheri\nLicence No.969634\nLand Survey Council Registration No.5394880\n\nPLAN No.N/516\n\nScale 1:500\n\nPLAN\nof an allotment of Land called \"Sinnakkadai\"\nsituated in Uduvil within the local limits of Uduvil Pradeshiya Sabha\nin Uduvil Divisional Secretariat Area in\n\nJAFFNA DISTRICT\nNORTHERN PROVINCE\n\nLot 1 bounded as follows:\nNorth by : Garden, Claimed by Road and Harbour Road\nEast by  : Harbour Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\ncontaining in extent :94.8 Square metre\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2017.12.15\nPlan issued on : 2023.12.14\n\nA.Mahendran\nRegistered Licensed Surveyor. (Regtn. No 85283645)\n",
+  "token_count": 131,
+  "ner_auto": {
+    "plan_number": "N/516",
+    "district": "Jaffna",
+    "area_sqm": 94.8,
+    "scale": 500,
+    "surveyor": "A.Mahendran",
+    "road_access": "Harbour Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "NORTHERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "969634"
+  },
+  "ner_corrected": {
+    "plan_number": "N/516",
+    "district": "Jaffna",
+    "area_sqm": 94.8,
+    "scale": 500,
+    "surveyor": "A.Mahendran",
+    "road_access": "Harbour Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "NORTHERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "969634"
+  }
+}

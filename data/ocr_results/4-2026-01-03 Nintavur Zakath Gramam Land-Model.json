@@ -1,0 +1,20 @@
+{
+  "filename": "4-2026-01-03 Nintavur Zakath Gramam Land-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2713. (Chartered Surveyor); Registered Licensed  Surveyor; Leveller 536000 and Court Commissioner; 1/4, Main Street; Kaanady Lane, 8 Sainthamaruthu_ Telephone: 067 2222937, 077 6550260 and 071 8080722. Licence No.260651_ Land Survey Council Registration No. 19911083. Reference Nail Stake 8 Wall Wire Fence Gote Concrete Edge 8 Undefined Garden Scale 1.5OQ Nathvathu Nasril Muslimeen Note: National Survey Grid Boadr Zokath)- J Coordinates used for Lot 729 PP 1048 the  surveying which derived Claimed on TP 162283 from RTK receiver (CORS Net); 94 '03 1 8 2 8 8 94 '05- J Garden Arafa Pre   School and premises Lot 729 in PP 1048 Claimed on TP 162283 8 PLAN 535925 ot an allotment of  Gardens called 'Vavvarai valavu alias   Kanchooraiyadipumi- of lot 729 in PP 1048-Claimed on of TP 62283 marked aS Lot situated in the village of Addappallam within the local council limits of Nintavur Pradeshiya Sabha in Nintavur Pattu and  administrative Limits of   Nintavur-23 Grama Niladhari   Division No.36/A Nintavur Divisional Secretary's Area in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded follows: North by Garden, property of Nathvathu Nasril Muslimeen (Board of Zakaath)-Lot 79 PP 1048-Claimed on TP 162283. East by Myyawady Road_ South by Garden, property of Arafa Pre School ana premises Lot 79 in PP 1048-Claimed on TP 62283. West by Arafa School Road The   entire Land is containing in extent :0.03492 Hectare (OA-OR-13.81P)-349.2 Square metre The survey was requested by Ibralebbe Abdur Raheem, The   Secretary, Zakkath Fund and the boundaries pointed by Ibralebbe Abdur Raheem, The Secretary, Zakkath Fund, Nintavur: Claimed  by Zakkath Fund, Nintavur and the property mentioned Deed bearing No.12184 dated 2024.04.17, attested by Atham Lebbe Riyas Atham, Attorney-at-Law and Public. Done free of charge. Surveyed on 2026.01.03. Drawn January 2026. Plan issued on 2026.01.15. 8 8 Tne were 2 8 1 0 8 part port as Pre out Notary",
+  "token_count": 261,
+  "ner_auto": {
+    "plan_number": "2713",
+    "district": "Ampara",
+    "area_sqm": 349.2,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": "729",
+    "is_coastal": true,
+    "province": "PP",
+    "coordinate_n": 535925.0,
+    "coordinate_e": 67.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

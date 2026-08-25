@@ -1,0 +1,20 @@
+{
+  "filename": "4189-9.7.25-AKP-Model.pdf",
+  "raw_text": "AA.Mohamed Thasleem, FSI PLAN No. 4189 Registered Licensed Surveyor Leveller 674,Town Mosque Road Akkaraipattu 03 Tel. 067-2278148 Mob. 0779363632. 3 Garden Presently Garden Claimed Presently A.L_Imunnisa Claimed AL.Safeena L Garden Presently Lot Claimedby Aabithaumma 8 Garden 6' Presently Claimed by 2 N.T Jezeema Reference Wall BW Building   Wall (MC) Municipal Council Permanent SCALE   1:500 PLAN of an allotment of land marked Lot called Maruthavattan_Poomy\" situated G.N.Division no.AP /154/4, Akkaraipattu-13 village within the limits of Akkoraipattu Municipal_Council_in_Akkaraipattu_Divisional_Secretariat Ampara District EASTERN PROVINCE Lot Present Name   of Claimant Extent in Bounded as   follows Hectares No. Land use and Deed No. North East South West Gorden Kattu Bawa Riyaso, No.13C, Old Cinima 0.0201 Gorden Road(MC) Garden Garden Road, Akkaraipottu-13. (OA,OR,07.95P) Presently Presently Presently An  amalgamation two properties Claimed by Claimed by Claimed by referred deed nos.5043 dated ALIImunnisa NTJezeema Aabithaumma 2017.09.25 and 5329 of2019.03.10 AL.Safeena both attested by SMAGafoor Attorney Iaw   and Public. Containing_in_total_Extent_201 sqm:_(OA,OR,07.95P) Boundaries Surveyed pointed out  by Katlu Bawa Riyaso, No.13C, Old Cinima Road Akkaraipattu-13, Registered Licensed Surveyor Leveller Regtn No: 9930566 Date Survey;   2025.07.09 FB-83 Dale 2025.07.23 1 { 8 7 {2 Building Notary",
+  "token_count": 141,
+  "ner_auto": {
+    "plan_number": "4189",
+    "district": "Ampara",
+    "area_sqm": 201.0786,
+    "scale": 500,
+    "surveyor": "Leveller",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "OA",
+    "coordinate_n": 6.0,
+    "coordinate_e": 1.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

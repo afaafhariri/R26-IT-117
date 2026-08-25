@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0026.pdf",
+  "raw_text": "B.G.Ranasinghe, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n15, Colombo Road, Negombo\nLicence No.359249\nLand Survey Council Registration No.5793722\n* Hand GPS Coordinates were used for Location\n\nPLAN No.BT/3988\n\nScale 1:2500\n435679 N\n388998 E\n\nPLAN\nof an allotment of Land called \"Ninthavur Garden\"\nsituated in Peliyagoda within the local limits of Peliyagoda Pradeshiya Sabha\nin Peliyagoda Divisional Secretariat Area in\n\nGAMPAHA DISTRICT\nWESTERN PROVINCE\n\nLot 1 bounded as follows:\nNorth by : Garden, Claimed by Road and Grama Road\nEast by  : Grama Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nTotal Extent 1155.7 sq.m (0.1156 Ha)\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2018.05.11\nPlan issued on : 2020.09.03\n\nB.G.Ranasinghe\nRegistered Licensed Surveyor. (Regtn. No 28572252)\n",
+  "token_count": 144,
+  "ner_auto": {
+    "plan_number": "BT/3988",
+    "district": "Gampaha",
+    "area_sqm": 1155.7,
+    "scale": 2500,
+    "surveyor": "B.G.Ranasinghe",
+    "road_access": "Grama Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": 435679.0,
+    "coordinate_e": 388998.0,
+    "licence_number": "359249"
+  },
+  "ner_corrected": {
+    "plan_number": "BT/3988",
+    "district": "Gampaha",
+    "area_sqm": 1155.7,
+    "scale": 2500,
+    "surveyor": "B.G.Ranasinghe",
+    "road_access": "Grama Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": 435679.0,
+    "coordinate_e": 388998.0,
+    "licence_number": "359249"
+  }
+}

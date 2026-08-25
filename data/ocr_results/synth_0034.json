@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0034.pdf",
+  "raw_text": "A.B.Samsudeen, CSSI Sri Lanka\nRegistered Licensed Surveyor Leveller and Court Commissioner\n22, Main Street, Chilaw\nLicence No.408528\nLand Survey Council Registration No.9907391\n* Hand GPS Coordinates were used for Location\n\nPLAN No.BT/4120\n\nScale 1:2500\n656225 N\n404184 E\n\nPLAN\nof an allotment of Land called \"Roadadykandam\"\nsituated in Marawila within the local limits of Marawila Pradeshiya Sabha\nin Marawila Divisional Secretariat Area in\n\nPUTTALAM DISTRICT\nNORTH WESTERN PROVINCE\n\nLot B bounded as follows:\nNorth by : Garden, Claimed by Road and Main Road\nEast by  : Main Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining Total Extent 0.0624 Hectare or 0A:0R:24.69P\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2020.07.24\nPlan issued on : 2023.06.12\n\nA.B.Samsudeen\nRegistered Licensed Surveyor. (Regtn. No 70900658)\n",
+  "token_count": 147,
+  "ner_auto": {
+    "plan_number": "BT/4120",
+    "district": "Puttalam",
+    "area_sqm": 624.5,
+    "scale": 2500,
+    "surveyor": "A.B.Samsudeen",
+    "road_access": "Main Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "NORTH WESTERN PROVINCE",
+    "coordinate_n": 656225.0,
+    "coordinate_e": 404184.0,
+    "licence_number": "408528"
+  },
+  "ner_corrected": {
+    "plan_number": "BT/4120",
+    "district": "Puttalam",
+    "area_sqm": 624.5,
+    "scale": 2500,
+    "surveyor": "A.B.Samsudeen",
+    "road_access": "Main Road",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "NORTH WESTERN PROVINCE",
+    "coordinate_n": 656225.0,
+    "coordinate_e": 404184.0,
+    "licence_number": "408528"
+  }
+}

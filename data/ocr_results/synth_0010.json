@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0010.pdf",
+  "raw_text": "W.A.Jayasinghe, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n5, Galle Road, Kalutara\nLicence No.392004\nLand Survey Council Registration No.8930103\n\nPLAN No.2806\n\nScale 1:500\n\nPLAN\nof an allotment of Land called \"Thennanthoddapoomi\"\nsituated in Kalutara within the local limits of Kalutara Pradeshiya Sabha\nin Kalutara Divisional Secretariat Area in\n\nKALUTARA DISTRICT\nWESTERN PROVINCE\n\nLot 2 bounded as follows:\nNorth by : Garden, Claimed by Road and Temple Road\nEast by  : Temple Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining Total Extent 0.0345 Hectare or 0A:0R:13.64P\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2018.08.26\nPlan issued on : 2021.04.04\n\nW.A.Jayasinghe\nRegistered Licensed Surveyor. (Regtn. No 23009833)\n",
+  "token_count": 132,
+  "ner_auto": {
+    "plan_number": "2806",
+    "district": "Kalutara",
+    "area_sqm": 344.9,
+    "scale": 500,
+    "surveyor": "W.A.Jayasinghe",
+    "road_access": "Temple Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "392004"
+  },
+  "ner_corrected": {
+    "plan_number": "2806",
+    "district": "Kalutara",
+    "area_sqm": 344.9,
+    "scale": 500,
+    "surveyor": "W.A.Jayasinghe",
+    "road_access": "Temple Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "WESTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "392004"
+  }
+}

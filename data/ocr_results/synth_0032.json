@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0032.pdf",
+  "raw_text": "A.M.Farook, CSSI Sri Lanka\nRegistered Licensed Surveyor Leveller and Court Commissioner\n15, Trinco Road, Eravur\nLicence No.479781\nLand Survey Council Registration No.9111742\n\nPLAN No.3541\n\nScale 1:2500\nThe National Survey Grid Coordinates were used for the surveying.\nN : 588386\nE : 647700\n\nPLAN\nof an allotment of Land called \"Sinnakkadai\"\nsituated in Kallady within the local limits of Kallady Pradeshiya Sabha\nin Kallady Divisional Secretariat Area in\n\nBATTICALOA DISTRICT\nEASTERN PROVINCE\n\nLot 2 bounded as follows:\nNorth by : Garden, Claimed by Road and Provincial Road\nEast by  : Provincial Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining in Extent of Lot 1  0.1070  0.  1.  2.29\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2022.07.27\nPlan issued on : 2024.05.11\n\nA.M.Farook\nRegistered Licensed Surveyor. (Regtn. No 42949803)\n",
+  "token_count": 153,
+  "ner_auto": {
+    "plan_number": "3541",
+    "district": "Batticaloa",
+    "area_sqm": 1069.7,
+    "scale": 2500,
+    "surveyor": "A.M.Farook",
+    "road_access": "Provincial Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 588386.0,
+    "coordinate_e": 647700.0,
+    "licence_number": "479781"
+  },
+  "ner_corrected": {
+    "plan_number": "3541",
+    "district": "Batticaloa",
+    "area_sqm": 1069.7,
+    "scale": 2500,
+    "surveyor": "A.M.Farook",
+    "road_access": "Provincial Road",
+    "lot_number": "2",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": 588386.0,
+    "coordinate_e": 647700.0,
+    "licence_number": "479781"
+  }
+}

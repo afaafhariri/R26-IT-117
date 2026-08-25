@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0040.pdf",
+  "raw_text": "S.Sivapalan, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n23, Stanley Road, Jaffna\nLicence No.162535\nLand Survey Council Registration No.5842082\n\nPLAN No.BT/1320\n\nScale 1:2000\n\nPLAN\nof an allotment of Land called \"Roadadykandam\"\nsituated in Kayts within the local limits of Kayts Pradeshiya Sabha\nin Kayts Divisional Secretariat Area in\n\nJAFFNA DISTRICT\nNORTHERN PROVINCE\n\nLot B bounded as follows:\nNorth by : Garden, Claimed by Road and Road (RDA)\nEast by  : Road (RDA) and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nTotal Extent 1195.2 sq.m (0.1195 Ha)\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2022.02.15\nPlan issued on : 2019.12.13\n\nS.Sivapalan\nRegistered Licensed Surveyor. (Regtn. No 46540265)\n",
+  "token_count": 131,
+  "ner_auto": {
+    "plan_number": "BT/1320",
+    "district": "Jaffna",
+    "area_sqm": 1195.2,
+    "scale": 2000,
+    "surveyor": "S.Sivapalan",
+    "road_access": "Road (RDA)",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "NORTHERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "162535"
+  },
+  "ner_corrected": {
+    "plan_number": "BT/1320",
+    "district": "Jaffna",
+    "area_sqm": 1195.2,
+    "scale": 2000,
+    "surveyor": "S.Sivapalan",
+    "road_access": "Road (RDA)",
+    "lot_number": "B",
+    "is_coastal": true,
+    "province": "NORTHERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "162535"
+  }
+}

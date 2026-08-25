@@ -1,0 +1,20 @@
+{
+  "filename": "7-2026-01-08 Nawas-Hasan Ali Selling shop land at Main Road SM-2-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2703. (Chartered Surveyor); 543875 Registered Licensed  Surveyor; Leveller and Court Commissioner; 1/4, Main Street; Kaanady Lane, Sainthamaruthu_ 8 Telephone: 077 6550260, 076 2610260 and 071 8080722. Licence No.260651_ Land Survey Council Registration No. 19911083. Garden Reference Alavudeen Nail presently Wall Wahid and others BW Building Wall Garden MDn Mosonry Drain Rooa(RDA) Road(Rood Development Authority) M.IAoysha Rauff presently Scale_ 1500 AL.Safana Asmi 3 Note: The National Survey Grid 12 34 09 Coordinates were used for the surveying which 6 derived from Rtk receiver Garden (CORS Net). Jisthi and wife presently 6 M.M.A,Raheem 1 PLAN 543825 of two allotments of Garden called 'Mawady valavu-part  of marked a5 Lots and situated at Road (Road Development Authority) in the village of    Sainthamaruthu within the local limits of Kalmunai Municipal Council in Karavaku Pattu and within the administrative  Limits of Sainthamaruthu-5 Grama Niladhari   Division No.KP/524 in Sainthamaruthu Divisional  Secretary' s Area AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded as shown below. North by Garden, claimed by Alavudeen presently Wahid   and others. East by Garden, claimed by M.IAoysha Rauff presently AL.Safana Asmi South by Garden, claimed by Jisthi and wife presently M.MARaheem and Road (Road Development Authority). West by Road (Road Development Authority). The entire Land is containing in extent :0.01153 Hectare (OA-OR-04.56P)=115.3 Square metre The survey was requested by  Ibrahimkandu Hasan Ali and the boundaries pointed out by  Ibrahimkandu Hasan Ali of No.42/C, Main Road, Sainthamaruthu-05. Claimed  by  Ibrahimkandu Hasan and the property   mentioned Deed  bearing No.3212 dated 994.07.02_ attested by M.I.Azees,  Attorney- at-Law and Notary Public and Deed of declaration bearing No.6499 dated 2010.04.17, attested by A.L.Natheer; Attorney-at-Law and Notary Public. SCHEDULE Lot Present Extent Schedule Boundaries Remarks Land use Hectore North East South West Carden_ 0.00792 03.13 Garden, Carden, Garden, Lot ana Northern and south eastern Alavudeen M.! Aaysha Rauff Jisthi ana wife Road (Road portion: presentiy Wahid presently presently Raheem Development (79.2 Square metre). ana others AL.Safana Asmi and Lot Authority). Total 0.01153l0 04.56 Surveyed on 2026.01.08_ Drawn January 2026. Plan issued on 2026.01.08. 3 6 8 61 *OJ 0 79'06 TM 2 Garaens From 6 Ali",
+  "token_count": 289,
+  "ner_auto": {
+    "plan_number": "2703",
+    "district": "Ampara",
+    "area_sqm": 115.3,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Sainthamaruthu",
+    "coordinate_n": 543825.0,
+    "coordinate_e": 77.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

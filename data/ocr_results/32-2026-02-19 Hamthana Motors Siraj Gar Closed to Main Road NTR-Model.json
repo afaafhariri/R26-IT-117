@@ -1,0 +1,20 @@
+{
+  "filename": "32-2026-02-19 Hamthana Motors Siraj Gar Closed to Main Road NTR-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2723. (Chartered Surveyor), Registered Licensed Surveyor; Leveller and Court Commissioner, 11/4, Main Street, Kaanady Lane, Sainthamaruthu-11. Telephone: 077 6550260, 076 2610260 and 071 8080722 Licence No.250123. Land Survey Council Registration No.19911083. Reference Nai Wall MFn Wasonty Foundalion Concrete Edge 538250 [P4 Permanent  building Well Masonry Well Garden Gate MAMohamed Asfar Light Undefined Lot 136 Claimed 1 on TP 61065 Scale 7 : 500 53*09 Note: The National Survey Grid Garden coordinates weC used {Or M.Siraj Well the surveying whicn derived from RTK receiver Lot 136-Claimed Garden CORS Net). on TP 61065 Ameer Lot 136-Claimed GLs-I on TP 61065 MFn 47\" 00' Road To 8 PLAN 538200 of an allotment of Garden called 136 kanda valavu-Claimed on part of TP 61605' (being {e survey 0f Lot Plan No. 1281/17, prepared by Ahmed.M.Maharoff, Registered Licensed Surveyor) marked OS Lot situated at Musthaffapuram Post  office Road in the  village ot Nintavur within the Iocal   limits of   Nintavur  Pradeshiya Sabha in Nintavur Pattu and within the administrative  limits of Nintavur-20 Grama Niladhari   Division No.37E in Nintavur Divisional  Secretary '$ Area in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded as follows: North by Garden, claimed by MAMohamed Asfar-Lot 136-Claimed On TP 61065. East by Garden, claimed by Ameer-Lot 136- Claimed on TP 61065. South by Musthaffapuram Post Office Road. West by Garden, claimed by M.I.M.Siraj-Lot 136-Claimed on TP 61065. The entire Land containing extent :0.01830 Hectare (OA-OR-07.23P)=183.0 Square metre_ The survey was requested by Mohamed Ibrahim Mohamed   Siraj and the boundaries pointed out by Mohamed Ibrahim Mohamed of No.183, Main Road, Nintavur-25 Claimedby Mohamed Ibrahim Mohamed   Siraj and the property mentioned Deed bearing No.8059 dated 2017.08.30, attested by Ahamed Lebbe Natheer; Attorney- at- and Public Surveyed on 2026.02.19. Drawn February 2026. Plan issued on 2026.02 19. Post From Main Road Musthaffapuram Post Office Srd Cross Street Siraj Law Notary",
+  "token_count": 263,
+  "ner_auto": {
+    "plan_number": "2723",
+    "district": "Ampara",
+    "area_sqm": 183.0,
+    "scale": null,
+    "surveyor": "Ahmed.M.Maharoff",
+    "road_access": "Lane",
+    "lot_number": "136",
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 47.0,
+    "coordinate_e": 77.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

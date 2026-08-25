@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0025.pdf",
+  "raw_text": "B.G.Ranasinghe, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n8, Kurunegala Road, Puttalam\nLicence No.284430\nLand Survey Council Registration No.8795419\n* Hand GPS Coordinates were used for Location\n\nPLAN No.BT/145\n\nScale 1:500\n595906 N\n409914 E\n\nPLAN\nof an allotment of Land called \"Thennanthoddapoomi\"\nsituated in Nattandiya within the local limits of Nattandiya Pradeshiya Sabha\nin Nattandiya Divisional Secretariat Area in\n\nPUTTALAM DISTRICT\nNORTH WESTERN PROVINCE\n\nLot 3 bounded as follows:\nNorth by : Garden, Claimed by Road and Mosque Road\nEast by  : Mosque Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nTotal Extent 712.9 sq.m (0.0713 Ha)\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2025.09.18\nPlan issued on : 2024.06.25\n\nB.G.Ranasinghe\nRegistered Licensed Surveyor. (Regtn. No 69401199)\n",
+  "token_count": 144,
+  "ner_auto": {
+    "plan_number": "BT/145",
+    "district": "Puttalam",
+    "area_sqm": 712.9,
+    "scale": 500,
+    "surveyor": "B.G.Ranasinghe",
+    "road_access": "Mosque Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "NORTH WESTERN PROVINCE",
+    "coordinate_n": 595906.0,
+    "coordinate_e": 409914.0,
+    "licence_number": "284430"
+  },
+  "ner_corrected": {
+    "plan_number": "BT/145",
+    "district": "Puttalam",
+    "area_sqm": 712.9,
+    "scale": 500,
+    "surveyor": "B.G.Ranasinghe",
+    "road_access": "Mosque Road",
+    "lot_number": "3",
+    "is_coastal": true,
+    "province": "NORTH WESTERN PROVINCE",
+    "coordinate_n": 595906.0,
+    "coordinate_e": 409914.0,
+    "licence_number": "284430"
+  }
+}

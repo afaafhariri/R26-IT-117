@@ -1,0 +1,20 @@
+{
+  "filename": "35-2026-02-23 Mugaththas buying land in Musthaffa shed premises-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2726. (Chartered Surveyor), 539425 Registered Licensed Surveyor; Leveller and Court Commissioner; 11/4, Main Street; Kaanady Lane; 3 Sainthamaruthu-11. Telephone: 067 2222937, 077 6550260 and 071 8080722. Licence No.260651_ Land Survey Council Registration No.19911083. Reference Nail Wall w Building Wall Garden Fence MFn Mosonry Foundation presently Gate ALMMusthaffa Scale 1.500 35'03 BW Note: The Nalional Survey Grid Coordinates were used for the Garden surveying which derived trom Daughter Sinnarasa RTK receiver (CORS Net): presently Garden M.B.Razack AL.Muwummar BW Road 32*06' To Main Road Lane MFO From 1 539350 PLAN 0f an allotment of  Garden marked OS Lot situated at Lane Road (Road Development Authority) the village of    Sainthamaruthu within the  local limits of   Kalmunai  Municipal Council in Karavaku Pattu and the Administrative limits of  Sainthamaruthu-5 Grama Niladhari Division No.KP/52A in Sainthamaruthu Divisional Secretary' s Area in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded as follows: North by Garden, claimed  by presently A.L.M Musthaffa. East by Garden, claimed by Daughter of Sinnarasa  presently M.B.Razack. South by Lane: West by Garden, claimed by A.L.Muwummar: The entire Land is containing in extent :0.01421 Hectare   (OA-OR-05.62P)=142.1 Square metre The survey was requested by Mohamed Musthaffa Mohamed Azeem and the boundaries pointed out by Mohamed Musthaffa Mohamed Azeem of Main  Street, Sainthamaruthu-5_ Claimed by Mohamed Musthaffa Mohamed Azeem (850400601v) and the property mentioned Deed bearing No.609 dated  2023.05.25, attested by M.I Azad, Public Surveyed on 2026.02.23. Drawn February 2026_ Plan issued on 2026.02.24. Bund Notary",
+  "token_count": 198,
+  "ner_auto": {
+    "plan_number": "2726",
+    "district": "Ampara",
+    "area_sqm": 142.1,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Garden",
+    "coordinate_n": 0.0,
+    "coordinate_e": 67.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

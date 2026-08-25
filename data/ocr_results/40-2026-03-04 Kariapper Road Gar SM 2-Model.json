@@ -1,0 +1,20 @@
+{
+  "filename": "40-2026-03-04 Kariapper Road Gar SM 2-Model.pdf",
+  "raw_text": "S.M.Ibrahim (CSSI Sri Lanka), PLAN No.2731 . (Chartered Surveyor), Registered Licensed Surveyor; Leveller and Court Commissioner, 11/4, Main Street, Kaanady Lane, Sainthamaruthu-11. Telephone: 077 6550260, 076 2610260 and 071 8080722 3 Licence No.260651_ 544250 Land Survey Council Registration No.19911083. Reference Woll Gate 3 Garden Scale 1.500 S.L.Misriya Note: The National Survey Grid Coordinates were used Tor the surveying which derived trom RTK receiver (CORS Net) Garden Jezeema Garden presently Farsath Moulavi 8 544200 PLAN 0f an allotment 0f Garden 'Kadatkaraiyora valavu part 0f marked aS Lot situated at Kariapper Road in the village of Sainthamaruthu within the Iocal   limits of  Kalmunai  Municipal  Council Karavaku Pattu ana within the administrative limits ot Sainthamaruthu-2 Grama Niladhari Division No.KP/53/4 Sainthamaruthu Divisional  Secretary' s Area in AMPARA DISTRICT EASTERN PROVINCE The entire Land is bounded as follows: North by Garden, claimed by S.L.Misriya. East by Garden, claimed by Jezeema. South by Garden, claimed by presently Farsath Moulavi: West by Kariapper Road. The entire Land is  containing in extent :0.00671 Hectare  (OA-OR-02.65P)=67.1 Square metre The survey was requested by Saleem  Fathima Rizna and the boundaries pointed out by  Saleem Fathima Rizna of 187/M, Kariapper Road, Sainthamaruthu-2 and on  behalf of the other  claimant. Claimed by Saleem Fathima Rizna and Athambawa Mohamed Azmi and the property mentioned Deed bearing No.779 dated 2025.12.12, attested by Mohamed Ibralebbe Azad, Notary Public. Surveyed on 2026.03.04. Drawn March 2026_ Plan issued on 2026.03.05 8 8 1 2 1 8 No.",
+  "token_count": 199,
+  "ner_auto": {
+    "plan_number": "2731",
+    "district": "Ampara",
+    "area_sqm": 67.1,
+    "scale": null,
+    "surveyor": "Sri Lanka",
+    "road_access": "Lane",
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "Sainthamaruthu",
+    "coordinate_n": 0.0,
+    "coordinate_e": 77.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": null
+}

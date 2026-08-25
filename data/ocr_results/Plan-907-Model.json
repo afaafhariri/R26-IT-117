@@ -1,0 +1,33 @@
+{
+  "filename": "Plan-907-Model.pdf",
+  "raw_text": "ENadesamoorthy, M.S.I (Sri Lanka) Licensed Surveyor, Leveller & Court Commissioner No.IOOB, Udayar Road, Karaitivu-02 Plan No 907 Regd: No 19921671 TP Nos. 0777049279 & 0754913765 527435 Garden Claimed by H.A.Piyaseeli Carden Claimed by B.M.Wijayapala Garden Claimed by Reference R Premarathne Undefined 8 Live Fence 527390 WF Wire Fence Net Fence Scale 500 Road(PS) Road (Pradeshiya Sabha) PLAN OF AN ALLOTMENT OF LAND CALLED \"Muwangala\" Parts of Lots 14 & 15 in PPaml1 687, situated at No. 03, Village-07 , Muwangala (GN Division No: W/27B) under Damana Divisional Secretary in Pradeshiya Sabha limits of Namal Oya in Ampara District in the Eastern Province of the DEMOCRATIC SOCIALIST REPUBLIC OF SRILANKA Schedule Lot Extent Boundary Schedule Land use No_ Hectare North East South West 0.0616 24.34 Garden; contains mixed Garden Garden Garden Road(PS) cultivation; permanent Claimed by Claimed by Claimed by building and temporary HA Piyaseeli B.M.Wijayapala R.Premarathne building: As pointed out by and to occupant Suraweera Mudiyanselage Bandula Kaviraja of No. 03, Village-07 , Muwangala and the boundaries were surveyed by me The plan was issued on requested of the above occupant. Surveyed on 2026.02.15, Plan issued on 2026.02.17 5 e [ 37.JiM 8 36,07M 9 0",
+  "token_count": 84,
+  "ner_auto": {
+    "plan_number": "907",
+    "district": "Ampara",
+    "area_sqm": null,
+    "scale": null,
+    "surveyor": "Licensed Surveyor",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "M.S.I",
+    "coordinate_n": 2026.02,
+    "coordinate_e": 527390.0,
+    "licence_number": "d"
+  },
+  "ner_corrected": {
+    "plan_number": "907",
+    "district": "Ampara",
+    "area_sqm": 616.0,
+    "scale": 500,
+    "surveyor": "Licensed Surveyor",
+    "road_access": null,
+    "lot_number": null,
+    "is_coastal": true,
+    "province": "M.S.I",
+    "coordinate_n": 2026.02,
+    "coordinate_e": 527390.0,
+    "licence_number": "d"
+  }
+}

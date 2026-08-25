@@ -1,0 +1,33 @@
+{
+  "filename": "synth_0050.pdf",
+  "raw_text": "A.R.Nazar, FSI\nRegistered Licensed Surveyor Leveller and Court Commissioner\n5, Dockyard Road, Trincomalee\nLicence No.579027\nLand Survey Council Registration No.2789344\n\nPLAN No.AP/2550\n\nScale 1:2500\n\nPLAN\nof an allotment of Land called \"Puthukudiyiruppu\"\nsituated in Kinniya within the local limits of Kinniya Pradeshiya Sabha\nin Kinniya Divisional Secretariat Area in\n\nTRINCOMALEE DISTRICT\nEASTERN PROVINCE\n\nLot 1 bounded as follows:\nNorth by : Garden, Claimed by Road and New Road\nEast by  : New Road and Garden Claimed by adjoining owner\nSouth by : Garden and Private Lane\nWest by  : Garden Claimed by present owner\n\nContaining in Extent of Lot 1  0.0323  0.  0.  12.76\n\nThe survey was requested by the claimant and the boundaries pointed out by the claimant.\nSurveyed on : 2018.07.19\nPlan issued on : 2020.10.10\n\nA.R.Nazar\nRegistered Licensed Surveyor. (Regtn. No 49625201)\n",
+  "token_count": 135,
+  "ner_auto": {
+    "plan_number": "AP/2550",
+    "district": "Trincomalee",
+    "area_sqm": 322.8,
+    "scale": 2500,
+    "surveyor": "A.R.Nazar",
+    "road_access": "New Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "579027"
+  },
+  "ner_corrected": {
+    "plan_number": "AP/2550",
+    "district": "Trincomalee",
+    "area_sqm": 322.8,
+    "scale": 2500,
+    "surveyor": "A.R.Nazar",
+    "road_access": "New Road",
+    "lot_number": "1",
+    "is_coastal": true,
+    "province": "EASTERN PROVINCE",
+    "coordinate_n": null,
+    "coordinate_e": null,
+    "licence_number": "579027"
+  }
+}
