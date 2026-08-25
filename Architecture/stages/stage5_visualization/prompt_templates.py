@@ -56,6 +56,36 @@ def interior_prompt(
     )
 
 
+def _room_layout_lines(rooms: list[Room]) -> str:
+    """Describes each room's exact position and adjacencies from the solved layout.
+
+    position_x/position_y/width_ft/length_ft come from the same coordinate
+    system used everywhere else in the app (layout solver output) — this is
+    the single source of truth for where each room actually sits, so the
+    generated image reproduces the real solved layout instead of inventing
+    its own arrangement.
+    """
+    by_floor: dict[int, list[Room]] = {}
+    for r in rooms:
+        by_floor.setdefault(r.floor or 1, []).append(r)
+
+    sections = []
+    for floor_num in sorted(by_floor):
+        lines = []
+        for r in by_floor[floor_num]:
+            x1, y1 = r.position_x, r.position_y
+            x2, y2 = r.position_x + r.width_ft, r.position_y + r.length_ft
+            adj = ", ".join(r.adjacencies) if r.adjacencies else "none"
+            lines.append(
+                f"  - {r.name}: occupies the rectangle from ({x1:.0f}ft, {y1:.0f}ft) to "
+                f"({x2:.0f}ft, {y2:.0f}ft), measured from the north-west corner of the floor "
+                f"(x = east, y = south). Adjacent to: {adj}."
+            )
+        label = "Ground floor" if floor_num == 1 else f"Floor {floor_num}"
+        sections.append(f"{label} layout:\n" + "\n".join(lines))
+    return "\n\n".join(sections)
+
+
 def blueprint_2d_prompt(
     rooms: list[Room],
     total_built_area_sqft: float,
@@ -64,10 +94,13 @@ def blueprint_2d_prompt(
         f"  - {r.name}: {r.width_ft:.0f}ft × {r.length_ft:.0f}ft ({r.area_sqft:.0f} sqft)"
         for r in rooms
     )
+    layout_lines = _room_layout_lines(rooms)
     return (
         f"Highly detailed real-world 2D architectural floor plan drawing, exactly as produced by a "
         f"licensed Sri Lankan architect. White paper background. Black ink. Total built area: "
         f"{total_built_area_sqft:.0f} square feet. Rooms: {room_lines}\n\n"
+        f"EXACT LAYOUT — draw rooms in these precise positions, do not rearrange them:\n"
+        f"{layout_lines}\n\n"
         f"WALLS: Exterior walls are thick with diagonal hatch fill (like real architectural drawings). "
         f"Interior partition walls are thinner solid black lines. "
         f"DOORS: Each room has a door shown as a thin quarter-circle arc swing symbol. "
@@ -91,15 +124,57 @@ def blueprint_2d_prompt(
 
 
 def floorplan_3d_prompt(rooms: list[Room]) -> str:
+    """Text-only 3D prompt — fallback for when no 2D blueprint image is available
+    to condition on. Includes the exact layout so it's still as consistent as
+    possible without a reference image."""
     room_names = ", ".join(r.name for r in rooms)
+    layout_lines = _room_layout_lines(rooms)
     return (
         f"3D dollhouse perspective floor plan. Bird's eye isometric view with the roof removed to "
-        f"reveal the interior layout. Rooms: {room_names}. Cream painted walls, warm oak wood floor "
+        f"reveal the interior layout. Rooms: {room_names}.\n\n"
+        f"EXACT LAYOUT — position rooms according to these precise coordinates, do not invent a "
+        f"different arrangement:\n{layout_lines}\n\n"
+        f"Cream painted walls, warm oak wood floor "
         f"texture throughout, each room has minimal furniture silhouettes appropriate to the room type "
         f"(bed and wardrobe in bedroom, sofa and coffee table in living room, dining table and chairs "
         f"in dining room, kitchen counter in kitchen, toilet and sink in bathroom). Soft ambient "
         f"lighting from above. Clean architectural illustration style, slight drop shadow on walls, "
         f"room labels in clean sans-serif font."
+    )
+
+
+def floorplan_3d_from_blueprint_prompt(rooms: list[Room]) -> str:
+    """3D prompt used together with a locally-rendered plain isometric diagram
+    (local_isometric_renderer output) as a reference image — that reference
+    already has the correct camera angle AND correct room layout (it's drawn
+    directly from the solved coordinates), so this just asks Gemini to
+    re-render it with photorealistic materials without changing the
+    composition. This is far more reliable than asking Gemini to invent a
+    3D camera angle from a flat 2D blueprint — it kept just recoloring the
+    flat image instead of actually tilting the perspective.
+    """
+    room_names = ", ".join(r.name for r in rooms)
+    labels_list = ", ".join(f'"{r.name.replace("_", " ").title()}"' for r in rooms)
+    return (
+        f"The attached image is a plain 3D isometric dollhouse floor plan diagram with the correct "
+        f"camera angle and correct room layout already — rooms: {room_names}.\n\n"
+        f"Re-render this EXACT SAME image with photorealistic materials and lighting: keep the "
+        f"identical isometric camera angle, identical room positions, identical wall layout, identical "
+        f"proportions shown in the reference. Do not change the perspective, do not change the layout, "
+        f"do not rotate the view, do not crop or reframe. Only enhance realism: warm oak wood floor "
+        f"texture, cream painted walls with real texture, realistic furniture matching each room type "
+        f"(bed and wardrobe in bedrooms, sofa and coffee table in living room, dining table and chairs "
+        f"in dining room, kitchen counter with cabinets in kitchen, toilet and sink in bathroom), soft "
+        f"realistic ambient lighting with shadows.\n\n"
+        f"CRITICAL — NO ROOF: the reference image has NO roof, and your output must also have NO roof, "
+        f"on every room, with no exceptions. Do not add a roof, ceiling, attic, or any structure above "
+        f"the wall tops anywhere in the image, even partially, even over just one or two rooms. This is "
+        f"a cutaway dollhouse view seen from directly above the open top of the walls — the interior of "
+        f"every single room must be visible from this angle, exactly like the flat-topped reference "
+        f"image. Do not invent or add any element that is not present in the reference image.\n\n"
+        f"Label every single room with its name in clean sans-serif font — all {len(rooms)} rooms must "
+        f"be labeled, exactly these labels: {labels_list}. Do not omit any room's label, do not "
+        f"duplicate any label."
     )
 
 
