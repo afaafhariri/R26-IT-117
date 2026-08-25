@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(\"C:\\\\Users\\\\Asus\\\\Desktop\\\\Project\\\\R26-IT-117\\\\.venv\\\\Scripts\\\\pip.exe\" install *)",
-      "mcp__Claude_Preview__preview_start"
-    ]
-  }
-}
