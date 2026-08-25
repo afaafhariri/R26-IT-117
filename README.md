@@ -1277,6 +1277,7 @@ from a FAISS vector index, and generates corrective action recommendations via G
 ```
 performance/
 ├── main.py                    # Flask app — endpoints, validation, orchestration
+├── train.py                   # Trains the delay classifier + regressor
 ├── requirements.txt
 ├── Dockerfile
 ├── .env                       # Not committed — see Environment Variables
@@ -1510,6 +1511,39 @@ These are implemented in `main.py` alongside the endpoints documented above.
 **Outputs:**
 - `delay_risk` — `HIGH`, `MEDIUM`, or `LOW`
 - `estimated_delay_days` — integer ≥ 0
+
+### Training
+
+`models/` is generated and gitignored, so a fresh clone has no artefacts and
+the prediction endpoints will fail until you train:
+
+```bash
+cd performance
+pip install -r requirements.txt
+python train.py
+```
+
+That writes `xgboost_classifier.json`, `xgboost_regressor.json` and
+`label_encoders.pkl` into `models/`. The classifier is tuned with
+`BayesSearchCV` over 8 iterations and trained on SMOTE-balanced data; the
+regressor uses fixed hyperparameters. `train.py` imports `FEATURES` from
+`pipeline/delay_model.py`, so the training and serving feature order cannot
+drift apart.
+
+The CSV is resolved in the same order `rag/embedder.py` uses:
+`DELAY_CASES_CSV_PATH`, then `performance/data/delay_data.csv`, then
+`research/datasets/delay-cases/delay_data.csv`.
+
+Then build the RAG index, which is also generated:
+
+```bash
+python -c "from rag.embedder import generate_rag_documents; generate_rag_documents()"
+python -c "from rag.faiss_index import build_index; build_index()"
+```
+
+Reference results from a clean run on the committed 192-case dataset:
+classifier accuracy 0.897, weighted F1 0.897, 5-fold CV F1 0.943 (±0.008);
+regressor MAE 29.6 days, RMSE 58.1 days.
 
 ---
 
