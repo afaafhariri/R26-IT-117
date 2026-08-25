@@ -1,10 +1,22 @@
-"""Stage 5 — image generation via imagen-4.0-generate-001.
+"""Stage 5 — image generation.
 
-Generates 4 images in parallel:
+Generates 4 images, all via Gemini's native image generation ("Nano Banana"):
   1. Exterior photorealistic render  (16:9)
   2. Interior photorealistic render  (16:9)
-  3. 2D blueprint floor plan         (4:3)
-  4. 3D dollhouse floor plan         (16:9)
+  3. 2D blueprint floor plan
+  4. 3D dollhouse floor plan
+
+Imagen (imagen-4.0-generate-001 etc.) is not used: it was deprecated and
+shut down 17 Aug 2026 — every 404 we saw from it was this, not an access
+problem. Its replacement, gemini-3.1-flash-image, is called via
+generate_content with response_modalities=[TEXT, IMAGE], not the old
+generate_images/predict endpoint — and produces professional-quality
+architectural blueprints and isometric floor plans directly from the same
+detailed prompts, not just photorealistic scenes.
+
+Fallback chain per image: Gemini → Pollinations.ai (free, no key) →
+(blueprint_2d/floorplan_3d only) local deterministic renderer, which is
+always correct since it's drawn from the real solved room coordinates.
 
 All responses are returned as base64-encoded PNG strings.
 """
@@ -13,11 +25,15 @@ from __future__ import annotations
 
 import asyncio
 import base64
+import urllib.parse
 from typing import Any
 
+import httpx
 from google.genai import types as genai_types
 
 from models.schemas import BuildableZone, CadastralData, FloorPlanAlternative
+from stages.stage5_visualization.local_blueprint_renderer import render_blueprint_png
+from stages.stage5_visualization.local_isometric_renderer import render_isometric_png
 from stages.stage5_visualization.prompt_templates import (
     blueprint_2d_prompt,
     exterior_prompt,
@@ -29,7 +45,16 @@ from utils.logger import get_logger
 
 _logger = get_logger("gemini_image_gen")
 
-_MODEL = "imagen-4.0-generate-001"
+_IMAGE_MODEL = "gemini-3.1-flash-image"
+
+_POLLINATIONS_DIMENSIONS: dict[str, tuple[int, int]] = {
+    "exterior": (1280, 720),
+    "interior": (1280, 720),
+    "blueprint_2d": (1280, 960),
+    "floorplan_3d": (1280, 720),
+}
+_POLLINATIONS_MAX_RETRIES = 2
+_POLLINATIONS_TIMEOUT_SECONDS = 90.0
 
 
 def _infer_floors(total_sqft: float, buildable_sqft: float) -> int:
@@ -45,33 +70,65 @@ def _find_living_room(alternative: FloorPlanAlternative) -> Any | None:
     return alternative.rooms[0] if alternative.rooms else None
 
 
-def _generate_image_sync(prompt: str, aspect_ratio: str) -> str:
-    """Blocking imagen call — runs in a thread pool to stay non-blocking."""
+def _generate_gemini_image_sync(prompt: str) -> str:
+    """Blocking call to Gemini's native image generation — runs in a thread pool."""
     client = get_client()
-    response = client.models.generate_images(
-        model=_MODEL,
-        prompt=prompt,
-        config=genai_types.GenerateImagesConfig(
-            number_of_images=1,
-            aspect_ratio=aspect_ratio,
-            output_mime_type="image/png",
+    response = client.models.generate_content(
+        model=_IMAGE_MODEL,
+        contents=prompt,
+        config=genai_types.GenerateContentConfig(
+            response_modalities=[genai_types.Modality.TEXT, genai_types.Modality.IMAGE],
         ),
     )
-    image_bytes = response.generated_images[0].image.image_bytes
-    return base64.b64encode(image_bytes).decode("utf-8")
+    for part in response.candidates[0].content.parts:
+        if part.inline_data and part.inline_data.data:
+            return base64.b64encode(part.inline_data.data).decode("utf-8")
+    raise RuntimeError("Gemini image response contained no image data")
 
 
-async def _generate_image(prompt: str, aspect_ratio: str, label: str) -> str:
-    _logger.info("Generating %s image (aspect=%s)", label, aspect_ratio)
+async def _generate_gemini_image(prompt: str, label: str) -> str:
+    _logger.info("Generating %s image via %s", label, _IMAGE_MODEL)
     try:
         result = await asyncio.get_event_loop().run_in_executor(
-            None, _generate_image_sync, prompt, aspect_ratio
+            None, _generate_gemini_image_sync, prompt
         )
-        _logger.info("%s image generated (%d bytes base64)", label, len(result))
+        _logger.info("%s image generated via Gemini (%d bytes base64)", label, len(result))
         return result
     except Exception as exc:
-        _logger.error("Failed to generate %s image: %s", label, exc)
-        raise
+        _logger.error("Gemini image generation failed for %s: %s", label, exc)
+        return ""
+
+
+async def _generate_pollinations_image(prompt: str, label: str) -> str:
+    """Fallback image generation via Pollinations.ai — free, no API key required."""
+    width, height = _POLLINATIONS_DIMENSIONS.get(label, (1024, 768))
+    encoded_prompt = urllib.parse.quote(prompt[:500])
+    url = (
+        f"https://image.pollinations.ai/prompt/{encoded_prompt}"
+        f"?width={width}&height={height}&nologo=true&model=flux"
+    )
+
+    for attempt in range(1, _POLLINATIONS_MAX_RETRIES + 1):
+        _logger.info(
+            "Falling back to Pollinations.ai for %s image (attempt %d/%d)",
+            label, attempt, _POLLINATIONS_MAX_RETRIES,
+        )
+        try:
+            async with httpx.AsyncClient(timeout=_POLLINATIONS_TIMEOUT_SECONDS) as client:
+                response = await client.get(url)
+                response.raise_for_status()
+            result = base64.b64encode(response.content).decode("utf-8")
+            _logger.info(
+                "%s image generated via Pollinations (%d bytes base64)", label, len(result)
+            )
+            return result
+        except Exception as exc:
+            _logger.error(
+                "Pollinations fallback failed for %s on attempt %d/%d: %s",
+                label, attempt, _POLLINATIONS_MAX_RETRIES, exc,
+            )
+
+    return ""
 
 
 async def generate_all_images(
@@ -79,7 +136,7 @@ async def generate_all_images(
     zone: BuildableZone,
     alternative: FloorPlanAlternative,
 ) -> dict[str, str]:
-    """Runs all 4 imagen calls in parallel.
+    """Generates all 4 visualization images via Gemini, with fallbacks.
 
     Returns:
         dict with keys: exterior, interior, blueprint_2d, floorplan_3d
@@ -88,37 +145,52 @@ async def generate_all_images(
     living = _find_living_room(alternative)
     floors = _infer_floors(alternative.total_built_area_sqft, zone.buildable_area_sqft)
 
-    ext_prompt = exterior_prompt(
-        district=cadastral.district,
-        land_area_sqft=cadastral.land_area_sqft,
-        orientation=cadastral.orientation,
-        road_access_type=cadastral.road_access_type,
-        total_built_area_sqft=alternative.total_built_area_sqft,
-        buildable_area_sqft=zone.buildable_area_sqft,
-        floors=floors,
-    )
-    int_prompt = interior_prompt(
-        living_room_width=living.width_ft if living else 14,
-        living_room_length=living.length_ft if living else 18,
-        adjacencies=living.adjacencies if living else [],
-        orientation=cadastral.orientation,
-    )
-    bp_prompt = blueprint_2d_prompt(
-        rooms=alternative.rooms,
-        total_built_area_sqft=alternative.total_built_area_sqft,
-    )
-    fp3d_prompt = floorplan_3d_prompt(rooms=alternative.rooms)
-
-    exterior, interior, blueprint_2d, floorplan_3d = await asyncio.gather(
-        _generate_image(ext_prompt, "16:9", "exterior"),
-        _generate_image(int_prompt, "16:9", "interior"),
-        _generate_image(bp_prompt, "4:3", "blueprint_2d"),
-        _generate_image(fp3d_prompt, "16:9", "floorplan_3d"),
-    )
-
-    return {
-        "exterior": exterior,
-        "interior": interior,
-        "blueprint_2d": blueprint_2d,
-        "floorplan_3d": floorplan_3d,
+    prompts = {
+        "exterior": exterior_prompt(
+            district=cadastral.district,
+            land_area_sqft=cadastral.land_area_sqft,
+            orientation=cadastral.orientation,
+            road_access_type=cadastral.road_access_type,
+            total_built_area_sqft=alternative.total_built_area_sqft,
+            buildable_area_sqft=zone.buildable_area_sqft,
+            floors=floors,
+        ),
+        "interior": interior_prompt(
+            living_room_width=living.width_ft if living else 14,
+            living_room_length=living.length_ft if living else 18,
+            adjacencies=living.adjacencies if living else [],
+            orientation=cadastral.orientation,
+        ),
+        "blueprint_2d": blueprint_2d_prompt(
+            rooms=alternative.rooms,
+            total_built_area_sqft=alternative.total_built_area_sqft,
+        ),
+        "floorplan_3d": floorplan_3d_prompt(rooms=alternative.rooms),
     }
+
+    labels = list(prompts.keys())
+    gemini_results = await asyncio.gather(
+        *[_generate_gemini_image(prompts[label], label) for label in labels]
+    )
+    results = dict(zip(labels, gemini_results))
+
+    missing = [label for label, value in results.items() if not value]
+    if missing:
+        fallback_results = await asyncio.gather(
+            *[_generate_pollinations_image(prompts[label], label) for label in missing]
+        )
+        for label, value in zip(missing, fallback_results):
+            results[label] = value
+
+    if not results["blueprint_2d"]:
+        _logger.info("Gemini and Pollinations both unavailable for blueprint_2d — using local renderer")
+        results["blueprint_2d"] = render_blueprint_png(
+            alternative.rooms, alternative.total_built_area_sqft, alternative.variant
+        )
+    if not results["floorplan_3d"]:
+        _logger.info("Gemini and Pollinations both unavailable for floorplan_3d — using local renderer")
+        results["floorplan_3d"] = render_isometric_png(
+            alternative.rooms, alternative.total_built_area_sqft, alternative.variant
+        )
+
+    return results

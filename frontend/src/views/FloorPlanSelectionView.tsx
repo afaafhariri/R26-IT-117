@@ -8,23 +8,24 @@ interface Props {
   alternatives: FloorPlanAlternative[]
   onSuccess: (pkg: FullDesignPackage) => void
   onGenerating: () => void
+  onError: (msg: string) => void
+  generatingError?: string | null
 }
 
-export default function FloorPlanSelectionView({ jobId, alternatives, onSuccess, onGenerating }: Props) {
+export default function FloorPlanSelectionView({ jobId, alternatives, onSuccess, onGenerating, onError, generatingError }: Props) {
   const [selected, setSelected] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
 
   const generate = async () => {
     if (!selected) return
     setLoading(true)
-    setError(null)
     onGenerating()
     try {
       const pkg = await selectPlan(jobId, selected)
       onSuccess(pkg)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Generation failed.')
+      const msg = err instanceof Error ? err.message : 'Generation failed.'
+      onError(msg)
       setLoading(false)
     }
   }
@@ -47,9 +48,9 @@ export default function FloorPlanSelectionView({ jobId, alternatives, onSuccess,
         ))}
       </div>
 
-      {error && (
+      {generatingError && (
         <div className="mb-4 p-3 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-xl text-red-700 dark:text-red-400 text-sm">
-          {error}
+          Generation failed: {generatingError}
         </div>
       )}
 
@@ -64,9 +65,9 @@ export default function FloorPlanSelectionView({ jobId, alternatives, onSuccess,
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
-            Generating Full Design Package…
+            Generating Full Design…
           </>
-        ) : selected ? `Generate Full Design Package — ${selected}` : 'Select a plan above'}
+        ) : selected ? `Generate Full Design — ${selected}` : 'Select a plan above'}
       </button>
     </div>
   )

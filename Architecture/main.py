@@ -207,16 +207,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# New API routers (Stage 5 + Stage 6 + frontend-facing endpoints)
+# API routers
 from routers import cadastral as _cadastral_router
 from routers import design as _design_router
-from routers import downloads as _downloads_router
 from routers import floorplans as _floorplans_router
+from routers import video as _video_router
 
 app.include_router(_cadastral_router.router, prefix="/api")
 app.include_router(_floorplans_router.router, prefix="/api")
 app.include_router(_design_router.router, prefix="/api")
-app.include_router(_downloads_router.router, prefix="/api")
+app.include_router(_video_router.router, prefix="/api")
 
 
 # ---------------------------------------------------------------------------

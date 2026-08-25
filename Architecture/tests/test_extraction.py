@@ -20,12 +20,12 @@ def _write_png(path: Path, arr: np.ndarray) -> None:
 class TestOCREngine:
     def test_ocr_engine_raises_on_missing_file(self):
         """OCREngine must raise FileNotFoundError for a non-existent path."""
-        # PaddleOCR is imported lazily inside __init__; patch at source location.
-        with patch("paddleocr.PaddleOCR"):
+        # EasyOCR is imported lazily inside __init__; patch at source location.
+        with patch("easyocr.Reader"):
             from stages.stage1_extraction.ocr_engine import OCREngine
 
             engine = OCREngine.__new__(OCREngine)
-            engine.ocr = MagicMock()
+            engine._reader = MagicMock()
 
         with pytest.raises(FileNotFoundError):
             engine.extract_text(Path("/tmp/nonexistent_image_xyz.png"))

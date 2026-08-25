@@ -3,6 +3,7 @@ import type {
   CadastralData,
   FloorPlanAlternative,
   FullDesignPackage,
+  VideoAsset,
 } from '../types'
 
 const BASE = import.meta.env.VITE_API_BASE_URL ?? ''
@@ -24,13 +25,28 @@ export async function uploadCadastral(
   return handleResponse(res)
 }
 
+export interface UserRequirements {
+  bedrooms: number
+  bathrooms: number
+  living_room: boolean
+  kitchen: boolean
+  dining_room: boolean
+  garage: boolean
+  style: 'modern' | 'traditional' | 'minimalist' | 'colonial' | 'contemporary'
+  floors: number
+  outdoor_features: string[]
+  special_rooms: string[]
+  additional_notes: string
+}
+
 export async function triggerFloorPlanGeneration(
   job_id: string,
+  user_requirements: UserRequirements,
 ): Promise<{ job_id: string; status: string }> {
   const res = await fetch(`${BASE}/api/generate-floorplans`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ job_id }),
+    body: JSON.stringify({ job_id, user_requirements }),
   })
   return handleResponse(res)
 }
@@ -54,6 +70,11 @@ export async function selectPlan(
   return handleResponse(res)
 }
 
-export function getDownloadUrl(type: 'svg' | 'pdf', job_id: string): string {
-  return `${BASE}/api/download/${type}/${job_id}`
+export async function generateVideo(job_id: string): Promise<VideoAsset> {
+  const res = await fetch(`${BASE}/api/generate-video`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ job_id }),
+  })
+  return handleResponse(res)
 }

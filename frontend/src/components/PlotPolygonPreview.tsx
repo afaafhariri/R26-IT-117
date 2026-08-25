@@ -4,15 +4,25 @@ interface PlotPolygonPreviewProps {
   size?: number
 }
 
-function normalise(points: [number, number][], size: number): string {
-  if (!points.length) return ''
+function makeBounds(points: [number, number][]) {
   const xs = points.map(p => p[0])
   const ys = points.map(p => p[1])
-  const minX = Math.min(...xs), maxX = Math.max(...xs)
-  const minY = Math.min(...ys), maxY = Math.max(...ys)
+  return {
+    minX: Math.min(...xs), maxX: Math.max(...xs),
+    minY: Math.min(...ys), maxY: Math.max(...ys),
+  }
+}
+
+function toSvgPoints(
+  points: [number, number][],
+  bounds: ReturnType<typeof makeBounds>,
+  size: number,
+  pad: number,
+): string {
+  if (!points.length) return ''
+  const { minX, maxX, minY, maxY } = bounds
   const rangeX = maxX - minX || 1
   const rangeY = maxY - minY || 1
-  const pad = size * 0.08
   const inner = size - pad * 2
   return points
     .map(([x, y]) => [
@@ -28,6 +38,11 @@ export default function PlotPolygonPreview({
   buildablePolygon,
   size = 300,
 }: PlotPolygonPreviewProps) {
+  const pad = size * 0.08
+  // Use the plot polygon's bounds for BOTH polygons so buildable zone
+  // appears correctly inset inside the full plot shape.
+  const bounds = plotPolygon.length ? makeBounds(plotPolygon) : makeBounds(buildablePolygon)
+
   return (
     <div className="flex flex-col items-center gap-2">
       <svg
@@ -38,7 +53,7 @@ export default function PlotPolygonPreview({
       >
         {plotPolygon.length > 0 && (
           <polygon
-            points={normalise(plotPolygon, size)}
+            points={toSvgPoints(plotPolygon, bounds, size, pad)}
             fill="rgba(156,163,175,0.3)"
             stroke="#6b7280"
             strokeWidth="2"
@@ -46,8 +61,8 @@ export default function PlotPolygonPreview({
         )}
         {buildablePolygon.length > 0 && (
           <polygon
-            points={normalise(buildablePolygon, size)}
-            fill="rgba(34,197,94,0.25)"
+            points={toSvgPoints(buildablePolygon, bounds, size, pad)}
+            fill="rgba(34,197,94,0.35)"
             stroke="#22c55e"
             strokeWidth="2"
             strokeDasharray="6 3"

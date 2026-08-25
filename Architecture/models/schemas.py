@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -29,10 +31,14 @@ class CadastralData(BaseModel):
 class BuildableZone(BaseModel):
     buildable_polygon: list[tuple[float, float]]
     buildable_area_sqft: float
-    bcr_value: float
-    front_setback_ft: float
-    rear_setback_ft: float
-    side_setbacks_ft: list[float]
+    buildable_area_sqm: float = 0.0
+    max_footprint_sqm: float = 0.0
+    max_total_built_sqm: float = 0.0
+    max_floors: int = 1
+    bcr_value: float = 1.0
+    front_setback_ft: float = 0.0
+    rear_setback_ft: float = 0.0
+    side_setbacks_ft: list[float] = []
     constraints_summary: str
 
 
@@ -42,6 +48,7 @@ class BuildableZone(BaseModel):
 
 class Room(BaseModel):
     name: str
+    floor: int = 1
     width_ft: float
     length_ft: float
     area_sqft: float
@@ -85,35 +92,32 @@ class VisualizationAssets(BaseModel):
     exterior_image_base64: str
     interior_image_base64: str
     blueprint_2d_image_base64: str
-    floorplan_3d_image_base64: str
     blueprint_2d_description: str
+    floorplan_3d_image_base64: str
     floorplan_3d_description: str
     walkthrough_script: str
     shopping_list: list[ShoppingItem]
-    video_url: str | None
-    video_skipped_reason: str | None
+
+
+class VideoAsset(BaseModel):
+    video_base64: Optional[str] = None
+    skipped: bool
+    skip_reason: Optional[str] = None
+    minutes_until_available: Optional[int] = None
 
 
 # ---------------------------------------------------------------------------
-# Stage 6 — Full Design Package output
+# Full Design Package output
 # ---------------------------------------------------------------------------
-
-class StageLogEntry(BaseModel):
-    stage: str
-    message: str
-    timestamp: str
-
 
 class FullDesignPackage(BaseModel):
     job_id: str
     cadastral_data: CadastralData
     buildable_zone: BuildableZone
     selected_plan: FloorPlanAlternative
-    svg_floor_plan_url: str
-    pdf_report_url: str
     building_schema_json: dict
     visualization_assets: VisualizationAssets
-    generation_stages_log: list[StageLogEntry]
+    video: Optional[VideoAsset] = None
 
 
 # ---------------------------------------------------------------------------

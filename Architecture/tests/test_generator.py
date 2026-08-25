@@ -66,25 +66,28 @@ class TestFloorPlanGenerator:
             }
         )
 
-    def _make_generator(self, mock_model):
-        """Creates a FloorPlanGenerator via __new__ with mocked dependencies."""
+    def _make_generator(self, mock_response_text: str):
+        """Creates a FloorPlanGenerator via __new__ with correctly mocked Gemini client.
+
+        _call_llm uses self.client.models.generate_content(...) and self.types.
+        """
         from stages.stage3_floor_plan.llm_generator import FloorPlanGenerator
 
         gen = FloorPlanGenerator.__new__(FloorPlanGenerator)
-        gen.genai = MagicMock()
-        gen.model = mock_model
+        mock_resp = MagicMock()
+        mock_resp.text = mock_response_text
+        mock_client = MagicMock()
+        mock_client.models.generate_content.return_value = mock_resp
+        gen.client = mock_client
+        gen.types = MagicMock()
+        gen.model_name = "gemini-2.5-flash"
         gen.temperatures = [0.4, 0.7, 1.0]
         gen.max_retries = 3
         return gen
 
     def test_llm_generator_returns_3_alternatives(self):
         """generate must return a list of exactly 3 dicts."""
-        mock_model = MagicMock()
-        mock_resp = MagicMock()
-        mock_resp.text = self._mock_llm_response()
-        mock_model.generate_content.return_value = mock_resp
-
-        gen = self._make_generator(mock_model)
+        gen = self._make_generator(self._mock_llm_response())
         results = gen.generate("test prompt")
 
         assert isinstance(results, list)
@@ -92,12 +95,7 @@ class TestFloorPlanGenerator:
 
     def test_llm_generator_labels_present(self):
         """Each alternative must carry temperature and layout_label fields."""
-        mock_model = MagicMock()
-        mock_resp = MagicMock()
-        mock_resp.text = self._mock_llm_response()
-        mock_model.generate_content.return_value = mock_resp
-
-        gen = self._make_generator(mock_model)
+        gen = self._make_generator(self._mock_llm_response())
         results = gen.generate("prompt")
 
         labels = [r["layout_label"] for r in results]

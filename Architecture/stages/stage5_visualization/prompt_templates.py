@@ -65,13 +65,28 @@ def blueprint_2d_prompt(
         for r in rooms
     )
     return (
-        f"Professional 2D architectural floor plan blueprint. Technical top-down drawing on a navy "
-        f"blue background with white lines. Total built area: {total_built_area_sqft:.0f} square feet. "
-        f"Rooms to include:\n{room_lines}\n"
-        f"Drawing must show: thick exterior walls (double lines), interior partition walls, door swing "
-        f"arc symbols, window triple-line symbols on exterior walls, dimension lines with measurements "
-        f"in feet, room name labels centred in each space, north arrow in top-right corner, scale bar "
-        f"at bottom. Clean technical drafting style, no furniture, no textures, pure blueprint aesthetic."
+        f"Highly detailed real-world 2D architectural floor plan drawing, exactly as produced by a "
+        f"licensed Sri Lankan architect. White paper background. Black ink. Total built area: "
+        f"{total_built_area_sqft:.0f} square feet. Rooms: {room_lines}\n\n"
+        f"WALLS: Exterior walls are thick with diagonal hatch fill (like real architectural drawings). "
+        f"Interior partition walls are thinner solid black lines. "
+        f"DOORS: Each room has a door shown as a thin quarter-circle arc swing symbol. "
+        f"WINDOWS: Shown as three parallel lines on exterior walls. "
+        f"FURNITURE: Each room contains accurate top-down furniture symbols — living room has sofa, "
+        f"armchair and coffee table; dining room has rectangular dining table with chairs around it; "
+        f"kitchen has L-shaped counter with sink symbol and stove burner circles; bedrooms have "
+        f"rectangular bed with pillows and wardrobe; bathrooms have toilet, vanity sink and bathtub "
+        f"or shower. Furniture drawn in thin black lines, realistic top-view architectural symbols. "
+        f"LANDSCAPING: Outside the building footprint — circular tree symbols (ring with cross) placed "
+        f"around the perimeter, a garden area labelled GARDEN, straight driveway lines from road. "
+        f"DIMENSIONS: Exterior dimension lines with arrows and measurements in feet along all four sides. "
+        f"ANNOTATIONS: Room name labels centred in each space in clean uppercase text, area in sqft "
+        f"shown below each label in smaller text. "
+        f"TITLE BLOCK: Bottom of drawing shows plot size in feet (e.g. PLOT: 40x60 ft). "
+        f"NORTH ARROW: Standard architectural north arrow symbol in top-right corner. "
+        f"OVERALL STYLE: Clean, crisp, professional. Looks exactly like a real architect-drawn "
+        f"floor plan you would submit to a Sri Lankan municipal council for approval. "
+        f"White background, black lines only, no colour, no shading, no dark backgrounds."
     )
 
 

@@ -22,7 +22,7 @@ _ROOM_COLOURS: dict[str, str] = {
     "bathroom":       "#D2B4DE",  # lavender
     "toilet":         "#D2B4DE",
     "garage":         "#BFC9CA",  # grey
-    "verandah":       "#D5D8DC",
+    "verandah":       "#D5D8DC",-
     "balcony":        "#D5D8DC",
     "terrace":        "#D5D8DC",
     "stair":          "#E5E7E9",

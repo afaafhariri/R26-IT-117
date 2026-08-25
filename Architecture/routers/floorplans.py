@@ -3,13 +3,16 @@
 from __future__ import annotations
 
 import json
+import math
 import os
+from typing import Any
 
 import redis
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from models.schemas import FloorPlanAlternative
+from models.schemas import FloorPlanAlternative, FloorPlanScores, Room
+from stages.stage3_floor_plan.prompt_builder import _MIN_ROOM_SQM
 from utils.logger import get_logger
 
 _logger = get_logger("router.floorplans")
@@ -19,13 +22,188 @@ router = APIRouter()
 _REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 _JOB_TTL = 7200
 
+# Max width-to-height ratio for a single room in the displayed plan.
+# The layout solver can produce very thin strips — clamp for readability.
+_MAX_ROOM_ASPECT = 2.5
+
+_SQM_TO_SQFT = 10.7639
+_DEFAULT_MIN_ROOM_SQM = 8.0
+
+
+def _room_key(name: str) -> str:
+    """Maps a generated room name (e.g. 'bedroom_2', 'bathroom_2') to its
+    NBC minimum-size lookup key (e.g. 'bedroom', 'bathroom')."""
+    key = name.lower().replace(" ", "_")
+    for k in _MIN_ROOM_SQM:
+        if key.startswith(k):
+            return k
+    return ""
+
+
+def _min_dims_ft(name: str) -> tuple[float, float]:
+    """Returns the minimum (width_ft, length_ft) for a room type, derived
+    from the same NBC Sri Lanka minimum area used to build the LLM prompt —
+    never smaller than what's actually livable, regardless of plot size or
+    whatever the LLM generated. Uses the same 1.2:1 width:length assumption
+    as prompt_builder's target-size guidance."""
+    min_sqm = _MIN_ROOM_SQM.get(_room_key(name), _DEFAULT_MIN_ROOM_SQM)
+    min_sqft = min_sqm * _SQM_TO_SQFT
+    width_ft = math.sqrt(min_sqft * 1.2)
+    length_ft = math.sqrt(min_sqft / 1.2)
+    return width_ft, length_ft
+
 
 def _get_redis() -> redis.Redis:
     return redis.from_url(_REDIS_URL, decode_responses=True)
 
 
+class UserRequirements(BaseModel):
+    bedrooms: int = 3
+    bathrooms: int = 2
+    living_room: bool = True
+    kitchen: bool = True
+    dining_room: bool = True
+    garage: bool = False
+    style: str = "modern"
+    floors: int = 1
+    outdoor_features: list[str] = []   # garden, swimming_pool, patio, rooftop_terrace, balcony, outdoor_kitchen
+    special_rooms: list[str] = []      # home_office, gym, home_theatre, prayer_room, maids_room, library, kids_playroom
+    additional_notes: str = ""
+
+
 class GenerateFloorplansRequest(BaseModel):
     job_id: str
+    user_requirements: UserRequirements = UserRequirements()
+
+
+def _build_room_types(req: UserRequirements) -> list[str]:
+    """Convert individual room booleans + special rooms into the room_types list."""
+    types: list[str] = []
+    if req.living_room:
+        types.append("living_room")
+    if req.kitchen:
+        types.append("kitchen")
+    if req.dining_room:
+        types.append("dining_room")
+    if req.bedrooms >= 1:
+        types.append("master_bedroom")
+    for _ in range(req.bedrooms - 1):
+        types.append("bedroom")
+    for _ in range(req.bathrooms):
+        types.append("bathroom")
+    if req.garage:
+        types.append("garage")
+    # Special rooms added directly (home_office, gym, home_theatre, etc.)
+    for room in req.special_rooms:
+        types.append(room)
+    return types
+
+
+def _clamp_aspect(width: float, length: float) -> tuple[float, float]:
+    """Clamp width:length ratio to _MAX_ROOM_ASPECT, preserving area."""
+    if length <= 0:
+        return width, width
+    aspect = width / length
+    if aspect > _MAX_ROOM_ASPECT:
+        area = width * length
+        width  = round(math.sqrt(area * _MAX_ROOM_ASPECT), 1)
+        length = round(math.sqrt(area / _MAX_ROOM_ASPECT), 1)
+    elif aspect < 1.0 / _MAX_ROOM_ASPECT:
+        area = width * length
+        length = round(math.sqrt(area * _MAX_ROOM_ASPECT), 1)
+        width  = round(math.sqrt(area / _MAX_ROOM_ASPECT), 1)
+    return width, length
+
+
+def _raw_to_alternative(raw: dict, zone: dict) -> FloorPlanAlternative | None:
+    """Convert the raw dict from the Celery task into a FloorPlanAlternative.
+
+    Position AND size both come from the same normalized coordinate system
+    (x_norm, y_norm, width_norm, height_norm) scaled by dim_ft = sqrt(buildable sqft).
+    This guarantees the mini layout matches the solver's non-overlapping layout.
+    """
+    try:
+        buildable_sqft = float(zone.get("buildable_area_sqft", 1000))
+        # dim_ft is the approximate side length of a square with the same buildable area.
+        # All normalized coords (0→1) map to (0→dim_ft) in feet.
+        dim_ft = math.sqrt(buildable_sqft) if buildable_sqft > 0 else 30.0
+
+        rooms: list[Room] = []
+        for r in raw.get("rooms", []):
+            w_norm = float(r.get("width_norm", 0.1))
+            h_norm = float(r.get("height_norm", 0.1))
+            x_norm = float(r.get("x_norm", 0.0))
+            y_norm = float(r.get("y_norm", 0.0))
+
+            # Consistent coordinate system: positions and sizes both scale by dim_ft.
+            # This ensures rooms that don't overlap in norm space won't overlap on display.
+            # Floor is per-room-type (NBC minimum), not a flat number — a garage and a
+            # bathroom have very different minimum livable sizes.
+            min_w, min_l = _min_dims_ft(r.get("name", ""))
+            raw_w = max(w_norm * dim_ft, min_w)
+            raw_l = max(h_norm * dim_ft, min_l)
+
+            # Clamp unrealistic aspect ratios (e.g. corridor stretched to full row width)
+            width_ft, length_ft = _clamp_aspect(raw_w, raw_l)
+            area_sqft = width_ft * length_ft
+
+            rooms.append(Room(
+                name=r.get("name", "Room"),
+                floor=int(r.get("floor", 1)),
+                width_ft=round(width_ft, 1),
+                length_ft=round(length_ft, 1),
+                area_sqft=round(area_sqft, 1),
+                position_x=round(x_norm * dim_ft, 1),
+                position_y=round(y_norm * dim_ft, 1),
+                adjacencies=r.get("adjacencies", []),
+                has_window=bool(r.get("window_orientation")),
+                has_door=True,
+            ))
+
+        # Scorer returns 0–1; ScoreBar expects 0–10 → multiply by 10.
+        q: dict[str, Any] = raw.get("quality_scores", {})
+        def _s(key: str, *fallbacks: str) -> float:
+            for k in (key, *fallbacks):
+                v = q.get(k)
+                if v is not None:
+                    return round(float(v) * 10, 1)
+            return 0.0
+
+        scores = FloorPlanScores(
+            space_utilisation=_s("space_utilisation"),
+            natural_light=_s("natural_light"),
+            adjacency=_s("adjacency_quality", "adjacency"),
+            ventilation=_s("ventilation_potential", "ventilation"),
+            overall=_s("overall"),
+        )
+
+        total_sqft = sum(r.area_sqft for r in rooms) or (
+            float(raw.get("total_area_sqm", 0)) * 10.7639
+        )
+
+        variant = raw.get("layout_label", "conservative")
+        if variant not in ("conservative", "balanced", "creative"):
+            variant = "conservative"
+
+        description = (
+            raw.get("layout_name")
+            or raw.get("space_notes", "")[:300]
+            or variant
+        )
+
+        return FloorPlanAlternative(
+            variant=variant,
+            temperature_used=float(raw.get("temperature", 0.4)),
+            rooms=rooms,
+            total_built_area_sqft=round(total_sqft, 2),
+            scores=scores,
+            validation_passed=bool(raw.get("is_valid", False)),
+            description=description,
+        )
+
+    except Exception as exc:
+        _logger.warning("Failed to convert plan to FloorPlanAlternative: %s", exc)
+        return None
 
 
 @router.post("/generate-floorplans")
@@ -34,21 +212,45 @@ async def generate_floorplans(body: GenerateFloorplansRequest):
     job_id = body.job_id
 
     r = _get_redis()
-    site_schema_raw = r.get(f"job:{job_id}:site_schema")
-    if not site_schema_raw:
-        raise HTTPException(status_code=404, detail=f"Job {job_id} not found. Run /process-cadastral first.")
+    zone_raw = r.get(f"job:{job_id}:zone")
+    if not zone_raw:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Job {job_id} not found. Run /process-cadastral first.",
+        )
 
-    site_schema = json.loads(site_schema_raw)
+    cadastral_raw = r.get(f"job:{job_id}:cadastral")
+    buildable_zone = json.loads(zone_raw)
+    cadastral = json.loads(cadastral_raw) if cadastral_raw else {}
 
-    # Import Celery task lazily
-    from tasks.celery_app import generate_floor_plan_task
+    req = body.user_requirements
+    room_types = _build_room_types(req)
+    floors = req.floors or int(buildable_zone.get("max_floors", 1))
 
-    task = generate_floor_plan_task.delay(site_schema)
+    user_requirements = {
+        "room_types": room_types,
+        "room_count": len(room_types),
+        "bedrooms": req.bedrooms,
+        "bathrooms": req.bathrooms,
+        "garage": req.garage,
+        "floors": floors,
+        "style": req.style,
+        "budget_tier": "medium",
+        "district": cadastral.get("district", "Ampara"),
+        "orientation": cadastral.get("orientation", "North-facing"),
+        "is_coastal": False,
+        "outdoor_features": req.outdoor_features,
+        "special_rooms": req.special_rooms,
+        "additional_notes": req.additional_notes,
+    }
 
-    # Store the Celery task ID so the status endpoint can retrieve the result
+    from tasks.celery_app import generate_floor_plan_async
+    task = generate_floor_plan_async.delay(buildable_zone, user_requirements)
     r.setex(f"job:{job_id}:celery_task_id", _JOB_TTL, task.id)
+    r.setex(f"job:{job_id}:user_requirements", _JOB_TTL, json.dumps(user_requirements))
 
-    _logger.info("Job %s — Celery task dispatched: %s", job_id, task.id)
+    _logger.info("Job %s — Celery task dispatched: %s | rooms=%s floors=%d",
+                 job_id, task.id, room_types, floors)
     return {"job_id": job_id, "status": "processing"}
 
 
@@ -58,14 +260,17 @@ async def get_floorplan_status(job_id: str):
     r = _get_redis()
     task_id = r.get(f"job:{job_id}:celery_task_id")
     if not task_id:
-        raise HTTPException(status_code=404, detail=f"No floor plan task found for job {job_id}.")
+        raise HTTPException(
+            status_code=404,
+            detail=f"No floor plan task found for job {job_id}.",
+        )
 
     from celery.result import AsyncResult
     from tasks.celery_app import celery_app
 
     result = AsyncResult(task_id, app=celery_app)
 
-    if result.state == "PENDING" or result.state == "STARTED":
+    if result.state in ("PENDING", "STARTED"):
         return {"status": "processing", "alternatives": None}
 
     if result.state == "FAILURE":
@@ -73,12 +278,20 @@ async def get_floorplan_status(job_id: str):
         return {"status": "failed", "alternatives": None, "error": str(result.info)}
 
     if result.state == "SUCCESS":
-        raw = result.result
-        # raw is the dict returned by generate_floor_plan_task
-        alternatives_raw = raw.get("alternatives", [])
-        alternatives = [FloorPlanAlternative(**a) for a in alternatives_raw]
+        raw_list = result.result
 
-        # Persist alternatives in Redis for /select-plan to load
+        if isinstance(raw_list, list) and raw_list and "error" in raw_list[0]:
+            return {"status": "failed", "alternatives": None, "error": raw_list[0]["error"]}
+
+        zone_raw = r.get(f"job:{job_id}:zone")
+        zone = json.loads(zone_raw) if zone_raw else {}
+
+        alternatives = []
+        for raw in (raw_list if isinstance(raw_list, list) else []):
+            alt = _raw_to_alternative(raw, zone)
+            if alt:
+                alternatives.append(alt)
+
         r.setex(
             f"job:{job_id}:alternatives",
             _JOB_TTL,

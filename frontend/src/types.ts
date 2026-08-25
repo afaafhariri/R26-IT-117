@@ -16,6 +16,8 @@ export interface CadastralData {
 export interface BuildableZone {
   buildable_polygon: [number, number][]
   buildable_area_sqft: number
+  buildable_area_sqm?: number
+  max_floors?: number
   bcr_value: number
   front_setback_ft: number
   rear_setback_ft: number
@@ -25,6 +27,7 @@ export interface BuildableZone {
 
 export interface Room {
   name: string
+  floor: number
   width_ft: number
   length_ft: number
   area_sqft: number
@@ -64,19 +67,18 @@ export interface VisualizationAssets {
   exterior_image_base64: string
   interior_image_base64: string
   blueprint_2d_image_base64: string
-  floorplan_3d_image_base64: string
   blueprint_2d_description: string
+  floorplan_3d_image_base64: string
   floorplan_3d_description: string
   walkthrough_script: string
   shopping_list: ShoppingItem[]
-  video_url: string | null
-  video_skipped_reason: string | null
 }
 
-export interface StageLogEntry {
-  stage: string
-  message: string
-  timestamp: string
+export interface VideoAsset {
+  video_base64: string | null
+  skipped: boolean
+  skip_reason: string | null
+  minutes_until_available: number | null
 }
 
 export interface FullDesignPackage {
@@ -84,11 +86,9 @@ export interface FullDesignPackage {
   cadastral_data: CadastralData
   buildable_zone: BuildableZone
   selected_plan: FloorPlanAlternative
-  svg_floor_plan_url: string
-  pdf_report_url: string
   building_schema_json: Record<string, unknown>
   visualization_assets: VisualizationAssets
-  generation_stages_log: StageLogEntry[]
+  video: VideoAsset | null
 }
 
 // App state

@@ -8,7 +8,7 @@ from utils.logger import get_logger
 
 _logger = get_logger("video_rate_limiter")
 
-_RATE_LIMIT_KEY = "video_rate_limit"
+_RATE_LIMIT_KEY = "video_rate_limit_global"
 _TTL_SECONDS = int(os.getenv("VIDEO_RATE_LIMIT_HOURS", "1")) * 3600
 
 

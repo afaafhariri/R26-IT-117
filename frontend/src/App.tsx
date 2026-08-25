@@ -39,7 +39,8 @@ export default function App() {
   const onAlternativesReady = (alternatives: FloorPlanAlternative[]) =>
     set({ floorPlanAlternatives: alternatives, currentView: 'plan-selection' })
 
-  const onGenerating = () => set({ currentView: 'generating' })
+  const onGenerating = () => set({ currentView: 'generating', error: null })
+  const onGeneratingError = (msg: string) => set({ currentView: 'plan-selection', error: msg })
 
   const onPackageReady = (pkg: FullDesignPackage) =>
     set({ fullDesignPackage: pkg, currentView: 'results' })
@@ -69,6 +70,8 @@ export default function App() {
           alternatives={state.floorPlanAlternatives}
           onSuccess={onPackageReady}
           onGenerating={onGenerating}
+          onError={onGeneratingError}
+          generatingError={state.error}
         />
       )}
 

@@ -38,6 +38,31 @@ def _m_to_ft(m: float) -> float:
     return round(m * 3.28084, 2)
 
 
+def _suggest_requirements(area_sqm: float) -> dict:
+    """Suggest rooms and floors based on total land area."""
+    if area_sqm < 80:
+        bedrooms, bathrooms, floors, garage = 2, 1, 1, False
+    elif area_sqm < 150:
+        bedrooms, bathrooms, floors, garage = 3, 2, 1, False
+    elif area_sqm < 250:
+        bedrooms, bathrooms, floors, garage = 3, 2, 2, False
+    elif area_sqm < 400:
+        bedrooms, bathrooms, floors, garage = 4, 2, 2, True
+    else:
+        bedrooms, bathrooms, floors, garage = 4, 3, 2, True
+
+    return {
+        "bedrooms": bedrooms,
+        "bathrooms": bathrooms,
+        "living_room": True,
+        "kitchen": True,
+        "dining_room": True,
+        "garage": garage,
+        "floors": floors,
+        "style": "modern",
+    }
+
+
 @router.post("/process-cadastral")
 async def process_cadastral(file: UploadFile):
     """Accept a cadastral plan PDF/image, run Stage 1 + Stage 2, return structured data."""
@@ -66,13 +91,13 @@ async def process_cadastral(file: UploadFile):
         import fitz  # PyMuPDF
 
         from stages.stage1_extraction.boundary_detector import BoundaryDetector
-        from stages.stage1_extraction.cnn_classifier import CNNClassifier
+        from stages.stage1_extraction.cnn_classifier import CadastralClassifier as CNNClassifier
         from stages.stage1_extraction.ner_parser import NERParser
         from stages.stage1_extraction.ocr_engine import OCREngine
         from stages.stage1_extraction.schema_assembler import SchemaAssembler
         from stages.stage2_buildable_zone.nbc_constraints import NBCConstraintEngine
         from stages.stage2_buildable_zone.orientation_solver import OrientationSolver
-        from stages.stage2_buildable_zone.polygon_calculator import PolygonCalculator
+        from stages.stage2_buildable_zone.polygon_calculator import BuildableZoneCalculator as PolygonCalculator
 
         # ---- convert PDF to image if needed ----
         if suffix == ".pdf":
@@ -98,34 +123,41 @@ async def process_cadastral(file: UploadFile):
         entities = ner.parse(text_tokens)
 
         bd = BoundaryDetector()
-        boundary = bd.detect(img_path)
+        boundary_polygon = bd.detect_polygon(img_path)
+        boundary = {"polygon": boundary_polygon}
 
         assembler = SchemaAssembler()
-        site_schema = assembler.assemble(entities, boundary, text_tokens)
+        site_schema = assembler.assemble(text_tokens, boundary_polygon, entities)
 
-        # ---- Stage 2 ----
-        nbc = NBCConstraintEngine()
-        constraints = nbc.compute(site_schema)
+        # ---- Stage 2 — no BCR / setback constraints ----
+        area_sqm = site_schema.get("area_sqm") or 0.0
+        district = site_schema.get("district") or "Unknown"
+        road_access = (site_schema.get("road_access") or "lane").lower()
+        road = road_access if road_access in ("main road", "lane", "private road") else "lane"
+
+        # Use full plot polygon as the buildable zone — no setbacks, no BCR
+        no_setbacks = {"front": 0.0, "rear": 0.0, "side": 0.0}
 
         calc = PolygonCalculator()
-        zone_polygon = calc.compute_buildable_polygon(
-            boundary["polygon"], constraints
+        zone_result = calc.calculate(
+            boundary_polygon, no_setbacks, 1.0, 2, area_sqm
         )
 
         orientation_solver = OrientationSolver()
-        orientation = orientation_solver.solve(
-            site_schema.get("gps_lat"), site_schema.get("gps_lon"), constraints
+        orientation_result = orientation_solver.solve(zone_result["buildable_polygon"], site_schema)
+        orientation_str = (
+            orientation_result.get("cardinal", "North-facing")
+            if isinstance(orientation_result, dict) else str(orientation_result)
         )
 
-        # ---- map to Pydantic schemas ----
-        area_sqm = site_schema.get("area_sqm") or 0.0
-        buildable_sqm = constraints.get("buildable_area_sqm", area_sqm * 0.5)
+        # ---- auto-suggest room requirements based on land area ----
+        suggested = _suggest_requirements(area_sqm)
+        max_floors = suggested["floors"]
 
-        plot_poly = [
-            (float(pt[0]), float(pt[1])) for pt in (boundary.get("polygon") or [])
-        ]
+        plot_poly = [(float(pt[0]), float(pt[1])) for pt in boundary_polygon]
         build_poly = [
-            (float(pt[0]), float(pt[1])) for pt in (zone_polygon or plot_poly)
+            (float(pt[0]), float(pt[1]))
+            for pt in zone_result.get("buildable_polygon", boundary_polygon)
         ]
 
         gps_lat = site_schema.get("gps_lat")
@@ -133,35 +165,36 @@ async def process_cadastral(file: UploadFile):
         coord_n = site_schema.get("coordinate_n")
         coord_e = site_schema.get("coordinate_e")
 
-        road = (site_schema.get("road_access") or "lane").lower()
-        if road not in ("main road", "lane", "private road"):
-            road = "lane"
-
         cadastral = CadastralData(
             land_area_perches=_sqm_to_perches(area_sqm),
             land_area_sqft=_sqm_to_sqft(area_sqm),
-            district=site_schema.get("district") or "Unknown",
+            district=district,
             road_access_type=road,
             gps_coordinates=[(gps_lat, gps_lon)] if gps_lat and gps_lon else [],
             sld99_coordinates=[(coord_n, coord_e)] if coord_n and coord_e else [],
             plot_boundary_polygon=plot_poly,
-            orientation=orientation or "North-facing",
+            orientation=orientation_str,
             raw_ocr_text=text_tokens.get("raw_text", "")[:2000],
             extracted_entities=entities,
         )
 
-        front_m = constraints.get("front_setback_m", 1.0)
-        rear_m = constraints.get("rear_setback_m", 1.5)
-        side_m = constraints.get("side_setback_m", 1.0)
+        total_built_sqm = area_sqm * max_floors
 
         zone = BuildableZone(
             buildable_polygon=build_poly,
-            buildable_area_sqft=_sqm_to_sqft(buildable_sqm),
-            bcr_value=constraints.get("bcr", 0.5),
-            front_setback_ft=_m_to_ft(front_m),
-            rear_setback_ft=_m_to_ft(rear_m),
-            side_setbacks_ft=[_m_to_ft(side_m), _m_to_ft(side_m)],
-            constraints_summary=constraints.get("summary", "NBC Sri Lanka rules applied."),
+            buildable_area_sqft=_sqm_to_sqft(area_sqm),
+            buildable_area_sqm=round(area_sqm, 2),
+            max_footprint_sqm=round(area_sqm, 2),
+            max_total_built_sqm=round(total_built_sqm, 2),
+            max_floors=max_floors,
+            bcr_value=1.0,
+            front_setback_ft=0.0,
+            rear_setback_ft=0.0,
+            side_setbacks_ft=[0.0, 0.0],
+            constraints_summary=(
+                f"Full plot area used — {area_sqm:.1f} sqm × {max_floors} floor(s) = "
+                f"{total_built_sqm:.1f} sqm total buildable."
+            ),
         )
 
         # ---- persist in Redis for downstream stages ----
@@ -169,11 +202,17 @@ async def process_cadastral(file: UploadFile):
         r.setex(f"job:{job_id}:cadastral", _JOB_TTL, cadastral.model_dump_json())
         r.setex(f"job:{job_id}:zone", _JOB_TTL, zone.model_dump_json())
         r.setex(f"job:{job_id}:site_schema", _JOB_TTL, json.dumps(site_schema))
+        r.setex(f"job:{job_id}:suggested_requirements", _JOB_TTL, json.dumps(suggested))
 
-        _logger.info("Job %s — Stage 1+2 complete: district=%s area_sqm=%.1f",
-                     job_id, cadastral.district, area_sqm)
+        _logger.info("Job %s — Stage 1+2 complete: district=%s area_sqm=%.1f suggested=%s",
+                     job_id, cadastral.district, area_sqm, suggested)
 
-        return {"job_id": job_id, "cadastral_data": cadastral, "buildable_zone": zone}
+        return {
+            "job_id": job_id,
+            "cadastral_data": cadastral,
+            "buildable_zone": zone,
+            "suggested_requirements": suggested,
+        }
 
     except HTTPException:
         raise

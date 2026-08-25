@@ -2,6 +2,8 @@
 .env
 .env.local
 *.env.local
+Architecture/inner-legacy-492011-b4-14087a733318.json
+Architecture/r26-imagen-a0d373168dc9.json
 
 # Python
 __pycache__/

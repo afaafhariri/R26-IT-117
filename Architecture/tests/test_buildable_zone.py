@@ -61,7 +61,7 @@ class TestBuildableZoneCalculator:
         from stages.stage2_buildable_zone.polygon_calculator import BuildableZoneCalculator
 
         result = BuildableZoneCalculator().calculate(
-            self._SQUARE_POLYGON, self._SETBACKS, 0.5, 2
+            self._SQUARE_POLYGON, self._SETBACKS, 0.5, 2, 10000.0
         )
         assert result["max_footprint_sqm"] < 100.0 * 100.0
 
@@ -69,7 +69,7 @@ class TestBuildableZoneCalculator:
         from stages.stage2_buildable_zone.polygon_calculator import BuildableZoneCalculator
 
         result = BuildableZoneCalculator().calculate(
-            self._SQUARE_POLYGON, self._SETBACKS, 0.5, 2
+            self._SQUARE_POLYGON, self._SETBACKS, 0.5, 2, 10000.0
         )
         for key in (
             "buildable_polygon",
@@ -85,7 +85,7 @@ class TestBuildableZoneCalculator:
         from stages.stage2_buildable_zone.polygon_calculator import BuildableZoneCalculator
 
         result = BuildableZoneCalculator().calculate(
-            self._SQUARE_POLYGON, self._SETBACKS, 0.5, 2
+            self._SQUARE_POLYGON, self._SETBACKS, 0.5, 2, 10000.0
         )
         assert abs(result["max_total_built_sqm"] - result["max_footprint_sqm"] * 2) < 0.1
 

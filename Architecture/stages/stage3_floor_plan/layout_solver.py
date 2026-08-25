@@ -13,8 +13,9 @@ def _pack_floor(rooms: list[dict]) -> list[dict]:
     rooms = [copy.copy(r) for r in rooms]
 
     for r in rooms:
-        r["width_norm"] = max(float(r.get("width_norm", 0.1)), 0.05)
-        r["height_norm"] = max(float(r.get("height_norm", 0.1)), 0.05)
+        # Enforce minimum 0.15 width/height so no room becomes a narrow sliver
+        r["width_norm"] = max(float(r.get("width_norm", 0.15)), 0.15)
+        r["height_norm"] = max(float(r.get("height_norm", 0.12)), 0.12)
 
     rooms.sort(key=lambda r: r["height_norm"], reverse=True)
 
@@ -28,6 +29,8 @@ def _pack_floor(rooms: list[dict]) -> list[dict]:
             rows.append(current_row)
             current_row = []
             current_width = 0.0
+        # If the room alone is wider than 1.0, cap it at the full zone width
+        w = min(w, 1.0)
         room["width_norm"] = w
         current_row.append(room)
         current_width += w
@@ -35,19 +38,20 @@ def _pack_floor(rooms: list[dict]) -> list[dict]:
     if current_row:
         rows.append(current_row)
 
-    # Scale widths within each row to fill exactly [0, 1]
+    # Assign x positions left-to-right WITHOUT stretching widths.
+    # Preserving Gemini's width_norm keeps room sizes realistic — rows
+    # do not need to fill the full [0, 1] width.
     for row in rows:
-        total_w = sum(r["width_norm"] for r in row)
-        scale = 1.0 / total_w if total_w > 0 else 1.0
         x = 0.0
         for room in row:
-            room["width_norm"] = round(room["width_norm"] * scale, 4)
             room["x_norm"] = round(x, 4)
             x += room["width_norm"]
 
     row_heights = [max(r["height_norm"] for r in row) for row in rows]
     total_h = sum(row_heights)
-    h_scale = 1.0 / total_h if total_h > 1.0 else 1.0
+    # Scale heights to fill [0,1] — whether too tall or too short.
+    # This ensures rooms use the full zone height proportionally per row.
+    h_scale = 1.0 / total_h if total_h > 0 else 1.0
 
     y = 0.0
     result = []

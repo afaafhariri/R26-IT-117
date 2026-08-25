@@ -13,7 +13,7 @@ if _arch_dir not in sys.path:
 from dotenv import load_dotenv
 
 # Worker process loads its own .env — independent of the API process.
-load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+load_dotenv(Path(__file__).resolve().parent.parent / ".env", override=True)
 
 from celery import Celery
 
