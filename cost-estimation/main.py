@@ -20,6 +20,7 @@ from datetime import date
 from typing import Any, Optional
 
 from fastapi import FastAPI, Depends, Header, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, field_validator
 
 from layers.layer1_boq.boq_engine import BOQEngine
@@ -42,6 +43,24 @@ app = FastAPI(
     title="AI-Driven Construction Planner — Component 02: Cost Estimation",
     version="1.0.0",
     description="4-layer cost estimation pipeline for Project R26-IT-117.",
+)
+
+# Browser clients call this service directly from another origin (the planner UI
+# on :5173), so CORS is required — C01, C03 and C04 all already enable it.
+# Override the allowed origins with CORS_ALLOW_ORIGINS (comma-separated).
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        o.strip()
+        for o in os.getenv(
+            "CORS_ALLOW_ORIGINS",
+            "http://localhost:5173,http://127.0.0.1:5173",
+        ).split(",")
+        if o.strip()
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # ---------------------------------------------------------------------------
