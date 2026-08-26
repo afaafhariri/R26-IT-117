@@ -46,6 +46,7 @@
       "enum": ["flat", "hip", "gable"]
     },
     "district":    { "type": ["string", "null"] },
+    "province":    { "type": ["string", "null"] },
     "is_coastal":  { "type": "boolean" },
     "terrain": {
       "type": "string",

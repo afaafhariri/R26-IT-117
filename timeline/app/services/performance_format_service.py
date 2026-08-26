@@ -120,7 +120,11 @@ def build_performance_monitoring_payload(
     total_project_duration_days: int | None = None,
     gantt_chart_data: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    """Build the planned schedule JSON contract expected by the next component."""
+    """Build the planned schedule payload accepted by C04's POST /schedule.
+
+    Returns the exact envelope C04 validates: {"project": {...}, "phases": [...]},
+    plus schedule-level metadata C04 ignores but other consumers use.
+    """
 
     planned_start = _parse_planned_start_date(
         request_payload.get("planned_start_date")
@@ -152,25 +156,42 @@ def build_performance_monitoring_payload(
     feeds_downstream = _as_dict(request_payload.get("feeds_downstream"))
     scope_summary = _construction_scope_summary(request_payload, feeds_downstream)
 
-    return {
-        "project_id": request_payload.get("project_id"),
-        "project_name": request_payload.get("project_name"),
-        "district": request_payload.get("district")
+    district = (
+        request_payload.get("district")
         or rate_metadata.get("district")
-        or "Unknown",
-        "province": rate_metadata.get("province") or "Unknown",
-        "floors": scope_summary["timeline_required_floors"],
+        or "Unknown"
+    )
+    province = (
+        request_payload.get("province")
+        or rate_metadata.get("province")
+        or "Unknown"
+    )
+    building_type = (
+        request_payload.get("building_type")
+        or feeds_downstream.get("building_type")
+        or "residential"
+    )
+
+    # Shape is C04's POST /schedule contract exactly: the project fields nested
+    # under "project" (keyed "name", not "project_name"), with "phases" as a
+    # sibling array. This used to be emitted flat, which C04 rejected outright
+    # ("project must be an object"). Schedule-level metadata below stays at the
+    # top level - C04 reads only the keys it needs and ignores the rest.
+    return {
+        "project": {
+            "name": request_payload.get("project_name"),
+            "district": district,
+            "province": province,
+            "floors": scope_summary["timeline_required_floors"],
+            "building_type": building_type,
+        },
+        "phases": monitoring_phases,
+        "project_id": request_payload.get("project_id"),
         "planned_total_floors": scope_summary["planned_total_floors"],
         "construction_scope": scope_summary,
-        "building_type": (
-            request_payload.get("building_type")
-            or feeds_downstream.get("building_type")
-            or "residential"
-        ),
         "total_planned_duration_days": total_planned_duration_days,
         "planned_start_date": planned_start.isoformat(),
         "planned_end_date": planned_end_date,
-        "phases": monitoring_phases,
     }
 
 

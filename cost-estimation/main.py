@@ -94,6 +94,8 @@ class BuildingSchema(BaseModel):
     roof_type: str = Field(default="gable", description="flat | gable | hip | mansard")
 
     # Site / location
+    district: Optional[str] = Field(default=None, description="Sri Lankan district (from C01)")
+    province: Optional[str] = Field(default=None, description="Province (from C01)")
     is_coastal: bool = Field(default=False)
     terrain: str = Field(default="flat", description="flat | sloped | hilly | rocky")
     road_access: str = Field(default="paved", description="paved | gravel | track | none")
@@ -237,7 +239,9 @@ def _run_full_pipeline(schema: BuildingSchema) -> dict:
     risk = _risk_scorer.score(schema_dict, schema_dict, finish_grade)
     direct_cost = rates.get("direct_cost_lkr", 0.0)
     contingency = _contingency_calc.calculate(direct_cost, risk["total_risk_pct"])
-    report = _report_builder.build(boq, rates, prediction, risk, contingency)
+    report = _report_builder.build(
+        boq, rates, prediction, risk, contingency, schema=schema_dict
+    )
 
     return report
 

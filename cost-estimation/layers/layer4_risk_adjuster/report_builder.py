@@ -34,6 +34,7 @@ class ReportBuilder:
         prediction: dict,
         risk: dict,
         contingency: dict,
+        schema: dict | None = None,
     ) -> dict:
         """Produce the full Cost Report JSON.
 
@@ -44,6 +45,9 @@ class ReportBuilder:
             prediction: Output from EnsembleCostPredictor.predict().
             risk: Output from RiskScorer.score().
             contingency: Output from ContingencyCalculator.calculate().
+            schema: The input Building Schema dict. Only its location fields are
+                    used, and only to forward them downstream — C02 does not
+                    price by district.
 
         Returns:
             Full Cost Report dict ready for JSON serialisation.
@@ -128,6 +132,13 @@ class ReportBuilder:
                 "escalation_factor": rates.get("escalation_factor", 1.0),
                 "base_date": rates.get("base_date", ""),
                 "target_date": rates.get("target_date", ""),
+                # Forwarded straight from the C01 Building Schema. C02 has no
+                # use for these itself, but C03 reads them off rate_metadata to
+                # populate the planned schedule it hands to C04, which requires
+                # both. Dropping them here is what previously left every
+                # downstream project stamped "Unknown".
+                "district": (schema or {}).get("district") or "",
+                "province": (schema or {}).get("province") or "",
             },
             "feeds_downstream": {
                 "total_labour_days": _labour_days_estimate(boq_summary),

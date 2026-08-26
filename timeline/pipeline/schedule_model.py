@@ -27,7 +27,7 @@ import numpy as np
 import pandas as pd
 import xgboost as xgb
 
-from pipeline.phases import ALL_PHASES, PHASE_RANGES
+from pipeline.phases import ALL_PHASES, PHASE_BOUNDS
 
 logger = logging.getLogger(__name__)
 
@@ -146,7 +146,7 @@ class ScheduleModel:
 
         Returns:
             dict[str, float]: {phase_name: predicted_weeks}, clamped to
-            PHASE_RANGES and rounded to 1 decimal place.
+            PHASE_BOUNDS and rounded to 1 decimal place.
         """
         if self._model is not None:
             return self._predict_with_model(features)
@@ -237,11 +237,10 @@ class ScheduleModel:
 
     @staticmethod
     def _clamp_and_round(phases: dict[str, Any]) -> dict[str, float]:
-        """Clamp each phase to its PHASE_RANGES guardrails and round to 1 dp."""
+        """Clamp each phase to its PHASE_BOUNDS guardrails and round to 1 dp."""
         result: dict[str, float] = {}
         for phase in ALL_PHASES:
             raw_val = float(phases.get(phase, 1.0))
-            lo = PHASE_RANGES[phase]["min_weeks"]
-            hi = PHASE_RANGES[phase]["max_weeks"]
+            lo, hi = PHASE_BOUNDS[phase]
             result[phase] = round(float(np.clip(raw_val, lo, hi)), 1)
         return result
