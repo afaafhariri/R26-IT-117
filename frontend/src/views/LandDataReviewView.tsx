@@ -11,13 +11,20 @@ interface Props {
   onSuccess: (alternatives: FloorPlanAlternative[]) => void
 }
 
-// NBC Sri Lanka minimum room sizes (sqm)
+// Minimum room sizes (sqm) — kept in sync by hand with
+// Architecture/stages/stage3_floor_plan/prompt_builder.py's _MIN_ROOM_SQM,
+// which is the single source of truth (generation and validation both read
+// it directly; this file can't share that Python import, so update both when
+// changing either). living_room/dining_room/bedroom/kitchen/master_bedroom
+// come from Sri Lanka's UDA Planning & Building Regulations (Gazette 392/9,
+// 1986); the rest are practical minimums, not a cited regulation — see the
+// comment above _MIN_ROOM_SQM for details and confidence levels.
 const ROOM_SQM_MIN: Record<string, number> = {
-  living_room: 18, kitchen: 10.5, dining_room: 14,
-  master_bedroom: 18, bedroom: 10.5, bathroom: 5,
-  garage: 27.5, home_office: 7.5, prayer_room: 7.5,
-  library: 7.5, maids_room: 7.5, kids_playroom: 10.5,
-  gym: 14, home_theatre: 14,
+  living_room: 8.4, kitchen: 5.6, dining_room: 8.4,
+  master_bedroom: 11.2, bedroom: 8.4, bathroom: 3.3,
+  garage: 14, home_office: 5, prayer_room: 5,
+  library: 5, maids_room: 5, kids_playroom: 8,
+  gym: 12, home_theatre: 12, staircase: 4,
 }
 
 // Realistic maximum sizes — rooms shouldn't grow beyond these even on large plots
@@ -26,7 +33,7 @@ const ROOM_SQM_MAX: Record<string, number> = {
   master_bedroom: 28, bedroom: 20, bathroom: 10,
   garage: 38, home_office: 18, prayer_room: 12,
   library: 22, maids_room: 14, kids_playroom: 22,
-  gym: 35, home_theatre: 35,
+  gym: 35, home_theatre: 35, staircase: 4,
 }
 
 // Keep legacy alias for pill builds
@@ -37,7 +44,7 @@ const ROOM_COLORS: Record<string, string> = {
   master_bedroom: '#6366f1', bedroom: '#8b5cf6', bathroom: '#0ea5e9',
   garage: '#64748b', home_office: '#14b8a6', prayer_room: '#f59e0b',
   library: '#a855f7', maids_room: '#6b7280', kids_playroom: '#ec4899',
-  gym: '#ef4444', home_theatre: '#f97316',
+  gym: '#ef4444', home_theatre: '#f97316', staircase: '#94a3b8',
 }
 
 type RoomItem = { key: string; label: string; sqm: number; color: string }
@@ -55,6 +62,11 @@ function buildRoomList(req: UserRequirements): RoomItem[] {
   if (req.garage) rooms.push({ key: 'garage', label: 'Garage', sqm: ROOM_SQM_MIN.garage, color: ROOM_COLORS.garage })
   for (const sr of req.special_rooms)
     rooms.push({ key: sr, label: sr.replace(/_/g, ' '), sqm: ROOM_SQM_MIN[sr] ?? 8, color: ROOM_COLORS[sr] ?? '#f43f5e' })
+  // Not user-selectable — a real house with more than one floor needs a
+  // staircase, so its space is always accounted for rather than left as a
+  // silent gap between what this preview shows and what generation builds.
+  if (req.floors >= 2)
+    rooms.push({ key: 'staircase', label: 'Staircase', sqm: ROOM_SQM_MIN.staircase, color: ROOM_COLORS.staircase })
   return rooms
 }
 

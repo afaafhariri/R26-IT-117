@@ -2,27 +2,25 @@
 
 from shapely.geometry import box, Polygon
 
+from stages.stage3_floor_plan.prompt_builder import _MIN_ROOM_SQM
 from utils.logger import get_logger
 
 _logger = get_logger("validator")
 
 _HABITABLE_TYPES = {"bedroom", "master_bedroom", "living_room", "dining"}
 
-_MIN_ROOM_DIMS: dict[str, dict[str, float]] = {
-    "bedroom":        {"min_area": 9.0,  "min_width": 2.7},
-    "master_bedroom": {"min_area": 12.0, "min_width": 3.0},
-    "living_room":    {"min_area": 16.0, "min_width": 3.5},
-    "kitchen":        {"min_area": 6.0,  "min_width": 2.0},
-    "bathroom":       {"min_area": 3.5,  "min_width": 1.5},
-    "dining":         {"min_area": 10.0, "min_width": 2.7},
-    "garage":         {"min_area": 14.0, "min_width": 2.8},
-}
-
 
 def _room_key(name: str) -> str:
-    """Normalises a room name to a MIN_ROOM_DIMS lookup key."""
+    """Normalises a room name to a _MIN_ROOM_SQM lookup key.
+
+    Uses the same table prompt_builder.py hands to Gemini and layout_solver.py
+    enforces when packing — validation used to keep its own separate, stricter
+    copy of these minimums, which meant a plan generated to satisfy the real
+    target sizes could still fail validation against numbers it was never
+    told about.
+    """
     name_lower = name.lower().replace(" ", "_")
-    for key in _MIN_ROOM_DIMS:
+    for key in _MIN_ROOM_SQM:
         if name_lower.startswith(key):
             return key
     return ""
@@ -72,12 +70,12 @@ class LayoutValidator:
             key = _room_key(room.get("name", ""))
             if not key:
                 continue
-            limits = _MIN_ROOM_DIMS[key]
+            min_sqm = _MIN_ROOM_SQM[key]
             area = room.get("area_sqm", 0)
-            if area < limits["min_area"]:
+            if area < min_sqm:
                 violations.append(
                     f"Room '{room['name']}' area {area:.1f} sqm is below "
-                    f"minimum {limits['min_area']} sqm"
+                    f"minimum {min_sqm} sqm"
                 )
 
         # Check 3 — room non-overlap (> 5% of smaller room area = violation)
@@ -126,7 +124,8 @@ class LayoutValidator:
         is_valid = len(violations) == 0
         if violations:
             _logger.warning(
-                "Layout validation failed: %d violations", len(violations)
+                "Layout validation failed: %d violations — %s",
+                len(violations), "; ".join(violations),
             )
         else:
             _logger.info("Layout validation passed")

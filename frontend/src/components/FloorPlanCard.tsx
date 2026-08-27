@@ -14,12 +14,6 @@ const VARIANT_COLORS = {
   creative:     'border-orange-500 ring-orange-200 dark:ring-orange-800',
 }
 
-const TEMP_BADGE = {
-  conservative: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300',
-  balanced:     'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300',
-  creative:     'bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300',
-}
-
 // Colour per room type for the mini layout
 function roomColor(name: string): { fill: string; stroke: string } {
   const n = name.toLowerCase()
@@ -166,19 +160,18 @@ export default function FloorPlanCard({ alternative, isSelected, onSelect }: Flo
       <div className="flex items-center justify-between mb-3">
         <h3 className="font-semibold text-gray-900 dark:text-white capitalize">{variant}</h3>
         <div className="flex items-center gap-2">
-          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${TEMP_BADGE[variant]}`}>
-            t={alternative.temperature_used}
-          </span>
           <span
             title={alternative.validation_passed
-              ? 'Layout passed all geometric checks'
-              : 'Some rooms may extend slightly beyond the buildable zone — still selectable'}
+              ? 'Layout passed all checks'
+              : alternative.violations.join('\n')}
             className={`text-xs px-2 py-0.5 rounded-full font-medium cursor-help ${
               alternative.validation_passed
                 ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
                 : 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300'
             }`}>
-            {alternative.validation_passed ? 'Passed' : '⚠ Warning'}
+            {alternative.validation_passed
+              ? 'Passed'
+              : `⚠ ${alternative.violations.length || ''} issue${alternative.violations.length === 1 ? '' : 's'}`}
           </span>
         </div>
       </div>

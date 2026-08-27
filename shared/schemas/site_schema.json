@@ -60,6 +60,11 @@
       "description": "Road access classification used by NBC setback engine.",
       "enum": ["national_road", "provincial", "local", "lane"]
     },
+    "road_access_side": {
+      "type": ["string", "null"],
+      "description": "Which side of the plot boundary the road/lane is actually on, read from the plan's North/East/South/West-by boundary declarations. Null when no boundary line mentions a road-like keyword.",
+      "enum": ["north", "east", "south", "west", null]
+    },
     "is_coastal": {
       "type": "boolean",
       "description": "True if the district is in the coastal-zone list (stricter BCR/setback)."
@@ -101,6 +106,14 @@
     "coordinate_e": {
       "type": ["number", "null"],
       "description": "Easting coordinate (decimal degrees or grid value, when present)."
+    },
+    "gps_lat": {
+      "type": ["number", "null"],
+      "description": "WGS84 latitude converted from SLD99 coordinate_n/coordinate_e, when present."
+    },
+    "gps_lon": {
+      "type": ["number", "null"],
+      "description": "WGS84 longitude converted from SLD99 coordinate_n/coordinate_e, when present."
     },
     "licence_number": {
       "type": ["string", "null"]

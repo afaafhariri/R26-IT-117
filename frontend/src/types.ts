@@ -53,6 +53,7 @@ export interface FloorPlanAlternative {
   total_built_area_sqft: number
   scores: FloorPlanScores
   validation_passed: boolean
+  violations: string[]
   description: string
 }
 
