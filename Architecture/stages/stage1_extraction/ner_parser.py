@@ -35,6 +35,20 @@ _DISTRICT_NAMES = [
 
 _DISTRICT_PATTERN = "|".join(re.escape(d.upper()) for d in _DISTRICT_NAMES)
 
+# How far past a "North by / East by / South by / West by" label to look for a
+# road-like keyword. A fixed character window (rather than capturing the whole
+# clause up to its next period) sidesteps the fact that boundary descriptions
+# often contain abbreviated names with periods inside them (e.g. "A.L.M.
+# Musthaffa"), which would truncate a period-delimited capture too early.
+_BOUNDARY_WINDOW_CHARS = 60
+_BOUNDARY_LABELS = (
+    ("north", re.compile(r"North\s*by", re.IGNORECASE)),
+    ("east", re.compile(r"East\s*by", re.IGNORECASE)),
+    ("south", re.compile(r"South\s*by", re.IGNORECASE)),
+    ("west", re.compile(r"West\s*by", re.IGNORECASE)),
+)
+_ROAD_KEYWORD = re.compile(r"\b(road|lane|highway|street)\b", re.IGNORECASE)
+
 
 class NERParser:
     """Extracts structured cadastral fields from OCR text tokens using SpaCy NER
@@ -186,6 +200,22 @@ class NERParser:
             _logger.warning("Rotated E extraction failed: %s", exc)
         return None
 
+    def _find_road_boundary_side(self, text: str) -> Optional[str]:
+        """Finds which cardinal side of the plot the road/lane is actually on,
+        by reading the plan's "North by / East by / South by / West by"
+        boundary declarations — standard on Sri Lankan Land Survey Department
+        plans. Returns None if no boundary line mentions a road-like keyword
+        (caller should fall back to a road-type-based estimate in that case).
+        """
+        for side, label_pattern in _BOUNDARY_LABELS:
+            m = label_pattern.search(text)
+            if not m:
+                continue
+            window = text[m.end():m.end() + _BOUNDARY_WINDOW_CHARS]
+            if _ROAD_KEYWORD.search(window):
+                return side
+        return None
+
     def parse(self, text_tokens: dict) -> dict:
         """Extracts structured cadastral fields from OCR text tokens using NER + regex.
 
@@ -200,6 +230,7 @@ class NERParser:
                 scale: int | None,
                 surveyor: str | None,
                 road_access: str | None,
+                road_access_side: str | None,
                 lot_number: str | None,
                 is_coastal: bool,
                 province: str | None,
@@ -219,6 +250,7 @@ class NERParser:
             "scale": None,
             "surveyor": None,
             "road_access": None,
+            "road_access_side": None,
             "lot_number": None,
             "is_coastal": False,
             "province": None,
@@ -264,6 +296,8 @@ class NERParser:
         m = self.patterns["road_access"].search(text)
         if m:
             result["road_access"] = m.group(1).strip()
+
+        result["road_access_side"] = self._find_road_boundary_side(text)
 
         m = self.patterns["lot_number"].search(text)
         if m:
