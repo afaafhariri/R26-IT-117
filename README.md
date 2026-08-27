@@ -1,4 +1,4 @@
-# construction-planner-AI
+# AI Based Construction Planning and Management For Sri Lankan Market
 Final year research project.
 
 Github Repo : https://github.com/afaafhariri/R26-IT-117
