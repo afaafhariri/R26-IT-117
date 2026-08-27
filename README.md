@@ -1,9 +1,4 @@
-# construction-planner-AI
-Final year research project.
-
-Github Repo : https://github.com/afaafhariri/R26-IT-117
-
-# R26-IT-117 — AI-Driven Construction Planner for Sri Lankan Residential Construction
+# R26-IT-117 — AI-Driven Construction Planner for Sri Lankan Residential Buildings
 
 This document combines all four components of the system in pipeline order:
 1. [Architectural Planning](#component-01--architectural-planning-api)
