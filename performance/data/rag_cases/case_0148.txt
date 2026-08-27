@@ -1,0 +1,22 @@
+Case 148: Construction Delay - Finishes / Tiling
+
+Location   : Jaffna, Northern Province
+Building   : 1-floor residential construction
+Phase      : Finishes > Tiling
+Risk Level : MEDIUM
+Delay Days : 40 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Delays in tile delivery to Jaffna island locations like Delft and Kayts
+
+Site Conditions:
+  - Labour availability  : 0.62
+  - Material supply      : unavailable
+  - Weather severity     : 0.34
+  - Cumulative delay so far: 7 days
+
+Corrective Action Taken:
+  Advance bulk ordering and mainland depot storage arranged for island sites
+
+Construction Status:
+  Completed after supply chain improvement

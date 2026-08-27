@@ -1,0 +1,22 @@
+Case 82: Construction Delay - Pre-Construction & Approvals / Site selection & surveying
+
+Location   : Hambantota, Southern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Site selection & surveying
+Risk Level : LOW
+Delay Days : 12 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : Hambantota owner working in Colombo unable to supervise construction locally
+
+Site Conditions:
+  - Labour availability  : 0.58
+  - Material supply      : available
+  - Weather severity     : 0.27
+  - Cumulative delay so far: 3 days
+
+Corrective Action Taken:
+  Trusted local relative formally appointed as on-site construction supervisor
+
+Construction Status:
+  Completed with delegated supervision

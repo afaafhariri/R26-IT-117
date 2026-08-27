@@ -1,0 +1,23 @@
+part_key,material_key,description,unit,rate_lkr,install_cost_lkr,source,last_updated
+door_count,plywood_flush,Plywood flush door with frame and ironmongery,nr,26000.00,12000.00,seed_2024q4,2024-10-01
+door_count,wood_composite,Painted wood-composite door set,nr,30000.00,12000.00,seed_2024q4,2024-10-01
+door_count,solid_timber_teak,Solid teak panel door set (ICTAD baseline),nr,45000.00,12000.00,seed_2024q4,2024-10-01
+door_count,aluminium_glazed,Aluminium-framed glazed door set,nr,52000.00,12000.00,seed_2024q4,2024-10-01
+door_count,tempered_glass_12mm,Tempered glass door 12mm with fittings,nr,65000.00,17000.00,seed_2024q4,2024-10-01
+window_count,steel_framed,Steel-framed window with glazing,nr,22000.00,6000.00,seed_2024q4,2024-10-01
+window_count,aluminium_sliding,Aluminium sliding window (ICTAD baseline),nr,28000.00,6000.00,seed_2024q4,2024-10-01
+window_count,upvc_sliding,uPVC sliding window double-glazed,nr,34000.00,6000.00,seed_2024q4,2024-10-01
+window_count,timber_casement,Timber casement window,nr,38000.00,7000.00,seed_2024q4,2024-10-01
+roof_area_sqm,fiber_cement_sheet,Fibre-cement roofing sheet on timber structure,m²,3400.00,2000.00,seed_2024q4,2024-10-01
+roof_area_sqm,zinc_alum_sheet,Zinc-aluminium roofing sheet on steel purlins,m²,3900.00,2000.00,seed_2024q4,2024-10-01
+roof_area_sqm,concrete_tile,Concrete interlocking roof tile on timber structure,m²,5200.00,2200.00,seed_2024q4,2024-10-01
+roof_area_sqm,clay_tile,Clay roof tile (Calicut pattern) on timber structure,m²,5800.00,2200.00,seed_2024q4,2024-10-01
+floor_tile_sqm,cement_render_floor,Cement-rendered floor finish steel trowelled,m²,1800.00,900.00,seed_2024q4,2024-10-01
+floor_tile_sqm,ceramic_tile_300,Ceramic floor tile 300x300 (ICTAD baseline),m²,3800.00,1200.00,seed_2024q4,2024-10-01
+floor_tile_sqm,luxury_vinyl,Luxury vinyl / SPC plank flooring,m²,6000.00,1000.00,reviewed_2026-08,2026-08-10
+floor_tile_sqm,porcelain_tile,Porcelain tile 600x600 rectified,m²,5500.00,1400.00,seed_2024q4,2024-10-01
+floor_tile_sqm,timber_flooring,Prefinished solid timber flooring (teak/kumbuk),m²,29900.00,1800.00,reviewed_2026-08,2026-08-10
+ceiling_sqm,pvc_panel,PVC ceiling panel (ICTAD baseline),m²,1200.00,600.00,seed_2024q4,2024-10-01
+ceiling_sqm,gypsum_board,Gypsum board suspended ceiling,m²,2200.00,900.00,seed_2024q4,2024-10-01
+ceiling_sqm,mineral_fiber_tile,Mineral-fibre ceiling tile 2x2 on grid,m²,2600.00,900.00,seed_2024q4,2024-10-01
+ceiling_sqm,fiberglass_panel,Fibreglass translucent ceiling panel,m²,2900.00,800.00,seed_2024q4,2024-10-01

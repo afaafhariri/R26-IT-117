@@ -1,0 +1,22 @@
+Case 55: Construction Delay - Foundations / Foundation work
+
+Location   : Colombo, Western Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 30 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Colombo urban flooding damaged partially completed first floor foundation walls
+
+Site Conditions:
+  - Labour availability  : 0.81
+  - Material supply      : available
+  - Weather severity     : 0.86
+  - Cumulative delay so far: 10 days
+
+Corrective Action Taken:
+  Flood damage assessment and comprehensive waterproofing membrane applied
+
+Construction Status:
+  Completed after remedial work

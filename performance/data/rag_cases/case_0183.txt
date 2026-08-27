@@ -1,0 +1,22 @@
+Case 183: Construction Delay - Pre-Construction & Approvals / Site selection & surveying
+
+Location   : Trincomalee, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Site selection & surveying
+Risk Level : HIGH
+Delay Days : 75 days
+
+Delay Category : Land & Legal
+Cause of Delay : Inherited land with disputed title among siblings in Trincomalee district
+
+Site Conditions:
+  - Labour availability  : 0.64
+  - Material supply      : available
+  - Weather severity     : 0.4
+  - Cumulative delay so far: 18 days
+
+Corrective Action Taken:
+  Land Registry mediation successfully resolved sibling title dispute
+
+Construction Status:
+  Completed after legal resolution

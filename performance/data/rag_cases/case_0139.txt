@@ -1,0 +1,22 @@
+Case 139: Construction Delay - MEP Rough-Ins / Plumbing & drainage
+
+Location   : Mullaitivu, Northern Province
+Building   : 1-floor residential construction
+Phase      : MEP Rough-Ins > Plumbing & drainage
+Risk Level : MEDIUM
+Delay Days : 40 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Building materials delayed reaching remote Mullaitivu coastal areas
+
+Site Conditions:
+  - Labour availability  : 0.75
+  - Material supply      : unavailable
+  - Weather severity     : 0.72
+  - Cumulative delay so far: 20 days
+
+Corrective Action Taken:
+  Advance bulk procurement and storage at accessible mainland depot
+
+Construction Status:
+  Completed after supply improvement

@@ -1,0 +1,22 @@
+Case 104: Construction Delay - MEP Rough-Ins / Plumbing & drainage
+
+Location   : Mannar, Northern Province
+Building   : 1-floor residential construction
+Phase      : MEP Rough-Ins > Plumbing & drainage
+Risk Level : MEDIUM
+Delay Days : 30 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Building materials delayed due to limited road transport options to Mannar island
+
+Site Conditions:
+  - Labour availability  : 0.88
+  - Material supply      : unavailable
+  - Weather severity     : 0.3
+  - Cumulative delay so far: 13 days
+
+Corrective Action Taken:
+  Advance bulk ordering and coastal boat transport from mainland arranged
+
+Construction Status:
+  Completed after supply chain improvement

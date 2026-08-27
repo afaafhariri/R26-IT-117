@@ -1,0 +1,22 @@
+Case 186: Construction Delay - Structure / Columns & beams
+
+Location   : Mannar, Northern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : MEDIUM
+Delay Days : 16 days
+
+Delay Category : Labour
+Cause of Delay : Skilled masons unavailable in Mannar due to sparse post-war population
+
+Site Conditions:
+  - Labour availability  : 0.27
+  - Material supply      : available
+  - Weather severity     : 0.26
+  - Cumulative delay so far: 13 days
+
+Corrective Action Taken:
+  Workers brought from Vavuniya with transport and accommodation provided
+
+Construction Status:
+  Completed after delay

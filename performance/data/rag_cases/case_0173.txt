@@ -1,0 +1,22 @@
+Case 173: Construction Delay - Foundations / Foundation work
+
+Location   : Gampaha, Western Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 40 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Flooding from nearby canal inundated Gampaha ground floor during monsoon
+
+Site Conditions:
+  - Labour availability  : 0.83
+  - Material supply      : available
+  - Weather severity     : 0.79
+  - Cumulative delay so far: 11 days
+
+Corrective Action Taken:
+  Retaining wall along canal boundary and permanent pumps installed
+
+Construction Status:
+  Completed with flood protection measures

@@ -1,0 +1,22 @@
+Case 188: Construction Delay - Foundations / Foundation work
+
+Location   : Ampara, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : HIGH
+Delay Days : 52 days
+
+Delay Category : Design & Technical
+Cause of Delay : Wrong foundation level set causing potential flooding of Ampara house
+
+Site Conditions:
+  - Labour availability  : 0.65
+  - Material supply      : available
+  - Weather severity     : 0.81
+  - Cumulative delay so far: 54 days
+
+Corrective Action Taken:
+  Foundation re-laid to correct level per structural engineer guidelines
+
+Construction Status:
+  Ongoing - wall construction stage

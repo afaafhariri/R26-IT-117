@@ -1,0 +1,22 @@
+Case 39: Construction Delay - Structure / Floor slabs
+
+Location   : Colombo, Western Province
+Building   : 1-floor residential construction
+Phase      : Structure > Floor slabs
+Risk Level : HIGH
+Delay Days : 120 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Building material price escalation exceeded Colombo project budget by 30 percent
+
+Site Conditions:
+  - Labour availability  : 0.84
+  - Material supply      : unavailable
+  - Weather severity     : 0.29
+  - Cumulative delay so far: 38 days
+
+Corrective Action Taken:
+  Value engineering exercise conducted to reduce specification and cost
+
+Construction Status:
+  Completed with reduced specification

@@ -1,0 +1,22 @@
+Case 29: Construction Delay - Pre-Construction & Approvals / Architectural & structural design
+
+Location   : Vavuniya, Northern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Architectural & structural design
+Risk Level : MEDIUM
+Delay Days : 45 days
+
+Delay Category : Design & Technical
+Cause of Delay : Building footprint encroached on road reservation requiring plan redesign
+
+Site Conditions:
+  - Labour availability  : 0.79
+  - Material supply      : available
+  - Weather severity     : 0.26
+  - Cumulative delay so far: 8 days
+
+Corrective Action Taken:
+  Plan revised and resubmitted to Vavuniya local authority for approval
+
+Construction Status:
+  Completed after plan revision

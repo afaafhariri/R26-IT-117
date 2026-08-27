@@ -1,0 +1,22 @@
+Case 168: Construction Delay - Pre-Construction & Approvals / Site selection & surveying
+
+Location   : Colombo, Western Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Site selection & surveying
+Risk Level : HIGH
+Delay Days : 75 days
+
+Delay Category : Land & Legal
+Cause of Delay : Urban land boundary dispute with neighbour in Colombo suburb
+
+Site Conditions:
+  - Labour availability  : 0.72
+  - Material supply      : available
+  - Weather severity     : 0.3
+  - Cumulative delay so far: 42 days
+
+Corrective Action Taken:
+  Licensed surveyor and court mediation conducted to resolve dispute
+
+Construction Status:
+  Completed after legal resolution

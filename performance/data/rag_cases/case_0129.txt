@@ -1,0 +1,22 @@
+Case 129: Construction Delay - Structure / Columns & beams
+
+Location   : Kilinochchi, Northern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : MEDIUM
+Delay Days : 44 days
+
+Delay Category : Material Supply & Quality
+Cause of Delay : Counterfeit cement causing structural failure and rework in Kilinochchi
+
+Site Conditions:
+  - Labour availability  : 0.72
+  - Material supply      : unavailable
+  - Weather severity     : 0.3
+  - Cumulative delay so far: 20 days
+
+Corrective Action Taken:
+  Reputable cement brand exclusively used and failed sections rebuilt
+
+Construction Status:
+  Partially completed - roof level reached

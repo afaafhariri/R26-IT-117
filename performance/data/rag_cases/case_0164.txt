@@ -1,0 +1,22 @@
+Case 164: Construction Delay - Pre-Construction & Approvals / Architectural & structural design
+
+Location   : Kilinochchi, Northern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Architectural & structural design
+Risk Level : MEDIUM
+Delay Days : 30 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : Diaspora owner changed house plan mid-construction in Kilinochchi
+
+Site Conditions:
+  - Labour availability  : 0.62
+  - Material supply      : available
+  - Weather severity     : 0.3
+  - Cumulative delay so far: 18 days
+
+Corrective Action Taken:
+  Revised plan approved by structural engineer and construction continued
+
+Construction Status:
+  Completed with revised plan

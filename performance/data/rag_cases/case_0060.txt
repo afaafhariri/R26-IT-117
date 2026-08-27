@@ -1,0 +1,22 @@
+Case 60: Construction Delay - Foundations / Foundation work
+
+Location   : Kilinochchi, Northern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : HIGH
+Delay Days : 55 days
+
+Delay Category : Design & Technical
+Cause of Delay : Foundation design unsuitable for expansive black cotton clay soil in Kilinochchi
+
+Site Conditions:
+  - Labour availability  : 0.57
+  - Material supply      : available
+  - Weather severity     : 0.31
+  - Cumulative delay so far: 29 days
+
+Corrective Action Taken:
+  Foundation redesigned by structural engineer to raft type on granular fill
+
+Construction Status:
+  Completed after redesign

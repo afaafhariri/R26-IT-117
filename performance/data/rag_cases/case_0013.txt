@@ -1,0 +1,22 @@
+Case 13: Construction Delay - Pre-Construction & Approvals / Authority approvals
+
+Location   : Trincomalee, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Authority approvals
+Risk Level : HIGH
+Delay Days : 180 days
+
+Delay Category : Land & Legal
+Cause of Delay : Land under military restriction in Trincomalee district gazette HSZ zone
+
+Site Conditions:
+  - Labour availability  : 0.75
+  - Material supply      : available
+  - Weather severity     : 0.36
+  - Cumulative delay so far: 49 days
+
+Corrective Action Taken:
+  Application submitted to Ministry of Defence for HSZ clearance
+
+Construction Status:
+  Suspended awaiting gazette release

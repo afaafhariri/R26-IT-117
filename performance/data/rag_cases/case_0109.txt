@@ -1,0 +1,22 @@
+Case 109: Construction Delay - Envelope & Waterproofing / Masonry work
+
+Location   : Mannar, Northern Province
+Building   : 1-floor residential construction
+Phase      : Envelope & Waterproofing > Masonry work
+Risk Level : MEDIUM
+Delay Days : 38 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Coastal erosion near Mannar site boundary threatened masonry wall stability
+
+Site Conditions:
+  - Labour availability  : 0.85
+  - Material supply      : available
+  - Weather severity     : 0.67
+  - Cumulative delay so far: 10 days
+
+Corrective Action Taken:
+  Retaining wall and rock armouring installed along site boundary first
+
+Construction Status:
+  Completed with coastal protection

@@ -1,0 +1,22 @@
+Case 38: Construction Delay - Structure / Roof slab
+
+Location   : Matara, Southern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Roof slab
+Risk Level : MEDIUM
+Delay Days : 18 days
+
+Delay Category : Financial & Funding
+Cause of Delay : NHDA housing loan instalment withheld pending scheduled site inspection
+
+Site Conditions:
+  - Labour availability  : 0.75
+  - Material supply      : available
+  - Weather severity     : 0.3
+  - Cumulative delay so far: 17 days
+
+Corrective Action Taken:
+  Inspection conducted and funds released by NHDA after two weeks
+
+Construction Status:
+  Completed after funding release

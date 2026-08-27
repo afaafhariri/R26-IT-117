@@ -1,0 +1,22 @@
+Case 12: Construction Delay - Foundations / Foundation work
+
+Location   : Ampara, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 38 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Saltwater intrusion from Ampara lagoon corroded reinforcement bars
+
+Site Conditions:
+  - Labour availability  : 0.85
+  - Material supply      : available
+  - Weather severity     : 0.83
+  - Cumulative delay so far: 18 days
+
+Corrective Action Taken:
+  Marine grade steel and epoxy coating used for complete replacement
+
+Construction Status:
+  Completed with additional cost

@@ -1,0 +1,22 @@
+Case 171: Construction Delay - Structure / Roof slab
+
+Location   : Mullaitivu, Northern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Roof slab
+Risk Level : LOW
+Delay Days : 12 days
+
+Delay Category : Labour
+Cause of Delay : Mason migrated abroad leaving roof slab work incomplete in Mullaitivu
+
+Site Conditions:
+  - Labour availability  : 0.35
+  - Material supply      : available
+  - Weather severity     : 0.36
+  - Cumulative delay so far: 3 days
+
+Corrective Action Taken:
+  New mason recruited and briefed on remaining scope of roof work
+
+Construction Status:
+  Completed after personnel change

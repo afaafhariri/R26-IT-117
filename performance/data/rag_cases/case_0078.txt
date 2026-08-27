@@ -1,0 +1,22 @@
+Case 78: Construction Delay - Envelope & Waterproofing / Roof waterproofing
+
+Location   : Ampara, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Envelope & Waterproofing > Roof waterproofing
+Risk Level : LOW
+Delay Days : 10 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Northeast monsoon strong winds caused partial roof damage in Ampara
+
+Site Conditions:
+  - Labour availability  : 0.74
+  - Material supply      : available
+  - Weather severity     : 0.83
+  - Cumulative delay so far: 7 days
+
+Corrective Action Taken:
+  Temporary repair made immediately and permanent fix done post-monsoon
+
+Construction Status:
+  Completed after weather repair

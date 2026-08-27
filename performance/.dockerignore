@@ -1,0 +1,12 @@
+.pytest_cache
+__pycache__
+*.pyc
+.venv
+.git
+flask_output.log
+
+# Never bake real secrets into the image - runtime env vars come from
+# docker-compose's env_file instead (see docker-compose.yml).
+.env
+.env.*
+!.env.example

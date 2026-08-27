@@ -1,0 +1,22 @@
+Case 21: Construction Delay - Structure / Columns & beams
+
+Location   : Gampaha, Western Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : MEDIUM
+Delay Days : 18 days
+
+Delay Category : Labour
+Cause of Delay : Construction workers migrated from Gampaha to Middle East for higher wages
+
+Site Conditions:
+  - Labour availability  : 0.3
+  - Material supply      : available
+  - Weather severity     : 0.25
+  - Cumulative delay so far: 6 days
+
+Corrective Action Taken:
+  New crew hired from rural Gampaha areas at competitive retention wage
+
+Construction Status:
+  Completed

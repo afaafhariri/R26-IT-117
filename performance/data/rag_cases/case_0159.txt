@@ -1,0 +1,22 @@
+Case 159: Construction Delay - Pre-Construction & Approvals / Site selection & surveying
+
+Location   : Vavuniya, Northern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Site selection & surveying
+Risk Level : HIGH
+Delay Days : 126 days
+
+Delay Category : Land & Legal
+Cause of Delay : Boundary stone missing from Vavuniya plot causing legal dispute with neighbour
+
+Site Conditions:
+  - Labour availability  : 0.89
+  - Material supply      : available
+  - Weather severity     : 0.27
+  - Cumulative delay so far: 44 days
+
+Corrective Action Taken:
+  Survey conducted and formal agreement signed with neighbouring owner
+
+Construction Status:
+  Completed after legal resolution

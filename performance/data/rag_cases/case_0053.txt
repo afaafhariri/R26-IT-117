@@ -1,0 +1,22 @@
+Case 53: Construction Delay - Foundations / Foundation work
+
+Location   : Vavuniya, Northern Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 14 days
+
+Delay Category : Environmental & Site
+Cause of Delay : Northeast monsoon rainfall disrupting foundation construction in Vavuniya
+
+Site Conditions:
+  - Labour availability  : 0.72
+  - Material supply      : available
+  - Weather severity     : 0.63
+  - Cumulative delay so far: 11 days
+
+Corrective Action Taken:
+  Work schedule adjusted to utilise dry weather windows effectively
+
+Construction Status:
+  Completed on revised schedule

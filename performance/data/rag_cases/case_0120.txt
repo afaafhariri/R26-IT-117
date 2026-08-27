@@ -1,0 +1,22 @@
+Case 120: Construction Delay - Foundations / Foundation work
+
+Location   : Kalutara, Western Province
+Building   : 1-floor residential construction
+Phase      : Foundations > Foundation work
+Risk Level : MEDIUM
+Delay Days : 35 days
+
+Delay Category : Design & Technical
+Cause of Delay : Foundation level set too low causing floor flooding in Kalutara house
+
+Site Conditions:
+  - Labour availability  : 0.72
+  - Material supply      : available
+  - Weather severity     : 0.77
+  - Cumulative delay so far: 6 days
+
+Corrective Action Taken:
+  Floor screed raised to correct level and proper drainage system installed
+
+Construction Status:
+  Completed after remedial work

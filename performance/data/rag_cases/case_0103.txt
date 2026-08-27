@@ -1,0 +1,22 @@
+Case 103: Construction Delay - Structure / Columns & beams
+
+Location   : Galle, Southern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Columns & beams
+Risk Level : MEDIUM
+Delay Days : 14 days
+
+Delay Category : Labour
+Cause of Delay : Skilled mason shortage in Galle due to migration to Middle East for higher pay
+
+Site Conditions:
+  - Labour availability  : 0.38
+  - Material supply      : available
+  - Weather severity     : 0.28
+  - Cumulative delay so far: 15 days
+
+Corrective Action Taken:
+  Subcontractor hired from Colombo district at higher daily wage
+
+Construction Status:
+  Completed after delay

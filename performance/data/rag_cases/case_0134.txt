@@ -1,0 +1,22 @@
+Case 134: Construction Delay - Structure / Floor slabs
+
+Location   : Gampaha, Western Province
+Building   : 1-floor residential construction
+Phase      : Structure > Floor slabs
+Risk Level : MEDIUM
+Delay Days : 35 days
+
+Delay Category : Design & Technical
+Cause of Delay : Concrete mix ratio incorrect causing weak floor slab in Gampaha house
+
+Site Conditions:
+  - Labour availability  : 0.59
+  - Material supply      : available
+  - Weather severity     : 0.3
+  - Cumulative delay so far: 12 days
+
+Corrective Action Taken:
+  Independent structural engineer tested slab and supervised remedial work
+
+Construction Status:
+  Completed after quality intervention

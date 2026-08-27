@@ -1,0 +1,22 @@
+Case 43: Construction Delay - Envelope & Waterproofing / Roof waterproofing
+
+Location   : Mullaitivu, Northern Province
+Building   : 1-floor residential construction
+Phase      : Envelope & Waterproofing > Roof waterproofing
+Risk Level : MEDIUM
+Delay Days : 18 days
+
+Delay Category : Design & Technical
+Cause of Delay : Roof slope incorrectly designed causing water pooling and leakage in Mullaitivu
+
+Site Conditions:
+  - Labour availability  : 0.89
+  - Material supply      : available
+  - Weather severity     : 0.33
+  - Cumulative delay so far: 9 days
+
+Corrective Action Taken:
+  Reroofing with corrected slope angle completed by roofing specialist
+
+Construction Status:
+  Completed after rework

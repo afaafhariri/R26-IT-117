@@ -1,0 +1,22 @@
+Case 65: Construction Delay - Pre-Construction & Approvals / Site selection & surveying
+
+Location   : Mannar, Northern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Site selection & surveying
+Risk Level : LOW
+Delay Days : 9 days
+
+Delay Category : Owner / Social / Behavioural
+Cause of Delay : Religious auspicious date required before surveying and construction in Mannar
+
+Site Conditions:
+  - Labour availability  : 0.55
+  - Material supply      : available
+  - Weather severity     : 0.29
+  - Cumulative delay so far: 4 days
+
+Corrective Action Taken:
+  Construction commenced after designated auspicious date ceremony
+
+Construction Status:
+  Completed on revised schedule

@@ -1,0 +1,22 @@
+Case 165: Construction Delay - Structure / Roof slab
+
+Location   : Batticaloa, Eastern Province
+Building   : 1-floor residential construction
+Phase      : Structure > Roof slab
+Risk Level : HIGH
+Delay Days : 95 days
+
+Delay Category : Financial & Funding
+Cause of Delay : Tsunami recovery grant insufficient for current material prices in Batticaloa
+
+Site Conditions:
+  - Labour availability  : 0.63
+  - Material supply      : available
+  - Weather severity     : 0.93
+  - Cumulative delay so far: 44 days
+
+Corrective Action Taken:
+  Supplementary funding requested from Batticaloa district secretariat
+
+Construction Status:
+  Ongoing - plastering stage

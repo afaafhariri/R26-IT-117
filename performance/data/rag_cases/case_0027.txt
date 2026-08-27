@@ -1,0 +1,22 @@
+Case 27: Construction Delay - Pre-Construction & Approvals / Authority approvals
+
+Location   : Mannar, Northern Province
+Building   : 1-floor residential construction
+Phase      : Pre-Construction & Approvals > Authority approvals
+Risk Level : HIGH
+Delay Days : 87 days
+
+Delay Category : Land & Legal
+Cause of Delay : Land gifted by parent not legally transferred before construction began in Mannar
+
+Site Conditions:
+  - Labour availability  : 0.7
+  - Material supply      : available
+  - Weather severity     : 0.25
+  - Cumulative delay so far: 39 days
+
+Corrective Action Taken:
+  Deed prepared and registered at Mannar Land Registry office
+
+Construction Status:
+  Completed after legal documentation
