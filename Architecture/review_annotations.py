@@ -15,7 +15,7 @@ import json
 import sys
 from pathlib import Path
 
-OUTPUT_DIR = Path(__file__).resolve().parent.parent / "data" / "ocr_results"
+OUTPUT_DIR = Path(__file__).resolve().parent / "data" / "ocr_results"
 
 _DISTRICTS = [
     "Ampara", "Anuradhapura", "Badulla", "Batticaloa", "Colombo",

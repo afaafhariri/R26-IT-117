@@ -14,7 +14,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-TRAIN_FILE  = Path(__file__).resolve().parent.parent / "data" / "spacy_training" / "train.spacy"
+TRAIN_FILE  = Path(__file__).resolve().parent / "data" / "spacy_training" / "train.spacy"
 MODEL_DIR   = Path(__file__).resolve().parent / "models" / "ner_cadastral"
 MODEL_DIR.mkdir(parents=True, exist_ok=True)
 

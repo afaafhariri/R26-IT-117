@@ -15,7 +15,7 @@ from pathlib import Path
 
 random.seed(42)
 
-OUTPUT_DIR = Path(__file__).resolve().parent.parent / "data" / "ocr_results"
+OUTPUT_DIR = Path(__file__).resolve().parent / "data" / "ocr_results"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # ── Coastal districts and their villages ─────────────────────────────────────
