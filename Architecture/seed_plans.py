@@ -1,10 +1,18 @@
+import os
+from pathlib import Path
+
+from dotenv import load_dotenv
 from sentence_transformers import SentenceTransformer
 from supabase import create_client
 
-client = create_client(
-    'https://huljdcykcuuwxmlkhnxc.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh1bGpkY3lrY3V1d3htbGtobnhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1Nzk0MTMsImV4cCI6MjA5MzE1NTQxM30.o1h4pkpPW0mpIjBy-QmTaE40xHaAc9YgmKjQPwOQJhM'
-)
+load_dotenv(Path(__file__).resolve().parent / ".env")
+
+supabase_url = os.getenv("SUPABASE_URL", "")
+supabase_key = os.getenv("SUPABASE_KEY", "")
+if not supabase_url or not supabase_key:
+    raise SystemExit("Missing SUPABASE_URL / SUPABASE_KEY in .env")
+
+client = create_client(supabase_url, supabase_key)
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
 descriptions = [
