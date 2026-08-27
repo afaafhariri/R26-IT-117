@@ -2,9 +2,11 @@
 // Field names/shapes were taken from real captured responses, not from docs.
 
 /* ─────────────────────────── Step 1 — Architecture (C01) ─────────────────────────
- * C01 is not wired up yet. Its only downstream output is BuildingSchema, so step 1
- * is a local stub that produces one. Swapping in the real C01 calls later changes
- * nothing below this line. */
+ * C01's only downstream output that matters here is BuildingSchema — everything
+ * below in this section is C01's own request/response shapes (upload, land data,
+ * floor plan generation, final package), which get mapped into a BuildingSchema
+ * once a plan is picked. Swapping in a different C01 build later only means
+ * matching these shapes; nothing past that mapping (Step 2 onward) changes. */
 
 export type FinishGrade = 'economy' | 'mid' | 'luxury';
 export type RoofType = 'flat' | 'gable' | 'hip' | 'mansard';
@@ -37,6 +39,107 @@ export interface BuildingSchema {
   materials?: Record<string, string>;
   base_rate_date: string;
   target_date?: string | null;
+}
+
+/** GET /api/process-cadastral response shapes (Architecture/models/schemas.py). */
+export interface C01CadastralData {
+  land_area_perches: number;
+  land_area_sqft: number;
+  district: string;
+  road_access_type: string;
+  gps_coordinates: [number, number][];
+  sld99_coordinates: [number, number][];
+  plot_boundary_polygon: [number, number][];
+  orientation: string;
+  raw_ocr_text: string;
+  extracted_entities: Record<string, unknown>;
+}
+
+export interface C01BuildableZone {
+  buildable_polygon: [number, number][];
+  buildable_area_sqft: number;
+  buildable_area_sqm?: number;
+  max_floors?: number;
+  bcr_value: number;
+  front_setback_ft: number;
+  rear_setback_ft: number;
+  side_setbacks_ft: number[];
+  constraints_summary: string;
+}
+
+export interface C01Room {
+  name: string;
+  floor: number;
+  width_ft: number;
+  length_ft: number;
+  area_sqft: number;
+  position_x: number;
+  position_y: number;
+  adjacencies: string[];
+  has_window: boolean;
+  has_door: boolean;
+}
+
+export interface C01FloorPlanScores {
+  space_utilisation: number;
+  natural_light: number;
+  adjacency: number;
+  ventilation: number;
+  overall: number;
+}
+
+export interface C01FloorPlanAlternative {
+  variant: 'conservative' | 'balanced' | 'creative';
+  temperature_used: number;
+  rooms: C01Room[];
+  total_built_area_sqft: number;
+  scores: C01FloorPlanScores;
+  validation_passed: boolean;
+  violations: string[];
+  description: string;
+}
+
+export interface C01ShoppingItem {
+  name: string;
+  description: string;
+  price_range_lkr: string;
+  category: 'furniture' | 'lighting' | 'flooring' | 'fixtures' | 'decor';
+}
+
+export interface C01VisualizationAssets {
+  exterior_image_base64: string;
+  interior_image_base64: string;
+  blueprint_2d_image_base64: string;
+  blueprint_2d_description: string;
+  floorplan_3d_image_base64: string;
+  floorplan_3d_description: string;
+  walkthrough_script: string;
+  shopping_list: C01ShoppingItem[];
+}
+
+export interface C01FullDesignPackage {
+  job_id: string;
+  cadastral_data: C01CadastralData;
+  buildable_zone: C01BuildableZone;
+  selected_plan: C01FloorPlanAlternative;
+  building_schema_json: Record<string, unknown>;
+  visualization_assets: C01VisualizationAssets;
+  video: unknown | null;
+}
+
+/** POST /api/generate-floorplans request body. */
+export interface C01UserRequirements {
+  bedrooms: number;
+  bathrooms: number;
+  living_room: boolean;
+  kitchen: boolean;
+  dining_room: boolean;
+  garage: boolean;
+  style: 'modern' | 'traditional' | 'minimalist' | 'colonial' | 'contemporary';
+  floors: number;
+  outdoor_features: string[];
+  special_rooms: string[];
+  additional_notes: string;
 }
 
 /* ───────────────────────── Step 2 — Cost Estimation (C02) ───────────────────── */
