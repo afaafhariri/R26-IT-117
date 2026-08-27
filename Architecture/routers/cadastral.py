@@ -145,10 +145,14 @@ async def process_cadastral(file: UploadFile):
 
         orientation_solver = OrientationSolver()
         orientation_result = orientation_solver.solve(zone_result["buildable_polygon"], site_schema)
-        orientation_str = (
-            orientation_result.get("cardinal", "North-facing")
-            if isinstance(orientation_result, dict) else str(orientation_result)
+        # orientation_result has no "cardinal" key — solve() returns entrance_side.
+        # (Reading a key it never produces meant this always fell through to the
+        # hardcoded default below, regardless of the plot's actual orientation.)
+        entrance_side = (
+            orientation_result.get("entrance_side", "north")
+            if isinstance(orientation_result, dict) else "north"
         )
+        orientation_str = f"{entrance_side.capitalize()}-facing"
 
         # ---- auto-suggest room requirements based on land area ----
         suggested = _suggest_requirements(area_sqm)

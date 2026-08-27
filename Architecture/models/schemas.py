@@ -74,6 +74,7 @@ class FloorPlanAlternative(BaseModel):
     total_built_area_sqft: float
     scores: FloorPlanScores
     validation_passed: bool
+    violations: list[str] = []   # reasons validation_passed is False; empty when True
     description: str
 
 
