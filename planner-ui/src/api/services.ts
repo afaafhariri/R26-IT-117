@@ -125,8 +125,16 @@ export interface TimelineRequestExtras {
   buildingType?: string;
 }
 
-/** C03's /predict takes a loose dict — this minimal body is verified to work.
- *  The estimate's rate_metadata and feeds_downstream pass through untouched. */
+/** C03's /predict takes a loose dict; rate_metadata, boq_summary and
+ *  feeds_downstream pass through untouched.
+ *
+ *  boq_summary is NOT optional, despite C03 returning 200 without it. Eleven of
+ *  C03's eighteen model features are read off it — steel, concrete, brickwork,
+ *  plaster, paint, roof and tile quantities. Omit it and C03 silently falls back
+ *  to estimating them from floor_area x floors, which overshoots badly: steel
+ *  came out 3.9x C02's real figure and the predicted programme ran 309 days
+ *  against an actual 172. Sending it is what makes the timeline reflect C02's
+ *  costed bill of quantities rather than a guess. */
 function timelineBody(estimateReport: CostReport, x: TimelineRequestExtras) {
   return {
     project_id: x.projectId,
@@ -135,6 +143,7 @@ function timelineBody(estimateReport: CostReport, x: TimelineRequestExtras) {
     location: x.location,
     building_type: x.buildingType ?? 'residential',
     rate_metadata: estimateReport.rate_metadata,
+    boq_summary: estimateReport.boq_summary,
     feeds_downstream: estimateReport.feeds_downstream,
     total_estimated_cost: estimateReport.summary.total_lkr,
   };

@@ -115,6 +115,14 @@ def main() -> None:
         "target_columns": TARGET_COLUMNS,
         "mae": mae,
         "r2_score": r2,
+        # The range each feature was actually fitted on. build_feature_vector
+        # validates incoming values against these, so a retrain that changes a
+        # feature's definition or scale updates the runtime guard automatically
+        # instead of leaving a stale constant in the consuming code.
+        "feature_ranges": {
+            name: (float(X[name].min()), float(X[name].max()))
+            for name in INPUT_FEATURES
+        },
     }
     joblib.dump(model_package, MODEL_PATH)
 

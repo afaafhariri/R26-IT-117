@@ -198,9 +198,15 @@ export interface RateMetadata {
 
 export interface FeedsDownstream {
   total_labour_days: number;
+  /** C02's own 0-1 concrete ratio. NOT the 1.1-2.674 multiplier C03's model was
+   *  trained on - C03 rejects this value and recomputes it. Do not display it as
+   *  "the" complexity score; the timeline response reports the one actually used. */
   structural_complexity_score: number;
   trade_value_breakdown: Record<string, number>;
   floor_area_sqm: number;
+  /** Storey count forwarded from the C01 schema. C03 reads it to size its model
+   *  input and stamps it onto the project record it creates in C04. */
+  floors: number;
   bathroom_count: number;
 }
 

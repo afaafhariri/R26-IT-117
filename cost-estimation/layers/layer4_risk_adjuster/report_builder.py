@@ -145,6 +145,13 @@ class ReportBuilder:
                 "structural_complexity_score": _structural_complexity(structural),
                 "trade_value_breakdown": trade_value_breakdown,
                 "floor_area_sqm": floor_area,
+                # Forwarded from the C01 Building Schema for the same reason as
+                # rate_metadata.district/province above: C02 has no use for the
+                # storey count itself, but C03 reads it to size its model input
+                # and stamps it onto the project record it hands to C04, where
+                # `floors` is one of only ten delay-model features. Dropping it
+                # here left every downstream project recorded as single-storey.
+                "floors": (schema or {}).get("floors") or 1,
                 "bathroom_count": boq_summary.get("bathroom_count",
                     services.get("total_plumbing_fixtures", 0) // 4),
             },

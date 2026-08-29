@@ -6,10 +6,19 @@ available as the fallback trained model.
 
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 from typing import Any
 
 import pandas as pd
+
+
+logger = logging.getLogger(__name__)
+
+# Range of structural_complexity_score in the dataset the currently committed
+# models were fitted on. Only used when a model package predates the
+# "feature_ranges" key that train_xgboost.py/train_random_forest.py now record.
+LEGACY_COMPLEXITY_RANGE = (1.1, 2.674)
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
@@ -157,7 +166,7 @@ def predict_with_model_package(
     """Run prediction using a loaded model package."""
 
     try:
-        features = build_feature_vector(payload)
+        features = build_feature_vector(payload, package.get("feature_ranges"))
         feature_order = package.get("input_features", INPUT_FEATURES)
         target_order = package.get("target_columns", TARGET_COLUMNS)
         X = pd.DataFrame([[features[name] for name in feature_order]], columns=feature_order)
@@ -185,7 +194,27 @@ def predict_with_model_package(
         return None
 
 
-def build_feature_vector(payload: dict[str, Any]) -> dict[str, float]:
+def _complexity_range(feature_ranges: dict[str, Any] | None) -> tuple[float, float]:
+    """Accepted band for structural_complexity_score, per the model package.
+
+    Falls back to the range of the committed models for packages saved before
+    train_xgboost.py started recording feature_ranges.
+    """
+
+    try:
+        low, high = (feature_ranges or {})["structural_complexity_score"]
+        low, high = float(low), float(high)
+        if low < high:
+            return low, high
+    except (KeyError, TypeError, ValueError):
+        pass
+    return LEGACY_COMPLEXITY_RANGE
+
+
+def build_feature_vector(
+    payload: dict[str, Any],
+    feature_ranges: dict[str, Any] | None = None,
+) -> dict[str, float]:
     """Extract the exact model feature vector from Cost Estimation output."""
 
     structural = nested_dict(payload, "boq_summary", "structural")
@@ -352,13 +381,41 @@ def build_feature_vector(payload: dict[str, Any]) -> dict[str, float]:
         ),
     )
     total_labour_days = scale_scope_quantity(total_labour_days, scope_ratio)
+    # This mirrors the training-time definition in
+    # app/training/generate_synthetic_dataset.py (minus its noise term). The
+    # model was fitted on this exact quantity, which spans roughly 1.1-2.67.
+    calibrated_complexity = (
+        1.0
+        + (num_floors - 1) * 0.45
+        + (floor_area_sqm / 400.0) * 0.45
+        + (room_count / 8.0) * 0.25
+    )
     structural_complexity_score = first_number(
         feeds,
         summary,
         risks,
         keys=("structural_complexity_score", "complexity_score", "design_complexity_score"),
-        default=1.0 + (num_floors - 1) * 0.45 + (floor_area_sqm / 400.0) * 0.45 + (room_count / 8.0) * 0.25,
+        default=calibrated_complexity,
     )
+    # C02 publishes a *different* quantity under this same key: the 0-1 ratio of
+    # column+slab concrete to total concrete (report_builder._structural_complexity).
+    # That is not the trained feature - the max(1.0, ...) floor below used to pin
+    # every C02 payload to a constant 1.0, silently killing the feature.
+    #
+    # The accepted band comes from the model package rather than a literal here,
+    # so this self-corrects: retrain on a dataset whose complexity really is the
+    # 0-1 ratio and the recorded range moves with it, C02's value starts landing
+    # inside the band, and it is used directly with no code change.
+    low, high = _complexity_range(feature_ranges)
+    if not low <= structural_complexity_score <= high:
+        logger.warning(
+            "Discarding out-of-range structural_complexity_score=%.4f "
+            "(model was trained on %.4f-%.4f); substituting calibrated value %.4f. "
+            "If the model was just retrained on a different definition of this "
+            "feature, re-record feature_ranges rather than keeping this guard.",
+            structural_complexity_score, low, high, calibrated_complexity,
+        )
+        structural_complexity_score = calibrated_complexity
 
     return {
         "num_floors": max(1, float(num_floors)),
@@ -378,7 +435,11 @@ def build_feature_vector(payload: dict[str, Any]) -> dict[str, float]:
         "electrical_points": max(0.0, float(electrical_points)),
         "total_plumbing_fixtures": max(0.0, float(total_plumbing_fixtures)),
         "total_labour_days": max(0.0, float(total_labour_days)),
-        "structural_complexity_score": max(1.0, float(structural_complexity_score)),
+        # No max(1.0, ...) floor here, unlike its neighbours: the guard above
+        # already constrains this to the band the model was trained on, and a
+        # floor of 1.0 would re-break the case it exists to fix - a model
+        # retrained on the 0-1 ratio would have every value clamped to 1.0.
+        "structural_complexity_score": float(structural_complexity_score),
     }
 
 
