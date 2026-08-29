@@ -3,8 +3,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { estimate, fetchMaterials } from '../api/services';
-import { Badge, Card, ErrorBox, Loading, Stat, lkr, num, titleCase } from '../components/ui';
+import { Badge, Card, ErrorBox, Loading, Stat, lkr, num, titleCase, workItemLabel } from '../components/ui';
 import type { CostReport, RunState } from '../types';
+/** How much of this item C02 measured off the building schema, e.g. "9 nr" or
+ *  "156 m²". Read from trade_breakdown, which carries quantity and unit for
+ *  every priced line - so the picker shows what is actually being bought. */
+function partQuantity(report: CostReport | undefined, part: string): string | null {
+  const line = report?.trade_breakdown?.[part];
+  if (!line || typeof line.quantity !== 'number') return null;
+  const qty = Number.isInteger(line.quantity) ? String(line.quantity) : num(line.quantity);
+  return line.unit ? `${qty} ${line.unit}` : qty;
+}
 
 type Props = { run: RunState; update: (p: Partial<RunState>) => void };
 
@@ -110,6 +119,26 @@ export function Step2Cost({ run, update }: Props) {
           ) : undefined
         }
       >
+        {/* What C02 measured off the design. These are the quantities every
+            rate below is multiplied by, so showing them makes the pricing
+            legible instead of a bare per-unit menu. */}
+        {report && (
+          <div className="grid cols-4" style={{ marginBottom: '0.9rem' }}>
+            <Stat
+              label="Floor area"
+              value={`${num(report.feeds_downstream.floor_area_sqm, 0)} m²`}
+              hint={`${report.feeds_downstream.floors} floor(s)`}
+            />
+            <Stat label="Doors" value={partQuantity(report, 'door_count') ?? '—'} />
+            <Stat label="Windows" value={partQuantity(report, 'window_count') ?? '—'} />
+            <Stat
+              label="Roof area"
+              value={partQuantity(report, 'roof_area_sqm') ?? '—'}
+              hint={titleCase(schema.roof_type)}
+            />
+          </div>
+        )}
+
         {catalog.isPending && <Loading what="Loading material catalogue" />}
         {catalog.isError && <ErrorBox error={catalog.error} onRetry={() => catalog.refetch()} />}
         {catalog.data && (
@@ -117,10 +146,12 @@ export function Step2Cost({ run, update }: Props) {
             {Object.entries(catalog.data).map(([part, variants]) => {
               const chosen = materials[part] ?? '';
               const active = variants.find((v) => v.material === chosen);
+              const qty = partQuantity(report, part);
               return (
                 <label className="field" key={part}>
                   <span className="row">
-                    {titleCase(part)}
+                    {workItemLabel(part)}
+                    {qty && <span className="faint">{qty}</span>}
                     {chosen && <Badge tone="ok">custom</Badge>}
                   </span>
                   <select

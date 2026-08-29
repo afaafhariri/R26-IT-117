@@ -25,6 +25,33 @@ export const dateStr = (s: string | null | undefined): string => {
     : d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 };
 
+/** C02 keys every priced line and material choice by its BOQ *quantity field* -
+ *  door_count, roof_area_sqm, rc_columns_m3. Those are storage names: rendered
+ *  raw they read as "Door Count" and "Roof Area Sqm", where the trailing token
+ *  is a unit masquerading as part of the item name. The unit is already shown
+ *  in its own column, so label by the work item and drop it. */
+const WORK_ITEM_LABELS: Record<string, string> = {
+  foundation_excavation_m3: 'Foundation excavation',
+  blinding_concrete_m3: 'Blinding concrete',
+  foundation_concrete_m3: 'Foundation concrete',
+  rc_columns_m3: 'RC columns',
+  rc_slab_m3: 'RC slab',
+  external_brickwork_m3: 'External brickwork',
+  internal_blockwork_m3: 'Internal blockwork',
+  roof_area_sqm: 'Roof covering',
+  floor_tile_sqm: 'Floor finish',
+  wall_plaster_sqm: 'Wall plaster',
+  ceiling_sqm: 'Ceiling',
+  door_count: 'Doors',
+  window_count: 'Windows',
+  paint_sqm: 'Painting',
+  electrical_points: 'Electrical points',
+  total_plumbing_fixtures: 'Plumbing fixtures',
+};
+
+export const workItemLabel = (part: string): string =>
+  WORK_ITEM_LABELS[part] ?? titleCase(part);
+
 export const titleCase = (s: string): string =>
   s.replace(/[_-]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 

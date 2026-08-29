@@ -179,6 +179,13 @@ export interface ContingencyLine {
   cumulative_lkr: number;
 }
 
+/** One risk loading C02's Layer 4 applied, e.g. coastal_site +5%. */
+export interface RiskFactor {
+  factor: string;
+  added_pct: number;
+  reason?: string;
+}
+
 export interface TradeLine {
   line_cost_lkr?: number;
   quantity?: number;
@@ -221,7 +228,7 @@ export interface CostReport {
     alternatives: Record<string, unknown>;
   };
   contingency_breakdown: ContingencyLine[];
-  risk_factors_applied: unknown[];
+  risk_factors_applied: RiskFactor[];
   shap_top_drivers: ShapDriver[];
   model_metadata: Record<string, unknown>;
   rate_metadata: RateMetadata;

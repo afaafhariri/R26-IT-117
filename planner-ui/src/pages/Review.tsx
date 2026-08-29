@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Badge, Stat, dateStr, lkr, num, pct, titleCase, toneFor } from '../components/ui';
-import type { RunState } from '../types';
+import { Badge, Stat, dateStr, lkr, num, pct, titleCase, toneFor, workItemLabel } from '../components/ui';
+import type { RiskFactor, RunState } from '../types';
 
 /* Reads only from the persisted run — no network calls. C02 and C03 keep no
  * state of their own, so this page is the only place the full picture exists. */
@@ -118,11 +118,126 @@ export function Review({ run }: { run: RunState }) {
       >
         {est && (
           <div className="stack">
-            <div className="grid cols-3">
+            <div className="grid cols-4">
               <Stat label="Total" value={lkr(est.summary.total_lkr)} />
               <Stat label="Per m²" value={lkr(est.summary.cost_per_sqm_lkr)} />
-              <Stat label="Direct cost" value={lkr(est.summary.direct_cost_lkr, true)} />
+              <Stat
+                label="Direct cost"
+                value={lkr(est.summary.direct_cost_lkr, true)}
+                hint="measured work, before mark-ups"
+              />
+              <Stat
+                label="Range"
+                value={`${lkr(est.summary.lower_bound_lkr, true)} – ${lkr(
+                  est.summary.upper_bound_lkr,
+                  true,
+                )}`}
+                hint={`${pct(est.summary.confidence_level)} confidence · ML point ${lkr(
+                  est.summary.ml_point_estimate_lkr,
+                  true,
+                )}`}
+              />
             </div>
+
+            <div>
+              <h3>Measured work — priced bill of quantities</h3>
+              <div className="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th className="num">Qty</th>
+                      <th className="num">Rate</th>
+                      <th className="num">Line cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(est.trade_breakdown).map(([part, line]) => (
+                      <tr key={part}>
+                        <td>
+                          {workItemLabel(part)}
+                          {typeof line.description === 'string' && (
+                            <div className="faint">{line.description}</div>
+                          )}
+                        </td>
+                        <td className="num">
+                          {typeof line.quantity === 'number' ? num(line.quantity) : '—'}{' '}
+                          <span className="faint">{line.unit ?? ''}</span>
+                        </td>
+                        <td className="num">{lkr(line.rate_lkr ?? (line.adjusted_rate_lkr as number))}</td>
+                        <td className="num">{lkr(line.line_cost_lkr)}</td>
+                      </tr>
+                    ))}
+                    <tr>
+                      <td colSpan={3}>
+                        <strong>Direct cost</strong>
+                      </td>
+                      <td className="num">
+                        <strong>{lkr(est.summary.direct_cost_lkr)}</strong>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div>
+              <h3>Mark-ups and contingency</h3>
+              <div className="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th className="num">Rate</th>
+                      <th className="num">Amount</th>
+                      <th className="num">Running total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {est.contingency_breakdown.map((c) => (
+                      <tr key={c.item}>
+                        <td>{titleCase(c.item)}</td>
+                        <td className="num">{num(c.rate_pct)}%</td>
+                        <td className="num">{lkr(c.amount_lkr)}</td>
+                        <td className="num faint">{lkr(c.cumulative_lkr)}</td>
+                      </tr>
+                    ))}
+                    <tr>
+                      <td colSpan={3}>
+                        <strong>Total</strong>
+                      </td>
+                      <td className="num">
+                        <strong>{lkr(est.summary.total_lkr)}</strong>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {est.risk_factors_applied.length > 0 && (
+              <div>
+                <h3>Risk factors applied</h3>
+                <div className="table-wrap">
+                  <table>
+                    <tbody>
+                      {est.risk_factors_applied.map((r: RiskFactor, i: number) => (
+                        <tr key={i}>
+                          <td>
+                            {titleCase(r.factor)}
+                            {r.reason && <div className="faint">{r.reason}</div>}
+                          </td>
+                          <td className="num" style={{ color: 'var(--danger)' }}>
+                            +{num(r.added_pct)}%
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
             <div>
               <h3>Top cost drivers</h3>
               <div className="table-wrap">

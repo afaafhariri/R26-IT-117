@@ -285,6 +285,20 @@ details.section[open] > summary::before { transform: rotate(90deg); }
 
 @media print {
   .topbar, .stepper, .footer-nav, button { display: none !important; }
-  .card { break-inside: avoid; box-shadow: none; }
+  .card { box-shadow: none; }
   body { background: #fff; }
+
+  /* The review page is the PDF - window.print() is the only export. Anything
+     scrollable on screen has to unroll here or it is silently cropped out of
+     the document. */
+  .table-wrap { overflow: visible !important; }
+
+  /* Let long bills of quantities flow across pages instead of being clipped to
+     the first one, but never split an individual row. */
+  .card { break-inside: auto; }
+  tr, .stat { break-inside: avoid; }
+  h3 { break-after: avoid; }
+  thead { display: table-header-group; }
+
+  table { font-size: 0.78rem; }
 }
