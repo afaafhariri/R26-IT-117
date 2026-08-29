@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Badge, Stat, dateStr, lkr, num, pct, titleCase, toneFor, workItemLabel } from '../components/ui';
+import { Badge, Stat, dateStr, lkr, num, pct, qtyText, titleCase, toneFor, workItemLabel } from '../components/ui';
 import type { RiskFactor, RunState } from '../types';
 
 /* Reads only from the persisted run — no network calls. C02 and C03 keep no
@@ -160,10 +160,7 @@ export function Review({ run }: { run: RunState }) {
                             <div className="faint">{line.description}</div>
                           )}
                         </td>
-                        <td className="num">
-                          {typeof line.quantity === 'number' ? num(line.quantity) : '—'}{' '}
-                          <span className="faint">{line.unit ?? ''}</span>
-                        </td>
+                        <td className="num">{qtyText(line.quantity, line.unit)}</td>
                         <td className="num">{lkr(line.rate_lkr ?? (line.adjusted_rate_lkr as number))}</td>
                         <td className="num">{lkr(line.line_cost_lkr)}</td>
                       </tr>

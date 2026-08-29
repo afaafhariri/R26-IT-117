@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { estimate, fetchMaterials } from '../api/services';
-import { Badge, Card, ErrorBox, Loading, Stat, lkr, num, titleCase, workItemLabel } from '../components/ui';
+import { Badge, Card, ErrorBox, Loading, Stat, lkr, num, qtyText, titleCase, workItemLabel } from '../components/ui';
 import type { CostReport, RunState } from '../types';
 /** How much of this item C02 measured off the building schema, e.g. "9 nr" or
  *  "156 m²". Read from trade_breakdown, which carries quantity and unit for
@@ -11,8 +11,7 @@ import type { CostReport, RunState } from '../types';
 function partQuantity(report: CostReport | undefined, part: string): string | null {
   const line = report?.trade_breakdown?.[part];
   if (!line || typeof line.quantity !== 'number') return null;
-  const qty = Number.isInteger(line.quantity) ? String(line.quantity) : num(line.quantity);
-  return line.unit ? `${qty} ${line.unit}` : qty;
+  return qtyText(line.quantity, line.unit);
 }
 
 type Props = { run: RunState; update: (p: Partial<RunState>) => void };
@@ -51,7 +50,7 @@ export function Step2Cost({ run, update }: Props) {
   const tradeData = useMemo(() => {
     if (!report) return [];
     return Object.entries(report.trade_breakdown)
-      .map(([k, v]) => ({ name: titleCase(k), value: Number(v?.line_cost_lkr ?? 0) }))
+      .map(([k, v]) => ({ name: workItemLabel(k), value: Number(v?.line_cost_lkr ?? 0) }))
       .filter((d) => d.value > 0)
       .sort((a, b) => b.value - a.value)
       .slice(0, 12);
@@ -131,11 +130,7 @@ export function Step2Cost({ run, update }: Props) {
             />
             <Stat label="Doors" value={partQuantity(report, 'door_count') ?? '—'} />
             <Stat label="Windows" value={partQuantity(report, 'window_count') ?? '—'} />
-            <Stat
-              label="Roof area"
-              value={partQuantity(report, 'roof_area_sqm') ?? '—'}
-              hint={titleCase(schema.roof_type)}
-            />
+            <Stat label="Roof area" value={partQuantity(report, 'roof_area_sqm') ?? '—'} />
           </div>
         )}
 
@@ -203,13 +198,19 @@ export function Step2Cost({ run, update }: Props) {
                     fontSize={11}
                   />
                   <Tooltip
-                    formatter={(v) => lkr(Number(v))}
+                    cursor={{ fill: 'var(--border)', opacity: 0.25 }}
+                    formatter={(v) => [lkr(Number(v)), 'Line cost']}
                     contentStyle={{
                       background: 'var(--surface)',
                       border: '1px solid var(--border)',
                       borderRadius: 8,
                       color: 'var(--text)',
                     }}
+                    /* contentStyle only colours the container - Recharts writes
+                       its own colour onto the label and each value row, which
+                       defaulted to near-black and vanished on the dark card. */
+                    labelStyle={{ color: 'var(--text)', fontWeight: 600 }}
+                    itemStyle={{ color: 'var(--text)' }}
                   />
                   <Bar dataKey="value" radius={[0, 4, 4, 0]}>
                     {tradeData.map((_, i) => (

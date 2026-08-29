@@ -25,6 +25,22 @@ export const dateStr = (s: string | null | undefined): string => {
     : d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 };
 
+/** Format a BOQ quantity for display.
+ *
+ *  Two things C02 emits verbatim that do not belong in front of a homeowner:
+ *  counts arriving as floats (9.0 doors), and the unit "nr" - trade shorthand
+ *  for "number of", which reads as a stray typo outside a bill of quantities.
+ *  The item name already says what is being counted, so the unit is dropped. */
+export const qtyText = (
+  quantity: number | null | undefined,
+  unit?: string | null,
+): string => {
+  if (quantity === null || quantity === undefined || Number.isNaN(quantity)) return '—';
+  const n = Number.isInteger(quantity) ? String(quantity) : num(quantity);
+  const u = !unit || unit === 'nr' ? '' : unit;
+  return u ? `${n} ${u}` : n;
+};
+
 /** C02 keys every priced line and material choice by its BOQ *quantity field* -
  *  door_count, roof_area_sqm, rc_columns_m3. Those are storage names: rendered
  *  raw they read as "Door Count" and "Roof Area Sqm", where the trailing token
