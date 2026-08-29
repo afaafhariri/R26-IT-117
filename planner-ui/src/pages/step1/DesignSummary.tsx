@@ -1,15 +1,18 @@
+import { useState } from 'react';
 import { Card, Stat, Empty } from '../../components/ui';
 import { toBuildingSchema } from '../../api/services';
 import type { C01FullDesignPackage } from '../../types';
+import { ImageModal } from './ImageModal';
 
 type Props = { pkg: C01FullDesignPackage; onContinue: () => void };
+type PreviewTarget = { label: string; base64: string };
 
-function Thumb({ label, base64 }: { label: string; base64: string }) {
+function Thumb({ label, base64, onOpen }: { label: string; base64: string; onOpen: (t: PreviewTarget) => void }) {
   if (!base64) return null;
   return (
-    <figure>
+    <figure onClick={() => onOpen({ label, base64 })}>
       <img src={`data:image/png;base64,${base64}`} alt={label} />
-      <figcaption>{label}</figcaption>
+      <figcaption>{label} — click to preview & download</figcaption>
     </figure>
   );
 }
@@ -18,6 +21,7 @@ export function DesignSummary({ pkg, onContinue }: Props) {
   const v = pkg.visualization_assets;
   const schema = toBuildingSchema(pkg.building_schema_json);
   const hasAnyImage = [v.exterior_image_base64, v.interior_image_base64, v.blueprint_2d_image_base64, v.floorplan_3d_image_base64].some(Boolean);
+  const [preview, setPreview] = useState<PreviewTarget | null>(null);
 
   return (
     <div className="stack">
@@ -38,10 +42,10 @@ export function DesignSummary({ pkg, onContinue }: Props) {
       <Card title="Photorealistic Renders">
         {hasAnyImage ? (
           <div className="thumb-grid">
-            <Thumb label="Exterior" base64={v.exterior_image_base64} />
-            <Thumb label="Interior" base64={v.interior_image_base64} />
-            <Thumb label="2D Blueprint" base64={v.blueprint_2d_image_base64} />
-            <Thumb label="3D Floor Plan" base64={v.floorplan_3d_image_base64} />
+            <Thumb label="Exterior" base64={v.exterior_image_base64} onOpen={setPreview} />
+            <Thumb label="Interior" base64={v.interior_image_base64} onOpen={setPreview} />
+            <Thumb label="2D Blueprint" base64={v.blueprint_2d_image_base64} onOpen={setPreview} />
+            <Thumb label="3D Floor Plan" base64={v.floorplan_3d_image_base64} onOpen={setPreview} />
           </div>
         ) : (
           <Empty>Image generation did not return any renders for this run.</Empty>
@@ -88,6 +92,8 @@ export function DesignSummary({ pkg, onContinue }: Props) {
           Move to Estimation →
         </button>
       </div>
+
+      {preview && <ImageModal label={preview.label} base64={preview.base64} onClose={() => setPreview(null)} />}
     </div>
   );
 }
