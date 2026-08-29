@@ -80,7 +80,9 @@ def generate_floor_plan_async(
         results: list[dict] = []
 
         for plan in alternatives:
-            plan = solve_overlaps(plan, buildable_zone)
+            plan = solve_overlaps(
+                plan, buildable_zone, user_requirements.get("orientation", "South-facing")
+            )
             is_valid, violations = validator.validate(plan, buildable_zone)
             scores = scorer.score(plan)
             plan["is_valid"] = is_valid

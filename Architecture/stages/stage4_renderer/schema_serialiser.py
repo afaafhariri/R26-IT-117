@@ -204,7 +204,6 @@ class SchemaSerialiser:
         is_coastal   = bool(site_schema.get("is_coastal", False))
         area_sqm     = float(site_schema.get("area_sqm") or 0)
         district     = site_schema.get("district", "")
-        province     = site_schema.get("province") or ""
         road_raw     = site_schema.get("road_access", "local")
         terrain      = user_requirements.get("terrain", "flat")
         target_date  = user_requirements.get(
@@ -258,7 +257,6 @@ class SchemaSerialiser:
             "roof_type":           roof_type,
             # ── Location / environment ──
             "district":            district,
-            "province":            province,
             "is_coastal":          is_coastal,
             "terrain":             terrain,
             "road_access":         road_access,
