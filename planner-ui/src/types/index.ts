@@ -2,9 +2,11 @@
 // Field names/shapes were taken from real captured responses, not from docs.
 
 /* ─────────────────────────── Step 1 — Architecture (C01) ─────────────────────────
- * C01 is not wired up yet. Its only downstream output is BuildingSchema, so step 1
- * is a local stub that produces one. Swapping in the real C01 calls later changes
- * nothing below this line. */
+ * C01's only downstream output that matters here is BuildingSchema — everything
+ * below in this section is C01's own request/response shapes (upload, land data,
+ * floor plan generation, final package), which get mapped into a BuildingSchema
+ * once a plan is picked. Swapping in a different C01 build later only means
+ * matching these shapes; nothing past that mapping (Step 2 onward) changes. */
 
 export type FinishGrade = 'economy' | 'mid' | 'luxury';
 export type RoofType = 'flat' | 'gable' | 'hip' | 'mansard';
@@ -37,6 +39,107 @@ export interface BuildingSchema {
   materials?: Record<string, string>;
   base_rate_date: string;
   target_date?: string | null;
+}
+
+/** GET /api/process-cadastral response shapes (Architecture/models/schemas.py). */
+export interface C01CadastralData {
+  land_area_perches: number;
+  land_area_sqft: number;
+  district: string;
+  road_access_type: string;
+  gps_coordinates: [number, number][];
+  sld99_coordinates: [number, number][];
+  plot_boundary_polygon: [number, number][];
+  orientation: string;
+  raw_ocr_text: string;
+  extracted_entities: Record<string, unknown>;
+}
+
+export interface C01BuildableZone {
+  buildable_polygon: [number, number][];
+  buildable_area_sqft: number;
+  buildable_area_sqm?: number;
+  max_floors?: number;
+  bcr_value: number;
+  front_setback_ft: number;
+  rear_setback_ft: number;
+  side_setbacks_ft: number[];
+  constraints_summary: string;
+}
+
+export interface C01Room {
+  name: string;
+  floor: number;
+  width_ft: number;
+  length_ft: number;
+  area_sqft: number;
+  position_x: number;
+  position_y: number;
+  adjacencies: string[];
+  has_window: boolean;
+  has_door: boolean;
+}
+
+export interface C01FloorPlanScores {
+  space_utilisation: number;
+  natural_light: number;
+  adjacency: number;
+  ventilation: number;
+  overall: number;
+}
+
+export interface C01FloorPlanAlternative {
+  variant: 'conservative' | 'balanced' | 'creative';
+  temperature_used: number;
+  rooms: C01Room[];
+  total_built_area_sqft: number;
+  scores: C01FloorPlanScores;
+  validation_passed: boolean;
+  violations: string[];
+  description: string;
+}
+
+export interface C01ShoppingItem {
+  name: string;
+  description: string;
+  price_range_lkr: string;
+  category: 'furniture' | 'lighting' | 'flooring' | 'fixtures' | 'decor';
+}
+
+export interface C01VisualizationAssets {
+  exterior_image_base64: string;
+  interior_image_base64: string;
+  blueprint_2d_image_base64: string;
+  blueprint_2d_description: string;
+  floorplan_3d_image_base64: string;
+  floorplan_3d_description: string;
+  walkthrough_script: string;
+  shopping_list: C01ShoppingItem[];
+}
+
+export interface C01FullDesignPackage {
+  job_id: string;
+  cadastral_data: C01CadastralData;
+  buildable_zone: C01BuildableZone;
+  selected_plan: C01FloorPlanAlternative;
+  building_schema_json: Record<string, unknown>;
+  visualization_assets: C01VisualizationAssets;
+  video: unknown | null;
+}
+
+/** POST /api/generate-floorplans request body. */
+export interface C01UserRequirements {
+  bedrooms: number;
+  bathrooms: number;
+  living_room: boolean;
+  kitchen: boolean;
+  dining_room: boolean;
+  garage: boolean;
+  style: 'modern' | 'traditional' | 'minimalist' | 'colonial' | 'contemporary';
+  floors: number;
+  outdoor_features: string[];
+  special_rooms: string[];
+  additional_notes: string;
 }
 
 /* ───────────────────────── Step 2 — Cost Estimation (C02) ───────────────────── */
@@ -231,6 +334,19 @@ export interface SpiResponse {
   message: string;
 }
 
+/** One retrieved historical case from C04's FAISS-backed RAG pipeline.
+ *  `score` is a raw vector-distance metric (lower = more similar) - it is
+ *  NOT a percentage or confidence score, and must never be presented as one. */
+export interface SimilarCase {
+  rank: number;
+  case: string;
+  score: number;
+  cause_of_delay?: string | null;
+  corrective_action_taken?: string | null;
+  construction_status?: string | null;
+  summary?: string | null;
+}
+
 export interface PredictResponse {
   success: true;
   project_id: number;
@@ -252,13 +368,46 @@ export interface PredictResponse {
     rainfall_mm?: number | null;
     error?: string | null;
   };
-  similar_cases: unknown[];
+  similar_cases: SimilarCase[];
   recommendation_id: number | null;
   recommendation: {
     explanation?: string | null;
     corrective_actions?: string[] | string | null;
   };
   notifications: { sent_to_c02: boolean; sent_to_c03: boolean; errors: string[] };
+  message: string;
+}
+
+/** GET /project/<id>/weather - exact shape, nothing invented. `source` is
+ *  "live" (real OpenWeatherMap reading) or "fallback" (key missing / call
+ *  failed / no data yet) - never display a fallback value as if it were live. */
+export interface WeatherResponse {
+  success: boolean;
+  project_id: number;
+  weather: {
+    success: boolean;
+    source: 'live' | 'fallback' | string;
+    location_source: 'coordinates' | 'district' | string;
+    district?: string | null;
+    latitude?: number | null;
+    longitude?: number | null;
+    temperature_c: number | null;
+    condition: string | null;
+    rainfall_mm: number | null;
+    wind_mps: number | null;
+    weather_severity: string | null;
+    error?: string | null;
+  };
+}
+
+/** PATCH /project/<id>/location - exact shape. Request body is exactly
+ *  { latitude, longitude } - no other fields, matching the backend's
+ *  existing validation exactly. */
+export interface LocationUpdateResponse {
+  success: boolean;
+  project_id: number;
+  latitude: number;
+  longitude: number;
   message: string;
 }
 
@@ -278,6 +427,20 @@ export interface DashboardPhase {
   latest_progress: unknown | null;
 }
 
+/** One row from GET /project/<id>/dashboard's `progress_history` - real
+ *  field names from the actual SQL query (dashboard_feed.py), newest first
+ *  (backend orders by created_at DESC). */
+export interface ProgressHistoryEntry {
+  update_id: number;
+  phase_id: number;
+  update_date: string | null;
+  planned_percent: number;
+  actual_percent: number;
+  spi_value: number | null;
+  alert_level: string | null;
+  entered_by: string | null;
+}
+
 export interface Dashboard {
   success: true;
   project: {
@@ -291,7 +454,7 @@ export interface Dashboard {
     longitude: number | null;
   };
   phases: DashboardPhase[];
-  progress_history: unknown[];
+  progress_history: ProgressHistoryEntry[];
   active_alerts: { message?: string; alert_type?: string; [k: string]: unknown }[];
   latest_prediction: unknown | null;
   latest_recommendation: unknown | null;

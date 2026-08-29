@@ -7,6 +7,8 @@ No placeholder or hardcoded values appear inside the returned strings.
 
 from __future__ import annotations
 
+import math
+
 from models.schemas import Room, ShoppingItem
 
 
@@ -24,12 +26,23 @@ def exterior_prompt(
     floors: int,
 ) -> str:
     facing = orientation.replace("-facing", "").lower()
+    if floors >= 2:
+        floor_instruction = (
+            f"CRITICAL — {floors}-STOREY HOUSE: this must clearly be a {floors}-storey house, NOT a "
+            f"single-storey bungalow. Show a full upper floor with its own row of windows and wall "
+            f"height for {floors} levels stacked on top of each other, plus a visible staircase, "
+            f"balcony, or upper-floor terrace. A single-storey result is wrong no matter what."
+        )
+    else:
+        floor_instruction = (
+            "This is a single-storey (one floor, bungalow-style) house — do not add an upper floor."
+        )
     return (
         f"Photorealistic architectural exterior rendering of a modern Sri Lankan residential house "
         f"located in {district} district, Sri Lanka. The house is {facing}-facing with the main "
         f"entrance visible from a {road_access_type}. Total built area is {total_built_area_sqft:.0f} "
         f"square feet on a {land_area_sqft:.0f} square foot plot with {buildable_area_sqft:.0f} sqft "
-        f"buildable zone. The house has {floors} floor(s). Rendered in golden hour light, late afternoon. "
+        f"buildable zone. {floor_instruction} Rendered in golden hour light, late afternoon. "
         f"Tropical Sri Lankan garden surroundings with palm trees, bougainvillea and frangipani. "
         f"Cream or white rendered walls, terracotta or clay roof tiles, wooden window frames. "
         f"Wide driveway from the {road_access_type}. Professional architectural photography, "
@@ -86,21 +99,62 @@ def _room_layout_lines(rooms: list[Room]) -> str:
     return "\n\n".join(sections)
 
 
+def _plot_outline_lines(plot_polygon: list[tuple[float, float]], land_area_sqft: float) -> str:
+    """Describes the plot's true boundary shape in feet, corner by corner, so
+    the drawing can show the plot's actual outline — often an irregular
+    quadrilateral on a real cadastral plan, not a plain rectangle — instead
+    of inventing a generic rectangular garden border, which is all Gemini
+    could do without this (it was never told the real shape at all before).
+
+    Coordinates use the same square-footprint approximation used everywhere
+    else in this pipeline (dim_ft = sqrt(area)) — this is a relative-shape
+    description good enough for an AI image prompt, not a survey-grade
+    coordinate transform.
+    """
+    if not plot_polygon or len(plot_polygon) < 3:
+        return ""
+    dim_ft = math.sqrt(land_area_sqft) if land_area_sqft > 0 else 30.0
+    xs = [p[0] for p in plot_polygon]
+    ys = [p[1] for p in plot_polygon]
+    x_min, y_min = min(xs), min(ys)
+    return " → ".join(
+        f"({(x - x_min) * dim_ft:.0f}ft, {(y - y_min) * dim_ft:.0f}ft)"
+        for x, y in plot_polygon
+    )
+
+
 def blueprint_2d_prompt(
     rooms: list[Room],
     total_built_area_sqft: float,
+    plot_area_sqft: float,
+    plot_polygon: list[tuple[float, float]] | None = None,
 ) -> str:
     room_lines = "\n".join(
         f"  - {r.name}: {r.width_ft:.0f}ft × {r.length_ft:.0f}ft ({r.area_sqft:.0f} sqft)"
         for r in rooms
     )
     layout_lines = _room_layout_lines(rooms)
+    labels_list = ", ".join(f'"{r.name.replace("_", " ").title()}"' for r in rooms)
+    outline = _plot_outline_lines(plot_polygon or [], plot_area_sqft)
+    plot_outline_section = (
+        f"PLOT OUTLINE — CRITICAL: the plot boundary is this exact shape, walked corner to corner "
+        f"in feet from a reference corner: {outline}. Draw the plot line as this real polygon, "
+        f"NOT a plain rectangle — real cadastral plots are often irregular. The building footprint "
+        f"sits inside this boundary; any area inside the boundary but outside the building is "
+        f"garden, driveway, or margin space. Do not straighten the plot's corners into 90° angles.\n\n"
+        if outline else ""
+    )
     return (
         f"Highly detailed real-world 2D architectural floor plan drawing, exactly as produced by a "
         f"licensed Sri Lankan architect. White paper background. Black ink. Total built area: "
         f"{total_built_area_sqft:.0f} square feet. Rooms: {room_lines}\n\n"
         f"EXACT LAYOUT — draw rooms in these precise positions, do not rearrange them:\n"
         f"{layout_lines}\n\n"
+        f"{plot_outline_section}"
+        f"CRITICAL — DRAW EVERY ROOM: all {len(rooms)} rooms listed above must appear on the drawing, "
+        f"exactly these labels: {labels_list}. Do not omit any room, do not merge two rooms into one, "
+        f"do not substitute a different room in its place. A room missing from the drawing is wrong "
+        f"no matter how crowded the plan looks — shrink the drawing scale before you drop a room.\n\n"
         f"WALLS: Exterior walls are thick with diagonal hatch fill (like real architectural drawings). "
         f"Interior partition walls are thinner solid black lines. "
         f"DOORS: Each room has a door shown as a thin quarter-circle arc swing symbol. "
@@ -115,7 +169,8 @@ def blueprint_2d_prompt(
         f"DIMENSIONS: Exterior dimension lines with arrows and measurements in feet along all four sides. "
         f"ANNOTATIONS: Room name labels centred in each space in clean uppercase text, area in sqft "
         f"shown below each label in smaller text. "
-        f"TITLE BLOCK: Bottom of drawing shows plot size in feet (e.g. PLOT: 40x60 ft). "
+        f"TITLE BLOCK: Bottom of drawing shows the real plot area — \"PLOT AREA: {plot_area_sqft:.0f} SQFT\". "
+        f"Use this exact figure, not an invented width x height — the plot is not necessarily rectangular. "
         f"NORTH ARROW: Standard architectural north arrow symbol in top-right corner. "
         f"OVERALL STYLE: Clean, crisp, professional. Looks exactly like a real architect-drawn "
         f"floor plan you would submit to a Sri Lankan municipal council for approval. "
@@ -158,14 +213,21 @@ def floorplan_3d_from_blueprint_prompt(rooms: list[Room]) -> str:
     return (
         f"The attached image is a plain 3D isometric dollhouse floor plan diagram with the correct "
         f"camera angle and correct room layout already — rooms: {room_names}.\n\n"
-        f"Re-render this EXACT SAME image with photorealistic materials and lighting: keep the "
-        f"identical isometric camera angle, identical room positions, identical wall layout, identical "
-        f"proportions shown in the reference. Do not change the perspective, do not change the layout, "
-        f"do not rotate the view, do not crop or reframe. Only enhance realism: warm oak wood floor "
-        f"texture, cream painted walls with real texture, realistic furniture matching each room type "
-        f"(bed and wardrobe in bedrooms, sofa and coffee table in living room, dining table and chairs "
-        f"in dining room, kitchen counter with cabinets in kitchen, toilet and sink in bathroom), soft "
-        f"realistic ambient lighting with shadows.\n\n"
+        f"Re-render this EXACT SAME image with warm, lightly realistic materials and shading — clean "
+        f"and uncluttered, but not flat, bare, or sketch-like either. Keep the identical isometric "
+        f"camera angle, identical room positions, identical wall layout, identical proportions shown "
+        f"in the reference. Do not change the perspective, do not change the layout, do not rotate the "
+        f"view, do not crop or reframe.\n"
+        f"MATERIALS — ONE uniform warm wall color across every room (do not vary wall color per room), "
+        f"a light natural wood floor with visible grain texture throughout. Keep materials natural and "
+        f"understated — no bright per-room color accents, no busy patterns.\n"
+        f"FURNITURE — the essential pieces that identify each room type, plus one or two natural extras "
+        f"for warmth, not a fully furnished/styled room: a bed with a simple headboard and one nightstand "
+        f"in bedrooms, a sofa and a coffee table in living room, a dining table with chairs in dining "
+        f"room, a counter and a few cabinets in kitchen, a toilet and sink in bathroom, a car in garage. "
+        f"Skip wall art, layered rugs, and small decor clutter — keep each room readable at a glance.\n"
+        f"LIGHTING — soft natural daylight with gentle, subtle shadows for a sense of depth. Not flat "
+        f"and not dramatic — no harsh glossy reflections, no heavy golden-hour glow.\n\n"
         f"CRITICAL — NO ROOF: the reference image has NO roof, and your output must also have NO roof, "
         f"on every room, with no exceptions. Do not add a roof, ceiling, attic, or any structure above "
         f"the wall tops anywhere in the image, even partially, even over just one or two rooms. This is "

@@ -1,15 +1,23 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchDashboard, predictDelay, seedSchedule, submitSpi } from '../api/services';
+import {
+  fetchDashboard,
+  fetchWeather,
+  predictDelay,
+  seedSchedule,
+  submitSpi,
+  updateLocation,
+} from '../api/services';
 import { Badge, Card, ErrorBox, Loading, Stat, dateStr, num, pct, titleCase, toneFor } from '../components/ui';
+import { LocationMap, geocodeSearch } from '../components/LocationMap';
 import {
   DELAY_CATEGORIES,
   LABOUR_AVAILABILITY,
   MATERIAL_SUPPLY,
   WEATHER_SEVERITY,
 } from '../types';
-import type { PredictResponse, RunState, SpiResponse } from '../types';
+import type { PredictResponse, ProgressHistoryEntry, RunState, SpiResponse } from '../types';
 
 type Props = { run: RunState; update: (p: Partial<RunState>) => void };
 
@@ -31,9 +39,59 @@ export function Step4Performance({ run, update }: Props) {
     enabled: !!projectId,
   });
 
-  /* ── progress entry ── */
+  /* ── site location + live weather ──
+   * Both use the SAME projectId as everything else on this page (run.step4.
+   * c04ProjectId) - no separate/independent project selector is introduced. */
+  const weatherQuery = useQuery({
+    queryKey: ['weather', projectId],
+    queryFn: () => fetchWeather(projectId!),
+    enabled: !!projectId,
+  });
+
+  const [locSearch, setLocSearch] = useState('');
+  const [locSearchError, setLocSearchError] = useState<string | null>(null);
+  const [locSearching, setLocSearching] = useState(false);
+  const [locSavedAt, setLocSavedAt] = useState<Date | null>(null);
+
+  const locationMutation = useMutation({
+    mutationFn: (coords: { lat: number; lon: number }) =>
+      updateLocation(projectId!, coords.lat, coords.lon),
+    onSuccess: () => {
+      setLocSavedAt(new Date());
+      qc.invalidateQueries({ queryKey: ['dashboard', projectId] });
+      qc.invalidateQueries({ queryKey: ['weather', projectId] });
+    },
+  });
+
+  async function handleLocationChange(lat: number, lon: number) {
+    locationMutation.mutate({ lat, lon });
+  }
+
+  async function handleLocationSearch() {
+    if (!locSearch.trim()) return;
+    setLocSearching(true);
+    setLocSearchError(null);
+    try {
+      const found = await geocodeSearch(locSearch.trim());
+      if (!found) {
+        setLocSearchError(`No place found matching "${locSearch.trim()}".`);
+        return;
+      }
+      await handleLocationChange(found.lat, found.lon);
+    } catch (err) {
+      setLocSearchError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLocSearching(false);
+    }
+  }
+
+  /* ── progress entry ──
+   * No hardcoded default: the % field starts at 0 and is only ever
+   * prefilled from a phase's REAL latest recorded progress (see
+   * handlePhaseChange), never a guessed/fake value. */
   const [phaseId, setPhaseId] = useState<number | ''>('');
-  const [percent, setPercent] = useState(25);
+  const [percent, setPercent] = useState(0);
+  const [lastProgress, setLastProgress] = useState<ProgressHistoryEntry | null>(null);
   const [spi, setSpi] = useState<SpiResponse | null>(null);
   const [category, setCategory] = useState<string>(DELAY_CATEGORIES[0]);
   const [labour, setLabour] = useState<string>('Medium');
@@ -193,6 +251,121 @@ export function Step4Performance({ run, update }: Props) {
             <Stat label="Location" value={`${d.project.district}`} hint={d.project.province} />
           </div>
 
+          <div className="grid cols-2">
+            <Card
+              title="Site location"
+              subtitle={
+                d.project.latitude != null && d.project.longitude != null
+                  ? `${num(d.project.latitude, 4)}, ${num(d.project.longitude, 4)}`
+                  : 'Not pinned yet'
+              }
+            >
+              <p className="faint">
+                Click the map or drag the pin to set the exact site. This saves automatically and is
+                what the weather lookup (and the delay model) uses.
+              </p>
+              <div className="row" style={{ marginBottom: '0.5rem' }}>
+                <input
+                  type="text"
+                  placeholder="Search a place, e.g. Galle, Sri Lanka"
+                  value={locSearch}
+                  onChange={(e) => setLocSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleLocationSearch();
+                    }
+                  }}
+                  style={{ flex: 1 }}
+                />
+                <button
+                  className="ghost"
+                  type="button"
+                  onClick={handleLocationSearch}
+                  disabled={locSearching || !locSearch.trim()}
+                >
+                  {locSearching ? 'Searching…' : 'Find on map'}
+                </button>
+              </div>
+              {locSearchError && <div className="hint" style={{ color: 'var(--danger, #b91c1c)' }}>{locSearchError}</div>}
+              <LocationMap
+                latitude={d.project.latitude}
+                longitude={d.project.longitude}
+                onChange={handleLocationChange}
+              />
+              <div className="faint" style={{ marginTop: '0.5rem' }}>
+                {locationMutation.isPending && 'Saving location…'}
+                {!locationMutation.isPending && locationMutation.isError && (
+                  <ErrorBox error={locationMutation.error} />
+                )}
+                {!locationMutation.isPending && !locationMutation.isError && locSavedAt && (
+                  <>Location saved at {locSavedAt.toLocaleTimeString()}.</>
+                )}
+              </div>
+            </Card>
+
+            <Card title="Weather at the site" actions={
+              <button className="ghost" onClick={() => weatherQuery.refetch()} disabled={weatherQuery.isFetching}>
+                {weatherQuery.isFetching ? 'Refreshing…' : 'Refresh'}
+              </button>
+            }>
+              {weatherQuery.isPending && <Loading what="Fetching current weather" />}
+              {weatherQuery.isError && <ErrorBox error={weatherQuery.error} onRetry={() => weatherQuery.refetch()} />}
+              {weatherQuery.data && (
+                <>
+                  <div className="row" style={{ marginBottom: '0.75rem' }}>
+                    <Badge tone={toneFor(weatherQuery.data.weather.weather_severity)}>
+                      {weatherQuery.data.weather.weather_severity ?? 'Unknown'}
+                    </Badge>
+                    <span className="faint">
+                      This severity is an actual input to the delay-risk model, not just a display value.
+                    </span>
+                  </div>
+                  <div className="grid cols-4">
+                    <Stat
+                      label="Temperature"
+                      value={
+                        weatherQuery.data.weather.temperature_c != null
+                          ? `${num(weatherQuery.data.weather.temperature_c)}°C`
+                          : '—'
+                      }
+                    />
+                    <Stat label="Condition" value={weatherQuery.data.weather.condition ?? '—'} />
+                    <Stat
+                      label="Rainfall"
+                      value={
+                        weatherQuery.data.weather.rainfall_mm != null
+                          ? `${num(weatherQuery.data.weather.rainfall_mm)} mm`
+                          : '—'
+                      }
+                    />
+                    <Stat
+                      label="Wind"
+                      value={
+                        weatherQuery.data.weather.wind_mps != null
+                          ? `${num(weatherQuery.data.weather.wind_mps)} m/s`
+                          : '—'
+                      }
+                    />
+                  </div>
+                  <div className="faint" style={{ marginTop: '0.75rem' }}>
+                    {weatherQuery.data.weather.source === 'live' ? 'Live reading' : 'Fallback value (no live reading available)'}
+                    {' · '}
+                    {weatherQuery.data.weather.location_source === 'coordinates'
+                      ? 'based on the exact site coordinates'
+                      : 'based on district name — pin the exact site above for a more accurate reading'}
+                    {weatherQuery.dataUpdatedAt ? ` · Last updated ${new Date(weatherQuery.dataUpdatedAt).toLocaleTimeString()}` : ''}
+                  </div>
+                  {weatherQuery.data.weather.error && (
+                    <div className="hint" style={{ color: 'var(--danger, #b91c1c)', marginTop: '0.35rem' }}>
+                      {weatherQuery.data.weather.error}
+                    </div>
+                  )}
+                </>
+              )}
+            </Card>
+          </div>
+
           {started === 0 && (
             <div className="alert info">
               <span className="title">Nothing recorded yet.</span> Every phase reads “Not Started”
@@ -207,9 +380,21 @@ export function Step4Performance({ run, update }: Props) {
                 <select
                   value={phaseId}
                   onChange={(e) => {
-                    setPhaseId(e.target.value ? Number(e.target.value) : '');
+                    const nextPhaseId = e.target.value ? Number(e.target.value) : '';
+                    setPhaseId(nextPhaseId);
                     setSpi(null);
                     setPrediction(null);
+
+                    // Prefill from this phase's REAL latest recorded progress
+                    // (backend already returns progress_history newest-first).
+                    // 0% only when nothing has ever been recorded for it -
+                    // never a guessed/hardcoded starting value.
+                    const latest =
+                      nextPhaseId === ''
+                        ? null
+                        : (d.progress_history.find((h) => h.phase_id === nextPhaseId) ?? null);
+                    setLastProgress(latest);
+                    setPercent(latest ? latest.actual_percent : 0);
                   }}
                 >
                   <option value="">Select a phase…</option>
@@ -229,6 +414,15 @@ export function Step4Performance({ run, update }: Props) {
                   value={percent}
                   onChange={(e) => setPercent(Number(e.target.value))}
                 />
+                <span className="faint">
+                  {phaseId === ''
+                    ? 'Select a phase to see its last recorded progress.'
+                    : lastProgress
+                      ? `Last recorded: ${num(lastProgress.actual_percent)}% on ${dateStr(lastProgress.update_date)}${
+                          lastProgress.entered_by ? ` by ${lastProgress.entered_by}` : ''
+                        }. Edit if it has changed.`
+                      : 'No progress recorded for this phase yet — starting at 0%.'}
+                </span>
               </label>
               <label className="field">
                 &nbsp;
@@ -262,11 +456,7 @@ export function Step4Performance({ run, update }: Props) {
                   </div>
                 ) : (
                   <div className="alert info" style={{ marginTop: '1rem' }}>
-                    <span className="title">On track — no delay prediction needed.</span>{' '}
-                    Performance only runs the delay model when SPI is WARNING or CRITICAL. A
-                    phase whose planned start is still in the future always scores 1.00, so to
-                    exercise the model pick a phase already underway (or set an earlier planned
-                    start in step 3) and enter a percentage below its expected progress.
+                    <span className="title">On track — no delay prediction needed.</span>
                   </div>
                 )}
               </>
@@ -340,11 +530,60 @@ export function Step4Performance({ run, update }: Props) {
                     />
                     <Stat label="Confidence" value={pct(prediction.prediction.confidence)} />
                   </div>
+                  {prediction.similar_cases && prediction.similar_cases.length > 0 && (
+                    <>
+                      <hr className="divider" />
+                      <h3>Similar historical cases</h3>
+                      <p className="faint">
+                        The closest past construction-delay cases retrieved for this situation.
+                        Distance is a similarity metric — lower means more similar, not a percentage.
+                      </p>
+                      <div className="grid cols-3">
+                        {prediction.similar_cases.map((c) => (
+                          <div key={c.rank} className="card" style={{ padding: '0.75rem' }}>
+                            <div className="between">
+                              <strong>Rank {c.rank}</strong>
+                              <span className="mono faint">{c.case}</span>
+                            </div>
+                            {c.cause_of_delay && (
+                              <p className="hint">
+                                <strong>Cause: </strong>
+                                {c.cause_of_delay}
+                              </p>
+                            )}
+                            {c.corrective_action_taken && (
+                              <p className="hint">
+                                <strong>What they did: </strong>
+                                {c.corrective_action_taken}
+                              </p>
+                            )}
+                            {c.construction_status && (
+                              <p className="hint">
+                                <strong>Outcome: </strong>
+                                {c.construction_status}
+                              </p>
+                            )}
+                            <div className="faint" style={{ marginTop: '0.4rem' }}>
+                              Distance: {num(c.score, 4)} (lower = more similar)
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  )}
                   {prediction.recommendation?.explanation && (
                     <>
                       <hr className="divider" />
                       <h3>Recommendation</h3>
                       <p className="muted">{prediction.recommendation.explanation}</p>
+                      {Array.isArray(prediction.recommendation.corrective_actions) &&
+                        prediction.recommendation.corrective_actions.length > 0 && (
+                          <ul>
+                            {prediction.recommendation.corrective_actions.map((a, i) => (
+                              <li key={i}>{a}</li>
+                            ))}
+                          </ul>
+                        )}
                     </>
                   )}
                   {prediction.weather_used?.weather_severity && (

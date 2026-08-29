@@ -150,6 +150,7 @@ class SchemaAssembler:
             "surveyor": ner_result.get("surveyor"),
             "lot_number": ner_result.get("lot_number"),
             "road_access": road_type,
+            "road_access_side": ner_result.get("road_access_side"),
             "is_coastal": ner_result.get("is_coastal", False),
             "orientation_degrees": orientation_deg,
             "frontage_m": frontage_m,
