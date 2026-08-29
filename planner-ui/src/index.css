@@ -89,6 +89,7 @@ a { color: var(--accent); }
   display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
 }
 .brand { font-weight: 650; letter-spacing: -0.02em; }
+.brand-link { text-decoration: none; color: inherit; }
 .brand small { color: var(--text-faint); font-weight: 400; margin-left: 0.5rem; }
 .topbar-spacer { flex: 1; }
 
@@ -282,6 +283,99 @@ details.section[open] > summary::before { transform: rotate(90deg); }
   background: var(--surface); color: var(--text);
 }
 .btn-link:hover { border-color: var(--text-faint); }
+
+/* ── Landing ────────────────────────────────────────────────────────────── */
+
+.landing { display: flex; flex-direction: column; gap: 3.5rem; }
+
+.hero {
+  text-align: center;
+  padding: 3.5rem 0 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.hero .eyebrow {
+  display: inline-block;
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  margin-bottom: 1.25rem;
+}
+.hero h1 {
+  font-size: clamp(1.9rem, 4.6vw, 3rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  margin: 0 0 1rem;
+}
+.hero .lede {
+  max-width: 46rem; margin: 0 auto 1.75rem;
+  color: var(--text-dim); font-size: 1.05rem;
+}
+.hero-cta { justify-content: center; }
+.hero-note { margin-top: 1rem; font-size: 0.85rem; }
+
+button.lg { padding: 0.7rem 1.4rem; font-size: 1rem; }
+
+.landing-section h2 {
+  font-size: 1.4rem; letter-spacing: -0.02em; margin: 0 0 0.4rem;
+}
+.landing-section .section-lede { max-width: 46rem; margin: 0 0 1.5rem; }
+.landing-section h3 { font-size: 1rem; margin: 0 0 0.4rem; }
+.landing-section .card p:last-child { margin-bottom: 0; }
+
+/* The pipeline reads left to right on desktop and top to bottom when it wraps,
+   so the connecting arrow has to rotate with it - see the media query below. */
+.pipeline {
+  display: grid; gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+.pipe-card {
+  position: relative;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.1rem;
+  box-shadow: var(--shadow);
+  display: flex; flex-direction: column; gap: 0.55rem;
+}
+.pipe-card > header { display: flex; align-items: center; gap: 0.6rem; margin: 0; }
+.pipe-card h3 { margin: 0; }
+.pipe-n {
+  font: 600 0.72rem/1 var(--mono);
+  color: var(--accent); background: var(--accent-soft);
+  border-radius: 6px; padding: 0.35rem 0.45rem;
+}
+.pipe-flow {
+  display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;
+  margin: 0; font-size: 0.85rem;
+}
+.pipe-arrow { color: var(--text-faint); }
+.pipe-blurb { margin: 0; color: var(--text-dim); font-size: 0.88rem; flex: 1; }
+.pipe-port { font-size: 0.72rem; color: var(--text-faint); }
+
+/* Connector between cards. Sits in the grid gap, hidden on the last card. */
+.pipe-link {
+  position: absolute; right: -0.95rem; top: 50%;
+  transform: translateY(-50%);
+  color: var(--border-strong); font-size: 1rem; line-height: 1;
+  z-index: 1;
+}
+@media (max-width: 719px) {
+  .pipe-link { right: 50%; top: auto; bottom: -0.95rem; transform: translateX(50%) rotate(90deg); }
+}
+
+.out-title { font-size: 1rem; }
+
+.cta-band {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.5rem; flex-wrap: wrap;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+}
+.cta-band h2 { margin: 0 0 0.25rem; font-size: 1.3rem; letter-spacing: -0.02em; }
+.cta-band p { margin: 0; }
 
 @media print {
   .topbar, .stepper, .footer-nav, button { display: none !important; }
