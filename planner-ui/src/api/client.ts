@@ -98,3 +98,6 @@ export const get = <T,>(s: keyof typeof BASE, p: string) => request<T>(s, p);
 
 export const post = <T,>(s: keyof typeof BASE, p: string, payload: unknown) =>
   request<T>(s, p, { method: 'POST', body: JSON.stringify(payload) });
+
+export const patch = <T,>(s: keyof typeof BASE, p: string, payload: unknown) =>
+  request<T>(s, p, { method: 'PATCH', body: JSON.stringify(payload) });

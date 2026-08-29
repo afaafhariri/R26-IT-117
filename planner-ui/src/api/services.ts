@@ -1,4 +1,4 @@
-import { get, post, request } from './client';
+import { get, patch, post, request } from './client';
 import type {
   BuildingSchema,
   C01BuildableZone,
@@ -8,12 +8,14 @@ import type {
   C01UserRequirements,
   CostReport,
   Dashboard,
+  LocationUpdateResponse,
   MaterialCatalog,
   PredictResponse,
   ScheduleCreated,
   SchedulePayload,
   SpiResponse,
   TimelineResponse,
+  WeatherResponse,
 } from '../types';
 
 /* ───────────────────────── Step 1 — Architecture (C01) ──────────────────────── */
@@ -181,3 +183,16 @@ export const predictDelay = (i: PredictInput) =>
 
 export const fetchDashboard = (projectId: number) =>
   get<Dashboard>('c04', `/project/${projectId}/dashboard`);
+
+/** Live weather for the project's site - coordinates preferred, district
+ *  name used as fallback for projects with no pinned location yet. Backend
+ *  never hard-fails this: a provider error still returns 200 with a
+ *  fallback severity, so callers should render `weather.error` rather than
+ *  treating a non-2xx as the only failure case. */
+export const fetchWeather = (projectId: number) =>
+  get<WeatherResponse>('c04', `/project/${projectId}/weather`);
+
+/** Persists the exact site location. Body is exactly what C04 validates -
+ *  { latitude, longitude } and nothing else. */
+export const updateLocation = (projectId: number, latitude: number, longitude: number) =>
+  patch<LocationUpdateResponse>('c04', `/project/${projectId}/location`, { latitude, longitude });

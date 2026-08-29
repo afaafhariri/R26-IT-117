@@ -334,6 +334,19 @@ export interface SpiResponse {
   message: string;
 }
 
+/** One retrieved historical case from C04's FAISS-backed RAG pipeline.
+ *  `score` is a raw vector-distance metric (lower = more similar) - it is
+ *  NOT a percentage or confidence score, and must never be presented as one. */
+export interface SimilarCase {
+  rank: number;
+  case: string;
+  score: number;
+  cause_of_delay?: string | null;
+  corrective_action_taken?: string | null;
+  construction_status?: string | null;
+  summary?: string | null;
+}
+
 export interface PredictResponse {
   success: true;
   project_id: number;
@@ -355,13 +368,46 @@ export interface PredictResponse {
     rainfall_mm?: number | null;
     error?: string | null;
   };
-  similar_cases: unknown[];
+  similar_cases: SimilarCase[];
   recommendation_id: number | null;
   recommendation: {
     explanation?: string | null;
     corrective_actions?: string[] | string | null;
   };
   notifications: { sent_to_c02: boolean; sent_to_c03: boolean; errors: string[] };
+  message: string;
+}
+
+/** GET /project/<id>/weather - exact shape, nothing invented. `source` is
+ *  "live" (real OpenWeatherMap reading) or "fallback" (key missing / call
+ *  failed / no data yet) - never display a fallback value as if it were live. */
+export interface WeatherResponse {
+  success: boolean;
+  project_id: number;
+  weather: {
+    success: boolean;
+    source: 'live' | 'fallback' | string;
+    location_source: 'coordinates' | 'district' | string;
+    district?: string | null;
+    latitude?: number | null;
+    longitude?: number | null;
+    temperature_c: number | null;
+    condition: string | null;
+    rainfall_mm: number | null;
+    wind_mps: number | null;
+    weather_severity: string | null;
+    error?: string | null;
+  };
+}
+
+/** PATCH /project/<id>/location - exact shape. Request body is exactly
+ *  { latitude, longitude } - no other fields, matching the backend's
+ *  existing validation exactly. */
+export interface LocationUpdateResponse {
+  success: boolean;
+  project_id: number;
+  latitude: number;
+  longitude: number;
   message: string;
 }
 
@@ -381,6 +427,20 @@ export interface DashboardPhase {
   latest_progress: unknown | null;
 }
 
+/** One row from GET /project/<id>/dashboard's `progress_history` - real
+ *  field names from the actual SQL query (dashboard_feed.py), newest first
+ *  (backend orders by created_at DESC). */
+export interface ProgressHistoryEntry {
+  update_id: number;
+  phase_id: number;
+  update_date: string | null;
+  planned_percent: number;
+  actual_percent: number;
+  spi_value: number | null;
+  alert_level: string | null;
+  entered_by: string | null;
+}
+
 export interface Dashboard {
   success: true;
   project: {
@@ -394,7 +454,7 @@ export interface Dashboard {
     longitude: number | null;
   };
   phases: DashboardPhase[];
-  progress_history: unknown[];
+  progress_history: ProgressHistoryEntry[];
   active_alerts: { message?: string; alert_type?: string; [k: string]: unknown }[];
   latest_prediction: unknown | null;
   latest_recommendation: unknown | null;
