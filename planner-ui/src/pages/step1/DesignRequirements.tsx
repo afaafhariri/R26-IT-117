@@ -27,6 +27,18 @@ const ROOM_SQM_MIN: Record<string, number> = {
   gym: 12, home_theatre: 12, staircase: 4,
 };
 
+// Distinct per-room-type colour, so the space-budget pills stay readable at
+// a glance instead of one undifferentiated grey blob — same palette dev/
+// shazni's LandDataReviewView.tsx used, since this is data colour-coding
+// (matching MiniFloorPlan.tsx's room colours), not the app's own UI palette.
+const ROOM_COLORS: Record<string, string> = {
+  living_room: '#22c55e', kitchen: '#eab308', dining_room: '#fb923c',
+  master_bedroom: '#6366f1', bedroom: '#8b5cf6', bathroom: '#0ea5e9',
+  garage: '#64748b', home_office: '#14b8a6', prayer_room: '#f59e0b',
+  library: '#a855f7', maids_room: '#6b7280', kids_playroom: '#ec4899',
+  gym: '#ef4444', home_theatre: '#f97316', staircase: '#94a3b8',
+};
+
 const OUTDOOR_FEATURES = [
   { id: 'garden', label: 'Garden' },
   { id: 'swimming_pool', label: 'Swimming Pool' },
@@ -50,18 +62,31 @@ function toggle(list: string[], id: string, checked: boolean): string[] {
   return checked ? [...list, id] : list.filter((x) => x !== id);
 }
 
-function roomList(req: C01UserRequirements): { label: string; sqm: number }[] {
-  const rooms: { label: string; sqm: number }[] = [];
-  if (req.living_room) rooms.push({ label: 'Living', sqm: ROOM_SQM_MIN.living_room });
-  if (req.kitchen) rooms.push({ label: 'Kitchen', sqm: ROOM_SQM_MIN.kitchen });
-  if (req.dining_room) rooms.push({ label: 'Dining', sqm: ROOM_SQM_MIN.dining_room });
-  rooms.push({ label: 'Master Bed', sqm: ROOM_SQM_MIN.master_bedroom });
-  for (let i = 1; i < req.bedrooms; i++) rooms.push({ label: `Bed ${i + 1}`, sqm: ROOM_SQM_MIN.bedroom });
-  for (let i = 0; i < req.bathrooms; i++) rooms.push({ label: `Bath ${i + 1}`, sqm: ROOM_SQM_MIN.bathroom });
-  if (req.garage) rooms.push({ label: 'Garage', sqm: ROOM_SQM_MIN.garage });
-  for (const sr of req.special_rooms) rooms.push({ label: sr.replace(/_/g, ' '), sqm: ROOM_SQM_MIN[sr] ?? 8 });
-  if (req.floors >= 2) rooms.push({ label: 'Staircase', sqm: ROOM_SQM_MIN.staircase });
+type BudgetRoom = { key: string; label: string; sqm: number; color: string };
+
+function roomList(req: C01UserRequirements): BudgetRoom[] {
+  const rooms: BudgetRoom[] = [];
+  const push = (key: string, label: string) =>
+    rooms.push({ key, label, sqm: ROOM_SQM_MIN[key] ?? 8, color: ROOM_COLORS[key] ?? '#94a3b8' });
+  if (req.living_room) push('living_room', 'Living');
+  if (req.kitchen) push('kitchen', 'Kitchen');
+  if (req.dining_room) push('dining_room', 'Dining');
+  push('master_bedroom', 'Master Bed');
+  for (let i = 1; i < req.bedrooms; i++) push('bedroom', `Bed ${i + 1}`);
+  for (let i = 0; i < req.bathrooms; i++) push('bathroom', `Bath ${i + 1}`);
+  if (req.garage) push('garage', 'Garage');
+  for (const sr of req.special_rooms) push(sr, sr.replace(/_/g, ' '));
+  if (req.floors >= 2) push('staircase', 'Staircase');
   return rooms;
+}
+
+/** Fullness → tone, matching dev/shazni's tiering (comfortable / almost full
+ *  / over budget) but expressed with planner-ui's own ok/warn/danger tokens
+ *  instead of a bespoke gradient. */
+function budgetTone(pct: number, overBudget: boolean): 'ok' | 'warn' | 'danger' {
+  if (overBudget) return 'danger';
+  if (pct > 85) return 'warn';
+  return 'ok';
 }
 
 const ROAD_TONE: Record<string, 'ok' | 'warn' | 'neutral'> = {
@@ -229,33 +254,49 @@ export function DesignRequirements({ jobId, cadastral, zone, onSuccess }: Props)
           ))}
         </div>
 
-        <div className="between" style={{ marginBottom: '0.4rem' }}>
-          <span className="faint">
-            Space budget — {req.floors} floor{req.floors > 1 ? 's' : ''} × {footprintSqm.toFixed(0)} m²
-          </span>
-          <strong className={overBudget ? 'mono' : 'mono'} style={{ color: overBudget ? 'var(--danger)' : 'var(--ok)' }}>
-            {usagePct.toFixed(0)}%
-          </strong>
-        </div>
-        <Bar value={neededSqm} max={availableSqm} />
-        <div className="room-pill-row" style={{ marginTop: '0.6rem', marginBottom: '0.4rem' }}>
-          {rooms.map((r, i) => (
-            <span key={i} className="room-pill">
-              {r.label} {r.sqm}m²
-            </span>
-          ))}
-        </div>
-        {overBudget ? (
-          <div className="alert error">
-            Needs {neededSqm.toFixed(0)} m² but only {availableSqm.toFixed(0)} m² available — reduce rooms or add a
-            floor before generating.
-          </div>
-        ) : (
-          <p className="faint">
-            {neededSqm.toFixed(0)} m² needed of {availableSqm.toFixed(0)} m² available (
-            {(availableSqm - neededSqm).toFixed(0)} m² remaining).
-          </p>
-        )}
+        {(() => {
+          const tone = budgetTone(usagePct, overBudget);
+          return (
+            <>
+              <div className="between" style={{ marginBottom: '0.4rem' }}>
+                <span className="faint">
+                  Space budget — {req.floors} floor{req.floors > 1 ? 's' : ''} × {footprintSqm.toFixed(0)} m²
+                </span>
+                <strong className="mono" style={{ color: `var(--${tone})`, fontSize: '1.2rem' }}>
+                  {usagePct.toFixed(0)}%
+                </strong>
+              </div>
+              <Bar value={neededSqm} max={availableSqm} tone={tone} pulse={overBudget} />
+              <div className="room-pill-row" style={{ marginTop: '0.6rem', marginBottom: '0.4rem' }}>
+                {rooms.map((r, i) => (
+                  <span
+                    key={i}
+                    className="room-pill"
+                    style={{ background: `${r.color}22`, borderColor: `${r.color}55`, color: r.color }}
+                  >
+                    {r.label} {r.sqm}m²
+                  </span>
+                ))}
+              </div>
+              {overBudget ? (
+                <div className="alert error">
+                  <span className="title">⚠ Over budget — </span>
+                  needs {neededSqm.toFixed(0)} m² but only {availableSqm.toFixed(0)} m² available. Reduce rooms or add
+                  a floor before generating.
+                </div>
+              ) : tone === 'warn' ? (
+                <div className="alert warn">
+                  ⚡ Almost full — only <strong>{(availableSqm - neededSqm).toFixed(0)} m²</strong> remaining.
+                </div>
+              ) : (
+                <p className="faint">
+                  ✓ {neededSqm.toFixed(0)} m² needed of {availableSqm.toFixed(0)} m² available (
+                  {(availableSqm - neededSqm).toFixed(0)} m² remaining).
+                </p>
+              )}
+            </>
+          );
+        })()}
       </Card>
 
       <Card title="Outdoor Features">

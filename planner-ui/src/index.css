@@ -212,7 +212,9 @@ details.section[open] > summary::before { transform: rotate(90deg); }
 
 /* Bar used by the material picker + trade breakdown */
 .bar { height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
-.bar > span { display: block; height: 100%; background: var(--accent); }
+.bar > span { display: block; height: 100%; background: var(--accent); transition: width 0.3s, background 0.3s; }
+.bar.pulse > span { animation: bar-pulse 1.4s ease-in-out infinite; }
+@keyframes bar-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
 
 /* ── Step 1 (Architecture) additions ───────────────────────────────────── */
 
@@ -258,9 +260,28 @@ details.section[open] > summary::before { transform: rotate(90deg); }
 .score-row .val { width: 2.4em; text-align: right; font-variant-numeric: tabular-nums; }
 
 .thumb-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
-.thumb-grid figure { margin: 0; }
-.thumb-grid img { width: 100%; border-radius: 8px; border: 1px solid var(--border); display: block; }
+.thumb-grid figure { margin: 0; cursor: zoom-in; }
+.thumb-grid img { width: 100%; border-radius: 8px; border: 1px solid var(--border); display: block; transition: border-color 0.15s; }
+.thumb-grid figure:hover img { border-color: var(--accent); }
 .thumb-grid figcaption { font-size: 0.72rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 0.35rem; }
+
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6);
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem; z-index: 100;
+}
+.modal-panel {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 1rem; max-width: min(90vw, 900px); max-height: 90vh;
+  overflow: auto;
+}
+.modal-panel img { max-width: 100%; max-height: 75vh; display: block; border-radius: 8px; margin: 0 auto; }
+.btn-link {
+  display: inline-flex; align-items: center; font-weight: 550; text-decoration: none;
+  border-radius: 8px; padding: 0.5rem 1rem; border: 1px solid var(--border-strong);
+  background: var(--surface); color: var(--text);
+}
+.btn-link:hover { border-color: var(--text-faint); }
 
 @media print {
   .topbar, .stepper, .footer-nav, button { display: none !important; }
