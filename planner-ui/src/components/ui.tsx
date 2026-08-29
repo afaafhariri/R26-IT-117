@@ -136,11 +136,25 @@ export function toneFor(status: string | null | undefined): 'ok' | 'warn' | 'dan
   return 'neutral';
 }
 
-export function Bar({ value, max }: { value: number; max: number }) {
+export function Bar({
+  value,
+  max,
+  tone,
+  pulse,
+}: {
+  value: number;
+  max: number;
+  /** Defaults to the accent colour (score bars etc). Pass to colour-code
+   *  fullness, e.g. a budget meter shifting ok → warn → danger. */
+  tone?: 'ok' | 'warn' | 'danger';
+  /** Draws attention when a hard limit has been exceeded. */
+  pulse?: boolean;
+}) {
   const pct = max > 0 ? Math.min(100, Math.max(0, (value / max) * 100)) : 0;
+  const color = tone ? `var(--${tone})` : undefined;
   return (
-    <div className="bar">
-      <span style={{ width: `${pct}%` }} />
+    <div className={`bar${pulse ? ' pulse' : ''}`}>
+      <span style={{ width: `${pct}%`, background: color }} />
     </div>
   );
 }
