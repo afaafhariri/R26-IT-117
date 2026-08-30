@@ -4,7 +4,7 @@
 **Project:** R26-IT-117 — AI-Driven Construction Planner
 **Component:** 02 — Cost Estimation
 **Code audited at:** commit `ab4ea19`, branch `dev/hariri`, 30 August 2026
-**Codebase:** `cost-estimation/` — 4,448 lines of Python, 108/108 unit tests passing (10.2 s)
+**Codebase:** `cost-estimation/` — 4,644 lines of Python, 116/116 unit tests passing
 
 This document records (a) what the component actually does, at the level of detail an IEEE
 paper needs, (b) the measured results and a correction to the results currently published in
@@ -98,7 +98,7 @@ Building Schema (JSON, from C01)
    │
    ├─► Layer 1  BOQ Engine          quantity take-off: structural, finishing, services
    ├─► Layer 2  Rate Engine         CIDA/ICTAD unit rates × escalation × material variants
-   ├─► Layer 3  ML Prediction       XGBoost point + p5/p95 interval, TreeSHAP attribution
+   ├─► Layer 3  ML Prediction       XGBoost point + conformalized intervals, TreeSHAP
    └─► Layer 4  Risk Adjuster       risk premia, contingency build-up, report assembly
    │
    ▼
@@ -107,8 +107,8 @@ Cost Report (JSON) ──► C03 scheduling ──► C04 delay prediction
 
 **Important architectural fact for the paper.** The headline `summary.total_lkr` is produced
 by Layer 4's deterministic contingency build-up, **not** by the ML model. The ML point
-estimate is reported alongside it as `summary.ml_point_estimate_lkr`, and the ML p5/p95 models
-supply the displayed interval. Layer 3 is an explanatory and uncertainty-quantification layer
+estimate is reported alongside it as `summary.ml_point_estimate_lkr`, and the conformalized
+quantile models supply the displayed interval, the 90% band and the budget figure. Layer 3 is an explanatory and uncertainty-quantification layer
 over a deterministic estimator, not the estimator itself. Describing it otherwise would
 misrepresent the system.
 
@@ -251,18 +251,39 @@ Categorical variables use ordinal integer maps: terrain {flat 0, sloped 1, hilly
 road access {paved 0, gravel 1, track 2, none 3}, roof {flat 0, gable 1, hip 2, mansard 3},
 finish grade {economy 0, mid 1, luxury 2}. Non-finite values are replaced with 0.
 
-**Models** (`xgboost_model.py`). Three XGBoost regressors on log-transformed cost
+**Models** (`xgboost_model.py`). Six XGBoost regressors on log-transformed cost
 `z = log(1 + y)`:
 
-- point: `objective = reg:squarederror`
-- lower: `objective = reg:quantileerror`, α = 0.05
-- upper: `objective = reg:quantileerror`, α = 0.95
+- point: `objective = reg:squarederror`, fitted on all training rows
+- quantile: `objective = reg:quantileerror` at α ∈ {0.05, 0.25, 0.75, 0.90, 0.95}, fitted on a
+  proper-training subset only
 
 Shared hyperparameters: n_estimators 500, max_depth 6, learning_rate 0.05, reg_alpha 0.1,
 reg_lambda 1.0, subsample 0.8, colsample_bytree 0.8, random_state 42. *These are fixed
 constants; no hyperparameter search was performed.*
 
-Inference: `ŷ = exp(f(x)) − 1`; interval `[exp(f_.05(x)) − 1, exp(f_.95(x)) − 1]`.
+Point inference: `ŷ = exp(f(x)) − 1`.
+
+**Conformal calibration.** Raw quantile regression under-covers badly here (§5.4), so
+Conformalized Quantile Regression [19] is applied. A held-out calibration subset (35 % of
+training rows) yields conformity scores
+
+```
+two-sided:  E_i = max( q_lo(x_i) − z_i ,  z_i − q_hi(x_i) )
+one-sided:  E_i = z_i − q_a(x_i)
+Q          = the ⌈(n+1)·level⌉ / n order statistic of {E_i}
+```
+
+and intervals are widened by Q in log space before exponentiating:
+
+```
+band(level)   = [ exp(q_lo(x) − Q) − 1 ,  exp(q_hi(x) + Q) − 1 ]
+budget(level) =   exp(q_a(x)  + Q) − 1
+```
+
+This yields a distribution-free finite-sample coverage guarantee. Offsets are persisted to
+`models/conformal_offsets.json` and are valid **only** for the models they were computed with;
+`scripts/train_model.py` therefore always retrains and recalibrates together.
 
 **Explanation** (`shap_explainer.py`). Exact TreeSHAP on the point model. SHAP values φᵢ are
 computed in log-cost space; conversion to a rupee impact uses the first-order (delta-method)
@@ -330,15 +351,17 @@ district/province forwarded from the C01 schema for C03 and C04.
 | Seed | 42 (dataset generation and train/test split) |
 | Split | 80 / 20 hold-out, `random_state = 42`. **No cross-validation.** |
 | Target | `grand_total_lkr`, trained on log1p |
-| Metrics | MAE, RMSE, MAPE, MdAPE, R², 90 % PI coverage, training time |
+| Metrics | MAE, RMSE, MAPE, MdAPE, R², interval coverage at 50 % and 90 %, training time |
 | Environment | Python 3.12, xgboost 2.1.4, scikit-learn 1.6.1, shap 0.46.0 |
 
 Note the feature-set discrepancy: `model_comparison.py` trains on **22** columns (all numeric
 columns except targets, adding footprint_sqm, perimeter, plot_area, room_count), while
 production inference uses the **18**-feature set. Re-running the comparison on the production
 18 gives MAPE 12.81 / 13.75 / 14.55 / 16.56 and corrected R² 0.908 / 0.893 / 0.881 / 0.832,
-with 51 % PI coverage — same ordering, so the conclusion is unaffected, but **the paper should
-report the 18-feature run** for consistency with the deployed model.
+— same ordering, so the conclusion is unaffected. `model_comparison.py` has since been
+switched to the production 18-feature set and **the paper reports that run**. Note that the
+comparison script fits raw quantile models *without* conformal calibration, which is why its
+coverage column reads 51 % while the deployed model achieves its nominal levels (§5.4).
 
 ---
 
@@ -449,12 +472,14 @@ not a measured quantity.** Establishing σ empirically is future work.
 
 ### 5.5 Functional verification
 
-108 unit tests pass across four suites: `test_boq.py` (formula-level assertions on every
+116 unit tests pass across four suites: `test_boq.py` (formula-level assertions on every
 structural and finishing quantity, grade monotonicity, zero-input degeneracy),
 `test_rate_engine.py` (escalation arithmetic, rate loading, fallbacks), `test_materials.py`
 (2–5 variants per part, cheapest-first ordering, fresh-overlay application, staleness
 rejection), `test_ensemble.py` (18-feature contract, interval ordering, save/load round-trip,
-SHAP output shape and validity).
+SHAP output shape and validity, conformal offset computation, band ordering, offset
+persistence across save/load, and graceful degradation when offsets are absent or the
+dataset is too small to calibrate).
 
 ---
 
@@ -465,7 +490,8 @@ SHAP output shape and validity).
 | Limitation | Evidence in code | Supporting citation |
 |---|---|---|
 | **Dataset is synthetic and circular.** Model learns the rule engine, not observed cost. | `tests/generate_dataset.py` | Salleh et al. via [4]: fragmented, incomplete cost data limits ML training |
-| **90 % PI achieves 51–52 % coverage.** Uncalibrated. | measured | Rasila et al. [4] treat interval tightness *and* validity as a selection criterion; their K-fold CI (model R8) is a candidate fix |
+| **Estimates under-price by ~2.3× against published per-ft² market bands; 0 % of mid and luxury estimates fall in band.** The single most serious open defect — see §6.3. | measured, §6.3 | design-brief per-ft² bands (verify against their primary sources) |
+| **Interval width rests on an unmeasured assumption.** ~72 % of the 90 % band is forced by the injected σ = 0.15 contractor variance, which was chosen, not measured. | `tests/generate_dataset.py` | — |
 | **Escalation is a flat 0.8 %/month national linear factor.** No CIDA index, no regional differentiation. | `price_escalation.py` TODO | Nissanka & Wijesinghe [3] show ANOVA-significant provincial price divergence (bricks F = 557.9, p ≈ 10⁻⁷⁹; sand F = 143.9, p ≈ 10⁻⁵¹) — a single national index is demonstrably insufficient |
 | **No regional/district pricing.** District and province are forwarded to C03/C04 but never priced against. | `report_builder.py` states this explicitly | [3] |
 | **Risk premia are uncalibrated judgement** (5/7/5/10 %). | `risk_scorer.py` | — |
@@ -478,14 +504,18 @@ SHAP output shape and validity).
 
 ### 6.2 Prioritised future work
 
-1. Recalibrate the prediction interval — conformal prediction, or K-fold interval estimation
-   after Rasila et al. [4], or tune α with depth/estimator reduction.
-2. Replace the linear escalation stub with a CIDA-index model trained on the accumulating
+1. **Fix the absolute cost level (§6.3).** Obtain the real CIDA rate schedule, add the missing
+   BOQ scope, and widen the finish-grade factors until the three grades land in their published
+   bands. Nothing else on this list matters as much.
+2. Establish σ empirically — the contractor-variance assumption governs interval width.
+3. Replace the linear escalation stub with a CIDA-index model trained on the accumulating
    `price_history.csv`, and introduce provincial indices per [3].
-3. Validate against real records: the UDA Middle-Income Housing register, contractor
+4. Validate against real records: the UDA Middle-Income Housing register, contractor
    portfolios, and the 82-project UoM ERP dataset [4].
-4. Cross-validation and hyperparameter search.
-5. Calibrate risk premia and BOQ norms against completed-project data.
+5. Cross-validation and hyperparameter search.
+6. Calibrate risk premia and BOQ norms against completed-project data.
+
+*(Interval calibration, previously first on this list, is implemented — see §5.4.)*
 
 ### 6.3 External validation — RUN, AND IT FAILS
 
@@ -592,11 +622,11 @@ What was genuinely taken:
 - **Report a 90 % confidence interval alongside the point estimate, and treat interval
   tightness/stability as a first-class selection criterion** (their R8 chosen over the more
   accurate R7). This is precisely the design of `predict_interval` and
-  `summary.lower_bound_lkr / upper_bound_lkr / confidence_level = 0.90`.
+  `summary.lower_bound_lkr / upper_bound_lkr / confidence_level`.
   **The mechanism differs and that difference is ours to claim:** Rasila derives the interval
-  from K-fold fold-level predictions; we use direct quantile regression
-  (`reg:quantileerror`, α = 0.05/0.95). Their approach is also our leading candidate fix for
-  the 51 % coverage problem.
+  from K-fold fold-level predictions; we use *conformalized* quantile regression, which carries
+  a distribution-free finite-sample coverage guarantee that a K-fold CI does not. We also
+  separate the narrow client-facing range from the one-sided budget figure (§5.4).
 - **Their explicit future work — "exploring other ML techniques such as XGBoost or deep
   learning models could further enhance prediction capabilities"** — is the citation that
   justifies our model choice. Use it in Related Work.
@@ -701,12 +731,17 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
 python tests/generate_dataset.py       # 500 records -> research/datasets/cost-records/cost.csv
-python scripts/train_model.py          # 3 XGBoost models -> models/*.json
-python scripts/model_comparison.py     # comparison -> research/reports/ (SEE §0.1, §0.2)
-python -m pytest tests/ -q             # 108 tests
+python scripts/train_model.py          # 6 models + conformal_offsets.json -> models/
+python scripts/model_comparison.py     # comparison -> research/reports/
+python -m pytest tests/ -q             # 116 tests
 
 uvicorn main:app --reload --port 8002  # docs at /docs
 ```
+
+Models load once at import, so a running server does not pick up a retrain — restart it.
+`cost-estimation/models/*.json` is gitignored, so a Docker image built from a clean checkout
+contains no models: every estimate then falls back silently to a contingency ±15 % band with
+`interval_is_calibrated: false`.
 
 Fixed seeds: 42 for dataset generation, train/test split, and all model `random_state`.
 Environment: Python 3.12, xgboost 2.1.4, scikit-learn 1.6.1, shap 0.46.0, pandas 2.2.3,
@@ -727,8 +762,8 @@ numpy 1.26.4, FastAPI 0.115.12.
 - [x] Added the noise-floor / R²-ceiling analysis (§5.2)
 - [x] Removed the dead `StandardScaler`, the `train_neural_network()` stub and the "5 models"
       docstring claim; fixed a latent `ValueError` in `plot_comparison.py`
-- [x] Aligned the coverage figure at 51 % across both READMEs
-- [x] Confirmed 108/108 tests still pass
+- [x] Aligned the coverage figures across both READMEs
+- [x] Confirmed all tests still pass (116 after the calibration work)
 
 - [x] Implemented conformal calibration (CQR): 50 % band → 51 % coverage, 90 % band → 94 %,
       one-sided budget → 90 %. Point model untouched. 116/116 tests pass
