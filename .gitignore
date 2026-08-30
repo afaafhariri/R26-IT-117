@@ -119,3 +119,5 @@ Architecture/benchmark_results.csv
 .mypy_cache/
 .ruff_cache/
 .vite/
+
+performance/.venv-train
