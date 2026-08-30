@@ -59,10 +59,15 @@ export function Step1Design({ run, update }: Props) {
   const [pkg, setPkg] = useState<C01FullDesignPackage | null>(null);
   const [packageError, setPackageError] = useState<string | null>(null);
 
-  const finish = (schema: BuildingSchema, source: 'stub' | 'c01', projectName: string) => {
+  const finish = (
+    schema: BuildingSchema,
+    source: 'stub' | 'c01',
+    projectName: string,
+    designPackage?: C01FullDesignPackage,
+  ) => {
     update({
       projectName,
-      step1: { buildingSchema: schema, source },
+      step1: { buildingSchema: schema, source, designPackage },
       // A changed design invalidates everything computed from it.
       step2: undefined,
       step3: undefined,
@@ -131,7 +136,9 @@ export function Step1Design({ run, update }: Props) {
       {phase === 'summary' && pkg && (
         <DesignSummary
           pkg={pkg}
-          onContinue={() => finish(toBuildingSchema(pkg.building_schema_json), 'c01', run.projectName || 'My House')}
+          onContinue={() =>
+            finish(toBuildingSchema(pkg.building_schema_json), 'c01', run.projectName || 'My House', pkg)
+          }
         />
       )}
     </div>
