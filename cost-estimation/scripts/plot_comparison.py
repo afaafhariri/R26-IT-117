@@ -46,6 +46,7 @@ bars = ax.barh(df_r2["Model"], df_r2["R²"], color=colors)
 ax.set_xlabel("R² Score (Variance Explained)", fontsize=12, fontweight="bold")
 ax.set_title("Model Fit Quality (Higher R² = Better)", fontsize=13, fontweight="bold")
 ax.axvline(x=0, color="black", linestyle="--", linewidth=1, alpha=0.5, label="Baseline (mean)")
+ax.set_xlim(0, 1.0)
 for i, (idx, row) in enumerate(df_r2.iterrows()):
     val = row["R²"]
     x_pos = val - 0.15 if val > 0 else val + 0.05
@@ -92,7 +93,7 @@ fig, ax = plt.subplots(figsize=(11, 6))
 # Normalize metrics to 0-100 for visibility
 df_norm = df.copy()
 df_norm["MAE_norm"] = 100 - (df["MAE (LKR)"] / df["MAE (LKR)"].max() * 100)  # Inverted (lower is better)
-df_norm["R²_norm"] = max(0, df["R²"]) / max(abs(df["R²"])) * 100  # Normalize R²
+df_norm["R²_norm"] = df["R²"].clip(lower=0) / df["R²"].abs().max() * 100  # Normalize R²
 df_norm["Training Speed"] = 100 - (df["Training Time (s)"] / df["Training Time (s)"].max() * 100)  # Inverted
 df_norm["MAPE_norm"] = 100 - (df["MAPE (%)"] / df["MAPE (%)"].max() * 100)  # Inverted
 
@@ -110,9 +111,13 @@ print("✓ Saved: figures/05_performance_scorecard.png")
 print("\n" + "="*80)
 print("✅ All charts generated in: " + str(FIGURES_DIR))
 print("="*80)
-print("\nScreenshot ready charts:")
-print("  1. figures/01_mae_comparison.png       — Accuracy (XGBoost Quantile wins)")
-print("  2. figures/02_r2_comparison.png        — Fit quality (XGBoost Quantile: 0.759)")
-print("  3. figures/03_training_time.png        — Training speed (all fast: <1s)")
+best_mae = df.loc[df["MAE (LKR)"].idxmin()]
+best_r2_row = df.loc[df["R²"].idxmax()]
+print("\nCharts:")
+print(f"  1. figures/01_mae_comparison.png       — MAE (lowest: {best_mae['Model']}, "
+      f"{best_mae['MAE (LKR)'] / 1e6:.2f}M LKR)")
+print(f"  2. figures/02_r2_comparison.png        — R² (highest: {best_r2_row['Model']}, "
+      f"{best_r2_row['R²']:.3f})")
+print("  3. figures/03_training_time.png        — Training speed")
 print("  4. figures/04_mape_comparison.png      — Percentage errors")
 print("  5. figures/05_performance_scorecard.png — Overall comparison matrix")

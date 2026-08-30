@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 """
-Model comparison: XGBoost vs Linear Regression, Random Forest, SVM, Neural Network.
+Model comparison: Linear Regression, Random Forest, XGBoost (point), XGBoost (quantile).
 
-Trains 5 models on the same 18-feature dataset, evaluates on test set with:
+Trains 4 models on the production 18-feature set, evaluates on a held-out test set with:
   - MAE, RMSE, R², MAPE, Median Absolute % Error (MdAPE)
-  - Prediction interval coverage (for quantile models)
-  - Training time and inference latency
+  - Prediction interval coverage (for the quantile model)
+  - Training time
+
+All models are fitted on log1p(cost); predictions are exponentiated back to LKR before
+every metric is computed, so all four are scored on the same scale. Scoring a log-space
+prediction against a rupee-space target produces a meaningless R² — see the note in
+generate_report().
 
 Usage:
     python scripts/model_comparison.py
@@ -23,7 +28,6 @@ import json
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import (
@@ -39,6 +43,9 @@ sys.path.insert(0, str(ROOT))
 from layers.layer3_ml_prediction.feature_engineer import FeatureEngineer
 from layers.layer3_ml_prediction.xgboost_model import XGBoostCostModel
 from tests.generate_dataset import generate
+
+# Must match the noise applied in tests/generate_dataset.py
+NOISE_SIGMA = 0.15
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -71,7 +78,6 @@ class ModelComparison:
         self.y_test_log = None
         self.y_train = None
         self.y_test = None
-        self.scaler = StandardScaler()
         self.models: Dict = {}
         self.results: Dict = {}
 
@@ -80,13 +86,12 @@ class ModelComparison:
         logger.info("Generating synthetic dataset...")
         df = generate(n=500)
 
-        # Filter to numeric columns only (skip object dtypes)
-        numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
-        # Remove target columns from features
-        feature_cols = [c for c in numeric_cols if c not in ["grand_total_lkr", "direct_cost_lkr"]]
-
-        if not feature_cols:
-            raise ValueError(f"No feature columns found. Available: {numeric_cols}")
+        # Use the exact feature set the deployed model consumes, so the comparison
+        # measures the production configuration rather than a wider ad-hoc one.
+        feature_cols = FeatureEngineer.feature_names()
+        missing = [c for c in feature_cols if c not in df.columns]
+        if missing:
+            raise ValueError(f"Dataset is missing production features: {missing}")
 
         X = df[feature_cols]
         y = df["grand_total_lkr"].values
@@ -97,14 +102,6 @@ class ModelComparison:
 
         self.y_train_log = np.log1p(self.y_train)
         self.y_test_log = np.log1p(self.y_test)
-
-        # Scale features for distance-based models (optional, tree models ignore)
-        if len(self.X_train) > 0:
-            self.X_train_scaled = self.scaler.fit_transform(self.X_train)
-            self.X_test_scaled = self.scaler.transform(self.X_test)
-        else:
-            self.X_train_scaled = self.X_train
-            self.X_test_scaled = self.X_test
 
         logger.info(f"Train: {self.X_train.shape}, Test: {self.X_test.shape}")
 
@@ -232,10 +229,6 @@ class ModelComparison:
         cov = coverage_90(self.y_test, lower, upper)
         logger.info(f"  90% Coverage: {cov:.1f}%")
 
-    def train_neural_network(self):
-        """Skip: TensorFlow not available in this environment."""
-        pass
-
     def evaluate_all(self) -> pd.DataFrame:
         """Compute metrics for all models."""
         rows = []
@@ -248,7 +241,7 @@ class ModelComparison:
             "RMSE (LKR)": np.sqrt(mean_squared_error(self.y_test, y_pred)),
             "MAPE (%)": mape(self.y_test, y_pred),
             "MdAPE (%)": mdape(self.y_test, y_pred),
-            "R²": r2_score(self.y_test, self.results["Linear Regression"]["predictions_log"]),
+            "R²": r2_score(self.y_test, y_pred),
             "Training Time (s)": self.results["Linear Regression"]["train_time_sec"],
             "Prediction Interval": "✗",
         })
@@ -261,7 +254,7 @@ class ModelComparison:
             "RMSE (LKR)": np.sqrt(mean_squared_error(self.y_test, y_pred)),
             "MAPE (%)": mape(self.y_test, y_pred),
             "MdAPE (%)": mdape(self.y_test, y_pred),
-            "R²": r2_score(self.y_test, self.results["Random Forest"]["predictions_log"]),
+            "R²": r2_score(self.y_test, y_pred),
             "Training Time (s)": self.results["Random Forest"]["train_time_sec"],
             "Prediction Interval": "✗",
         })
@@ -274,7 +267,7 @@ class ModelComparison:
             "RMSE (LKR)": np.sqrt(mean_squared_error(self.y_test, y_pred)),
             "MAPE (%)": mape(self.y_test, y_pred),
             "MdAPE (%)": mdape(self.y_test, y_pred),
-            "R²": r2_score(self.y_test, self.results["XGBoost"]["predictions_log"]),
+            "R²": r2_score(self.y_test, y_pred),
             "Training Time (s)": self.results["XGBoost"]["train_time_sec"],
             "Prediction Interval": "✗",
         })
@@ -304,129 +297,97 @@ class ModelComparison:
         logger.info(f"  Metrics CSV saved: {csv_path} (for external plotting)")
 
     def generate_report(self, df_metrics: pd.DataFrame):
-        """Generate markdown report."""
+        """Write a markdown report derived entirely from the measured metrics.
+
+        Every figure below is computed from df_metrics or from the dataset. Nothing
+        is hardcoded: an earlier version of this method interpolated the metrics
+        table into a fixed narrative that asserted results no run had produced.
+        """
         REPORT_DIR.mkdir(parents=True, exist_ok=True)
 
-        # Convert DataFrame to markdown table manually
-        table_lines = []
-        table_lines.append("| " + " | ".join(df_metrics.columns) + " |")
-        table_lines.append("|" + "|".join(["-" * (len(col) + 2) for col in df_metrics.columns]) + "|")
+        # Table
+        header = "| " + " | ".join(df_metrics.columns) + " |"
+        rule = "|" + "|".join("---" for _ in df_metrics.columns) + "|"
+        rows = []
         for _, row in df_metrics.iterrows():
             cells = []
             for val in row:
                 if isinstance(val, float):
-                    if val > 1e5:
-                        cells.append(f"{val:,.0f}")
-                    else:
-                        cells.append(f"{val:.2f}")
+                    cells.append(f"{val:,.0f}" if abs(val) > 1e5 else f"{val:.3f}")
                 else:
                     cells.append(str(val))
-            table_lines.append("| " + " | ".join(cells) + " |")
-        table_md = "\n".join(table_lines)
+            rows.append("| " + " | ".join(cells) + " |")
+        table_md = "\n".join([header, rule] + rows)
 
-        report = """# Model Comparison Report
+        # Noise floor and R2 ceiling implied by the synthetic label generator.
+        # Labels are y = y_true * eps with eps ~ lognormal(0, sigma), independent of the
+        # features, so E[y^2] = E[y_true^2] * exp(2 sigma^2) and the best possible
+        # predictor E[y|x] = y_true * exp(sigma^2/2) leaves an irreducible residual.
+        y_all = np.concatenate([self.y_train, self.y_test])
+        s2 = NOISE_SIGMA ** 2
+        mape_floor = NOISE_SIGMA * np.sqrt(2.0 / np.pi) * 100
+        m2 = float(np.mean(y_all ** 2)) / np.exp(2 * s2)
+        resid_var = m2 * (np.exp(s2) - 1) * np.exp(s2)
+        r2_ceiling = 1.0 - resid_var / float(np.var(y_all, ddof=1))
 
-## Executive Summary
+        best_mape = df_metrics.loc[df_metrics["MAPE (%)"].idxmin()]
+        best_r2 = df_metrics.loc[df_metrics["R²"].idxmax()]
+        quant = df_metrics[df_metrics["Model"] == "XGBoost Quantile"].iloc[0]
 
-This analysis compares 4 regression models for construction cost estimation on 500 synthetic CIDA-calibrated project records. All models predict log-transformed cost using features engineered from building geometry, site conditions, and finishes.
+        report = f"""# Model Comparison Report
 
-**Key Finding:** XGBoost Quantile delivers the best accuracy and native prediction intervals, making it the clear choice for production use alongside your existing MLP ensemble.
+Generated by `scripts/model_comparison.py`. All figures are computed at run time.
 
----
+## Setup
 
-## Models Evaluated
-
-| Model | Approach | Prediction Interval | SHAP Explainable |
-|-------|----------|-------------------|------------------|
-| Linear Regression | Simple linear fit | ✗ | ✓ Trivial |
-| Random Forest | Ensemble of shallow trees | ✗ | ⚠️ Moderate |
-| XGBoost (Point) | Gradient-boosted trees (mean) | ✗ | ✓ Good |
-| XGBoost (Quantile) | 3 models (p5, p50, p95) | ✓ 90% coverage | ✓ Excellent |
-
----
+- {len(self.X_train)} train / {len(self.X_test)} test records, 80/20 split, `random_state=42`
+- {self.X_train.shape[1]} features — the production set from `FeatureEngineer.feature_names()`
+- All models fitted on `log1p(cost)`; predictions exponentiated to LKR before scoring
+- Labels are synthetic: Layers 1, 2 and 4 executed on randomised schemas, then multiplied
+  by lognormal(0, {NOISE_SIGMA}) to represent contractor and market variance
 
 ## Results
 
-### Metrics Summary
+{table_md}
 
-"""
-        report += table_md + "\n\n"
+## Interpretation
 
-        report += """### Interpretation
+**Scoring.** Every metric above, R² included, is computed in rupee space on exponentiated
+predictions. Scoring a log-space prediction against a rupee-space target yields a value
+dominated by the unit mismatch rather than by model quality, and makes different models
+appear identical. All four models are therefore directly comparable here.
 
-**MAE (Mean Absolute Error):**
-- **XGBoost Quantile leads** with 2.67M LKR error (median point)
-- All models predict within 10–12% MAPE — acceptable for construction pre-bid estimates
-- Linear Regression underperforms (high MAE, negative R²) because log-space relationships are nonlinear
+**The task is saturated.** The labels are a deterministic function of the features
+multiplied by lognormal(0, {NOISE_SIGMA}) noise. That noise alone imposes:
 
-**R² (Coefficient of Determination):**
-- **XGBoost Quantile: R² = 0.759** — explains 76% of variance (excellent for construction)
-- Linear/RF/XGBoost point: R² ≈ -3.0 (negative indicates worse than mean baseline in this metric)
-  - This occurs because we evaluate point models on squared error, but they're trained in log-space; switching to exponentiated predictions fixes this in production
-- Real production accuracy: XGBoost Quantile 65% + MLP 35% = ~2% better than XGBoost alone
+- a floor on MAPE of sigma * sqrt(2/pi) = **{mape_floor:.2f}%**
+- a ceiling on R² (rupee space) of **{r2_ceiling:.4f}**
 
-**MAPE (Mean Absolute % Error):**
-- XGBoost Quantile: 16.8% (5–20% is acceptable for early-stage estimates)
-- Point models: 12–14% (slightly better on median, but no intervals)
+The best MAPE observed is {best_mape['MAPE (%)']:.2f}% ({best_mape['Model']}), i.e.
+{best_mape['MAPE (%)'] - mape_floor:.2f} points above an irreducible {mape_floor:.2f}% floor.
+The best R² is {best_r2['R²']:.4f} ({best_r2['Model']}), statistically indistinguishable from
+the {r2_ceiling:.4f} ceiling — the ceiling is a population quantity while R² is measured on
+{len(self.X_test)} test records, so small excursions either side of it are sampling variation.
 
-**Training Time:**
-- Linear Regression: 0.005s (trivial, but poor predictions)
-- Random Forest: 0.097s
-- XGBoost Point: 0.485s
-- **XGBoost Quantile: 0.95s** (trains 3 models; acceptable for quarterly retraining)
+The leading model is therefore already at the limit of what any estimator can achieve on
+these labels. Differences between the four are not evidence of differing capability on real
+construction cost data: they reflect how closely each happens to fit a near-log-linear
+deterministic generator. This comparison should be re-run once real project records are
+available, and no claim about relative model quality should rest on it.
 
-**Prediction Interval (90% Coverage):**
-- **Only XGBoost Quantile provides this natively: 52% coverage**
-  - This indicates the quantile models are conservative (tighter bounds than 90% target)
-  - Tuning quantile_alpha can widen bounds if needed; 52% → 90% by adjusting p5/p95 thresholds
+**Why XGBoost Quantile is deployed despite ranking last on point accuracy.** It is the only
+candidate that emits a prediction interval natively, without bootstrap, and the only one
+supporting exact TreeSHAP attribution. It costs
+{quant['MAPE (%)'] - best_mape['MAPE (%)']:.2f} percentage points of MAPE relative to the best
+point model and buys per-estimate uncertainty bounds and cost-driver explanations, neither of
+which the deterministic pipeline can produce. Selection here rests on capability, not accuracy.
 
----
+**Open calibration issue.** The 90% nominal interval achieves {quant['Prediction Interval']}
+empirical coverage on the held-out set. The quantile models are over-fitting the conditional
+quantiles of a near-deterministic function; the interval is too tight out of sample. This is
+unresolved.
 
-## Why XGBoost for This Project
-
-### 1. **Accuracy** 🎯
-XGBoost captures non-linear cost patterns (luxury finishes compound; remote premiums are exponential). Point models fail (negative R²) because linear models don't fit log-transformed costs well.
-
-### 2. **Uncertainty Quantification** 📊
-Native quantile regression avoids expensive retraining. One pipeline gives point + confidence bounds automatically—other approaches require bootstrap (5–10x slower).
-
-### 3. **Interpretability** 🔍
-SHAP explains cost drivers to stakeholders. "Your estimate is ₹55M because: footprint (₹18M), concrete volume (₹12M), luxury finish (₹15M)..."
-
-### 4. **Production Ready** ⚡
-- Inference: <1ms per prediction
-- Small model size (~2MB JSON)
-- No GPU required; CPU inference stable
-
-### 5. **Ensemble Blending** 🔗
-Your production stack combines 65% XGBoost + 35% MLP (neural network):
-- XGBoost: strong baseline on structured features, fast
-- MLP: learns complex feature interactions
-- Result: ~2% accuracy gain over XGBoost alone; both confidence and flexibility
-
----
-
-## Production Roadmap
-
-1. **Phase 1 (Now):** Deploy XGBoost Quantile as benchmarkmodel; A/B test against current ensemble
-2. **Phase 2 (Next quarter):** Retrain on real project data (currently synthetic); validate MAPE < 12%
-3. **Phase 3:** Add model monitoring dashboard → alert if test MAPE exceeds 15% (data drift)
-4. **Phase 4:** Explore feature selection — drop low-importance variables to simplify maintenance
-
----
-
-## Technical Notes
-
-**Log-Space vs. Prediction Space:**
-- All models train on log1p(cost) to flatten the distribution (costs span 3+ orders of magnitude)
-- Inference exponentiate back: y_pred = expm1(model.predict(X))
-- Quantile models naturally preserve this transformation
-
-**Data:** 500 synthetic buildings, CIDA 2024-Q4 rates, 15% lognormal noise (contractor/market variance)
-
-**Features:** 18 engineered from: footprint, floors, finish_grade, terrain, roof_type, etc.
-
-Metrics data exported to `figures/metrics.csv` for visualization in Excel, Tableau, or plotting tools.
+Metrics exported to `figures/metrics.csv`.
 """
         report_path = REPORT_DIR / "model_comparison.md"
         report_path.write_text(report)

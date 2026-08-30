@@ -136,20 +136,37 @@ than 45 days are ignored, so a broken scraper degrades gracefully to seed rates.
 
 ### Model Selection
 
-Four models were benchmarked on 500 synthetic CIDA-calibrated records:
+Four models were benchmarked on 500 synthetic CIDA-calibrated records, using the
+production 18-feature set, an 80/20 split (`random_state=42`). All were fitted on
+`log1p(cost)`; every metric below is computed in rupee space on exponentiated predictions.
 
 | Model | MAE (LKR) | MAPE (%) | R² | Prediction Interval |
 |-------|-----------|----------|----|---------------------|
-| Linear Regression | 1,481,316 | 12.60 | −3.54 | — |
-| Random Forest | 1,576,527 | 13.75 | −3.54 | — |
-| XGBoost (Point) | 1,616,699 | 13.78 | −3.54 | — |
-| **XGBoost (Quantile)** | **2,004,142** | **15.99** | **0.81** | **52% (90% target)** |
+| Linear Regression | 1,518,072 | 12.81 | 0.908 | — |
+| Random Forest | 1,595,124 | 13.75 | 0.893 | — |
+| XGBoost (Point) | 1,742,957 | 14.55 | 0.881 | — |
+| **XGBoost (Quantile)** | **1,956,021** | **16.56** | **0.832** | **51% (90% target)** |
 
-XGBoost Quantile was selected for production because it:
-- Explains **81% of cost variance** (R² = 0.81)
-- Provides **native 90% confidence intervals** without bootstrap overhead
-- Produces **SHAP attributions** per prediction (footprint, concrete volume, finish grade, etc.)
-- Runs at **<1 ms inference** on CPU; model file ~2 MB
+**The comparison cannot discriminate model quality, and is not the basis for selection.**
+Training labels are produced by executing Layers 1, 2 and 4 and multiplying by
+lognormal(0, 0.15) noise. That noise alone imposes an irreducible MAPE floor of
+`sigma*sqrt(2/pi)` = **11.97%** and an R² ceiling of **≈0.898**. The leading model sits
+0.84 points above the floor and is statistically indistinguishable from the ceiling — the
+surrogate task is saturated, and the four models differ only in how closely each fits a
+near-log-linear deterministic generator.
+
+XGBoost Quantile is deployed on **capability, not point accuracy**, on which it ranks last:
+
+- the only candidate producing a **90% prediction interval natively**, without bootstrap
+- the only candidate supporting **exact TreeSHAP** attribution per estimate
+- **<1 ms inference** on CPU; ~2 MB of model JSON
+
+It costs 3.75 points of MAPE relative to Linear Regression and buys per-estimate uncertainty
+bounds and cost-driver explanations that the deterministic pipeline cannot produce.
+
+**Open issue:** the 90% nominal interval achieves only 51% empirical coverage. The quantile
+models over-fit the conditional quantiles of a near-deterministic function, so the interval
+is too tight out of sample. Unresolved — see Known Limitations.
 
 
 ### Training Data
@@ -226,5 +243,5 @@ cost-estimation/
 ## Known Limitations / TODO
 
 - `/retrain` endpoint is a stub — actual retraining pipeline (PostgreSQL pull + script run) is not yet wired
-- XGBoost Quantile coverage is 52% vs the 90% target; quantile alpha needs tuning
+- XGBoost Quantile coverage is 51% vs the 90% target — the quantile models over-fit on 400 training rows; candidate fixes are conformal calibration, K-fold interval estimation, or reduced depth/estimators
 - Dataset is synthetic; model should be retrained once real project records are available
