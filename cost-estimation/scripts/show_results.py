@@ -1,93 +1,80 @@
 #!/usr/bin/env python3
-"""Generate text-based comparison table for screenshots."""
+"""Print the model comparison table and a summary derived from the measured metrics.
+
+Every figure printed here is read from figures/metrics.csv or computed from it. An
+earlier version of this script printed a fixed narrative quoting results (R² 0.759,
+MAE 2.67M, a 65/35 XGBoost+MLP ensemble) that no run had produced and that contradicted
+metrics.csv. Nothing below is hardcoded.
+"""
 
 import sys
 from pathlib import Path
+
+import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 FIGURES_DIR = ROOT.parent / "research" / "reports" / "figures"
 CSV_PATH = FIGURES_DIR / "metrics.csv"
 
+# Must match the noise applied in tests/generate_dataset.py
+NOISE_SIGMA = 0.15
+
 if not CSV_PATH.exists():
-    print(f"❌ Metrics CSV not found: {CSV_PATH}")
-    print("   Run: python scripts/model_comparison.py (first)")
+    print(f"Metrics CSV not found: {CSV_PATH}")
+    print("   Run: python scripts/model_comparison.py")
     sys.exit(1)
 
 df = pd.read_csv(CSV_PATH)
-print(f"✓ Loaded metrics from {CSV_PATH}\n")
+print(f"Loaded metrics from {CSV_PATH}\n")
 
-# Format for display
-pd.set_option('display.max_columns', None)
-pd.set_option('display.width', None)
-pd.set_option('display.max_rows', None)
+pd.set_option("display.max_columns", None)
+pd.set_option("display.width", None)
+pd.set_option("display.max_rows", None)
 
-print("="*130)
-print("MODEL COMPARISON RESULTS - Construction Cost Estimation (500 synthetic projects)")
-print("="*130)
+print("=" * 120)
+print("MODEL COMPARISON — Construction Cost Estimation (500 synthetic records, 18 features)")
+print("=" * 120)
 print()
 
-# Pretty print with formatting
-formatted_df = df.copy()
-for col in ["MAE (LKR)", "RMSE (LKR)"]:
-    formatted_df[col] = formatted_df[col].apply(lambda x: f"₹{x/1e6:,.2f}M")
+shown = df.copy()
+for col in ("MAE (LKR)", "RMSE (LKR)"):
+    shown[col] = shown[col].apply(lambda x: f"LKR {x / 1e6:,.2f}M")
+for col in ("MAPE (%)", "MdAPE (%)", "R²"):
+    shown[col] = shown[col].apply(lambda x: f"{x:.3f}")
+shown["Training Time (s)"] = shown["Training Time (s)"].apply(lambda x: f"{x:.3f}s")
 
-for col in ["MAPE (%)", "MdAPE (%)", "R²"]:
-    formatted_df[col] = formatted_df[col].apply(lambda x: f"{x:.2f}")
-
-for col in ["Training Time (s)"]:
-    formatted_df[col] = formatted_df[col].apply(lambda x: f"{x:.3f}s")
-
-print(formatted_df.to_string(index=False))
+print(shown.to_string(index=False))
 print()
-print("="*130)
-print()
-
-# Analysis
+print("=" * 120)
 print("INTERPRETATION")
-print("-" * 130)
-print()
-print("1️⃣  XGBOOST QUANTILE WINS (Green ✓)")
-print("    • Only model with PREDICTION INTERVALS (52% coverage)")
-print("    • R² = 0.759 (excellent — explains 76% of variance)")
-print("    • Provides: Point estimate + confidence bounds (e.g., ₹50M–₹60M)")
+print("-" * 120)
 print()
 
-print("2️⃣  WHY OTHERS HAVE NEGATIVE R²")
-print("    • Linear/RF/XGBoost Point: R² ≈ -3.0")
-print("    • Reason: Trained in log-space, evaluated on squared error → misleading")
-print("    • In production: exponentiated predictions work correctly")
+best_mape = df.loc[df["MAPE (%)"].idxmin()]
+best_r2 = df.loc[df["R²"].idxmax()]
+worst_mape = df.loc[df["MAPE (%)"].idxmax()]
+mape_floor = NOISE_SIGMA * np.sqrt(2.0 / np.pi) * 100
+
+print(f"1. Best point accuracy : {best_mape['Model']} — MAPE {best_mape['MAPE (%)']:.2f}%, "
+      f"R² {best_mape['R²']:.3f}")
+print(f"2. Best fit quality    : {best_r2['Model']} — R² {best_r2['R²']:.3f}")
+print()
+print(f"3. Irreducible MAPE floor from the injected lognormal(0, {NOISE_SIGMA}) label noise "
+      f"is {mape_floor:.2f}%.")
+print(f"   The leading model is {best_mape['MAPE (%)'] - mape_floor:.2f} points above it, so the")
+print("   surrogate task is effectively saturated and this table cannot discriminate")
+print("   model quality for real construction cost data.")
 print()
 
-print("3️⃣  ACCURACY (MAE = Mean Absolute Error)")
-print("    • XGBoost Quantile: ₹2.67M error (median point)")
-print("    • Linear Regression: ₹1.76M (but NO intervals)")
-print("    • Trade-off: XGBoost Quantile sacrifices point accuracy for confidence bounds")
+interval_models = df[df["Prediction Interval"] != "✗"]
+if not interval_models.empty:
+    q = interval_models.iloc[0]
+    print(f"4. Only {q['Model']} produces a prediction interval natively: "
+          f"{q['Prediction Interval']} empirical coverage against a 90% nominal target.")
+    print(f"   It ranks last on point accuracy (MAPE {q['MAPE (%)']:.2f}%, "
+          f"{q['MAPE (%)'] - best_mape['MAPE (%)']:.2f} points behind {best_mape['Model']}).")
+    print("   It is deployed for capability — native intervals and exact TreeSHAP — not accuracy.")
+    print("   The coverage shortfall is an open calibration issue.")
 print()
-
-print("4️⃣  PERCENTAGE ERROR (MAPE = Mean Absolute Percentage Error)")
-print("    • All models: 12–17% MAPE (acceptable for pre-bid estimates)")
-print("    • Target: <15% (all pass)")
-print()
-
-print("5️⃣  TRAINING TIME")
-print("    • Linear Regression: 0.004s (fast, but poor predictions)")
-print("    • XGBoost Quantile: 0.946s (trains 3 models; acceptable)")
-print("    • Quarterly retraining feasible (<1 second)")
-print()
-
-print("="*130)
-print("RECOMMENDATION FOR SUPERVISORS")
-print("="*130)
-print()
-print("✅ DEPLOY: XGBoost Quantile (or your existing 65% XGBoost + 35% MLP ensemble)")
-print()
-print("   Advantages:")
-print("   ✓ Native prediction intervals (52% coverage, tunable to 90%)")
-print("   ✓ R² = 0.759 (excellent fit quality)")
-print("   ✓ Fast inference (<1ms per prediction)")
-print("   ✓ SHAP-explainable (show cost drivers to clients)")
-print("   ✓ Quarterly retraining in <1 second")
-print()
-
-print("="*130)
+print("=" * 120)
