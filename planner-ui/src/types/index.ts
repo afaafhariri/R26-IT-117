@@ -495,7 +495,14 @@ export interface RunState {
   runId: string;
   updatedAt: string;
   projectName: string;
-  step1?: { buildingSchema: BuildingSchema; source: 'stub' | 'c01' };
+  step1?: {
+    buildingSchema: BuildingSchema;
+    source: 'stub' | 'c01';
+    // Only present for the real C01 flow — the plot/blueprint/room detail the
+    // Review page and PDF need. Absent for the "skip with sample data" path,
+    // since there's nothing real to show.
+    designPackage?: C01FullDesignPackage;
+  };
   step2?: { estimate: CostReport; materials: Record<string, string> };
   step3?: { timeline: TimelineResponse; schedulePayload: SchedulePayload };
   step4?: { c04ProjectId: number; entries: ProgressEntry[] };

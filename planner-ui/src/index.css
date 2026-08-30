@@ -270,6 +270,8 @@ details.section[open] > summary::before { transform: rotate(90deg); }
 .thumb-grid figure:hover img { border-color: var(--accent); }
 .thumb-grid figcaption { font-size: 0.72rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 0.35rem; }
 
+.review-plan-img { display: block; width: 100%; max-width: 640px; border-radius: 8px; border: 1px solid var(--border); margin: 0.5rem 0; }
+
 .modal-backdrop {
   position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6);
   display: flex; align-items: center; justify-content: center;
@@ -476,4 +478,10 @@ button.lg { padding: 0.7rem 1.4rem; font-size: 1rem; }
     print-color-adjust: exact;
   }
   .rgantt { break-inside: avoid; }
+
+  /* Blueprint/render images must never straddle a page break, and the
+     zoom-in cursor from the interactive step-1 gallery means nothing on
+     paper. */
+  .review-plan-img, .thumb-grid figure { break-inside: avoid; }
+  .thumb-grid figure { cursor: default; }
 }
