@@ -101,8 +101,13 @@ function ReviewGantt({ tl }: { tl: NonNullable<RunState['step3']>['timeline'] })
   );
 }
 
+function hasImage(base64: string | undefined): base64 is string {
+  return Boolean(base64);
+}
+
 export function Review({ run }: { run: RunState }) {
   const schema = run.step1?.buildingSchema;
+  const dp = run.step1?.designPackage;
   const est = run.step2?.estimate;
   const tl = run.step3?.timeline;
   const entries = run.step4?.entries ?? [];
@@ -179,6 +184,127 @@ export function Review({ run }: { run: RunState }) {
             <Stat label="Terrain" value={titleCase(schema.terrain)} />
             <Stat label="Rooms" value={schema.room_count} hint={`${schema.bathroom_count} bath`} />
           </div>
+        )}
+
+        {dp && (
+          <div className="stack">
+            <div>
+              <h3>Plot &amp; site — from cadastral survey</h3>
+              <div className="grid cols-4">
+                <Stat
+                  label="Land area"
+                  value={`${num(dp.cadastral_data.land_area_perches)} perches`}
+                  hint={`${num(dp.cadastral_data.land_area_sqft)} sqft`}
+                />
+                <Stat label="District" value={dp.cadastral_data.district} />
+                <Stat label="Road access" value={titleCase(dp.cadastral_data.road_access_type)} />
+                <Stat label="Orientation" value={titleCase(dp.cadastral_data.orientation)} />
+                <Stat label="Buildable area" value={`${num(dp.buildable_zone.buildable_area_sqft)} sqft`} />
+                <Stat label="Max floors" value={dp.buildable_zone.max_floors ?? '—'} />
+                <Stat label="Front setback" value={`${num(dp.buildable_zone.front_setback_ft)} ft`} />
+                <Stat label="Rear setback" value={`${num(dp.buildable_zone.rear_setback_ft)} ft`} />
+              </div>
+              {dp.buildable_zone.constraints_summary && (
+                <p className="faint">{dp.buildable_zone.constraints_summary}</p>
+              )}
+            </div>
+
+            <div>
+              <h3>Selected floor plan</h3>
+              <div className="grid cols-4">
+                <Stat label="Variant" value={titleCase(dp.selected_plan.variant)} />
+                <Stat label="Built area" value={`${num(dp.selected_plan.total_built_area_sqft)} sqft`} />
+                <Stat label="Overall score" value={pct(dp.selected_plan.scores.overall)} />
+                <Stat
+                  label="Validation"
+                  value={
+                    <Badge tone={dp.selected_plan.validation_passed ? 'ok' : 'warn'}>
+                      {dp.selected_plan.validation_passed ? 'Passed' : 'Issues found'}
+                    </Badge>
+                  }
+                />
+              </div>
+              {dp.selected_plan.violations.length > 0 && (
+                <p className="faint">{dp.selected_plan.violations.join('; ')}</p>
+              )}
+              <div className="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Room</th>
+                      <th className="num">Floor</th>
+                      <th className="num">Size</th>
+                      <th className="num">Area</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dp.selected_plan.rooms.map((r, i) => (
+                      <tr key={i}>
+                        <td>{titleCase(r.name)}</td>
+                        <td className="num">{r.floor}</td>
+                        <td className="num">
+                          {num(r.width_ft)} × {num(r.length_ft)} ft
+                        </td>
+                        <td className="num">{num(r.area_sqft)} sqft</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {hasImage(dp.visualization_assets.blueprint_2d_image_base64) && (
+              <div>
+                <h3>2D Blueprint</h3>
+                <img
+                  className="review-plan-img"
+                  src={`data:image/png;base64,${dp.visualization_assets.blueprint_2d_image_base64}`}
+                  alt="2D blueprint"
+                />
+                {dp.visualization_assets.blueprint_2d_description && (
+                  <p className="faint">{dp.visualization_assets.blueprint_2d_description}</p>
+                )}
+              </div>
+            )}
+
+            {(hasImage(dp.visualization_assets.exterior_image_base64) ||
+              hasImage(dp.visualization_assets.interior_image_base64) ||
+              hasImage(dp.visualization_assets.floorplan_3d_image_base64)) && (
+              <div>
+                <h3>Renders</h3>
+                <div className="thumb-grid">
+                  {hasImage(dp.visualization_assets.exterior_image_base64) && (
+                    <figure>
+                      <img src={`data:image/png;base64,${dp.visualization_assets.exterior_image_base64}`} alt="Exterior" />
+                      <figcaption>Exterior</figcaption>
+                    </figure>
+                  )}
+                  {hasImage(dp.visualization_assets.interior_image_base64) && (
+                    <figure>
+                      <img src={`data:image/png;base64,${dp.visualization_assets.interior_image_base64}`} alt="Interior" />
+                      <figcaption>Interior</figcaption>
+                    </figure>
+                  )}
+                  {hasImage(dp.visualization_assets.floorplan_3d_image_base64) && (
+                    <figure>
+                      <img
+                        src={`data:image/png;base64,${dp.visualization_assets.floorplan_3d_image_base64}`}
+                        alt="3D floor plan"
+                      />
+                      <figcaption>3D Floor Plan</figcaption>
+                    </figure>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {schema && !dp && (
+          <p className="faint">
+            This run used sample data at the design step, so there's no cadastral survey, blueprint,
+            or room-level detail from the Architecture component to show here.
+          </p>
         )}
       </Section>
 
