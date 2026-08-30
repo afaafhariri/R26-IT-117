@@ -692,7 +692,7 @@ export function Step3Timeline({ run, update }: Props) {
             Phase durations predicted from the cost estimate's labour and complexity signals.
           </p>
         </div>
-        <div className="row">
+        <div className="row align-end">
           <label className="field">
             Planned start
             <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />

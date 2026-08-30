@@ -103,6 +103,10 @@ a { color: var(--accent); }
 .location-map { height: 320px; border-radius: 10px; border: 1px solid var(--border); margin-top: 0.5rem; }
 
 .row { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+/* Pairs a stacked label.field with a bare control. Centring would align the
+   control against the whole caption+input block, floating it above the input
+   it belongs to; matching bottom edges is what reads as aligned. */
+.row.align-end { align-items: flex-end; }
 .between { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
 .stack { display: flex; flex-direction: column; gap: 1rem; }
 
