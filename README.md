@@ -944,9 +944,31 @@ XGBoost Quantile is deployed on **capability, not point accuracy**, on which it 
 It costs 3.75 points of MAPE relative to Linear Regression and buys per-estimate uncertainty
 bounds and cost-driver explanations that the deterministic pipeline cannot produce.
 
-**Open issue:** the 90% nominal interval achieves only 51% empirical coverage. The quantile
-models over-fit the conditional quantiles of a near-deterministic function, so the interval
-is too tight out of sample. Unresolved — see Known Limitations.
+### Interval calibration
+
+Raw quantile regression was badly miscalibrated — a 90% nominal band achieved 51% empirical
+coverage. **Conformalized Quantile Regression** now corrects this: the quantile models are
+fitted on a proper-training subset and a held-out calibration subset (35% of training data)
+supplies an additive offset in log space, giving a distribution-free finite-sample coverage
+guarantee. Measured on the held-out test set:
+
+| Interval | Nominal | Empirical | Mean width |
+|---|---:|---:|---:|
+| Two-sided (displayed) | 50% | **51.0%** | 25.2% |
+| Two-sided | 90% | **94.0%** | 67.4% |
+| One-sided budget | 90% | **90.0%** | — |
+
+A calibrated 90% band is ~67% wide and unusable as a headline, so `/estimate` returns three
+figures instead of one:
+
+- `lower_bound_lkr` / `upper_bound_lkr` — the **likely range**, a 50% band, ~25% wide
+- `interval_90_lkr` — the wider 90% band, retained for analysis
+- `budget_lkr` — one-sided 90% upper bound: *90% of comparable projects come in at or below
+  this*, which is the figure a client budgets against
+
+`interval_is_calibrated` reports whether conformal offsets were available. **The offsets are
+only valid for the models they were computed with — retraining without recalibrating silently
+voids the guarantee**, so `scripts/train_model.py` always does both.
 
 
 ### Training Data
@@ -1029,7 +1051,14 @@ cost-estimation/
 ## Known Limitations / TODO
 
 - `/retrain` endpoint is a stub — actual retraining pipeline (PostgreSQL pull + script run) is not yet wired
-- XGBoost Quantile coverage is 51% vs the 90% target — the quantile models over-fit on 400 training rows; candidate fixes are conformal calibration, K-fold interval estimation, or reduced depth/estimators
+- **Estimates under-price by ~2.3x against published 2025/26 per-ft2 market bands; 0% of mid
+  and luxury estimates fall inside their published band.** The ICTAD rate CSV values are
+  indicative rather than sourced from a real CIDA bulletin, the BOQ omits scope (staircase,
+  septic/water tank, boundary wall, external works), and the finish-grade factors are far too
+  compressed (25% economy-to-luxury spread vs ~3x in the published bands). This is the single
+  most important open defect
+- Interval calibration is resolved (conformal); the *width* is still dominated by the assumed
+  contractor variance sigma = 0.15, which is a modelling choice and has not been measured
 - Dataset is synthetic; model should be retrained once real project records are available
 
 ---

@@ -126,13 +126,14 @@ class TestEnsembleCostPredictor:
         required = {
             "point_estimate_lkr", "lower_bound_lkr", "upper_bound_lkr",
             "xgboost_prediction", "mlp_prediction", "confidence_level",
+            "interval_90_lkr", "budget_lkr", "is_calibrated",
         }
         assert required.issubset(result.keys())
 
-    def test_confidence_level_is_0_90(self, feature_df):
+    def test_confidence_level_defaults_to_0_50(self, feature_df):
         ensemble = EnsembleCostPredictor(auto_load=False)
         result = ensemble.predict(feature_df)
-        assert result["confidence_level"] == 0.90
+        assert result["confidence_level"] == 0.50
 
     def test_no_models_returns_zeros(self, feature_df):
         ensemble = EnsembleCostPredictor(auto_load=False)
@@ -186,3 +187,61 @@ class TestSHAPExplainer:
         summary = explainer.format_summary(explanations)
         assert isinstance(summary, str)
         assert len(summary) > 0
+
+# ---------------------------------------------------------------------------
+# Conformal calibration
+# ---------------------------------------------------------------------------
+
+class TestConformalCalibration:
+    def test_offsets_computed_during_training(self, trained_xgb_model):
+        assert trained_xgb_model.is_calibrated
+        assert "band_0.50" in trained_xgb_model._conformal
+        assert "band_0.90" in trained_xgb_model._conformal
+        assert "upper_0.90" in trained_xgb_model._conformal
+
+    def test_offsets_are_non_negative(self, trained_xgb_model):
+        assert all(v >= 0 for v in trained_xgb_model._conformal.values())
+
+    def test_90_band_is_wider_than_50_band(self, trained_xgb_model, feature_df):
+        lo50, hi50 = trained_xgb_model.predict_interval(feature_df, level=0.50)
+        lo90, hi90 = trained_xgb_model.predict_interval(feature_df, level=0.90)
+        assert (hi90 - lo90) > (hi50 - lo50)
+
+    def test_budget_exceeds_upper_bound_of_likely_range(self, trained_xgb_model, feature_df):
+        _, hi50 = trained_xgb_model.predict_interval(feature_df, level=0.50)
+        assert trained_xgb_model.predict_budget(feature_df) > hi50
+
+    def test_budget_returns_zero_when_not_loaded(self, feature_df):
+        assert XGBoostCostModel().predict_budget(feature_df) == 0.0
+
+    def test_offsets_survive_save_load_roundtrip(self, trained_xgb_model, feature_df, tmp_path):
+        before = trained_xgb_model.predict_interval(feature_df)
+        trained_xgb_model.save(str(tmp_path))
+        reloaded = XGBoostCostModel()
+        reloaded.load(str(tmp_path))
+        assert reloaded.is_calibrated
+        assert reloaded._conformal == pytest.approx(trained_xgb_model._conformal)
+        after = reloaded.predict_interval(feature_df)
+        assert before == pytest.approx(after, rel=1e-4)
+
+    def test_uncalibrated_load_still_returns_an_interval(self, trained_xgb_model, feature_df, tmp_path):
+        """A models dir with no offsets file must degrade, not crash."""
+        trained_xgb_model.save(str(tmp_path))
+        (tmp_path / "conformal_offsets.json").unlink()
+        reloaded = XGBoostCostModel()
+        reloaded.load(str(tmp_path))
+        assert not reloaded.is_calibrated
+        lower, upper = reloaded.predict_interval(feature_df)
+        assert lower < upper
+
+    def test_calibration_skipped_on_tiny_dataset(self, feature_df):
+        """Too few rows to calibrate: train, warn, and leave offsets empty."""
+        model = XGBoostCostModel()
+        rng = np.random.default_rng(0)
+        X = pd.concat([feature_df] * 8, ignore_index=True)
+        y = pd.Series(rng.lognormal(mean=15, sigma=0.3, size=len(X)))
+        model.train(X, y)
+        assert model.is_loaded
+        assert not model.is_calibrated
+        lower, upper = model.predict_interval(feature_df)
+        assert lower < upper

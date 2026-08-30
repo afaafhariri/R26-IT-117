@@ -59,10 +59,13 @@ class ReportBuilder:
         floor_area = boq.get("summary", {}).get("floor_area_sqm", 1.0)
         cost_per_sqm = round(grand_total / max(floor_area, 1.0), 2)
 
-        # Use ensemble ML bounds if available; fall back to contingency ±15%
+        # Calibrated ML bounds if available; fall back to contingency ±15%
         point = prediction.get("point_estimate_lkr", grand_total)
         lower = prediction.get("lower_bound_lkr") or round(grand_total * 0.85, 2)
         upper = prediction.get("upper_bound_lkr") or round(grand_total * 1.15, 2)
+        confidence = prediction.get("confidence_level", 0.50)
+        interval_90 = prediction.get("interval_90_lkr", {})
+        budget = prediction.get("budget_lkr", 0.0)
 
         boq_summary = boq.get("summary", {})
         structural = boq.get("structural", {})
@@ -100,10 +103,18 @@ class ReportBuilder:
             "generated_at": generated_at,
             "summary": {
                 "total_lkr": round(grand_total, 2),
+                # Narrow, honestly-labelled likely range. Widening this to 90% roughly
+                # triples it; the 90% band and the one-sided budget figure below carry
+                # that information instead of inflating the headline range.
                 "lower_bound_lkr": round(lower, 2),
                 "upper_bound_lkr": round(upper, 2),
+                "confidence_level": confidence,
+                "interval_90_lkr": interval_90,
+                # What a client should actually budget to: 90% of comparable projects
+                # come in at or below this figure.
+                "budget_lkr": round(budget, 2),
+                "interval_is_calibrated": prediction.get("is_calibrated", False),
                 "cost_per_sqm_lkr": cost_per_sqm,
-                "confidence_level": 0.90,
                 "ml_point_estimate_lkr": round(point, 2),
                 "direct_cost_lkr": rates.get("direct_cost_lkr", 0.0),
             },

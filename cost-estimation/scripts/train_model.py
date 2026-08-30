@@ -2,18 +2,20 @@
 """
 Train XGBoost cost prediction models on the generated dataset.
 
-Trains three models:
-  - Point estimate      (objective: reg:squarederror)
-  - Lower bound p5      (objective: reg:quantileerror, alpha=0.05)
-  - Upper bound p95     (objective: reg:quantileerror, alpha=0.95)
+Trains the point model plus five quantile models, and computes the conformal
+calibration offsets that make the reported intervals achieve their nominal coverage.
+
+The quantile models are fitted on a proper-training subset; a held-out calibration
+subset supplies the offsets. Retraining without recomputing the offsets silently voids
+the coverage guarantee, so the two always happen together here.
 
 Run from the cost-estimation/ directory:
     python scripts/train_model.py
 
 Input:  research/datasets/cost-records/cost.csv
 Output: models/xgboost_point.json
-        models/xgboost_p5.json
-        models/xgboost_p95.json
+        models/xgboost_q05.json, q25, q75, q90, q95
+        models/conformal_offsets.json
 """
 
 import sys
@@ -71,21 +73,32 @@ def train() -> None:
     y_pred = np.array([model.predict(X_test.iloc[[i]]) for i in range(len(X_test))])
     r2 = r2_score(y_test, y_pred)
     mape = mean_absolute_percentage_error(y_test, y_pred) * 100
+    y_true = y_test.values
 
-    # Interval coverage: fraction of test labels inside the 90% PI
-    lowers, uppers = zip(*[model.predict_interval(X_test.iloc[[i]]) for i in range(len(X_test))])
-    coverage = float(np.mean(
-        (y_test.values >= np.array(lowers)) & (y_test.values <= np.array(uppers))
-    ))
-
-    print("\n" + "=" * 50)
+    print("\n" + "=" * 62)
     print("  EVALUATION — held-out test set")
-    print("=" * 50)
-    print(f"  R²              : {r2:.4f}  ({r2 * 100:.1f}%)")
-    print(f"  MAPE            : {mape:.2f}%")
-    print(f"  90% PI coverage : {coverage * 100:.1f}%")
-    print("=" * 50)
+    print("=" * 62)
+    print(f"  Point estimate   R² {r2:.4f}   MAPE {mape:.2f}%")
+    print()
+    print(f"  {'interval':<12}{'nominal':>9}{'empirical':>11}{'mean width':>13}")
 
+    for level in (0.50, 0.90):
+        bounds = [model.predict_interval(X_test.iloc[[i]], level=level)
+                  for i in range(len(X_test))]
+        lo = np.array([b[0] for b in bounds])
+        hi = np.array([b[1] for b in bounds])
+        cov = float(np.mean((y_true >= lo) & (y_true <= hi))) * 100
+        width = float(np.mean((hi - lo) / np.maximum(y_pred, 1.0))) * 100
+        print(f"  {'two-sided':<12}{level * 100:>8.0f}%{cov:>10.1f}%{width:>12.1f}%")
+
+    budget = np.array([model.predict_budget(X_test.iloc[[i]]) for i in range(len(X_test))])
+    below = float(np.mean(y_true <= budget)) * 100
+    print(f"  {'budget (1-s)':<12}{90:>8.0f}%{below:>10.1f}%{'—':>12}")
+    print("=" * 62)
+    print(f"  Conformal offsets (log space): {model._conformal}")
+
+    if not model.is_calibrated:
+        print("\n  WARNING: calibration did not run — intervals carry no coverage guarantee.")
     if r2 >= 0.60:
         print(f"\n  Accuracy target met (R² {r2 * 100:.1f}% >= 60%).")
     else:
@@ -95,9 +108,8 @@ def train() -> None:
     model.save(str(MODELS_DIR))
 
     print(f"\nModels saved to: {MODELS_DIR}/")
-    print("  xgboost_point.json")
-    print("  xgboost_p5.json")
-    print("  xgboost_p95.json")
+    for f in sorted(MODELS_DIR.glob("*.json")):
+        print(f"  {f.name}")
     print("\nAPI is ready. Start with: uvicorn main:app --reload")
 
 

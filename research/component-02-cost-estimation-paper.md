@@ -408,13 +408,44 @@ trade explicitly; it is the honest and defensible argument.
 *(Linear Regression is inherently interpretable via its coefficients, so the SHAP advantage is
 weaker against that baseline than against the tree models. The interval advantage is not.)*
 
-### 5.4 Open calibration failure
+### 5.4 Interval calibration — resolved by conformal prediction
 
-The 90 % nominal interval achieves **51 % empirical coverage**. The quantile models (500 trees,
-depth 6, 400 training rows) over-fit the conditional quantiles of a near-deterministic function,
-producing intervals that are too tight out of sample. This is unresolved and is reported as a
-limitation, not smoothed over. Candidate remedies: conformal calibration on a held-out split,
-K-fold interval estimation after Rasila et al. [4], or reduced depth/estimator count.
+The raw quantile models were badly miscalibrated: a 90% nominal band achieved 51%
+empirical coverage. Conformalized Quantile Regression (CQR) [19] was applied — the
+quantile models are fitted on a proper-training subset and a held-out calibration subset
+(35% of training data, 140 records) supplies an additive offset Q in log space:
+
+```
+two-sided:  [ q_lo(x) − Q ,  q_hi(x) + Q ]
+one-sided:  q_a(x) + Q
+Q = the ⌈(n+1)·level⌉ / n empirical quantile of the conformity scores
+```
+
+Measured on the held-out test set after calibration:
+
+| Interval | Nominal | Empirical | Mean width (% of point estimate) |
+|---|---:|---:|---:|
+| Two-sided | 50 % | **51.0 %** | 25.2 % |
+| Two-sided | 90 % | **94.0 %** | 67.4 % |
+| One-sided budget | 90 % | **90.0 %** | — |
+
+All three meet or exceed nominal. CQR provides a **distribution-free, finite-sample**
+coverage guarantee independent of the model and the data distribution — a materially
+stronger claim than tuning `quantile_alpha` until coverage looks acceptable.
+
+**Presentation.** A conformalized 90% band is ~67% wide, which is not actionable as a
+headline figure. The service therefore reports three figures rather than one:
+
+- **likely range** — conformalized 50% band, ~25% wide, the client-facing number
+- **90% band** — retained in the response for analysis
+- **budget figure** — one-sided 90% upper bound, "90% of comparable projects come in at
+  or below this", which is the number a client actually budgets against
+
+Note that ~72% of the 90% band width is forced by the injected lognormal(0, 0.15) label
+noise (a perfect oracle must span ±24.9% at 90%); only ~20 percentage points are
+attributable to model and estimation error. **The band width is therefore primarily a
+property of the assumed contractor variance σ, which is an unvalidated modelling choice,
+not a measured quantity.** Establishing σ empirically is future work.
 
 ### 5.5 Functional verification
 
@@ -456,16 +487,55 @@ SHAP output shape and validity).
 4. Cross-validation and hyperparameter search.
 5. Calibrate risk premia and BOQ norms against completed-project data.
 
-### 6.3 External validation available now (recommended, cheap)
+### 6.3 External validation — RUN, AND IT FAILS
 
-The design brief compiles published 2025/26 per-square-foot construction cost bands for
-Sri Lanka: **economy LKR 7,000–15,000/ft²; mid-range 15,000–22,000/ft²; luxury
-22,000–35,000+/ft²**. Converting (× 10.7639 → per m²) gives roughly economy 75k–161k,
-mid 161k–237k, luxury 237k–377k LKR/m². The pipeline already emits
-`summary.cost_per_sqm_lkr`. **Plotting the 500 generated estimates against these bands by
-finish grade is a real external sanity check** and would materially strengthen the paper —
-it is the only validation currently available that is independent of the rule engine. It does
-not fix the circularity, but it bounds it.
+This is the most consequential finding in the audit and it should shape the paper's claims.
+
+The design brief compiles published 2025/26 Sri Lankan construction cost bands per square
+foot. Comparing the 500 generated estimates against them:
+
+| Grade | n | p10 | median | p90 | Published band | Estimates in band |
+|---|---:|---:|---:|---:|---|---:|
+| economy | 121 | 4,478 | 5,823 | 8,400 | 7,000–15,000 | 28 % |
+| mid | 283 | 4,836 | **6,483** | 8,924 | 15,000–22,000 | **0 %** |
+| luxury | 96 | 5,266 | 7,280 | 10,138 | 22,000–35,000 | **0 %** |
+
+*(LKR per ft², grand total ÷ floor area ÷ 10.7639.)*
+
+**The estimator under-prices by roughly 2.3× against published market rates, and not one
+mid-grade or luxury estimate falls within its published band.** A single worked example
+(150 m², two storeys, mid grade) returns LKR 59,728/m² = 5,549/ft², below even the
+*economy* floor.
+
+Two distinct defects are visible:
+
+1. **Absolute level.** Systematically ~2.3× low. Likely causes, in order of suspicion:
+   the ICTAD rate CSV (whose own code comment calls the values "indicative 2024-Q4 values
+   only — replace with live ICTAD data") may never have been sourced from a real CIDA
+   bulletin; and the BOQ omits scope a real take-off would include — staircases, septic
+   tank, water tank, boundary wall, external works, site preliminaries beyond the 3%
+   establishment on-cost.
+2. **Grade differentiation is far too compressed.** Economy median 5,823 vs luxury 7,280
+   is a 25% spread. The published bands span roughly 3× from the economy floor to the
+   luxury ceiling. Grade factors currently scale only *quantities* by 0.85–1.20, and
+   material variants move unit rates modestly; neither reproduces the real economy-to-
+   luxury cost gradient.
+
+**Caveat on the benchmark itself.** These bands come from the LLM-generated compilation
+(§7.3), which is a secondary source. Verify them against the primary references it names
+(HelloBuilders, TDK Constructions, LankaPropertyWeb 2025/26 guides) before publishing the
+comparison. A 2.3× gap is however far too large for source uncertainty to explain away.
+
+**Consequence for the paper.** No claim of absolute cost accuracy is defensible. The
+contributions that survive intact are the pipeline, the material-variant layer, the live
+price overlay, and the calibrated intervals — all of which are about *method*, not about
+the absolute rupee figure. State the calibration gap prominently; a reviewer who does this
+one division will find it in minutes.
+
+**Concrete remediation, in priority order:** obtain the real CIDA rate schedule and replace
+the CSV; add the missing BOQ scope; widen the grade factors until the three grades land in
+their published bands. That is a bounded piece of work and would turn the strongest
+criticism of this component into a validated result.
 
 ---
 
@@ -617,6 +687,8 @@ against the primary CIDA bulletin before either number appears in the paper.
 
 [17] S. L. C. Miranda, E. D. R. Castillo, V. Gonzalez, and J. Adafin, "Predictive analytics for early-stage construction costs estimation," *Buildings*, vol. 12, no. 7, art. 1043, 2022, doi: 10.3390/buildings12071043.
 
+[19] Y. Romano, E. Patterson, and E. Candès, "Conformalized quantile regression," in *Proc. Advances in Neural Information Processing Systems (NeurIPS)*, 2019, pp. 3543–3553.
+
 [18] Construction Industry Development Authority, *Bulletin of Construction Statistics*. Colombo, Sri Lanka: CIDA. ⚠️ *Obtain the actual bulletin — currently known only second-hand through the design compilation.*
 
 ---
@@ -658,10 +730,16 @@ numpy 1.26.4, FastAPI 0.115.12.
 - [x] Aligned the coverage figure at 51 % across both READMEs
 - [x] Confirmed 108/108 tests still pass
 
-**Outstanding:**
+- [x] Implemented conformal calibration (CQR): 50 % band → 51 % coverage, 90 % band → 94 %,
+      one-sided budget → 90 %. Point model untouched. 116/116 tests pass
+- [x] Ran the §6.3 per-square-foot external validation
 
-- [ ] Add the §6.3 per-square-foot external validation plot — the only independent check available
-- [ ] Address the 51 % interval coverage, or state it prominently as future work
+**Outstanding — the §6.3 result is now the top priority:**
+
+- [ ] **Rate schedule under-prices by ~2.3× against published bands; 0 % of mid and luxury
+      estimates land in band.** Obtain the real CIDA schedule, add missing BOQ scope
+      (staircase, septic/water tank, boundary wall, external works), widen grade factors
+- [ ] Verify the published per-ft² bands against their primary sources before citing them
 - [ ] Verify the CIDA price-fluctuation fixed coefficient (0.869 vs 0.966 — sources disagree)
 - [ ] Verify year and full venue for reference [5]
 - [ ] Obtain the primary CIDA *Bulletin of Construction Statistics*
