@@ -69,6 +69,11 @@ def _build_room_types(req: UserRequirements) -> list[str]:
     # Special rooms added directly (home_office, gym, home_theatre, etc.)
     for room in req.special_rooms:
         types.append(room)
+    # A staircase isn't user-selectable — it's not optional in a real house
+    # with more than one floor, so it's always included rather than relying
+    # on the user to think to ask for it.
+    if req.floors >= 2:
+        types.append("staircase")
     return types
 
 
@@ -177,6 +182,7 @@ def _raw_to_alternative(raw: dict, zone: dict) -> FloorPlanAlternative | None:
             total_built_area_sqft=round(total_sqft, 2),
             scores=scores,
             validation_passed=bool(raw.get("is_valid", False)),
+            violations=raw.get("violations", []),
             description=description,
         )
 

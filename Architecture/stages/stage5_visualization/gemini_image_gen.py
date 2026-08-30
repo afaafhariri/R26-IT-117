@@ -67,12 +67,6 @@ _POLLINATIONS_MAX_RETRIES = 2
 _POLLINATIONS_TIMEOUT_SECONDS = 90.0
 
 
-def _infer_floors(total_sqft: float, buildable_sqft: float) -> int:
-    if buildable_sqft > 0 and total_sqft / buildable_sqft > 1.3:
-        return 2
-    return 1
-
-
 def _find_living_room(alternative: FloorPlanAlternative) -> Any | None:
     for r in alternative.rooms:
         if "living" in r.name.lower():
@@ -198,7 +192,9 @@ async def generate_all_images(
         Values are base64 PNG strings.
     """
     living = _find_living_room(alternative)
-    floors = _infer_floors(alternative.total_built_area_sqft, zone.buildable_area_sqft)
+    # Real floor count from the solved layout — every room carries its actual
+    # floor number, so this is exact, not an area-ratio guess.
+    floors = max((r.floor for r in alternative.rooms), default=1)
 
     ext_prompt = exterior_prompt(
         district=cadastral.district,
@@ -218,6 +214,8 @@ async def generate_all_images(
     bp_prompt = blueprint_2d_prompt(
         rooms=alternative.rooms,
         total_built_area_sqft=alternative.total_built_area_sqft,
+        plot_area_sqft=cadastral.land_area_sqft,
+        plot_polygon=cadastral.plot_boundary_polygon,
     )
 
     # Stage 1: exterior, interior, blueprint_2d — independent, run together.
@@ -248,10 +246,19 @@ async def generate_all_images(
     # re-skin it photorealistically, which is far more reliable than asking
     # it to invent a 3D angle from a flat top-down reference (tested: it kept
     # just recoloring the flat image instead of actually tilting the view).
+    #
+    # render_isometric_png only draws floor 1 (upper floors would occlude it
+    # in a dollhouse view — see its docstring), so the prompt describing that
+    # reference image must list the same floor-1-only room subset. Passing it
+    # the full multi-floor room list caused Gemini to invent extra space for
+    # rooms it was told about but couldn't see in the reference, flattening
+    # both floors onto one plane instead of respecting the two-floor design.
+    floor1_rooms = [r for r in alternative.rooms if (r.floor or 1) == 1] or alternative.rooms
+
     local_iso_reference = render_isometric_png(
         alternative.rooms, alternative.total_built_area_sqft, alternative.variant
     )
-    fp3d_reference_prompt = floorplan_3d_from_blueprint_prompt(rooms=alternative.rooms)
+    fp3d_reference_prompt = floorplan_3d_from_blueprint_prompt(rooms=floor1_rooms)
     floorplan_3d = await _generate_gemini_image_with_reference(
         fp3d_reference_prompt, local_iso_reference, "floorplan_3d"
     )
@@ -259,11 +266,11 @@ async def generate_all_images(
     if not floorplan_3d:
         _logger.info("Reference-conditioned 3D generation failed — retrying without reference image")
         floorplan_3d = await _generate_gemini_image(
-            floorplan_3d_prompt(rooms=alternative.rooms), "floorplan_3d"
+            floorplan_3d_prompt(rooms=floor1_rooms), "floorplan_3d"
         )
     if not floorplan_3d:
         floorplan_3d = await _generate_pollinations_image(
-            floorplan_3d_prompt(rooms=alternative.rooms), "floorplan_3d"
+            floorplan_3d_prompt(rooms=floor1_rooms), "floorplan_3d"
         )
     if not floorplan_3d:
         _logger.info("Gemini and Pollinations both unavailable for floorplan_3d — using local renderer")

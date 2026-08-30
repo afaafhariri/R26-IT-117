@@ -256,8 +256,12 @@ def _build_input_summary(
             features,
             "total_labour_days",
         ),
+        # Read from `features`, not `feeds`: C02 publishes an unrelated 0-1
+        # concrete ratio under this same key, so preferring feeds here reported
+        # a number the prediction never actually used (see
+        # random_forest_service.build_feature_vector).
         "structural_complexity_score": _summary_number(
-            feeds,
+            {},
             features,
             "structural_complexity_score",
         ),

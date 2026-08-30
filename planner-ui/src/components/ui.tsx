@@ -25,6 +25,49 @@ export const dateStr = (s: string | null | undefined): string => {
     : d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 };
 
+/** Format a BOQ quantity for display.
+ *
+ *  Two things C02 emits verbatim that do not belong in front of a homeowner:
+ *  counts arriving as floats (9.0 doors), and the unit "nr" - trade shorthand
+ *  for "number of", which reads as a stray typo outside a bill of quantities.
+ *  The item name already says what is being counted, so the unit is dropped. */
+export const qtyText = (
+  quantity: number | null | undefined,
+  unit?: string | null,
+): string => {
+  if (quantity === null || quantity === undefined || Number.isNaN(quantity)) return '—';
+  const n = Number.isInteger(quantity) ? String(quantity) : num(quantity);
+  const u = !unit || unit === 'nr' ? '' : unit;
+  return u ? `${n} ${u}` : n;
+};
+
+/** C02 keys every priced line and material choice by its BOQ *quantity field* -
+ *  door_count, roof_area_sqm, rc_columns_m3. Those are storage names: rendered
+ *  raw they read as "Door Count" and "Roof Area Sqm", where the trailing token
+ *  is a unit masquerading as part of the item name. The unit is already shown
+ *  in its own column, so label by the work item and drop it. */
+const WORK_ITEM_LABELS: Record<string, string> = {
+  foundation_excavation_m3: 'Foundation excavation',
+  blinding_concrete_m3: 'Blinding concrete',
+  foundation_concrete_m3: 'Foundation concrete',
+  rc_columns_m3: 'RC columns',
+  rc_slab_m3: 'RC slab',
+  external_brickwork_m3: 'External brickwork',
+  internal_blockwork_m3: 'Internal blockwork',
+  roof_area_sqm: 'Roof covering',
+  floor_tile_sqm: 'Floor finish',
+  wall_plaster_sqm: 'Wall plaster',
+  ceiling_sqm: 'Ceiling',
+  door_count: 'Doors',
+  window_count: 'Windows',
+  paint_sqm: 'Painting',
+  electrical_points: 'Electrical points',
+  total_plumbing_fixtures: 'Plumbing fixtures',
+};
+
+export const workItemLabel = (part: string): string =>
+  WORK_ITEM_LABELS[part] ?? titleCase(part);
+
 export const titleCase = (s: string): string =>
   s.replace(/[_-]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 
@@ -136,11 +179,25 @@ export function toneFor(status: string | null | undefined): 'ok' | 'warn' | 'dan
   return 'neutral';
 }
 
-export function Bar({ value, max }: { value: number; max: number }) {
+export function Bar({
+  value,
+  max,
+  tone,
+  pulse,
+}: {
+  value: number;
+  max: number;
+  /** Defaults to the accent colour (score bars etc). Pass to colour-code
+   *  fullness, e.g. a budget meter shifting ok → warn → danger. */
+  tone?: 'ok' | 'warn' | 'danger';
+  /** Draws attention when a hard limit has been exceeded. */
+  pulse?: boolean;
+}) {
   const pct = max > 0 ? Math.min(100, Math.max(0, (value / max) * 100)) : 0;
+  const color = tone ? `var(--${tone})` : undefined;
   return (
-    <div className="bar">
-      <span style={{ width: `${pct}%` }} />
+    <div className={`bar${pulse ? ' pulse' : ''}`}>
+      <span style={{ width: `${pct}%`, background: color }} />
     </div>
   );
 }

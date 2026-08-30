@@ -1,8 +1,16 @@
-"""SLD99 (EPSG:5234) to WGS84 (EPSG:4326) coordinate converter.
+"""SLD99 (EPSG:5235) to WGS84 (EPSG:4326) coordinate converter.
 
-SLD99 is the Sri Lanka national grid used in cadastral survey plans.
+SLD99 (Sri Lanka Datum 1999 / "Sri Lanka Grid 1999") is the modern GPS-derived
+national grid used in current cadastral survey plans — the kind explicitly
+noted as "derived from RTK receiver (CORS Net)" on the plans this app parses.
 Coordinates are in metres (Easting/Northing).
 WGS84 is standard GPS coordinates (latitude/longitude).
+
+EPSG:5234 ("Kandawala / Sri Lanka Grid") is a DIFFERENT, older colonial-era
+datum that happens to share a superficially similar name — using it here
+silently produced coordinates ~50-60km off (enough to land outside Sri
+Lanka's real bounds for plots near the edge of the grid), even though the
+transform ran without error. EPSG:5235 is the correct code for real SLD99.
 """
 
 from utils.logger import get_logger
@@ -24,7 +32,7 @@ def sld99_to_wgs84(easting: float, northing: float) -> tuple[float, float] | tup
     try:
         from pyproj import Transformer
 
-        transformer = Transformer.from_crs("EPSG:5234", "EPSG:4326", always_xy=True)
+        transformer = Transformer.from_crs("EPSG:5235", "EPSG:4326", always_xy=True)
         lon, lat = transformer.transform(easting, northing)
 
         # Sanity check — Sri Lanka bounding box

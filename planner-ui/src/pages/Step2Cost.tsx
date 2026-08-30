@@ -3,8 +3,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { estimate, fetchMaterials } from '../api/services';
-import { Badge, Card, ErrorBox, Loading, Stat, lkr, num, titleCase } from '../components/ui';
+import { Badge, Card, ErrorBox, Loading, Stat, lkr, num, qtyText, titleCase, workItemLabel } from '../components/ui';
 import type { CostReport, RunState } from '../types';
+/** How much of this item C02 measured off the building schema, e.g. "9 nr" or
+ *  "156 m²". Read from trade_breakdown, which carries quantity and unit for
+ *  every priced line - so the picker shows what is actually being bought. */
+function partQuantity(report: CostReport | undefined, part: string): string | null {
+  const line = report?.trade_breakdown?.[part];
+  if (!line || typeof line.quantity !== 'number') return null;
+  return qtyText(line.quantity, line.unit);
+}
 
 type Props = { run: RunState; update: (p: Partial<RunState>) => void };
 
@@ -42,7 +50,7 @@ export function Step2Cost({ run, update }: Props) {
   const tradeData = useMemo(() => {
     if (!report) return [];
     return Object.entries(report.trade_breakdown)
-      .map(([k, v]) => ({ name: titleCase(k), value: Number(v?.line_cost_lkr ?? 0) }))
+      .map(([k, v]) => ({ name: workItemLabel(k), value: Number(v?.line_cost_lkr ?? 0) }))
       .filter((d) => d.value > 0)
       .sort((a, b) => b.value - a.value)
       .slice(0, 12);
@@ -110,6 +118,22 @@ export function Step2Cost({ run, update }: Props) {
           ) : undefined
         }
       >
+        {/* What C02 measured off the design. These are the quantities every
+            rate below is multiplied by, so showing them makes the pricing
+            legible instead of a bare per-unit menu. */}
+        {report && (
+          <div className="grid cols-4" style={{ marginBottom: '0.9rem' }}>
+            <Stat
+              label="Floor area"
+              value={`${num(report.feeds_downstream.floor_area_sqm, 0)} m²`}
+              hint={`${report.feeds_downstream.floors} floor(s)`}
+            />
+            <Stat label="Doors" value={partQuantity(report, 'door_count') ?? '—'} />
+            <Stat label="Windows" value={partQuantity(report, 'window_count') ?? '—'} />
+            <Stat label="Roof area" value={partQuantity(report, 'roof_area_sqm') ?? '—'} />
+          </div>
+        )}
+
         {catalog.isPending && <Loading what="Loading material catalogue" />}
         {catalog.isError && <ErrorBox error={catalog.error} onRetry={() => catalog.refetch()} />}
         {catalog.data && (
@@ -117,10 +141,12 @@ export function Step2Cost({ run, update }: Props) {
             {Object.entries(catalog.data).map(([part, variants]) => {
               const chosen = materials[part] ?? '';
               const active = variants.find((v) => v.material === chosen);
+              const qty = partQuantity(report, part);
               return (
                 <label className="field" key={part}>
                   <span className="row">
-                    {titleCase(part)}
+                    {workItemLabel(part)}
+                    {qty && <span className="faint">{qty}</span>}
                     {chosen && <Badge tone="ok">custom</Badge>}
                   </span>
                   <select
@@ -172,13 +198,19 @@ export function Step2Cost({ run, update }: Props) {
                     fontSize={11}
                   />
                   <Tooltip
-                    formatter={(v) => lkr(Number(v))}
+                    cursor={{ fill: 'var(--border)', opacity: 0.25 }}
+                    formatter={(v) => [lkr(Number(v)), 'Line cost']}
                     contentStyle={{
                       background: 'var(--surface)',
                       border: '1px solid var(--border)',
                       borderRadius: 8,
                       color: 'var(--text)',
                     }}
+                    /* contentStyle only colours the container - Recharts writes
+                       its own colour onto the label and each value row, which
+                       defaulted to near-black and vanished on the dark card. */
+                    labelStyle={{ color: 'var(--text)', fontWeight: 600 }}
+                    itemStyle={{ color: 'var(--text)' }}
                   />
                   <Bar dataKey="value" radius={[0, 4, 4, 0]}>
                     {tradeData.map((_, i) => (

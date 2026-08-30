@@ -6,14 +6,30 @@ from utils.logger import get_logger
 
 _logger = get_logger("prompt_builder")
 
-# NBC Sri Lanka minimum room areas (sqm)
+# Minimum room areas (sqm). This is the single source of truth used for both
+# generation (this file, layout_solver.py) and validation (validator.py) — the
+# two used to keep separate, disagreeing copies, which meant plans that were
+# generated to satisfy this table could still fail validation against a
+# stricter, unsynced one. Keep frontend/src/views/LandDataReviewView.tsx's
+# ROOM_SQM_MIN in sync with these values manually (JS/Python can't share an
+# import) if you change them here.
+#
+# living_room / dining_room / bedroom / kitchen: from Sri Lanka's UDA Planning
+# & Building Regulations (Gazette 392/9, 1986) — "general room" minimum 90 sqft
+# (8.4 sqm) covers living/dining/ordinary bedrooms; kitchen has its own 60 sqft
+# (5.6 sqm) minimum; "at least one bedroom" must be 120 sqft (11.2 sqm), used
+# here for master_bedroom. bathroom is lower-confidence — sources disagreed
+# between ~1.5 sqm and ~3.25 sqm for the same clause; used the less extreme
+# figure. garage/home_office/prayer_room/library/maids_room/kids_playroom/gym/
+# home_theatre aren't covered by this 1986 regulation at all (it predates
+# these room types) — those remain practical minimums, not a cited regulation.
 _MIN_ROOM_SQM: dict[str, float] = {
-    "living_room": 12.0,
-    "master_bedroom": 10.0,
-    "bedroom": 8.0,
-    "kitchen": 6.0,
-    "bathroom": 3.0,
-    "dining_room": 8.0,
+    "living_room": 8.4,
+    "master_bedroom": 11.2,
+    "bedroom": 8.4,
+    "kitchen": 5.6,
+    "bathroom": 3.3,
+    "dining_room": 8.4,
     "home_office": 5.0,
     "prayer_room": 5.0,
     "library": 5.0,
@@ -22,6 +38,13 @@ _MIN_ROOM_SQM: dict[str, float] = {
     "gym": 12.0,
     "home_theatre": 12.0,
     "garage": 14.0,
+    # A compact switchback residential staircase (~1m run per flight, small
+    # mid-landing) fits in roughly this footprint. Not a cited regulation —
+    # a practical minimum, same as the other non-UDA-covered room types.
+    # This size is fixed and reused identically on every floor by
+    # layout_solver.py — see solve_overlaps — since a staircase must occupy
+    # the same physical footprint on each floor it connects.
+    "staircase": 4.0,
 }
 
 # Realistic maximum room areas — rooms won't grow beyond these even on large plots
@@ -40,6 +63,9 @@ _MAX_ROOM_SQM: dict[str, float] = {
     "gym": 35.0,
     "home_theatre": 35.0,
     "garage": 38.0,
+    # Fixed, not a real ceiling — layout_solver.py always uses exactly
+    # _MIN_ROOM_SQM["staircase"], never scaling it up like other rooms.
+    "staircase": 4.0,
 }
 
 
@@ -60,6 +86,22 @@ def _compute_target_sizes(room_types: list[str], total_budget_sqm: float) -> dic
         max_sqm = _MAX_ROOM_SQM.get(rt, min_sqm * 4)
         targets[rt] = round(min(min_sqm * scale, max_sqm), 1)
     return targets
+
+
+def _format_min_sizes() -> str:
+    """Builds the MINIMUM ROOM SIZES prompt text directly from _MIN_ROOM_SQM,
+    grouping room types that share the same minimum onto one line — so the
+    prompt Gemini reads can never drift out of sync with the table generation
+    and validation actually enforce (this used to be a separately hand-typed
+    list here that fell out of sync the moment _MIN_ROOM_SQM changed)."""
+    by_value: dict[float, list[str]] = {}
+    for rt, sqm in _MIN_ROOM_SQM.items():
+        by_value.setdefault(sqm, []).append(rt)
+    lines = [
+        f"   - {' / '.join(by_value[sqm])}: minimum {sqm:g} sqm"
+        for sqm in sorted(by_value, reverse=True)
+    ]
+    return "\n".join(lines)
 
 # Lower index = higher priority (must keep)
 _ROOM_PRIORITY: list[str] = [
@@ -99,6 +141,7 @@ def _budget_check(room_types: list[str], max_total_sqm: float) -> tuple[list[str
 _FLOOR1_ROOMS = {
     "living_room", "dining_room", "kitchen", "garage",
     "bathroom", "home_office", "prayer_room", "maids_room",
+    "staircase",
 }
 _FLOOR2_ROOMS = {
     "master_bedroom", "bedroom", "library", "gym",
@@ -135,6 +178,27 @@ def _assign_floors(room_types: list[str], floors: int) -> list[tuple[str, int]]:
             result.append((rt, 1))
     return result
 
+# Maps entrance_side to which edge of the normalised (x=east, y=south)
+# coordinate space the living_room should hug — see _LAYOUT_RULES_TEMPLATE
+# rule 11. Text is filled in with the actual x/y bounds at build() time.
+_ENTRANCE_EDGE_HINT: dict[str, str] = {
+    "north": "with a low y_norm, close to y_norm = {y_min} (the north edge)",
+    "south": "with a high y_norm + height_norm, close to {y_max} (the south edge)",
+    "east": "with a high x_norm + width_norm, close to {x_max} (the east edge)",
+    "west": "with a low x_norm, close to x_norm = {x_min} (the west edge)",
+}
+
+
+def parse_entrance_side(orientation: str) -> str:
+    """Extracts north/south/east/west from an orientation string like
+    "South-facing" (CadastralData.orientation's format). Shared between the
+    LLM prompt (this file) and layout_solver.py's packer, which also needs
+    the real entrance side to bias where living_room ends up — a prompt
+    instruction alone isn't enough, since the packer recomputes every room's
+    position itself and would otherwise ignore it entirely."""
+    side = str(orientation or "South-facing").replace("-facing", "").strip().lower()
+    return side if side in _ENTRANCE_EDGE_HINT else "south"
+
 _SYSTEM_ROLE = (
     "You are a licensed Sri Lankan residential architect with 15 years of experience "
     "designing single and double storey detached dwellings for the Sri Lankan climate "
@@ -155,22 +219,25 @@ _LAYOUT_RULES_TEMPLATE = """LAYOUT RULES — YOU MUST FOLLOW ALL OF THESE EXACTL
 7. width_norm and height_norm must each be between 0.05 and 0.90.
 8. Total area of all rooms must be <= max_total_built_sqm.
 9. FLOOR DISTRIBUTION — when floors >= 2, you MUST distribute rooms across floors:
-   - Floor 1 (ground): living room, dining room, kitchen, garage, guest bathroom, home_office, prayer_room, maids_room
+   - Floor 1 (ground): living room, dining room, kitchen, garage, guest bathroom, home_office, prayer_room, maids_room, staircase
    - Floor 2 (upper): master bedroom, all other bedrooms, ensuite bathrooms, library, gym, kids_playroom, home_theatre
    - Each room's "floor" field in the JSON must be set to 1 or 2 accordingly.
    - Do NOT put all rooms on floor 1 when floors=2. Upper floor rooms reuse the same x_norm/y_norm footprint.
-10. MINIMUM ROOM SIZES — never generate a room smaller than these (NBC Sri Lanka):
-   - living_room: minimum 12 sqm
-   - master_bedroom: minimum 10 sqm
-   - bedroom: minimum 8 sqm
-   - kitchen: minimum 6 sqm
-   - bathroom: minimum 3 sqm
-   - dining_room: minimum 8 sqm
-   - home_office / prayer_room / library: minimum 5 sqm
-   - garage: minimum 14 sqm
-   - gym / home_theatre: minimum 12 sqm
+10. MINIMUM ROOM SIZES — never generate a room smaller than these:
+{min_sizes_list}
    If the total area budget cannot fit all rooms at minimum sizes, REMOVE lower-priority rooms rather than shrinking rooms below minimums.
-   Priority order: bedrooms > living_room > kitchen > bathrooms > dining_room > special_rooms > garage."""
+   Priority order: bedrooms > living_room > kitchen > bathrooms > dining_room > special_rooms > garage.
+11. ENTRANCE-AWARE PLACEMENT — MANDATORY:
+   The main entrance is on the {entrance_side} side of the plot. The living_room MUST be
+   positioned {entrance_edge_hint} — a person walking in the front door must reach the
+   living room immediately, not after passing through other rooms. Do NOT place living_room
+   in the corner or edge farthest from the entrance; that is not how a real house is entered.
+12. STAIRCASE — when floors >= 2, a room named "staircase" is included in the required room
+   list. Its exact position and size are fixed by the system after generation and will be
+   placed to physically connect floor 1 and floor 2, so treat it like any other floor-1 room
+   for layout purposes (give it a position that does not overlap others) — your specific
+   coordinates for it will be overridden, but every other room's position must still make
+   sense as if the staircase occupies real space near the entrance/public zone."""
 
 _OUTPUT_FORMAT = """Respond ONLY with a valid JSON object. No markdown fences, no explanation. Use this exact schema:
 {
@@ -214,8 +281,12 @@ class PromptBuilder:
         Returns:
             str: Complete structured prompt.
         """
-        orientation = buildable_zone.get("orientation", {})
-        entrance_side = orientation.get("entrance_side", "south")
+        # user_requirements["orientation"] carries the plan's real entrance side
+        # (e.g. "South-facing", from OrientationSolver via cadastral.py) —
+        # buildable_zone has no "orientation" key at all, so reading it from
+        # there (the previous approach) silently always fell back to "south"
+        # regardless of the actual plot.
+        entrance_side = parse_entrance_side(user_requirements.get("orientation"))
 
         # Derive axis-aligned bounds from the buildable polygon so the LLM
         # knows exactly which coordinate range is valid for room placement.
@@ -228,8 +299,14 @@ class PromptBuilder:
         else:
             x_min, y_min, x_max, y_max = 0.0, 0.0, 1.0, 1.0
 
+        entrance_edge_hint = _ENTRANCE_EDGE_HINT[entrance_side].format(
+            x_min=x_min, x_max=x_max, y_min=y_min, y_max=y_max
+        )
         layout_rules = _LAYOUT_RULES_TEMPLATE.format(
-            x_min=x_min, y_min=y_min, x_max=x_max, y_max=y_max
+            x_min=x_min, y_min=y_min, x_max=x_max, y_max=y_max,
+            min_sizes_list=_format_min_sizes(),
+            entrance_side=entrance_side,
+            entrance_edge_hint=entrance_edge_hint,
         )
 
         rag_context = "\n---\n".join(retrieved_plans) if retrieved_plans else "No precedents available."

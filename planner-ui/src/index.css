@@ -89,6 +89,7 @@ a { color: var(--accent); }
   display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
 }
 .brand { font-weight: 650; letter-spacing: -0.02em; }
+.brand-link { text-decoration: none; color: inherit; }
 .brand small { color: var(--text-faint); font-weight: 400; margin-left: 0.5rem; }
 .topbar-spacer { flex: 1; }
 
@@ -98,6 +99,8 @@ a { color: var(--accent); }
 .grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 .grid.cols-3 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 .grid.cols-4 { grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); }
+
+.location-map { height: 320px; border-radius: 10px; border: 1px solid var(--border); margin-top: 0.5rem; }
 
 .row { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
 .between { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
@@ -210,10 +213,186 @@ details.section[open] > summary::before { transform: rotate(90deg); }
 
 /* Bar used by the material picker + trade breakdown */
 .bar { height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
-.bar > span { display: block; height: 100%; background: var(--accent); }
+.bar > span { display: block; height: 100%; background: var(--accent); transition: width 0.3s, background 0.3s; }
+.bar.pulse > span { animation: bar-pulse 1.4s ease-in-out infinite; }
+@keyframes bar-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+/* ── Step 1 (Architecture) additions ───────────────────────────────────── */
+
+.dropzone {
+  border: 2px dashed var(--border-strong); border-radius: var(--radius);
+  padding: 2.5rem 1.5rem; text-align: center; cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  color: var(--text-dim);
+}
+.dropzone:hover, .dropzone.dragging { border-color: var(--accent); background: var(--accent-soft); }
+.dropzone .icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+.dropzone .filename { color: var(--text); font-weight: 600; }
+
+.tile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.5rem; }
+.tile {
+  display: flex; align-items: center; gap: 0.55rem;
+  border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.7rem;
+  background: var(--surface); cursor: pointer; font-size: 0.85rem; color: var(--text-dim);
+  user-select: none;
+}
+.tile.checked { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.tile input { width: auto; accent-color: var(--accent); }
+
+.floor-tabs { display: flex; gap: 0.3rem; margin-bottom: 0.5rem; }
+.floor-tabs button { padding: 0.2rem 0.6rem; font-size: 0.72rem; border-radius: 999px; }
+.floor-tabs button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.room-pill-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.room-pill {
+  font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 999px;
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--text-dim);
+}
+
+.plan-card {
+  border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem;
+  background: var(--surface); cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s;
+}
+.plan-card:hover { border-color: var(--border-strong); }
+.plan-card.selected { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+.score-row { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--text-dim); }
+.score-row .bar { flex: 1; }
+.score-row .val { width: 2.4em; text-align: right; font-variant-numeric: tabular-nums; }
+
+.thumb-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+.thumb-grid figure { margin: 0; cursor: zoom-in; }
+.thumb-grid img { width: 100%; border-radius: 8px; border: 1px solid var(--border); display: block; transition: border-color 0.15s; }
+.thumb-grid figure:hover img { border-color: var(--accent); }
+.thumb-grid figcaption { font-size: 0.72rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 0.35rem; }
+
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6);
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem; z-index: 100;
+}
+.modal-panel {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 1rem; max-width: min(90vw, 900px); max-height: 90vh;
+  overflow: auto;
+}
+.modal-panel img { max-width: 100%; max-height: 75vh; display: block; border-radius: 8px; margin: 0 auto; }
+.btn-link {
+  display: inline-flex; align-items: center; font-weight: 550; text-decoration: none;
+  border-radius: 8px; padding: 0.5rem 1rem; border: 1px solid var(--border-strong);
+  background: var(--surface); color: var(--text);
+}
+.btn-link:hover { border-color: var(--text-faint); }
+
+/* ── Landing ────────────────────────────────────────────────────────────── */
+
+.landing { display: flex; flex-direction: column; gap: 3.5rem; }
+
+.hero {
+  text-align: center;
+  padding: 3.5rem 0 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.hero .eyebrow {
+  display: inline-block;
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  margin-bottom: 1.25rem;
+}
+.hero h1 {
+  font-size: clamp(1.9rem, 4.6vw, 3rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  margin: 0 0 1rem;
+}
+.hero .lede {
+  max-width: 46rem; margin: 0 auto 1.75rem;
+  color: var(--text-dim); font-size: 1.05rem;
+}
+.hero-cta { justify-content: center; }
+.hero-note { margin-top: 1rem; font-size: 0.85rem; }
+
+button.lg { padding: 0.7rem 1.4rem; font-size: 1rem; }
+
+.landing-section h2 {
+  font-size: 1.4rem; letter-spacing: -0.02em; margin: 0 0 0.4rem;
+}
+.landing-section .section-lede { max-width: 46rem; margin: 0 0 1.5rem; }
+.landing-section h3 { font-size: 1rem; margin: 0 0 0.4rem; }
+.landing-section .card p:last-child { margin-bottom: 0; }
+
+/* The pipeline reads left to right on desktop and top to bottom when it wraps,
+   so the connecting arrow has to rotate with it - see the media query below. */
+.pipeline {
+  display: grid; gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+.pipe-card {
+  position: relative;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.1rem;
+  box-shadow: var(--shadow);
+  display: flex; flex-direction: column; gap: 0.55rem;
+}
+.pipe-card > header { display: flex; align-items: center; gap: 0.6rem; margin: 0; }
+.pipe-card h3 { margin: 0; }
+.pipe-n {
+  font: 600 0.72rem/1 var(--mono);
+  color: var(--accent); background: var(--accent-soft);
+  border-radius: 6px; padding: 0.35rem 0.45rem;
+}
+.pipe-flow {
+  display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;
+  margin: 0; font-size: 0.85rem;
+}
+.pipe-arrow { color: var(--text-faint); }
+.pipe-blurb { margin: 0; color: var(--text-dim); font-size: 0.88rem; flex: 1; }
+.pipe-port { font-size: 0.72rem; color: var(--text-faint); }
+
+/* Connector between cards. Sits in the grid gap, hidden on the last card. */
+.pipe-link {
+  position: absolute; right: -0.95rem; top: 50%;
+  transform: translateY(-50%);
+  color: var(--border-strong); font-size: 1rem; line-height: 1;
+  z-index: 1;
+}
+@media (max-width: 719px) {
+  .pipe-link { right: 50%; top: auto; bottom: -0.95rem; transform: translateX(50%) rotate(90deg); }
+}
+
+.out-title { font-size: 1rem; }
+
+.cta-band {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.5rem; flex-wrap: wrap;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+}
+.cta-band h2 { margin: 0 0 0.25rem; font-size: 1.3rem; letter-spacing: -0.02em; }
+.cta-band p { margin: 0; }
 
 @media print {
   .topbar, .stepper, .footer-nav, button { display: none !important; }
-  .card { break-inside: avoid; box-shadow: none; }
+  .card { box-shadow: none; }
   body { background: #fff; }
+
+  /* The review page is the PDF - window.print() is the only export. Anything
+     scrollable on screen has to unroll here or it is silently cropped out of
+     the document. */
+  .table-wrap { overflow: visible !important; }
+
+  /* Let long bills of quantities flow across pages instead of being clipped to
+     the first one, but never split an individual row. */
+  .card { break-inside: auto; }
+  tr, .stat { break-inside: avoid; }
+  h3 { break-after: avoid; }
+  thead { display: table-header-group; }
+
+  table { font-size: 0.78rem; }
 }
