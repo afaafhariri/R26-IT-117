@@ -11,6 +11,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.102.3
         version: 5.102.3(react@19.2.8)
+      frappe-gantt:
+        specifier: ^1.2.2
+        version: 1.2.2
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -430,6 +433,9 @@ packages:
     peerDependenciesMeta:
       picomatch:
         optional: true
+
+  frappe-gantt@1.2.2:
+    resolution: {integrity: sha512-1+uPNRa92LBIeKiZCVhJMiGIifJk5ONaoerXI8eBREXWRZGGoTJR5ATpMpsnAQcyBA6Gnq5wIht4eL+e4eHMBA==}
 
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
@@ -916,6 +922,8 @@ snapshots:
   fdir@6.5.0(picomatch@4.0.7):
     optionalDependencies:
       picomatch: 4.0.7
+
+  frappe-gantt@1.2.2: {}
 
   fsevents@2.3.3:
     optional: true
