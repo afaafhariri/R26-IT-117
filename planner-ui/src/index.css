@@ -284,6 +284,47 @@ details.section[open] > summary::before { transform: rotate(90deg); }
 }
 .btn-link:hover { border-color: var(--text-faint); }
 
+/* ── Review Gantt (screen + print) ───────────────────────────────────────── */
+
+.rgantt { display: flex; flex-direction: column; gap: 0.28rem; }
+
+.rgantt-scale {
+  position: relative; height: 1rem; margin-left: 9.5rem; margin-right: 3.2rem;
+  font-size: 0.68rem; color: var(--text-faint);
+}
+.rgantt-tick { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+
+.rgantt-row { display: flex; align-items: center; gap: 0.5rem; }
+
+.rgantt-label {
+  width: 9rem; flex: none;
+  font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.rgantt-label em {
+  font-style: normal; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--danger); margin-left: 0.35rem;
+}
+
+.rgantt-track {
+  position: relative; flex: 1; height: 1.15rem;
+  background: var(--surface-2); border-radius: 4px; overflow: hidden;
+}
+.rgantt-grid {
+  position: absolute; top: 0; bottom: 0; width: 1px;
+  background: var(--border);
+}
+.rgantt-bar {
+  position: absolute; top: 3px; bottom: 3px;
+  background: var(--accent); border-radius: 3px; min-width: 2px;
+}
+.rgantt-bar.is-critical { background: var(--danger); }
+
+.rgantt-dur {
+  width: 2.9rem; flex: none; text-align: right;
+  font-size: 0.75rem; color: var(--text-dim); font-variant-numeric: tabular-nums;
+}
+.rgantt-foot { margin: 0.5rem 0 0; font-size: 0.75rem; }
+
 /* ── Landing ────────────────────────────────────────────────────────────── */
 
 .landing { display: flex; flex-direction: column; gap: 3.5rem; }
@@ -378,6 +419,34 @@ button.lg { padding: 0.7rem 1.4rem; font-size: 1rem; }
 .cta-band p { margin: 0; }
 
 @media print {
+  /* Force the light palette on paper. The old rule only whitened the page
+     background and left the tokens alone, so a reader whose screen theme was
+     dark printed #e8eaed text onto white - an apparently blank document. The
+     viewer's screen theme has no meaning here, so pin it either way.
+     The compound selectors match the specificity of the dark-mode block above,
+     which would otherwise win. */
+  :root,
+  :root:not([data-theme='light']),
+  :root[data-theme='dark'] {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --surface-2: #f4f5f7;
+    --border: #d6dae0;
+    --border-strong: #b6bcc6;
+    --text: #14171b;
+    --text-dim: #4d5560;
+    --text-faint: #767f8b;
+    --accent: #2f6fd0;
+    --accent-soft: #e8f0fc;
+    --ok: #1f8a4c;
+    --ok-soft: #e3f5ea;
+    --warn: #99610a;
+    --warn-soft: #fdf2df;
+    --danger: #b83226;
+    --danger-soft: #fdeceb;
+    --shadow: none;
+  }
+
   .topbar, .stepper, .footer-nav, button { display: none !important; }
   .card { box-shadow: none; }
   body { background: #fff; }
@@ -395,4 +464,12 @@ button.lg { padding: 0.7rem 1.4rem; font-size: 1rem; }
   thead { display: table-header-group; }
 
   table { font-size: 0.78rem; }
+
+  /* Browsers drop background colours when printing unless asked; without this
+     every Gantt bar prints as an empty outline. */
+  .rgantt-bar, .rgantt-track, .rgantt-grid {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .rgantt { break-inside: avoid; }
 }

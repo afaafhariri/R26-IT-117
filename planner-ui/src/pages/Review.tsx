@@ -29,6 +29,78 @@ function Section({
   );
 }
 
+/* A Gantt drawn in CSS rather than reusing step 3's frappe-gantt widget.
+ * That one is an interactive SVG in a horizontally-scrolling container sized to
+ * the whole programme, so on paper it is cropped to whatever happened to be in
+ * view. This lays every bar out as a percentage of the project span, so it fits
+ * whatever width the page gives it and prints whole. */
+function ReviewGantt({ tl }: { tl: NonNullable<RunState['step3']>['timeline'] }) {
+  const tasks = tl.gantt_chart_data.filter((t) => t.start_date && t.end_date);
+  if (tasks.length === 0) return null;
+
+  const ms = (d: string) => new Date(d).getTime();
+  const start = Math.min(...tasks.map((t) => ms(t.start_date!)));
+  const end = Math.max(...tasks.map((t) => ms(t.end_date!)));
+  const span = Math.max(1, end - start);
+
+  // critical_path uses snake_case keys ("external_work"); gantt tasks use the
+  // display name ("External Work"). Normalise both before comparing.
+  const key = (s: string) => s.toLowerCase().replace(/[\s_-]+/g, '');
+  const critical = new Set(tl.critical_path.map(key));
+
+  // One tick per calendar month the programme touches.
+  const months: { label: string; left: number }[] = [];
+  const cursor = new Date(start);
+  cursor.setDate(1);
+  cursor.setMonth(cursor.getMonth() + 1);
+  while (cursor.getTime() < end) {
+    months.push({
+      label: cursor.toLocaleDateString('en-LK', { month: 'short' }),
+      left: ((cursor.getTime() - start) / span) * 100,
+    });
+    cursor.setMonth(cursor.getMonth() + 1);
+  }
+
+  return (
+    <div className="rgantt">
+      <div className="rgantt-scale">
+        {months.map((m) => (
+          <span className="rgantt-tick" key={m.label + m.left} style={{ left: `${m.left}%` }}>
+            {m.label}
+          </span>
+        ))}
+      </div>
+      {tasks.map((t) => {
+        const isCritical = critical.has(key(t.task));
+        const left = ((ms(t.start_date!) - start) / span) * 100;
+        const width = Math.max(0.8, ((ms(t.end_date!) - ms(t.start_date!)) / span) * 100);
+        return (
+          <div className="rgantt-row" key={t.id}>
+            <span className="rgantt-label">
+              {t.task}
+              {isCritical && <em>critical</em>}
+            </span>
+            <span className="rgantt-track">
+              {months.map((m) => (
+                <i className="rgantt-grid" key={m.label + m.left} style={{ left: `${m.left}%` }} />
+              ))}
+              <b
+                className={isCritical ? 'rgantt-bar is-critical' : 'rgantt-bar'}
+                style={{ left: `${left}%`, width: `${width}%` }}
+              />
+            </span>
+            <span className="rgantt-dur">{num(t.duration_weeks)} wk</span>
+          </div>
+        );
+      })}
+      <p className="rgantt-foot faint">
+        {dateStr(tasks[0].start_date)} → {dateStr(tasks[tasks.length - 1].end_date)} · red bars are
+        on the critical path
+      </p>
+    </div>
+  );
+}
+
 export function Review({ run }: { run: RunState }) {
   const schema = run.step1?.buildingSchema;
   const est = run.step2?.estimate;
@@ -296,6 +368,7 @@ export function Review({ run }: { run: RunState }) {
               <Stat label="Confidence" value={pct(tl.confidence_score)} />
               <Stat label="Milestones" value={tl.milestones.length} />
             </div>
+            <ReviewGantt tl={tl} />
             <div className="table-wrap">
               <table>
                 <thead>
