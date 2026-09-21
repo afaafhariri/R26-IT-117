@@ -121,3 +121,4 @@ Architecture/benchmark_results.csv
 .vite/
 
 performance/.venv-train
+paper/
