@@ -15,17 +15,20 @@ export class ApiError extends Error {
   }
 }
 
-function envUrl(key: string, fallback: string): string {
-  const v = (import.meta.env as Record<string, string | undefined>)[key];
-  return (v ?? fallback).replace(/\/$/, '');
-}
-
+/** Every service is reached through the gateway, on this page's own origin.
+ *  In dev, Vite forwards /api to the gateway (see vite.config.ts); in
+ *  production the gateway serves the same paths. */
 export const BASE = {
-  c01: envUrl('VITE_C01_URL', 'http://localhost:8001'),
-  c02: envUrl('VITE_C02_URL', 'http://localhost:8002'),
-  c03: envUrl('VITE_C03_URL', 'http://localhost:8000'),
-  c04: envUrl('VITE_C04_URL', 'http://localhost:5004'),
+  auth: '/api/auth',
+  c01: '/api/c01',
+  c02: '/api/c02',
+  c03: '/api/c03',
+  c04: '/api/c04',
 };
+
+/** Fired when a service call comes back 401: the session ended (timed out,
+ *  or signed out elsewhere). App listens and sends the user to log in. */
+export const SIGNED_OUT_EVENT = 'r26:signed-out';
 
 /** Pull a human-usable message out of whatever shape the service returned. */
 function extract(body: unknown, status: number): { message: string; details: string[] } {
@@ -68,11 +71,12 @@ export async function request<T>(
       },
     });
   } catch {
-    // Network-level failure: service down, or a CORS preflight rejection.
+    // Network-level failure. A service being down is not this case: the
+    // gateway answers for it with a 502 that extract() turns into a message.
     throw new ApiError(
-      `Cannot reach ${service.toUpperCase()} at ${BASE[service]}. Is the service running?`,
+      'Cannot reach the API gateway. Is it running?',
       0,
-      ['If the service is up, this is usually a CORS problem.'],
+      [],
       service,
     );
   }
@@ -88,6 +92,11 @@ export async function request<T>(
   }
 
   if (!res.ok) {
+    // /auth answers 401 for a wrong password or "not signed in yet", which
+    // the auth pages handle themselves; anywhere else it means the session died.
+    if (res.status === 401 && service !== 'auth') {
+      window.dispatchEvent(new Event(SIGNED_OUT_EVENT));
+    }
     const { message, details } = extract(body, res.status);
     throw new ApiError(message, res.status, details, service);
   }

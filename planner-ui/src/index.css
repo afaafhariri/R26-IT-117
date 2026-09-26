@@ -92,6 +92,11 @@ a { color: var(--accent); }
 .brand-link { text-decoration: none; color: inherit; }
 .brand small { color: var(--text-faint); font-weight: 400; margin-left: 0.5rem; }
 .topbar-spacer { flex: 1; }
+.account { display: flex; align-items: center; gap: 0.5rem; }
+
+/* Login, sign-up and the other account pages: one narrow card. */
+.auth { max-width: 420px; margin: 2rem auto 0; }
+.auth-footer { text-align: center; margin-top: 1rem; }
 
 .container { width: 100%; max-width: 1080px; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
 
@@ -151,6 +156,9 @@ input, select, textarea {
   border: 1px solid var(--border-strong); border-radius: 7px; padding: 0.45rem 0.6rem; width: 100%;
 }
 input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+label.check { display: flex; gap: 0.5rem; align-items: center; font-size: 0.85rem; color: var(--text-dim); }
+label.check input { width: auto; }
+.field-hint { font-size: 0.75rem; color: var(--text-faint); }
 
 button {
   font: inherit; font-weight: 550; cursor: pointer;
