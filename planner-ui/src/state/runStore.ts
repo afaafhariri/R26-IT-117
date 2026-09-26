@@ -72,16 +72,52 @@ export function useRun() {
     commit({ ...snapshot(), ...patch });
   }, []);
 
-  const reset = useCallback(() => {
-    try {
-      localStorage.removeItem(KEY);
-    } catch {
-      /* ignore */
-    }
-    commit(newRun());
-  }, []);
+  const reset = useCallback(() => resetRun(), []);
 
   return { run, update, reset };
+}
+
+export function resetRun() {
+  try {
+    localStorage.removeItem(KEY);
+  } catch {
+    /* ignore */
+  }
+  commit(newRun());
+}
+
+/** Which account the saved run belongs to. The run lives in this browser,
+ *  not on the server, so it has to be kept from whoever signs in next. */
+const OWNER_KEY = 'r26.run.owner';
+
+/** On sign-in. The same account coming back (say, after its session expired
+ *  mid-wizard) carries on where it left off; a different account starts
+ *  fresh. Returns true when the previous account's run was discarded. */
+export function claimRun(userId: string): boolean {
+  let owner: string | null = null;
+  try {
+    owner = localStorage.getItem(OWNER_KEY);
+  } catch {
+    /* ignore */
+  }
+  const someoneElse = owner !== null && owner !== userId;
+  if (someoneElse) resetRun();
+  try {
+    localStorage.setItem(OWNER_KEY, userId);
+  } catch {
+    /* ignore */
+  }
+  return someoneElse;
+}
+
+/** On logout: nothing of this user's project stays behind in the browser. */
+export function releaseRun() {
+  resetRun();
+  try {
+    localStorage.removeItem(OWNER_KEY);
+  } catch {
+    /* ignore */
+  }
 }
 
 /** Highest step whose prerequisites are met (1-4); 5 means review is reachable. */
