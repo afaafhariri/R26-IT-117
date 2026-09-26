@@ -57,7 +57,7 @@ performance/
 ├── data/
 │   ├── delay_data.csv         # 192 historical delay cases
 │   └── rag_cases/             # 192 generated story .txt files for FAISS indexing
-├── models/                    # Generated — not committed to git
+├── models/                    # Trained artefacts — committed
 │   ├── xgboost_classifier.json
 │   ├── xgboost_regressor.json
 │   ├── label_encoders.pkl

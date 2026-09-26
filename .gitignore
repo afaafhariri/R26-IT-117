@@ -29,14 +29,6 @@ env/
 .env/
 ENV/
 
-# ── Trained ML models ─────────────────────────────────────────────────────────
-# Model binaries are large and environment-specific — regenerate via train_model.py
-cost-estimation/models/*.json
-cost-estimation/models/*.h5
-cost-estimation/models/*.pkl
-cost-estimation/models/*.bin
-!cost-estimation/models/.gitkeep
-
 # ── Datasets & research data ──────────────────────────────────────────────────
 /research/datasets/
 
