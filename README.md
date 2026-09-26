@@ -1021,7 +1021,7 @@ cost-estimation/
 ├── Dockerfile
 ├── README.md                      # Component-level documentation
 ├── data/                          # ICTAD rates, material catalog, scraped prices
-├── models/                        # Trained model artefacts (gitignored)
+├── models/                        # Trained model artefacts (committed)
 ├── scripts/                       # Training and data-preparation utilities
 ├── tests/
 └── layers/
@@ -1346,7 +1346,7 @@ performance/
 ├── data/
 │   ├── delay_data.csv         # 192 historical delay cases
 │   └── rag_cases/             # 192 generated story .txt files for FAISS indexing
-├── models/                    # Generated — not committed to git
+├── models/                    # Trained artefacts — committed
 │   ├── xgboost_classifier.json
 │   ├── xgboost_regressor.json
 │   ├── label_encoders.pkl
@@ -1555,8 +1555,8 @@ These are implemented in `main.py` alongside the endpoints documented above.
 
 ### Training
 
-`models/` is generated and gitignored, so a fresh clone has no artefacts and
-the prediction endpoints will fail until you train:
+The trained artefacts in `models/` are committed, so a fresh clone serves
+predictions without training. To retrain:
 
 ```bash
 cd performance

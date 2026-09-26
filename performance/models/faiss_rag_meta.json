@@ -1,0 +1,770 @@
+[
+  {
+    "filename": "case_0001.txt",
+    "text": "Case 1: Construction Delay - Structure / Floor slabs\n\nLocation   : Kilinochchi, Northern Province\nBuilding   : 2-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 90 days\n\nDelay Category : Financial & Funding\nCause of Delay : NHDA resettlement grant released in instalments causing Kilinochchi work stoppages\n\nSite Conditions:\n  - Labour availability  : 0.7\n  - Material supply      : available\n  - Weather severity     : 0.3\n  - Cumulative delay so far: 44 days\n\nCorrective Action Taken:\n  Work phased carefully to match NHDA grant instalment disbursement schedule\n\nConstruction Status:\n  Completed in phased approach"
+  },
+  {
+    "filename": "case_0002.txt",
+    "text": "Case 2: Construction Delay - Structure / Floor slabs\n\nLocation   : Matara, Southern Province\nBuilding   : 2-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 180 days\n\nDelay Category : Financial & Funding\nCause of Delay : Construction costs exceeded budget due to 2022 material inflation in Matara\n\nSite Conditions:\n  - Labour availability  : 0.88\n  - Material supply      : available\n  - Weather severity     : 0.26\n  - Cumulative delay so far: 19 days\n\nCorrective Action Taken:\n  Phased construction approach adopted to manage available cash flow\n\nConstruction Status:\n  Partially completed - roof level only"
+  },
+  {
+    "filename": "case_0003.txt",
+    "text": "Case 3: Construction Delay - Pre-Construction & Approvals / BOQ preparation & tendering\n\nLocation   : Trincomalee, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > BOQ preparation & tendering\nRisk Level : MEDIUM\nDelay Days : 45 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Diaspora Trincomalee owner abroad unable to make timely decisions\n\nSite Conditions:\n  - Labour availability  : 0.6\n  - Material supply      : available\n  - Weather severity     : 0.41\n  - Cumulative delay so far: 10 days\n\nCorrective Action Taken:\n  Power of attorney given to local relative to manage project on-site\n\nConstruction Status:\n  Completed after governance change"
+  },
+  {
+    "filename": "case_0004.txt",
+    "text": "Case 4: Construction Delay - Envelope & Waterproofing / External rendering\n\nLocation   : Matara, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Envelope & Waterproofing > External rendering\nRisk Level : HIGH\nDelay Days : 55 days\n\nDelay Category : Environmental & Site\nCause of Delay : Coastal erosion near Matara beach site threatened external rendering stability\n\nSite Conditions:\n  - Labour availability  : 0.8\n  - Material supply      : available\n  - Weather severity     : 0.77\n  - Cumulative delay so far: 59 days\n\nCorrective Action Taken:\n  Retaining wall and rock armouring constructed on coastal site boundary\n\nConstruction Status:\n  Completed with coastal protection measures"
+  },
+  {
+    "filename": "case_0005.txt",
+    "text": "Case 5: Construction Delay - Structure / Columns & beams\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : HIGH\nDelay Days : 120 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Cement and steel unavailable in Ampara during 2022 foreign exchange crisis\n\nSite Conditions:\n  - Labour availability  : 0.83\n  - Material supply      : unavailable\n  - Weather severity     : 0.36\n  - Cumulative delay so far: 44 days\n\nCorrective Action Taken:\n  Bulk materials procured from Colombo at additional transport cost\n\nConstruction Status:\n  Completed with significant cost overrun"
+  },
+  {
+    "filename": "case_0006.txt",
+    "text": "Case 6: Construction Delay - Finishes / Tiling\n\nLocation   : Gampaha, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Finishes > Tiling\nRisk Level : LOW\nDelay Days : 7 days\n\nDelay Category : Labour\nCause of Delay : Skilled tiler unavailable locally for bathroom and kitchen tiling in Gampaha\n\nSite Conditions:\n  - Labour availability  : 0.27\n  - Material supply      : available\n  - Weather severity     : 0.25\n  - Cumulative delay so far: 3 days\n\nCorrective Action Taken:\n  Experienced tiler hired from Colombo for complete finishing phase\n\nConstruction Status:\n  Completed"
+  },
+  {
+    "filename": "case_0007.txt",
+    "text": "Case 7: Construction Delay - Pre-Construction & Approvals / BOQ preparation & tendering\n\nLocation   : Jaffna, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > BOQ preparation & tendering\nRisk Level : MEDIUM\nDelay Days : 45 days\n\nDelay Category : Financial & Funding\nCause of Delay : Bank housing loan disbursement delayed due to incomplete land documents in Jaffna\n\nSite Conditions:\n  - Labour availability  : 0.64\n  - Material supply      : available\n  - Weather severity     : 0.38\n  - Cumulative delay so far: 12 days\n\nCorrective Action Taken:\n  Documents rectified and emergency loan instalment released by bank\n\nConstruction Status:\n  Completed after delay"
+  },
+  {
+    "filename": "case_0008.txt",
+    "text": "Case 8: Construction Delay - Foundations / Foundation work\n\nLocation   : Mannar, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 42 days\n\nDelay Category : Environmental & Site\nCause of Delay : Saltwater intrusion from Mannar lagoon corroded steel reinforcement in foundation\n\nSite Conditions:\n  - Labour availability  : 0.88\n  - Material supply      : available\n  - Weather severity     : 0.73\n  - Cumulative delay so far: 15 days\n\nCorrective Action Taken:\n  Corrosion resistant marine grade steel used and affected sections replaced\n\nConstruction Status:\n  Completed with additional cost"
+  },
+  {
+    "filename": "case_0009.txt",
+    "text": "Case 9: Construction Delay - External Works & Handover / Boundary wall & gate\n\nLocation   : Jaffna, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : External Works & Handover > Boundary wall & gate\nRisk Level : MEDIUM\nDelay Days : 30 days\n\nDelay Category : Land & Legal\nCause of Delay : Deed gifted by parent not legally transferred before boundary wall construction\n\nSite Conditions:\n  - Labour availability  : 0.84\n  - Material supply      : available\n  - Weather severity     : 0.37\n  - Cumulative delay so far: 12 days\n\nCorrective Action Taken:\n  Deed of gift prepared and registered at Jaffna Land Registry office\n\nConstruction Status:\n  Completed after legal documentation"
+  },
+  {
+    "filename": "case_0010.txt",
+    "text": "Case 10: Construction Delay - Structure / Roof slab\n\nLocation   : Jaffna, Northern Province\nBuilding   : 2-floor residential construction\nPhase      : Structure > Roof slab\nRisk Level : MEDIUM\nDelay Days : 21 days\n\nDelay Category : Labour\nCause of Delay : Wage disputes between owner and daily-wage labourers halted roof slab work\n\nSite Conditions:\n  - Labour availability  : 0.27\n  - Material supply      : available\n  - Weather severity     : 0.36\n  - Cumulative delay so far: 16 days\n\nCorrective Action Taken:\n  Wage agreement mediated by Grama Niladhari officer in Jaffna\n\nConstruction Status:\n  Completed after negotiation"
+  },
+  {
+    "filename": "case_0011.txt",
+    "text": "Case 11: Construction Delay - Foundations / Ground beams\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 2-floor residential construction\nPhase      : Foundations > Ground beams\nRisk Level : MEDIUM\nDelay Days : 35 days\n\nDelay Category : Environmental & Site\nCause of Delay : Batticaloa lagoon saltwater intrusion corroded steel in ground beams\n\nSite Conditions:\n  - Labour availability  : 0.88\n  - Material supply      : available\n  - Weather severity     : 0.92\n  - Cumulative delay so far: 9 days\n\nCorrective Action Taken:\n  Epoxy coated marine grade steel used as full replacement\n\nConstruction Status:\n  Completed with additional cost"
+  },
+  {
+    "filename": "case_0012.txt",
+    "text": "Case 12: Construction Delay - Foundations / Foundation work\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 38 days\n\nDelay Category : Environmental & Site\nCause of Delay : Saltwater intrusion from Ampara lagoon corroded reinforcement bars\n\nSite Conditions:\n  - Labour availability  : 0.85\n  - Material supply      : available\n  - Weather severity     : 0.83\n  - Cumulative delay so far: 18 days\n\nCorrective Action Taken:\n  Marine grade steel and epoxy coating used for complete replacement\n\nConstruction Status:\n  Completed with additional cost"
+  },
+  {
+    "filename": "case_0013.txt",
+    "text": "Case 13: Construction Delay - Pre-Construction & Approvals / Authority approvals\n\nLocation   : Trincomalee, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Authority approvals\nRisk Level : HIGH\nDelay Days : 180 days\n\nDelay Category : Land & Legal\nCause of Delay : Land under military restriction in Trincomalee district gazette HSZ zone\n\nSite Conditions:\n  - Labour availability  : 0.75\n  - Material supply      : available\n  - Weather severity     : 0.36\n  - Cumulative delay so far: 49 days\n\nCorrective Action Taken:\n  Application submitted to Ministry of Defence for HSZ clearance\n\nConstruction Status:\n  Suspended awaiting gazette release"
+  },
+  {
+    "filename": "case_0014.txt",
+    "text": "Case 14: Construction Delay - MEP Rough-Ins / Plumbing & drainage\n\nLocation   : Trincomalee, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : MEP Rough-Ins > Plumbing & drainage\nRisk Level : MEDIUM\nDelay Days : 35 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Material delivery delays due to limited transport infrastructure in Trincomalee\n\nSite Conditions:\n  - Labour availability  : 0.81\n  - Material supply      : unavailable\n  - Weather severity     : 0.35\n  - Cumulative delay so far: 19 days\n\nCorrective Action Taken:\n  Advance bulk ordering and warehouse storage at Trincomalee depot arranged\n\nConstruction Status:\n  Completed after supply improvement"
+  },
+  {
+    "filename": "case_0015.txt",
+    "text": "Case 15: Construction Delay - Structure / Roof slab\n\nLocation   : Hambantota, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Roof slab\nRisk Level : HIGH\nDelay Days : 75 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Steel price increase during 2022 crisis halted Hambantota roof slab work\n\nSite Conditions:\n  - Labour availability  : 0.75\n  - Material supply      : unavailable\n  - Weather severity     : 0.26\n  - Cumulative delay so far: 36 days\n\nCorrective Action Taken:\n  Structural steel quantity optimised by engineer and work resumed\n\nConstruction Status:\n  Completed with cost reduction through optimisation"
+  },
+  {
+    "filename": "case_0016.txt",
+    "text": "Case 16: Construction Delay - Foundations / Foundation work\n\nLocation   : Mullaitivu, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 25 days\n\nDelay Category : Labour\nCause of Delay : Extreme shortage of skilled construction workers in Mullaitivu post-war area\n\nSite Conditions:\n  - Labour availability  : 0.27\n  - Material supply      : available\n  - Weather severity     : 0.34\n  - Cumulative delay so far: 11 days\n\nCorrective Action Taken:\n  Workers recruited from Vavuniya and Kilinochchi with accommodation on site\n\nConstruction Status:\n  Completed after delay"
+  },
+  {
+    "filename": "case_0017.txt",
+    "text": "Case 17: Construction Delay - Pre-Construction & Approvals / Site selection & surveying\n\nLocation   : Hambantota, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Site selection & surveying\nRisk Level : MEDIUM\nDelay Days : 35 days\n\nDelay Category : Land & Legal\nCause of Delay : Land boundary dispute with neighbour delayed Hambantota site clearance and survey\n\nSite Conditions:\n  - Labour availability  : 0.76\n  - Material supply      : available\n  - Weather severity     : 0.23\n  - Cumulative delay so far: 6 days\n\nCorrective Action Taken:\n  Licensed boundary survey conducted and formal agreement signed\n\nConstruction Status:\n  Completed after legal resolution"
+  },
+  {
+    "filename": "case_0018.txt",
+    "text": "Case 18: Construction Delay - Foundations / Foundation work\n\nLocation   : Trincomalee, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 25 days\n\nDelay Category : Environmental & Site\nCause of Delay : Northeast monsoon flooding inundated foundation excavation in Trincomalee\n\nSite Conditions:\n  - Labour availability  : 0.9\n  - Material supply      : available\n  - Weather severity     : 0.86\n  - Cumulative delay so far: 5 days\n\nCorrective Action Taken:\n  Pumps installed and drainage channel constructed along site perimeter\n\nConstruction Status:\n  Completed after weather delay"
+  },
+  {
+    "filename": "case_0019.txt",
+    "text": "Case 19: Construction Delay - Structure / Floor slabs\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 65 days\n\nDelay Category : Financial & Funding\nCause of Delay : Bank housing loan application rejected in Ampara due to low income level\n\nSite Conditions:\n  - Labour availability  : 0.64\n  - Material supply      : available\n  - Weather severity     : 0.36\n  - Cumulative delay so far: 15 days\n\nCorrective Action Taken:\n  Microfinance through Samurdhi Development Bank obtained as alternative\n\nConstruction Status:\n  Completed after alternative financing arranged"
+  },
+  {
+    "filename": "case_0020.txt",
+    "text": "Case 20: Construction Delay - Pre-Construction & Approvals / Site selection & surveying\n\nLocation   : Trincomalee, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Site selection & surveying\nRisk Level : LOW\nDelay Days : 10 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Religious belief required specific auspicious date for foundation laying\n\nSite Conditions:\n  - Labour availability  : 0.68\n  - Material supply      : available\n  - Weather severity     : 0.36\n  - Cumulative delay so far: 4 days\n\nCorrective Action Taken:\n  Construction recommenced after auspicious date ceremony completed\n\nConstruction Status:\n  Completed on revised schedule"
+  },
+  {
+    "filename": "case_0021.txt",
+    "text": "Case 21: Construction Delay - Structure / Columns & beams\n\nLocation   : Gampaha, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : MEDIUM\nDelay Days : 18 days\n\nDelay Category : Labour\nCause of Delay : Construction workers migrated from Gampaha to Middle East for higher wages\n\nSite Conditions:\n  - Labour availability  : 0.3\n  - Material supply      : available\n  - Weather severity     : 0.25\n  - Cumulative delay so far: 6 days\n\nCorrective Action Taken:\n  New crew hired from rural Gampaha areas at competitive retention wage\n\nConstruction Status:\n  Completed"
+  },
+  {
+    "filename": "case_0022.txt",
+    "text": "Case 22: Construction Delay - Site Preparation / Earthworks & grading\n\nLocation   : Hambantota, Southern Province\nBuilding   : 2-floor residential construction\nPhase      : Site Preparation > Earthworks & grading\nRisk Level : LOW\nDelay Days : 10 days\n\nDelay Category : Environmental & Site\nCause of Delay : Coastal wind erosion depositing sand on foundation excavation daily in Hambantota\n\nSite Conditions:\n  - Labour availability  : 0.85\n  - Material supply      : available\n  - Weather severity     : 0.67\n  - Cumulative delay so far: 3 days\n\nCorrective Action Taken:\n  Wind break barrier erected around excavation perimeter before work resumed\n\nConstruction Status:\n  Completed after barrier installation"
+  },
+  {
+    "filename": "case_0023.txt",
+    "text": "Case 23: Construction Delay - Structure / Floor slabs\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 180 days\n\nDelay Category : Financial & Funding\nCause of Delay : Post-war returnee unable to access any construction funds in Ampara\n\nSite Conditions:\n  - Labour availability  : 0.81\n  - Material supply      : available\n  - Weather severity     : 0.37\n  - Cumulative delay so far: 32 days\n\nCorrective Action Taken:\n  DS office social welfare housing grant applied and eventually approved\n\nConstruction Status:\n  Completed with government grant support"
+  },
+  {
+    "filename": "case_0024.txt",
+    "text": "Case 24: Construction Delay - Site Preparation / Earthworks & grading\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Site Preparation > Earthworks & grading\nRisk Level : LOW\nDelay Days : 12 days\n\nDelay Category : Environmental & Site\nCause of Delay : Tree roots from old jak trees damaged foundation trench during earthworks in Ampara\n\nSite Conditions:\n  - Labour availability  : 0.57\n  - Material supply      : available\n  - Weather severity     : 0.81\n  - Cumulative delay so far: 5 days\n\nCorrective Action Taken:\n  Roots removed by arborist and foundation trench properly reinstated\n\nConstruction Status:\n  Ongoing - roof level reached"
+  },
+  {
+    "filename": "case_0025.txt",
+    "text": "Case 25: Construction Delay - Pre-Construction & Approvals / Architectural & structural design\n\nLocation   : Trincomalee, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Architectural & structural design\nRisk Level : MEDIUM\nDelay Days : 44 days\n\nDelay Category : Design & Technical\nCause of Delay : Building footprint encroached on road reservation in Trincomalee town\n\nSite Conditions:\n  - Labour availability  : 0.64\n  - Material supply      : available\n  - Weather severity     : 0.41\n  - Cumulative delay so far: 7 days\n\nCorrective Action Taken:\n  Plan revised and resubmitted to Urban Development Authority office\n\nConstruction Status:\n  Completed after plan revision"
+  },
+  {
+    "filename": "case_0026.txt",
+    "text": "Case 26: Construction Delay - Foundations / Soil investigation\n\nLocation   : Ampara, Eastern Province\nBuilding   : 2-floor residential construction\nPhase      : Foundations > Soil investigation\nRisk Level : MEDIUM\nDelay Days : 45 days\n\nDelay Category : Design & Technical\nCause of Delay : Foundation design unsuitable for Ampara coastal sandy alluvial soil\n\nSite Conditions:\n  - Labour availability  : 0.71\n  - Material supply      : available\n  - Weather severity     : 0.8\n  - Cumulative delay so far: 15 days\n\nCorrective Action Taken:\n  Geotechnical report obtained and pile foundation type adopted\n\nConstruction Status:\n  Completed after foundation redesign"
+  },
+  {
+    "filename": "case_0027.txt",
+    "text": "Case 27: Construction Delay - Pre-Construction & Approvals / Authority approvals\n\nLocation   : Mannar, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Authority approvals\nRisk Level : HIGH\nDelay Days : 87 days\n\nDelay Category : Land & Legal\nCause of Delay : Land gifted by parent not legally transferred before construction began in Mannar\n\nSite Conditions:\n  - Labour availability  : 0.7\n  - Material supply      : available\n  - Weather severity     : 0.25\n  - Cumulative delay so far: 39 days\n\nCorrective Action Taken:\n  Deed prepared and registered at Mannar Land Registry office\n\nConstruction Status:\n  Completed after legal documentation"
+  },
+  {
+    "filename": "case_0028.txt",
+    "text": "Case 28: Construction Delay - Structure / Floor slabs\n\nLocation   : Colombo, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 240 days\n\nDelay Category : Financial & Funding\nCause of Delay : Owner financial difficulties due to COVID-19 job loss in Colombo\n\nSite Conditions:\n  - Labour availability  : 0.72\n  - Material supply      : available\n  - Weather severity     : 0.32\n  - Cumulative delay so far: 20 days\n\nCorrective Action Taken:\n  NHDA supplementary housing grant applied and construction resumed\n\nConstruction Status:\n  Completed after significant delay"
+  },
+  {
+    "filename": "case_0029.txt",
+    "text": "Case 29: Construction Delay - Pre-Construction & Approvals / Architectural & structural design\n\nLocation   : Vavuniya, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Architectural & structural design\nRisk Level : MEDIUM\nDelay Days : 45 days\n\nDelay Category : Design & Technical\nCause of Delay : Building footprint encroached on road reservation requiring plan redesign\n\nSite Conditions:\n  - Labour availability  : 0.79\n  - Material supply      : available\n  - Weather severity     : 0.26\n  - Cumulative delay so far: 8 days\n\nCorrective Action Taken:\n  Plan revised and resubmitted to Vavuniya local authority for approval\n\nConstruction Status:\n  Completed after plan revision"
+  },
+  {
+    "filename": "case_0030.txt",
+    "text": "Case 30: Construction Delay - Finishes / Tiling\n\nLocation   : Matara, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Finishes > Tiling\nRisk Level : MEDIUM\nDelay Days : 30 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Roofing tiles unavailable in Matara during supply chain disruption\n\nSite Conditions:\n  - Labour availability  : 0.61\n  - Material supply      : unavailable\n  - Weather severity     : 0.27\n  - Cumulative delay so far: 5 days\n\nCorrective Action Taken:\n  Alternative Colombo supplier identified with express priority delivery\n\nConstruction Status:\n  Completed after supply arrangement"
+  },
+  {
+    "filename": "case_0031.txt",
+    "text": "Case 31: Construction Delay - Structure / Roof slab\n\nLocation   : Ampara, Eastern Province\nBuilding   : 2-floor residential construction\nPhase      : Structure > Roof slab\nRisk Level : MEDIUM\nDelay Days : 20 days\n\nDelay Category : Labour\nCause of Delay : Labour shortage in remote Ampara Mahaoya area for roof slab construction\n\nSite Conditions:\n  - Labour availability  : 0.26\n  - Material supply      : available\n  - Weather severity     : 0.37\n  - Cumulative delay so far: 19 days\n\nCorrective Action Taken:\n  Contractor sourced workers from Ampara town with transport support\n\nConstruction Status:\n  Completed after sourcing delay"
+  },
+  {
+    "filename": "case_0032.txt",
+    "text": "Case 32: Construction Delay - MEP Rough-Ins / Electrical conduit work\n\nLocation   : Colombo, Western Province\nBuilding   : 1-floor residential construction\nPhase      : MEP Rough-Ins > Electrical conduit work\nRisk Level : MEDIUM\nDelay Days : 25 days\n\nDelay Category : Design & Technical\nCause of Delay : Unexpected underground utilities encountered during Colombo excavation\n\nSite Conditions:\n  - Labour availability  : 0.55\n  - Material supply      : available\n  - Weather severity     : 0.3\n  - Cumulative delay so far: 13 days\n\nCorrective Action Taken:\n  CEB and NWS&DB notified and underground utilities officially relocated\n\nConstruction Status:\n  Completed after utility relocation"
+  },
+  {
+    "filename": "case_0033.txt",
+    "text": "Case 33: Construction Delay - Foundations / Foundation work\n\nLocation   : Mannar, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : HIGH\nDelay Days : 55 days\n\nDelay Category : Design & Technical\nCause of Delay : Foundation design unsuitable for Mannar coastal sandy and limestone bedrock\n\nSite Conditions:\n  - Labour availability  : 0.72\n  - Material supply      : available\n  - Weather severity     : 0.73\n  - Cumulative delay so far: 56 days\n\nCorrective Action Taken:\n  Geotechnical consultant engaged and raft foundation on piles designed\n\nConstruction Status:\n  Completed after redesign"
+  },
+  {
+    "filename": "case_0034.txt",
+    "text": "Case 34: Construction Delay - Finishes / Internal plastering\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 2-floor residential construction\nPhase      : Finishes > Internal plastering\nRisk Level : MEDIUM\nDelay Days : 14 days\n\nDelay Category : Labour\nCause of Delay : Plastering subcontractor abandoned work mid-phase in Batticaloa\n\nSite Conditions:\n  - Labour availability  : 0.25\n  - Material supply      : available\n  - Weather severity     : 0.39\n  - Cumulative delay so far: 7 days\n\nCorrective Action Taken:\n  New subcontractor engaged within one week at same contract rate\n\nConstruction Status:\n  Completed after personnel change"
+  },
+  {
+    "filename": "case_0035.txt",
+    "text": "Case 35: Construction Delay - Structure / Columns & beams\n\nLocation   : Gampaha, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : HIGH\nDelay Days : 60 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Cement shortage in Gampaha during 2022 foreign exchange crisis\n\nSite Conditions:\n  - Labour availability  : 0.64\n  - Material supply      : unavailable\n  - Weather severity     : 0.3\n  - Cumulative delay so far: 22 days\n\nCorrective Action Taken:\n  Alternative Colombo supplier found and bulk purchase made in advance\n\nConstruction Status:\n  Completed with cost overrun"
+  },
+  {
+    "filename": "case_0036.txt",
+    "text": "Case 36: Construction Delay - Foundations / Foundation work\n\nLocation   : Jaffna, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 35 days\n\nDelay Category : Environmental & Site\nCause of Delay : Saltwater corrosion of steel reinforcement in coastal Jaffna foundation near sea\n\nSite Conditions:\n  - Labour availability  : 0.61\n  - Material supply      : available\n  - Weather severity     : 0.79\n  - Cumulative delay so far: 13 days\n\nCorrective Action Taken:\n  Epoxy coated marine grade steel used as replacement material\n\nConstruction Status:\n  Completed with additional cost"
+  },
+  {
+    "filename": "case_0037.txt",
+    "text": "Case 37: Construction Delay - Foundations / Foundation work\n\nLocation   : Matara, Southern Province\nBuilding   : 2-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : LOW\nDelay Days : 12 days\n\nDelay Category : Labour\nCause of Delay : Primary mason fell ill during peak foundation construction phase in Matara\n\nSite Conditions:\n  - Labour availability  : 0.29\n  - Material supply      : available\n  - Weather severity     : 0.26\n  - Cumulative delay so far: 5 days\n\nCorrective Action Taken:\n  Replacement mason sourced from Galle district within one week\n\nConstruction Status:\n  Completed"
+  },
+  {
+    "filename": "case_0038.txt",
+    "text": "Case 38: Construction Delay - Structure / Roof slab\n\nLocation   : Matara, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Roof slab\nRisk Level : MEDIUM\nDelay Days : 18 days\n\nDelay Category : Financial & Funding\nCause of Delay : NHDA housing loan instalment withheld pending scheduled site inspection\n\nSite Conditions:\n  - Labour availability  : 0.75\n  - Material supply      : available\n  - Weather severity     : 0.3\n  - Cumulative delay so far: 17 days\n\nCorrective Action Taken:\n  Inspection conducted and funds released by NHDA after two weeks\n\nConstruction Status:\n  Completed after funding release"
+  },
+  {
+    "filename": "case_0039.txt",
+    "text": "Case 39: Construction Delay - Structure / Floor slabs\n\nLocation   : Colombo, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 120 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Building material price escalation exceeded Colombo project budget by 30 percent\n\nSite Conditions:\n  - Labour availability  : 0.84\n  - Material supply      : unavailable\n  - Weather severity     : 0.29\n  - Cumulative delay so far: 38 days\n\nCorrective Action Taken:\n  Value engineering exercise conducted to reduce specification and cost\n\nConstruction Status:\n  Completed with reduced specification"
+  },
+  {
+    "filename": "case_0040.txt",
+    "text": "Case 40: Construction Delay - MEP Rough-Ins / Plumbing & drainage\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : MEP Rough-Ins > Plumbing & drainage\nRisk Level : HIGH\nDelay Days : 70 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Material delivery delayed due to flooding of access roads in Batticaloa\n\nSite Conditions:\n  - Labour availability  : 0.75\n  - Material supply      : unavailable\n  - Weather severity     : 0.93\n  - Cumulative delay so far: 54 days\n\nCorrective Action Taken:\n  Waterway boat transport used as alternative delivery route via lagoon\n\nConstruction Status:\n  Completed after alternative supply route"
+  },
+  {
+    "filename": "case_0041.txt",
+    "text": "Case 41: Construction Delay - Pre-Construction & Approvals / BOQ preparation & tendering\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > BOQ preparation & tendering\nRisk Level : MEDIUM\nDelay Days : 42 days\n\nDelay Category : Land & Legal\nCause of Delay : Deed not registered at Land Registry due to stamp duty cost in Ampara\n\nSite Conditions:\n  - Labour availability  : 0.72\n  - Material supply      : available\n  - Weather severity     : 0.37\n  - Cumulative delay so far: 7 days\n\nCorrective Action Taken:\n  Family mediated and deed registration completed at Ampara registry\n\nConstruction Status:\n  Stalled awaiting further funding"
+  },
+  {
+    "filename": "case_0042.txt",
+    "text": "Case 42: Construction Delay - Structure / Columns & beams\n\nLocation   : Colombo, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : MEDIUM\nDelay Days : 18 days\n\nDelay Category : Labour\nCause of Delay : Subcontractor walked off Colombo site due to payment dispute with owner\n\nSite Conditions:\n  - Labour availability  : 0.26\n  - Material supply      : available\n  - Weather severity     : 0.28\n  - Cumulative delay so far: 11 days\n\nCorrective Action Taken:\n  New subcontractor engaged immediately with revised payment schedule\n\nConstruction Status:\n  Completed after contractor change"
+  },
+  {
+    "filename": "case_0043.txt",
+    "text": "Case 43: Construction Delay - Envelope & Waterproofing / Roof waterproofing\n\nLocation   : Mullaitivu, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Envelope & Waterproofing > Roof waterproofing\nRisk Level : MEDIUM\nDelay Days : 18 days\n\nDelay Category : Design & Technical\nCause of Delay : Roof slope incorrectly designed causing water pooling and leakage in Mullaitivu\n\nSite Conditions:\n  - Labour availability  : 0.89\n  - Material supply      : available\n  - Weather severity     : 0.33\n  - Cumulative delay so far: 9 days\n\nCorrective Action Taken:\n  Reroofing with corrected slope angle completed by roofing specialist\n\nConstruction Status:\n  Completed after rework"
+  },
+  {
+    "filename": "case_0044.txt",
+    "text": "Case 44: Construction Delay - Foundations / Foundation work\n\nLocation   : Matara, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : HIGH\nDelay Days : 70 days\n\nDelay Category : Environmental & Site\nCause of Delay : Southwest monsoon flooding of foundation excavation in Matara coastal area\n\nSite Conditions:\n  - Labour availability  : 0.58\n  - Material supply      : available\n  - Weather severity     : 0.76\n  - Cumulative delay so far: 49 days\n\nCorrective Action Taken:\n  Dewatering pumps installed and drainage channel constructed on site\n\nConstruction Status:\n  Completed after significant delay"
+  },
+  {
+    "filename": "case_0045.txt",
+    "text": "Case 45: Construction Delay - Site Preparation / Site clearing & hoarding\n\nLocation   : Kilinochchi, Northern Province\nBuilding   : 2-floor residential construction\nPhase      : Site Preparation > Site clearing & hoarding\nRisk Level : MEDIUM\nDelay Days : 21 days\n\nDelay Category : Environmental & Site\nCause of Delay : Wild elephant entry damaged site hoarding and equipment in Kilinochchi\n\nSite Conditions:\n  - Labour availability  : 0.56\n  - Material supply      : available\n  - Weather severity     : 0.71\n  - Cumulative delay so far: 12 days\n\nCorrective Action Taken:\n  Electric fence erected around entire construction perimeter before restart\n\nConstruction Status:\n  Completed with additional protection cost"
+  },
+  {
+    "filename": "case_0046.txt",
+    "text": "Case 46: Construction Delay - Envelope & Waterproofing / Roof waterproofing\n\nLocation   : Kalutara, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Envelope & Waterproofing > Roof waterproofing\nRisk Level : LOW\nDelay Days : 12 days\n\nDelay Category : Environmental & Site\nCause of Delay : Heavy rainfall during southwest monsoon delayed roofing and waterproofing in Kalutara\n\nSite Conditions:\n  - Labour availability  : 0.74\n  - Material supply      : available\n  - Weather severity     : 0.81\n  - Cumulative delay so far: 4 days\n\nCorrective Action Taken:\n  Temporary weather protection installed and work resumed after rain stopped\n\nConstruction Status:\n  Completed"
+  },
+  {
+    "filename": "case_0047.txt",
+    "text": "Case 47: Construction Delay - Pre-Construction & Approvals / Authority approvals\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Authority approvals\nRisk Level : HIGH\nDelay Days : 486 days\n\nDelay Category : Land & Legal\nCause of Delay : Inherited land with no clear title deed among siblings in Ampara\n\nSite Conditions:\n  - Labour availability  : 0.62\n  - Material supply      : available\n  - Weather severity     : 0.36\n  - Cumulative delay so far: 39 days\n\nCorrective Action Taken:\n  Partition action filed at Ampara Land Registry and settlement reached\n\nConstruction Status:\n  Stalled awaiting funding"
+  },
+  {
+    "filename": "case_0048.txt",
+    "text": "Case 48: Construction Delay - Structure / Floor slabs\n\nLocation   : Vavuniya, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 100 days\n\nDelay Category : Financial & Funding\nCause of Delay : Owner financial difficulties due to 2022 economic crisis in Vavuniya\n\nSite Conditions:\n  - Labour availability  : 0.79\n  - Material supply      : available\n  - Weather severity     : 0.29\n  - Cumulative delay so far: 50 days\n\nCorrective Action Taken:\n  Phased approach adopted and specification reduced to manage cash flow\n\nConstruction Status:\n  Completed with delay"
+  },
+  {
+    "filename": "case_0049.txt",
+    "text": "Case 49: Construction Delay - Finishes / Tiling\n\nLocation   : Trincomalee, Eastern Province\nBuilding   : 2-floor residential construction\nPhase      : Finishes > Tiling\nRisk Level : MEDIUM\nDelay Days : 18 days\n\nDelay Category : Design & Technical\nCause of Delay : Septic tank location conflicting with neighbour well requiring redesign\n\nSite Conditions:\n  - Labour availability  : 0.7\n  - Material supply      : available\n  - Weather severity     : 0.37\n  - Cumulative delay so far: 5 days\n\nCorrective Action Taken:\n  Septic tank relocated to compliant position with engineer certification\n\nConstruction Status:\n  Completed after design change"
+  },
+  {
+    "filename": "case_0050.txt",
+    "text": "Case 50: Construction Delay - Structure / Columns & beams\n\nLocation   : Galle, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : MEDIUM\nDelay Days : 20 days\n\nDelay Category : Labour\nCause of Delay : Construction workers unavailable during peak SW monsoon season in Galle\n\nSite Conditions:\n  - Labour availability  : 0.27\n  - Material supply      : available\n  - Weather severity     : 0.84\n  - Cumulative delay so far: 18 days\n\nCorrective Action Taken:\n  Work scheduled around weather windows and core crew retained on site\n\nConstruction Status:\n  Completed on revised schedule"
+  },
+  {
+    "filename": "case_0051.txt",
+    "text": "Case 51: Construction Delay - Pre-Construction & Approvals / BOQ preparation & tendering\n\nLocation   : Mannar, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > BOQ preparation & tendering\nRisk Level : HIGH\nDelay Days : 65 days\n\nDelay Category : Financial & Funding\nCause of Delay : Bank loan rejected due to inadequate collateral value for Mannar property\n\nSite Conditions:\n  - Labour availability  : 0.82\n  - Material supply      : available\n  - Weather severity     : 0.28\n  - Cumulative delay so far: 21 days\n\nCorrective Action Taken:\n  Alternative microfinance obtained through NGO partner in Mannar district\n\nConstruction Status:\n  Completed after alternative financing"
+  },
+  {
+    "filename": "case_0052.txt",
+    "text": "Case 52: Construction Delay - Pre-Construction & Approvals / Authority approvals\n\nLocation   : Colombo, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Authority approvals\nRisk Level : HIGH\nDelay Days : 90 days\n\nDelay Category : Design & Technical\nCause of Delay : Building plan approval delayed at Colombo Municipal Council due to setback violation\n\nSite Conditions:\n  - Labour availability  : 0.73\n  - Material supply      : available\n  - Weather severity     : 0.28\n  - Cumulative delay so far: 30 days\n\nCorrective Action Taken:\n  Plan revised and resubmitted to CMC planning division for approval\n\nConstruction Status:\n  Ongoing - foundation stage only"
+  },
+  {
+    "filename": "case_0053.txt",
+    "text": "Case 53: Construction Delay - Foundations / Foundation work\n\nLocation   : Vavuniya, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 14 days\n\nDelay Category : Environmental & Site\nCause of Delay : Northeast monsoon rainfall disrupting foundation construction in Vavuniya\n\nSite Conditions:\n  - Labour availability  : 0.72\n  - Material supply      : available\n  - Weather severity     : 0.63\n  - Cumulative delay so far: 11 days\n\nCorrective Action Taken:\n  Work schedule adjusted to utilise dry weather windows effectively\n\nConstruction Status:\n  Completed on revised schedule"
+  },
+  {
+    "filename": "case_0054.txt",
+    "text": "Case 54: Construction Delay - Structure / Columns & beams\n\nLocation   : Vavuniya, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : MEDIUM\nDelay Days : 17 days\n\nDelay Category : Labour\nCause of Delay : Shortage of skilled masons in Vavuniya local area for structural work\n\nSite Conditions:\n  - Labour availability  : 0.34\n  - Material supply      : available\n  - Weather severity     : 0.25\n  - Cumulative delay so far: 7 days\n\nCorrective Action Taken:\n  Subcontractors hired from Colombo at increased transport and wage cost\n\nConstruction Status:\n  Completed with cost overrun"
+  },
+  {
+    "filename": "case_0055.txt",
+    "text": "Case 55: Construction Delay - Foundations / Foundation work\n\nLocation   : Colombo, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 30 days\n\nDelay Category : Environmental & Site\nCause of Delay : Colombo urban flooding damaged partially completed first floor foundation walls\n\nSite Conditions:\n  - Labour availability  : 0.81\n  - Material supply      : available\n  - Weather severity     : 0.86\n  - Cumulative delay so far: 10 days\n\nCorrective Action Taken:\n  Flood damage assessment and comprehensive waterproofing membrane applied\n\nConstruction Status:\n  Completed after remedial work"
+  },
+  {
+    "filename": "case_0056.txt",
+    "text": "Case 56: Construction Delay - Foundations / Foundation work\n\nLocation   : Mullaitivu, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 35 days\n\nDelay Category : Environmental & Site\nCause of Delay : Saltwater corrosion of reinforcement near Mullaitivu lagoon site\n\nSite Conditions:\n  - Labour availability  : 0.69\n  - Material supply      : available\n  - Weather severity     : 0.76\n  - Cumulative delay so far: 16 days\n\nCorrective Action Taken:\n  Galvanised steel used and all affected foundation sections replaced\n\nConstruction Status:\n  Completed with additional cost"
+  },
+  {
+    "filename": "case_0057.txt",
+    "text": "Case 57: Construction Delay - Foundations / Ground beams\n\nLocation   : Mullaitivu, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Ground beams\nRisk Level : MEDIUM\nDelay Days : 30 days\n\nDelay Category : Environmental & Site\nCause of Delay : Northeast monsoon flooding of Mullaitivu coastal construction site\n\nSite Conditions:\n  - Labour availability  : 0.82\n  - Material supply      : available\n  - Weather severity     : 0.75\n  - Cumulative delay so far: 5 days\n\nCorrective Action Taken:\n  Pumps installed and work recommenced after flood water receded\n\nConstruction Status:\n  Completed with delay"
+  },
+  {
+    "filename": "case_0058.txt",
+    "text": "Case 58: Construction Delay - Structure / Columns & beams\n\nLocation   : Colombo, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : MEDIUM\nDelay Days : 14 days\n\nDelay Category : Labour\nCause of Delay : Skilled construction workers unavailable in Colombo during Sinhala Tamil New Year\n\nSite Conditions:\n  - Labour availability  : 0.26\n  - Material supply      : available\n  - Weather severity     : 0.29\n  - Cumulative delay so far: 13 days\n\nCorrective Action Taken:\n  Work rescheduled and accelerated during post-festival period\n\nConstruction Status:\n  Completed on revised schedule"
+  },
+  {
+    "filename": "case_0059.txt",
+    "text": "Case 59: Construction Delay - MEP Rough-Ins / Electrical conduit work\n\nLocation   : Jaffna, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : MEP Rough-Ins > Electrical conduit work\nRisk Level : LOW\nDelay Days : 7 days\n\nDelay Category : Labour\nCause of Delay : Skilled electrician unavailable in Jaffna for conduit and wiring work\n\nSite Conditions:\n  - Labour availability  : 0.31\n  - Material supply      : available\n  - Weather severity     : 0.37\n  - Cumulative delay so far: 2 days\n\nCorrective Action Taken:\n  Electrician brought from Colombo with accommodation and transport provided\n\nConstruction Status:\n  Completed"
+  },
+  {
+    "filename": "case_0060.txt",
+    "text": "Case 60: Construction Delay - Foundations / Foundation work\n\nLocation   : Kilinochchi, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : HIGH\nDelay Days : 55 days\n\nDelay Category : Design & Technical\nCause of Delay : Foundation design unsuitable for expansive black cotton clay soil in Kilinochchi\n\nSite Conditions:\n  - Labour availability  : 0.57\n  - Material supply      : available\n  - Weather severity     : 0.31\n  - Cumulative delay so far: 29 days\n\nCorrective Action Taken:\n  Foundation redesigned by structural engineer to raft type on granular fill\n\nConstruction Status:\n  Completed after redesign"
+  },
+  {
+    "filename": "case_0061.txt",
+    "text": "Case 61: Construction Delay - Structure / Columns & beams\n\nLocation   : Colombo, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : HIGH\nDelay Days : 55 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Cement shortage in Colombo market during 2022 economic crisis\n\nSite Conditions:\n  - Labour availability  : 0.69\n  - Material supply      : unavailable\n  - Weather severity     : 0.28\n  - Cumulative delay so far: 57 days\n\nCorrective Action Taken:\n  Bulk purchase arranged through DS Colombo office procurement channel\n\nConstruction Status:\n  Completed with cost overrun"
+  },
+  {
+    "filename": "case_0062.txt",
+    "text": "Case 62: Construction Delay - Pre-Construction & Approvals / Architectural & structural design\n\nLocation   : Kalutara, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Architectural & structural design\nRisk Level : MEDIUM\nDelay Days : 45 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Kalutara owner changed house plan completely after roof was already completed\n\nSite Conditions:\n  - Labour availability  : 0.79\n  - Material supply      : available\n  - Weather severity     : 0.29\n  - Cumulative delay so far: 6 days\n\nCorrective Action Taken:\n  Partial demolition and rebuild done with full structural engineering guidance\n\nConstruction Status:\n  Completed with significant cost overrun"
+  },
+  {
+    "filename": "case_0063.txt",
+    "text": "Case 63: Construction Delay - Structure / Columns & beams\n\nLocation   : Kalutara, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : MEDIUM\nDelay Days : 16 days\n\nDelay Category : Labour\nCause of Delay : Skilled masons scarce in Kalutara during peak construction holiday season\n\nSite Conditions:\n  - Labour availability  : 0.41\n  - Material supply      : available\n  - Weather severity     : 0.33\n  - Cumulative delay so far: 19 days\n\nCorrective Action Taken:\n  Workers brought from Galle district on short-term contract with transport\n\nConstruction Status:\n  Completed after delay"
+  },
+  {
+    "filename": "case_0064.txt",
+    "text": "Case 64: Construction Delay - Foundations / Foundation work\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : LOW\nDelay Days : 13 days\n\nDelay Category : Environmental & Site\nCause of Delay : Monsoon flooding inundated foundation excavation in Ampara coastal area\n\nSite Conditions:\n  - Labour availability  : 0.88\n  - Material supply      : available\n  - Weather severity     : 0.82\n  - Cumulative delay so far: 3 days\n\nCorrective Action Taken:\n  Water pumps installed and site drainage channel constructed\n\nConstruction Status:\n  Ongoing - superstructure stage"
+  },
+  {
+    "filename": "case_0065.txt",
+    "text": "Case 65: Construction Delay - Pre-Construction & Approvals / Site selection & surveying\n\nLocation   : Mannar, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Site selection & surveying\nRisk Level : LOW\nDelay Days : 9 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Religious auspicious date required before surveying and construction in Mannar\n\nSite Conditions:\n  - Labour availability  : 0.55\n  - Material supply      : available\n  - Weather severity     : 0.29\n  - Cumulative delay so far: 4 days\n\nCorrective Action Taken:\n  Construction commenced after designated auspicious date ceremony\n\nConstruction Status:\n  Completed on revised schedule"
+  },
+  {
+    "filename": "case_0066.txt",
+    "text": "Case 66: Construction Delay - Foundations / Soil investigation\n\nLocation   : Galle, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Soil investigation\nRisk Level : MEDIUM\nDelay Days : 30 days\n\nDelay Category : Design & Technical\nCause of Delay : Foundation design unsuitable for Galle coastal sandy soil near beach area\n\nSite Conditions:\n  - Labour availability  : 0.74\n  - Material supply      : available\n  - Weather severity     : 0.84\n  - Cumulative delay so far: 11 days\n\nCorrective Action Taken:\n  Geotechnical consultant redesigned foundation to pile type for coastal soil\n\nConstruction Status:\n  Completed after foundation redesign"
+  },
+  {
+    "filename": "case_0067.txt",
+    "text": "Case 67: Construction Delay - Envelope & Waterproofing / Roof waterproofing\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Envelope & Waterproofing > Roof waterproofing\nRisk Level : MEDIUM\nDelay Days : 35 days\n\nDelay Category : Environmental & Site\nCause of Delay : Termite infestation destroyed timber roof framework in Batticaloa house\n\nSite Conditions:\n  - Labour availability  : 0.87\n  - Material supply      : available\n  - Weather severity     : 0.92\n  - Cumulative delay so far: 18 days\n\nCorrective Action Taken:\n  Full termite chemical treatment and complete timber replacement carried out\n\nConstruction Status:\n  Completed after treatment"
+  },
+  {
+    "filename": "case_0068.txt",
+    "text": "Case 68: Construction Delay - Finishes / Carpentry & joinery\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Finishes > Carpentry & joinery\nRisk Level : LOW\nDelay Days : 8 days\n\nDelay Category : Labour\nCause of Delay : Skilled carpenter unavailable for roof timber joinery work in Batticaloa\n\nSite Conditions:\n  - Labour availability  : 0.45\n  - Material supply      : available\n  - Weather severity     : 0.38\n  - Cumulative delay so far: 3 days\n\nCorrective Action Taken:\n  Carpenter brought from Trincomalee on short-term contract basis\n\nConstruction Status:\n  Completed"
+  },
+  {
+    "filename": "case_0069.txt",
+    "text": "Case 69: Construction Delay - Pre-Construction & Approvals / Authority approvals\n\nLocation   : Jaffna, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Authority approvals\nRisk Level : LOW\nDelay Days : 8 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Religious auspicious date delay waiting for Tamil New Year period before starting\n\nSite Conditions:\n  - Labour availability  : 0.56\n  - Material supply      : available\n  - Weather severity     : 0.33\n  - Cumulative delay so far: 3 days\n\nCorrective Action Taken:\n  New construction date set and work recommenced immediately after\n\nConstruction Status:\n  Completed on revised schedule"
+  },
+  {
+    "filename": "case_0070.txt",
+    "text": "Case 70: Construction Delay - Pre-Construction & Approvals / Site selection & surveying\n\nLocation   : Kilinochchi, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Site selection & surveying\nRisk Level : MEDIUM\nDelay Days : 35 days\n\nDelay Category : Land & Legal\nCause of Delay : Boundary dispute with neighbour in resettlement area of Kilinochchi\n\nSite Conditions:\n  - Labour availability  : 0.57\n  - Material supply      : available\n  - Weather severity     : 0.31\n  - Cumulative delay so far: 8 days\n\nCorrective Action Taken:\n  DS mediation conducted and formal boundary agreement signed\n\nConstruction Status:\n  Completed after legal resolution"
+  },
+  {
+    "filename": "case_0071.txt",
+    "text": "Case 71: Construction Delay - Pre-Construction & Approvals / Site selection & surveying\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Site selection & surveying\nRisk Level : MEDIUM\nDelay Days : 31 days\n\nDelay Category : Land & Legal\nCause of Delay : Boundary stone missing from Ampara plot causing formal neighbour dispute\n\nSite Conditions:\n  - Labour availability  : 0.78\n  - Material supply      : available\n  - Weather severity     : 0.34\n  - Cumulative delay so far: 14 days\n\nCorrective Action Taken:\n  Licensed survey conducted and legal boundary agreement signed\n\nConstruction Status:\n  Completed with cost overrun"
+  },
+  {
+    "filename": "case_0072.txt",
+    "text": "Case 72: Construction Delay - Pre-Construction & Approvals / Site selection & surveying\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 2-floor residential construction\nPhase      : Pre-Construction & Approvals > Site selection & surveying\nRisk Level : HIGH\nDelay Days : 384 days\n\nDelay Category : Land & Legal\nCause of Delay : Inherited land with no clear title deed among multiple siblings in Batticaloa\n\nSite Conditions:\n  - Labour availability  : 0.89\n  - Material supply      : available\n  - Weather severity     : 0.38\n  - Cumulative delay so far: 31 days\n\nCorrective Action Taken:\n  Land Registry partition action and settlement reached through mediation\n\nConstruction Status:\n  Stalled awaiting legal resolution"
+  },
+  {
+    "filename": "case_0073.txt",
+    "text": "Case 73: Construction Delay - Pre-Construction & Approvals / BOQ preparation & tendering\n\nLocation   : Galle, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > BOQ preparation & tendering\nRisk Level : MEDIUM\nDelay Days : 28 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Owner dispute with contractor over quality standard in Galle coastal home\n\nSite Conditions:\n  - Labour availability  : 0.65\n  - Material supply      : available\n  - Weather severity     : 0.85\n  - Cumulative delay so far: 17 days\n\nCorrective Action Taken:\n  Independent QS engaged and contractor dispute resolved amicably\n\nConstruction Status:\n  Completed after dispute resolution"
+  },
+  {
+    "filename": "case_0074.txt",
+    "text": "Case 74: Construction Delay - Pre-Construction & Approvals / Site selection & surveying\n\nLocation   : Mullaitivu, Northern Province\nBuilding   : 2-floor residential construction\nPhase      : Pre-Construction & Approvals > Site selection & surveying\nRisk Level : MEDIUM\nDelay Days : 14 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : War trauma affecting owner decision making and construction planning in Mullaitivu\n\nSite Conditions:\n  - Labour availability  : 0.72\n  - Material supply      : available\n  - Weather severity     : 0.33\n  - Cumulative delay so far: 13 days\n\nCorrective Action Taken:\n  Community support worker assisted owner in project management and decisions\n\nConstruction Status:\n  Completed with community support"
+  },
+  {
+    "filename": "case_0075.txt",
+    "text": "Case 75: Construction Delay - Pre-Construction & Approvals / Architectural & structural design\n\nLocation   : Gampaha, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Architectural & structural design\nRisk Level : MEDIUM\nDelay Days : 25 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Gampaha owner changed interior layout after partition walls were completed\n\nSite Conditions:\n  - Labour availability  : 0.8\n  - Material supply      : available\n  - Weather severity     : 0.28\n  - Cumulative delay so far: 12 days\n\nCorrective Action Taken:\n  Partition walls removed and rebuilt to revised layout at additional cost\n\nConstruction Status:\n  Completed with cost overrun"
+  },
+  {
+    "filename": "case_0076.txt",
+    "text": "Case 76: Construction Delay - Envelope & Waterproofing / Roof waterproofing\n\nLocation   : Mannar, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Envelope & Waterproofing > Roof waterproofing\nRisk Level : MEDIUM\nDelay Days : 14 days\n\nDelay Category : Environmental & Site\nCause of Delay : Northeast monsoon strong winds damaged temporary roofing framework in Mannar\n\nSite Conditions:\n  - Labour availability  : 0.9\n  - Material supply      : available\n  - Weather severity     : 0.7\n  - Cumulative delay so far: 7 days\n\nCorrective Action Taken:\n  Reinforced temporary structure installed before recommencing waterproofing\n\nConstruction Status:\n  Completed after weather delay"
+  },
+  {
+    "filename": "case_0077.txt",
+    "text": "Case 77: Construction Delay - Structure / Floor slabs\n\nLocation   : Kalutara, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : MEDIUM\nDelay Days : 30 days\n\nDelay Category : Financial & Funding\nCause of Delay : NHDA loan instalment withheld pending scheduled Kalutara site inspection\n\nSite Conditions:\n  - Labour availability  : 0.57\n  - Material supply      : available\n  - Weather severity     : 0.28\n  - Cumulative delay so far: 14 days\n\nCorrective Action Taken:\n  Site inspection completed promptly and funds released after NHDA visit\n\nConstruction Status:\n  Completed after funding release"
+  },
+  {
+    "filename": "case_0078.txt",
+    "text": "Case 78: Construction Delay - Envelope & Waterproofing / Roof waterproofing\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Envelope & Waterproofing > Roof waterproofing\nRisk Level : LOW\nDelay Days : 10 days\n\nDelay Category : Environmental & Site\nCause of Delay : Northeast monsoon strong winds caused partial roof damage in Ampara\n\nSite Conditions:\n  - Labour availability  : 0.74\n  - Material supply      : available\n  - Weather severity     : 0.83\n  - Cumulative delay so far: 7 days\n\nCorrective Action Taken:\n  Temporary repair made immediately and permanent fix done post-monsoon\n\nConstruction Status:\n  Completed after weather repair"
+  },
+  {
+    "filename": "case_0079.txt",
+    "text": "Case 79: Construction Delay - Foundations / Foundation work\n\nLocation   : Galle, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 15 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : River sand supply disrupted by flooding of Gin Ganga river in Galle\n\nSite Conditions:\n  - Labour availability  : 0.81\n  - Material supply      : unavailable\n  - Weather severity     : 0.87\n  - Cumulative delay so far: 12 days\n\nCorrective Action Taken:\n  Quarry dust approved as substitute material with structural engineer sign-off\n\nConstruction Status:\n  Completed with alternative material"
+  },
+  {
+    "filename": "case_0080.txt",
+    "text": "Case 80: Construction Delay - Envelope & Waterproofing / Roof waterproofing\n\nLocation   : Jaffna, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Envelope & Waterproofing > Roof waterproofing\nRisk Level : LOW\nDelay Days : 10 days\n\nDelay Category : Environmental & Site\nCause of Delay : Northeast monsoon prevented roof waterproofing application in Jaffna\n\nSite Conditions:\n  - Labour availability  : 0.89\n  - Material supply      : available\n  - Weather severity     : 0.83\n  - Cumulative delay so far: 1 days\n\nCorrective Action Taken:\n  Work window identified between monsoon spells and waterproofing completed\n\nConstruction Status:\n  Completed within revised schedule"
+  },
+  {
+    "filename": "case_0081.txt",
+    "text": "Case 81: Construction Delay - Envelope & Waterproofing / Roof waterproofing\n\nLocation   : Galle, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Envelope & Waterproofing > Roof waterproofing\nRisk Level : MEDIUM\nDelay Days : 18 days\n\nDelay Category : Environmental & Site\nCause of Delay : Southwest monsoon heavy rainfall halted roofing and waterproofing in Galle for 12 days\n\nSite Conditions:\n  - Labour availability  : 0.73\n  - Material supply      : available\n  - Weather severity     : 0.86\n  - Cumulative delay so far: 13 days\n\nCorrective Action Taken:\n  Pre-ordered materials and temporary weather shields used during monsoon\n\nConstruction Status:\n  Completed with 2-week schedule compression"
+  },
+  {
+    "filename": "case_0082.txt",
+    "text": "Case 82: Construction Delay - Pre-Construction & Approvals / Site selection & surveying\n\nLocation   : Hambantota, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Site selection & surveying\nRisk Level : LOW\nDelay Days : 12 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Hambantota owner working in Colombo unable to supervise construction locally\n\nSite Conditions:\n  - Labour availability  : 0.58\n  - Material supply      : available\n  - Weather severity     : 0.27\n  - Cumulative delay so far: 3 days\n\nCorrective Action Taken:\n  Trusted local relative formally appointed as on-site construction supervisor\n\nConstruction Status:\n  Completed with delegated supervision"
+  },
+  {
+    "filename": "case_0083.txt",
+    "text": "Case 83: Construction Delay - Foundations / Foundation work\n\nLocation   : Jaffna, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 14 days\n\nDelay Category : Labour\nCause of Delay : Shortage of skilled masons in Jaffna due to migration to Colombo and Middle East\n\nSite Conditions:\n  - Labour availability  : 0.44\n  - Material supply      : available\n  - Weather severity     : 0.34\n  - Cumulative delay so far: 7 days\n\nCorrective Action Taken:\n  Subcontractors hired from Vavuniya at increased daily wage of LKR 2500\n\nConstruction Status:\n  Completed with 2-week delay"
+  },
+  {
+    "filename": "case_0084.txt",
+    "text": "Case 84: Construction Delay - Foundations / Foundation work\n\nLocation   : Mannar, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 20 days\n\nDelay Category : Labour\nCause of Delay : Death of primary mason during foundation work phase in Mannar\n\nSite Conditions:\n  - Labour availability  : 0.29\n  - Material supply      : available\n  - Weather severity     : 0.27\n  - Cumulative delay so far: 10 days\n\nCorrective Action Taken:\n  Replacement mason found from Vavuniya and work resumed after two weeks\n\nConstruction Status:\n  Completed with net delay"
+  },
+  {
+    "filename": "case_0085.txt",
+    "text": "Case 85: Construction Delay - Structure / Floor slabs\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 107 days\n\nDelay Category : Financial & Funding\nCause of Delay : Incomplete documentation preventing IFRC grant release in Ampara district\n\nSite Conditions:\n  - Labour availability  : 0.75\n  - Material supply      : available\n  - Weather severity     : 0.36\n  - Cumulative delay so far: 44 days\n\nCorrective Action Taken:\n  Documents completed with legal aid and grant verification expedited\n\nConstruction Status:\n  Ongoing - roof level reached"
+  },
+  {
+    "filename": "case_0086.txt",
+    "text": "Case 86: Construction Delay - Site Preparation / Earthworks & grading\n\nLocation   : Jaffna, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Site Preparation > Earthworks & grading\nRisk Level : MEDIUM\nDelay Days : 18 days\n\nDelay Category : Environmental & Site\nCause of Delay : Northeast monsoon heavy rainfall flooded site during earthworks in Jaffna\n\nSite Conditions:\n  - Labour availability  : 0.76\n  - Material supply      : available\n  - Weather severity     : 0.82\n  - Cumulative delay so far: 5 days\n\nCorrective Action Taken:\n  Dewatering pumps installed and work resumed after monsoon subsided\n\nConstruction Status:\n  Completed after weather delay"
+  },
+  {
+    "filename": "case_0087.txt",
+    "text": "Case 87: Construction Delay - Structure / Columns & beams\n\nLocation   : Mullaitivu, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : HIGH\nDelay Days : 120 days\n\nDelay Category : Financial & Funding\nCause of Delay : IFRC housing grant disbursement delayed due to documentation backlog\n\nSite Conditions:\n  - Labour availability  : 0.72\n  - Material supply      : available\n  - Weather severity     : 0.31\n  - Cumulative delay so far: 38 days\n\nCorrective Action Taken:\n  Community mobiliser assigned to expedite document verification\n\nConstruction Status:\n  Stalled awaiting funding release"
+  },
+  {
+    "filename": "case_0088.txt",
+    "text": "Case 88: Construction Delay - Foundations / Foundation work\n\nLocation   : Galle, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : LOW\nDelay Days : 10 days\n\nDelay Category : Environmental & Site\nCause of Delay : Saltwater corrosion of steel reinforcement in Galle coastal foundation site\n\nSite Conditions:\n  - Labour availability  : 0.69\n  - Material supply      : available\n  - Weather severity     : 0.87\n  - Cumulative delay so far: 0 days\n\nCorrective Action Taken:\n  Epoxy coated marine grade steel used and affected sections replaced\n\nConstruction Status:\n  Ongoing - wall construction stage"
+  },
+  {
+    "filename": "case_0089.txt",
+    "text": "Case 89: Construction Delay - Site Preparation / Earthworks & grading\n\nLocation   : Matara, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Site Preparation > Earthworks & grading\nRisk Level : LOW\nDelay Days : 10 days\n\nDelay Category : Environmental & Site\nCause of Delay : Southwest monsoon strong winds damaged scaffold structure in Matara\n\nSite Conditions:\n  - Labour availability  : 0.56\n  - Material supply      : available\n  - Weather severity     : 0.77\n  - Cumulative delay so far: 2 days\n\nCorrective Action Taken:\n  Scaffold fully reinforced and work resumed after weather event cleared\n\nConstruction Status:\n  Completed after weather repair"
+  },
+  {
+    "filename": "case_0090.txt",
+    "text": "Case 90: Construction Delay - Structure / Floor slabs\n\nLocation   : Galle, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 55 days\n\nDelay Category : Financial & Funding\nCause of Delay : Bank housing loan disbursement delayed for Galle first-time owner\n\nSite Conditions:\n  - Labour availability  : 0.6\n  - Material supply      : available\n  - Weather severity     : 0.28\n  - Cumulative delay so far: 41 days\n\nCorrective Action Taken:\n  Documents resubmitted and emergency loan instalment released by bank\n\nConstruction Status:\n  Ongoing - roof level reached"
+  },
+  {
+    "filename": "case_0091.txt",
+    "text": "Case 91: Construction Delay - Pre-Construction & Approvals / Site selection & surveying\n\nLocation   : Matara, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Site selection & surveying\nRisk Level : MEDIUM\nDelay Days : 45 days\n\nDelay Category : Land & Legal\nCause of Delay : Boundary dispute with neighbour over Matara residential plot boundary\n\nSite Conditions:\n  - Labour availability  : 0.78\n  - Material supply      : available\n  - Weather severity     : 0.3\n  - Cumulative delay so far: 12 days\n\nCorrective Action Taken:\n  Licensed surveyor engaged and formal legal agreement prepared and signed\n\nConstruction Status:\n  Completed after legal resolution"
+  },
+  {
+    "filename": "case_0092.txt",
+    "text": "Case 92: Construction Delay - Envelope & Waterproofing / Masonry work\n\nLocation   : Jaffna, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Envelope & Waterproofing > Masonry work\nRisk Level : HIGH\nDelay Days : 60 days\n\nDelay Category : Land & Legal\nCause of Delay : Boundary dispute with neighbour halted masonry work on Jaffna plot\n\nSite Conditions:\n  - Labour availability  : 0.8\n  - Material supply      : available\n  - Weather severity     : 0.32\n  - Cumulative delay so far: 29 days\n\nCorrective Action Taken:\n  Licensed surveyor engaged and legal agreement signed with neighbour\n\nConstruction Status:\n  Completed after legal resolution"
+  },
+  {
+    "filename": "case_0093.txt",
+    "text": "Case 93: Construction Delay - Foundations / Foundation work\n\nLocation   : Trincomalee, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 42 days\n\nDelay Category : Environmental & Site\nCause of Delay : Trincomalee harbour area saltwater corrosion damaged steel reinforcement\n\nSite Conditions:\n  - Labour availability  : 0.7\n  - Material supply      : available\n  - Weather severity     : 0.86\n  - Cumulative delay so far: 15 days\n\nCorrective Action Taken:\n  Marine grade steel used as replacement in coastal foundation zone\n\nConstruction Status:\n  Completed with additional cost"
+  },
+  {
+    "filename": "case_0094.txt",
+    "text": "Case 94: Construction Delay - Finishes / Internal plastering\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Finishes > Internal plastering\nRisk Level : HIGH\nDelay Days : 70 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Delays in material delivery to Batticaloa island locations near lagoon\n\nSite Conditions:\n  - Labour availability  : 0.8\n  - Material supply      : unavailable\n  - Weather severity     : 0.37\n  - Cumulative delay so far: 49 days\n\nCorrective Action Taken:\n  Advance ordering and boat transport via Batticaloa lagoon arranged\n\nConstruction Status:\n  Ongoing - plastering stage"
+  },
+  {
+    "filename": "case_0095.txt",
+    "text": "Case 95: Construction Delay - Foundations / Foundation work\n\nLocation   : Matara, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 25 days\n\nDelay Category : Design & Technical\nCause of Delay : Incorrect floor level set causing water pooling inside completed Matara house\n\nSite Conditions:\n  - Labour availability  : 0.59\n  - Material supply      : available\n  - Weather severity     : 0.31\n  - Cumulative delay so far: 19 days\n\nCorrective Action Taken:\n  Floor level raised and comprehensive internal drainage system installed\n\nConstruction Status:\n  Completed after remedial work"
+  },
+  {
+    "filename": "case_0096.txt",
+    "text": "Case 96: Construction Delay - Pre-Construction & Approvals / Authority approvals\n\nLocation   : Jaffna, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Authority approvals\nRisk Level : HIGH\nDelay Days : 65 days\n\nDelay Category : Land & Legal\nCause of Delay : Authority approval for Jaffna coastal plot delayed due to CCD buffer zone restriction\n\nSite Conditions:\n  - Labour availability  : 0.56\n  - Material supply      : available\n  - Weather severity     : 0.78\n  - Cumulative delay so far: 29 days\n\nCorrective Action Taken:\n  Coastal Conservation Department clearance obtained after boundary survey revision\n\nConstruction Status:\n  Completed after regulatory approval"
+  },
+  {
+    "filename": "case_0097.txt",
+    "text": "Case 97: Construction Delay - Foundations / Foundation work\n\nLocation   : Gampaha, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 15 days\n\nDelay Category : Environmental & Site\nCause of Delay : Unexpected groundwater table encountered during foundation excavation in Gampaha\n\nSite Conditions:\n  - Labour availability  : 0.83\n  - Material supply      : available\n  - Weather severity     : 0.82\n  - Cumulative delay so far: 7 days\n\nCorrective Action Taken:\n  Geotechnical assessment done and pile foundation type adopted\n\nConstruction Status:\n  Completed after foundation design change"
+  },
+  {
+    "filename": "case_0098.txt",
+    "text": "Case 98: Construction Delay - Site Preparation / Site clearing & hoarding\n\nLocation   : Hambantota, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Site Preparation > Site clearing & hoarding\nRisk Level : LOW\nDelay Days : 8 days\n\nDelay Category : Environmental & Site\nCause of Delay : Wild elephant intrusion damaged partially built site hoarding in Hambantota\n\nSite Conditions:\n  - Labour availability  : 0.7\n  - Material supply      : available\n  - Weather severity     : 0.69\n  - Cumulative delay so far: 5 days\n\nCorrective Action Taken:\n  Heavy duty electric fence installed around entire construction perimeter\n\nConstruction Status:\n  Completed with additional protection cost"
+  },
+  {
+    "filename": "case_0099.txt",
+    "text": "Case 99: Construction Delay - Structure / Floor slabs\n\nLocation   : Trincomalee, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 107 days\n\nDelay Category : Financial & Funding\nCause of Delay : Incomplete documentation prevented IFRC grant disbursement in Trincomalee\n\nSite Conditions:\n  - Labour availability  : 0.74\n  - Material supply      : available\n  - Weather severity     : 0.41\n  - Cumulative delay so far: 21 days\n\nCorrective Action Taken:\n  Documents completed with legal aid and grant released after verification\n\nConstruction Status:\n  Ongoing - roof level reached"
+  },
+  {
+    "filename": "case_0100.txt",
+    "text": "Case 100: Construction Delay - Pre-Construction & Approvals / Authority approvals\n\nLocation   : Kalutara, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Authority approvals\nRisk Level : HIGH\nDelay Days : 65 days\n\nDelay Category : Land & Legal\nCause of Delay : Coastal buffer zone encroachment by Kalutara beachfront residence plan\n\nSite Conditions:\n  - Labour availability  : 0.81\n  - Material supply      : available\n  - Weather severity     : 0.81\n  - Cumulative delay so far: 16 days\n\nCorrective Action Taken:\n  CCD clearance obtained after plan boundary revision and setback compliance\n\nConstruction Status:\n  Completed after regulatory approval"
+  },
+  {
+    "filename": "case_0101.txt",
+    "text": "Case 101: Construction Delay - Pre-Construction & Approvals / Authority approvals\n\nLocation   : Trincomalee, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Authority approvals\nRisk Level : HIGH\nDelay Days : 97 days\n\nDelay Category : Financial & Funding\nCause of Delay : Bank loan application rejected in Trincomalee due to unclear land title\n\nSite Conditions:\n  - Labour availability  : 0.6\n  - Material supply      : available\n  - Weather severity     : 0.39\n  - Cumulative delay so far: 44 days\n\nCorrective Action Taken:\n  Title cleared with legal aid and alternative lender found through NGO\n\nConstruction Status:\n  Ongoing - roof level reached"
+  },
+  {
+    "filename": "case_0102.txt",
+    "text": "Case 102: Construction Delay - Structure / Roof slab\n\nLocation   : Kilinochchi, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Roof slab\nRisk Level : MEDIUM\nDelay Days : 18 days\n\nDelay Category : Labour\nCause of Delay : Shortage of skilled tradesmen in Kilinochchi rural post-war area\n\nSite Conditions:\n  - Labour availability  : 0.32\n  - Material supply      : available\n  - Weather severity     : 0.29\n  - Cumulative delay so far: 8 days\n\nCorrective Action Taken:\n  Labour imported from Jaffna and Vavuniya towns with transport\n\nConstruction Status:\n  Completed after delay"
+  },
+  {
+    "filename": "case_0103.txt",
+    "text": "Case 103: Construction Delay - Structure / Columns & beams\n\nLocation   : Galle, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : MEDIUM\nDelay Days : 14 days\n\nDelay Category : Labour\nCause of Delay : Skilled mason shortage in Galle due to migration to Middle East for higher pay\n\nSite Conditions:\n  - Labour availability  : 0.38\n  - Material supply      : available\n  - Weather severity     : 0.28\n  - Cumulative delay so far: 15 days\n\nCorrective Action Taken:\n  Subcontractor hired from Colombo district at higher daily wage\n\nConstruction Status:\n  Completed after delay"
+  },
+  {
+    "filename": "case_0104.txt",
+    "text": "Case 104: Construction Delay - MEP Rough-Ins / Plumbing & drainage\n\nLocation   : Mannar, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : MEP Rough-Ins > Plumbing & drainage\nRisk Level : MEDIUM\nDelay Days : 30 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Building materials delayed due to limited road transport options to Mannar island\n\nSite Conditions:\n  - Labour availability  : 0.88\n  - Material supply      : unavailable\n  - Weather severity     : 0.3\n  - Cumulative delay so far: 13 days\n\nCorrective Action Taken:\n  Advance bulk ordering and coastal boat transport from mainland arranged\n\nConstruction Status:\n  Completed after supply chain improvement"
+  },
+  {
+    "filename": "case_0105.txt",
+    "text": "Case 105: Construction Delay - Finishes / Internal plastering\n\nLocation   : Mullaitivu, Northern Province\nBuilding   : 2-floor residential construction\nPhase      : Finishes > Internal plastering\nRisk Level : HIGH\nDelay Days : 60 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Counterfeit cement purchased from unverified local supplier in Mullaitivu\n\nSite Conditions:\n  - Labour availability  : 0.56\n  - Material supply      : unavailable\n  - Weather severity     : 0.33\n  - Cumulative delay so far: 52 days\n\nCorrective Action Taken:\n  Structural inspection and rebuild of all failed plastering sections\n\nConstruction Status:\n  Completed after quality intervention"
+  },
+  {
+    "filename": "case_0106.txt",
+    "text": "Case 106: Construction Delay - Pre-Construction & Approvals / BOQ preparation & tendering\n\nLocation   : Hambantota, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > BOQ preparation & tendering\nRisk Level : HIGH\nDelay Days : 60 days\n\nDelay Category : Financial & Funding\nCause of Delay : Construction loan from State Mortgage Bank delayed in Hambantota district\n\nSite Conditions:\n  - Labour availability  : 0.77\n  - Material supply      : available\n  - Weather severity     : 0.27\n  - Cumulative delay so far: 60 days\n\nCorrective Action Taken:\n  Interim family financing arranged to maintain construction progress\n\nConstruction Status:\n  Completed after bank loan received"
+  },
+  {
+    "filename": "case_0107.txt",
+    "text": "Case 107: Construction Delay - Pre-Construction & Approvals / Site selection & surveying\n\nLocation   : Gampaha, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Site selection & surveying\nRisk Level : HIGH\nDelay Days : 120 days\n\nDelay Category : Land & Legal\nCause of Delay : Land title disputed between inherited siblings in Gampaha district\n\nSite Conditions:\n  - Labour availability  : 0.9\n  - Material supply      : available\n  - Weather severity     : 0.27\n  - Cumulative delay so far: 54 days\n\nCorrective Action Taken:\n  Partition action filed and settlement reached through DS mediation\n\nConstruction Status:\n  Completed after legal resolution"
+  },
+  {
+    "filename": "case_0108.txt",
+    "text": "Case 108: Construction Delay - Structure / Floor slabs\n\nLocation   : Mannar, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 75 days\n\nDelay Category : Financial & Funding\nCause of Delay : Owner personal savings exhausted mid-construction in Mannar district\n\nSite Conditions:\n  - Labour availability  : 0.71\n  - Material supply      : available\n  - Weather severity     : 0.27\n  - Cumulative delay so far: 50 days\n\nCorrective Action Taken:\n  NHDA supplementary grant applied and construction resumed after approval\n\nConstruction Status:\n  Under NHDA review"
+  },
+  {
+    "filename": "case_0109.txt",
+    "text": "Case 109: Construction Delay - Envelope & Waterproofing / Masonry work\n\nLocation   : Mannar, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Envelope & Waterproofing > Masonry work\nRisk Level : MEDIUM\nDelay Days : 38 days\n\nDelay Category : Environmental & Site\nCause of Delay : Coastal erosion near Mannar site boundary threatened masonry wall stability\n\nSite Conditions:\n  - Labour availability  : 0.85\n  - Material supply      : available\n  - Weather severity     : 0.67\n  - Cumulative delay so far: 10 days\n\nCorrective Action Taken:\n  Retaining wall and rock armouring installed along site boundary first\n\nConstruction Status:\n  Completed with coastal protection"
+  },
+  {
+    "filename": "case_0110.txt",
+    "text": "Case 110: Construction Delay - Pre-Construction & Approvals / Architectural & structural design\n\nLocation   : Matara, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Architectural & structural design\nRisk Level : MEDIUM\nDelay Days : 35 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Matara owner changed house interior plan after partition walls were built\n\nSite Conditions:\n  - Labour availability  : 0.63\n  - Material supply      : available\n  - Weather severity     : 0.29\n  - Cumulative delay so far: 14 days\n\nCorrective Action Taken:\n  Structural engineer consulted and changes formally incorporated\n\nConstruction Status:\n  Completed with revised approved plan"
+  },
+  {
+    "filename": "case_0111.txt",
+    "text": "Case 111: Construction Delay - MEP Rough-Ins / Electrical conduit work\n\nLocation   : Matara, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : MEP Rough-Ins > Electrical conduit work\nRisk Level : LOW\nDelay Days : 7 days\n\nDelay Category : Labour\nCause of Delay : Qualified electrician not available locally in Matara for wiring work\n\nSite Conditions:\n  - Labour availability  : 0.39\n  - Material supply      : available\n  - Weather severity     : 0.26\n  - Cumulative delay so far: 1 days\n\nCorrective Action Taken:\n  Electrician contracted from Galle on short-term basis with transport\n\nConstruction Status:\n  Completed"
+  },
+  {
+    "filename": "case_0112.txt",
+    "text": "Case 112: Construction Delay - Pre-Construction & Approvals / Authority approvals\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Authority approvals\nRisk Level : HIGH\nDelay Days : 622 days\n\nDelay Category : Land & Legal\nCause of Delay : House site under military HSZ restriction in Batticaloa coastal district\n\nSite Conditions:\n  - Labour availability  : 0.62\n  - Material supply      : available\n  - Weather severity     : 0.88\n  - Cumulative delay so far: 21 days\n\nCorrective Action Taken:\n  HSZ restriction lifted following gazette notification from Ministry\n\nConstruction Status:\n  Demolished and restarted after gazette"
+  },
+  {
+    "filename": "case_0113.txt",
+    "text": "Case 113: Construction Delay - Structure / Columns & beams\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : MEDIUM\nDelay Days : 16 days\n\nDelay Category : Labour\nCause of Delay : Skilled masons unavailable in remote Ampara Oluvil coastal area\n\nSite Conditions:\n  - Labour availability  : 0.4\n  - Material supply      : available\n  - Weather severity     : 0.77\n  - Cumulative delay so far: 6 days\n\nCorrective Action Taken:\n  Workers brought from Kalmunai town with daily transport arranged\n\nConstruction Status:\n  Completed after delay"
+  },
+  {
+    "filename": "case_0114.txt",
+    "text": "Case 114: Construction Delay - Structure / Columns & beams\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : MEDIUM\nDelay Days : 18 days\n\nDelay Category : Labour\nCause of Delay : Skilled masons migrated to Colombo or Middle East from Batticaloa\n\nSite Conditions:\n  - Labour availability  : 0.41\n  - Material supply      : available\n  - Weather severity     : 0.4\n  - Cumulative delay so far: 9 days\n\nCorrective Action Taken:\n  Workers recruited from Ampara district with accommodation on site\n\nConstruction Status:\n  Completed after personnel sourcing"
+  },
+  {
+    "filename": "case_0115.txt",
+    "text": "Case 115: Construction Delay - Pre-Construction & Approvals / Site selection & surveying\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Site selection & surveying\nRisk Level : HIGH\nDelay Days : 316 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Family dispute among siblings over Batticaloa house ownership rights\n\nSite Conditions:\n  - Labour availability  : 0.83\n  - Material supply      : available\n  - Weather severity     : 0.42\n  - Cumulative delay so far: 16 days\n\nCorrective Action Taken:\n  Legal mediation through district court resolved ownership title\n\nConstruction Status:\n  Partially completed - roof only"
+  },
+  {
+    "filename": "case_0116.txt",
+    "text": "Case 116: Construction Delay - Structure / Floor slabs\n\nLocation   : Mullaitivu, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 90 days\n\nDelay Category : Financial & Funding\nCause of Delay : Post-war returnee owner lacked construction experience and exceeded budget\n\nSite Conditions:\n  - Labour availability  : 0.73\n  - Material supply      : available\n  - Weather severity     : 0.31\n  - Cumulative delay so far: 29 days\n\nCorrective Action Taken:\n  Technical assistance provided by UN-Habitat field officer in district\n\nConstruction Status:\n  Completed with technical support"
+  },
+  {
+    "filename": "case_0117.txt",
+    "text": "Case 117: Construction Delay - Pre-Construction & Approvals / Authority approvals\n\nLocation   : Galle, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Authority approvals\nRisk Level : HIGH\nDelay Days : 90 days\n\nDelay Category : Land & Legal\nCause of Delay : Coastal Conservation Department buffer zone restriction prevented construction in Galle\n\nSite Conditions:\n  - Labour availability  : 0.82\n  - Material supply      : available\n  - Weather severity     : 0.84\n  - Cumulative delay so far: 15 days\n\nCorrective Action Taken:\n  CCD approval obtained after boundary survey revision and setback compliance\n\nConstruction Status:\n  Completed after regulatory approval"
+  },
+  {
+    "filename": "case_0118.txt",
+    "text": "Case 118: Construction Delay - Pre-Construction & Approvals / Architectural & structural design\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Architectural & structural design\nRisk Level : MEDIUM\nDelay Days : 44 days\n\nDelay Category : Design & Technical\nCause of Delay : Building footprint encroached on road reservation in Batticaloa town\n\nSite Conditions:\n  - Labour availability  : 0.85\n  - Material supply      : available\n  - Weather severity     : 0.42\n  - Cumulative delay so far: 13 days\n\nCorrective Action Taken:\n  Plan revised and resubmitted to DS Batticaloa planning office\n\nConstruction Status:\n  Ongoing - foundation stage"
+  },
+  {
+    "filename": "case_0119.txt",
+    "text": "Case 119: Construction Delay - Foundations / Foundation work\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 22 days\n\nDelay Category : Environmental & Site\nCause of Delay : Northeast monsoon flooding inundated foundation excavation in Batticaloa\n\nSite Conditions:\n  - Labour availability  : 0.74\n  - Material supply      : available\n  - Weather severity     : 0.89\n  - Cumulative delay so far: 5 days\n\nCorrective Action Taken:\n  Dewatering pumps and perimeter drainage channel installed on site\n\nConstruction Status:\n  Completed after weather delay"
+  },
+  {
+    "filename": "case_0120.txt",
+    "text": "Case 120: Construction Delay - Foundations / Foundation work\n\nLocation   : Kalutara, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 35 days\n\nDelay Category : Design & Technical\nCause of Delay : Foundation level set too low causing floor flooding in Kalutara house\n\nSite Conditions:\n  - Labour availability  : 0.72\n  - Material supply      : available\n  - Weather severity     : 0.77\n  - Cumulative delay so far: 6 days\n\nCorrective Action Taken:\n  Floor screed raised to correct level and proper drainage system installed\n\nConstruction Status:\n  Completed after remedial work"
+  },
+  {
+    "filename": "case_0121.txt",
+    "text": "Case 121: Construction Delay - Pre-Construction & Approvals / Architectural & structural design\n\nLocation   : Colombo, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Architectural & structural design\nRisk Level : MEDIUM\nDelay Days : 45 days\n\nDelay Category : Design & Technical\nCause of Delay : High-rise neighbour blocked natural light requiring plan revision in Colombo\n\nSite Conditions:\n  - Labour availability  : 0.74\n  - Material supply      : available\n  - Weather severity     : 0.29\n  - Cumulative delay so far: 19 days\n\nCorrective Action Taken:\n  Plan revised to relocate windows and add skylights for natural light\n\nConstruction Status:\n  Completed with revised design"
+  },
+  {
+    "filename": "case_0122.txt",
+    "text": "Case 122: Construction Delay - Foundations / Foundation work\n\nLocation   : Kilinochchi, Northern Province\nBuilding   : 2-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 22 days\n\nDelay Category : Environmental & Site\nCause of Delay : Northeast monsoon flooding delayed foundation work in Kilinochchi\n\nSite Conditions:\n  - Labour availability  : 0.8\n  - Material supply      : available\n  - Weather severity     : 0.74\n  - Cumulative delay so far: 8 days\n\nCorrective Action Taken:\n  Improved site drainage and dewatering system installed before restart\n\nConstruction Status:\n  Completed after weather delay"
+  },
+  {
+    "filename": "case_0123.txt",
+    "text": "Case 123: Construction Delay - Site Preparation / Site clearing & hoarding\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 2-floor residential construction\nPhase      : Site Preparation > Site clearing & hoarding\nRisk Level : LOW\nDelay Days : 10 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Post-war trauma and displacement affecting Batticaloa owner decision making\n\nSite Conditions:\n  - Labour availability  : 0.76\n  - Material supply      : available\n  - Weather severity     : 0.39\n  - Cumulative delay so far: 5 days\n\nCorrective Action Taken:\n  Community counsellor and housing officer provided joint support to owner\n\nConstruction Status:\n  Completed with community assistance"
+  },
+  {
+    "filename": "case_0124.txt",
+    "text": "Case 124: Construction Delay - Envelope & Waterproofing / Roof waterproofing\n\nLocation   : Hambantota, Southern Province\nBuilding   : 2-floor residential construction\nPhase      : Envelope & Waterproofing > Roof waterproofing\nRisk Level : MEDIUM\nDelay Days : 25 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Roof tiles unavailable due to supply chain disruption in Hambantota area\n\nSite Conditions:\n  - Labour availability  : 0.7\n  - Material supply      : unavailable\n  - Weather severity     : 0.25\n  - Cumulative delay so far: 18 days\n\nCorrective Action Taken:\n  Alternative tile supplier identified in Colombo with delivery arranged\n\nConstruction Status:\n  Completed after supply arrangement"
+  },
+  {
+    "filename": "case_0125.txt",
+    "text": "Case 125: Construction Delay - Structure / Floor slabs\n\nLocation   : Kalutara, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 85 days\n\nDelay Category : Financial & Funding\nCause of Delay : Construction cost 35 percent above estimate in Kalutara coastal project\n\nSite Conditions:\n  - Labour availability  : 0.61\n  - Material supply      : available\n  - Weather severity     : 0.8\n  - Cumulative delay so far: 43 days\n\nCorrective Action Taken:\n  Bank top-up loan obtained and project scope formally reduced by owner\n\nConstruction Status:\n  Completed with reduced scope"
+  },
+  {
+    "filename": "case_0126.txt",
+    "text": "Case 126: Construction Delay - Envelope & Waterproofing / Roof waterproofing\n\nLocation   : Trincomalee, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Envelope & Waterproofing > Roof waterproofing\nRisk Level : LOW\nDelay Days : 9 days\n\nDelay Category : Environmental & Site\nCause of Delay : Northeast monsoon strong winds damaged temporary roofing framework in Trincomalee\n\nSite Conditions:\n  - Labour availability  : 0.75\n  - Material supply      : available\n  - Weather severity     : 0.86\n  - Cumulative delay so far: 0 days\n\nCorrective Action Taken:\n  Reinforced structure and rescheduled waterproofing to weather window\n\nConstruction Status:\n  Completed within buffer period"
+  },
+  {
+    "filename": "case_0127.txt",
+    "text": "Case 127: Construction Delay - Envelope & Waterproofing / External rendering\n\nLocation   : Trincomalee, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Envelope & Waterproofing > External rendering\nRisk Level : MEDIUM\nDelay Days : 38 days\n\nDelay Category : Environmental & Site\nCause of Delay : Coastal erosion threatened site boundary stability near Trincomalee beach\n\nSite Conditions:\n  - Labour availability  : 0.62\n  - Material supply      : available\n  - Weather severity     : 0.86\n  - Cumulative delay so far: 13 days\n\nCorrective Action Taken:\n  Retaining wall and rock armouring installed along coastal boundary\n\nConstruction Status:\n  Completed with coastal protection"
+  },
+  {
+    "filename": "case_0128.txt",
+    "text": "Case 128: Construction Delay - Pre-Construction & Approvals / Authority approvals\n\nLocation   : Mullaitivu, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Authority approvals\nRisk Level : HIGH\nDelay Days : 622 days\n\nDelay Category : Land & Legal\nCause of Delay : House site under military High Security Zone restriction in Mullaitivu\n\nSite Conditions:\n  - Labour availability  : 0.84\n  - Material supply      : available\n  - Weather severity     : 0.32\n  - Cumulative delay so far: 18 days\n\nCorrective Action Taken:\n  HSZ gazette notification obtained after government ministry application\n\nConstruction Status:\n  Suspended awaiting HSZ release"
+  },
+  {
+    "filename": "case_0129.txt",
+    "text": "Case 129: Construction Delay - Structure / Columns & beams\n\nLocation   : Kilinochchi, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : MEDIUM\nDelay Days : 44 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Counterfeit cement causing structural failure and rework in Kilinochchi\n\nSite Conditions:\n  - Labour availability  : 0.72\n  - Material supply      : unavailable\n  - Weather severity     : 0.3\n  - Cumulative delay so far: 20 days\n\nCorrective Action Taken:\n  Reputable cement brand exclusively used and failed sections rebuilt\n\nConstruction Status:\n  Partially completed - roof level reached"
+  },
+  {
+    "filename": "case_0130.txt",
+    "text": "Case 130: Construction Delay - Foundations / Foundation work\n\nLocation   : Galle, Southern Province\nBuilding   : 2-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : LOW\nDelay Days : 8 days\n\nDelay Category : Labour\nCause of Delay : Primary mason illness during critical foundation phase in Galle project\n\nSite Conditions:\n  - Labour availability  : 0.31\n  - Material supply      : available\n  - Weather severity     : 0.32\n  - Cumulative delay so far: 2 days\n\nCorrective Action Taken:\n  Temporary replacement mason hired from Matara district urgently\n\nConstruction Status:\n  Completed with minor delay"
+  },
+  {
+    "filename": "case_0131.txt",
+    "text": "Case 131: Construction Delay - Site Preparation / Site clearing & hoarding\n\nLocation   : Jaffna, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Site Preparation > Site clearing & hoarding\nRisk Level : LOW\nDelay Days : 12 days\n\nDelay Category : Environmental & Site\nCause of Delay : Wild elephant entry damaged site hoarding and equipment in Jaffna rural area\n\nSite Conditions:\n  - Labour availability  : 0.56\n  - Material supply      : available\n  - Weather severity     : 0.78\n  - Cumulative delay so far: 6 days\n\nCorrective Action Taken:\n  Electric fence erected around construction perimeter before restart\n\nConstruction Status:\n  Completed with additional cost"
+  },
+  {
+    "filename": "case_0132.txt",
+    "text": "Case 132: Construction Delay - Pre-Construction & Approvals / Site selection & surveying\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Site selection & surveying\nRisk Level : MEDIUM\nDelay Days : 28 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Family dispute among siblings over Ampara house ownership rights\n\nSite Conditions:\n  - Labour availability  : 0.79\n  - Material supply      : available\n  - Weather severity     : 0.35\n  - Cumulative delay so far: 10 days\n\nCorrective Action Taken:\n  Legal mediation at DS office resolved sibling ownership dispute\n\nConstruction Status:\n  Demolished and restarted"
+  },
+  {
+    "filename": "case_0133.txt",
+    "text": "Case 133: Construction Delay - Envelope & Waterproofing / Roof waterproofing\n\nLocation   : Vavuniya, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Envelope & Waterproofing > Roof waterproofing\nRisk Level : MEDIUM\nDelay Days : 18 days\n\nDelay Category : Design & Technical\nCause of Delay : Roof slope incorrectly designed causing rainwater leakage in Vavuniya house\n\nSite Conditions:\n  - Labour availability  : 0.85\n  - Material supply      : available\n  - Weather severity     : 0.68\n  - Cumulative delay so far: 10 days\n\nCorrective Action Taken:\n  Reroofing with corrected angle completed by specialist contractor\n\nConstruction Status:\n  Partially completed - rectification required"
+  },
+  {
+    "filename": "case_0134.txt",
+    "text": "Case 134: Construction Delay - Structure / Floor slabs\n\nLocation   : Gampaha, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : MEDIUM\nDelay Days : 35 days\n\nDelay Category : Design & Technical\nCause of Delay : Concrete mix ratio incorrect causing weak floor slab in Gampaha house\n\nSite Conditions:\n  - Labour availability  : 0.59\n  - Material supply      : available\n  - Weather severity     : 0.3\n  - Cumulative delay so far: 12 days\n\nCorrective Action Taken:\n  Independent structural engineer tested slab and supervised remedial work\n\nConstruction Status:\n  Completed after quality intervention"
+  },
+  {
+    "filename": "case_0135.txt",
+    "text": "Case 135: Construction Delay - Foundations / Foundation work\n\nLocation   : Hambantota, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 14 days\n\nDelay Category : Environmental & Site\nCause of Delay : Drought conditions made excavation difficult in Hambantota dry zone area\n\nSite Conditions:\n  - Labour availability  : 0.87\n  - Material supply      : available\n  - Weather severity     : 0.72\n  - Cumulative delay so far: 19 days\n\nCorrective Action Taken:\n  Water trucking for soil compaction and stabilisation work arranged\n\nConstruction Status:\n  Completed after site preparation"
+  },
+  {
+    "filename": "case_0136.txt",
+    "text": "Case 136: Construction Delay - Finishes / Tiling\n\nLocation   : Gampaha, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Finishes > Tiling\nRisk Level : MEDIUM\nDelay Days : 20 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Roof sheet supplier delayed delivery causing Gampaha work stoppage\n\nSite Conditions:\n  - Labour availability  : 0.58\n  - Material supply      : unavailable\n  - Weather severity     : 0.25\n  - Cumulative delay so far: 19 days\n\nCorrective Action Taken:\n  Alternative Colombo supplier identified and expedited priority delivery\n\nConstruction Status:\n  Completed after supply arrangement"
+  },
+  {
+    "filename": "case_0137.txt",
+    "text": "Case 137: Construction Delay - MEP Rough-Ins / Electrical conduit work\n\nLocation   : Kilinochchi, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : MEP Rough-Ins > Electrical conduit work\nRisk Level : MEDIUM\nDelay Days : 15 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Steel and conduit delivery delayed due to transport disruption in Kilinochchi\n\nSite Conditions:\n  - Labour availability  : 0.71\n  - Material supply      : unavailable\n  - Weather severity     : 0.32\n  - Cumulative delay so far: 7 days\n\nCorrective Action Taken:\n  Alternative transport route via Vavuniya town arranged for delivery\n\nConstruction Status:\n  Completed after supply delay"
+  },
+  {
+    "filename": "case_0138.txt",
+    "text": "Case 138: Construction Delay - Structure / Floor slabs\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 85 days\n\nDelay Category : Financial & Funding\nCause of Delay : IFRC housing grant delayed due to field verification backlog in Batticaloa\n\nSite Conditions:\n  - Labour availability  : 0.56\n  - Material supply      : available\n  - Weather severity     : 0.39\n  - Cumulative delay so far: 17 days\n\nCorrective Action Taken:\n  Community mobiliser assigned to expedite IFRC field verification process\n\nConstruction Status:\n  Ongoing - superstructure stage"
+  },
+  {
+    "filename": "case_0139.txt",
+    "text": "Case 139: Construction Delay - MEP Rough-Ins / Plumbing & drainage\n\nLocation   : Mullaitivu, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : MEP Rough-Ins > Plumbing & drainage\nRisk Level : MEDIUM\nDelay Days : 40 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Building materials delayed reaching remote Mullaitivu coastal areas\n\nSite Conditions:\n  - Labour availability  : 0.75\n  - Material supply      : unavailable\n  - Weather severity     : 0.72\n  - Cumulative delay so far: 20 days\n\nCorrective Action Taken:\n  Advance bulk procurement and storage at accessible mainland depot\n\nConstruction Status:\n  Completed after supply improvement"
+  },
+  {
+    "filename": "case_0140.txt",
+    "text": "Case 140: Construction Delay - Foundations / Ground floor slab\n\nLocation   : Jaffna, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Ground floor slab\nRisk Level : HIGH\nDelay Days : 55 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Cement unavailability in Jaffna during 2022 foreign exchange crisis\n\nSite Conditions:\n  - Labour availability  : 0.68\n  - Material supply      : unavailable\n  - Weather severity     : 0.34\n  - Cumulative delay so far: 31 days\n\nCorrective Action Taken:\n  Bulk cement procured from Colombo supplier at higher transport cost\n\nConstruction Status:\n  Completed with cost overrun"
+  },
+  {
+    "filename": "case_0141.txt",
+    "text": "Case 141: Construction Delay - Pre-Construction & Approvals / Site selection & surveying\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Site selection & surveying\nRisk Level : MEDIUM\nDelay Days : 44 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Post-tsunami Ampara owner relocated temporarily delaying construction start\n\nSite Conditions:\n  - Labour availability  : 0.86\n  - Material supply      : available\n  - Weather severity     : 0.81\n  - Cumulative delay so far: 17 days\n\nCorrective Action Taken:\n  Community mobiliser assigned by UN-Habitat field office to assist\n\nConstruction Status:\n  Under NHDA review"
+  },
+  {
+    "filename": "case_0142.txt",
+    "text": "Case 142: Construction Delay - Finishes / Tiling\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Finishes > Tiling\nRisk Level : MEDIUM\nDelay Days : 25 days\n\nDelay Category : Design & Technical\nCause of Delay : Septic tank conflicting with neighbour well in Batticaloa residential plot\n\nSite Conditions:\n  - Labour availability  : 0.65\n  - Material supply      : available\n  - Weather severity     : 0.41\n  - Cumulative delay so far: 17 days\n\nCorrective Action Taken:\n  Septic tank completely redesigned and relocated to compliant position\n\nConstruction Status:\n  Completed after design change"
+  },
+  {
+    "filename": "case_0143.txt",
+    "text": "Case 143: Construction Delay - Foundations / Foundation work\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : HIGH\nDelay Days : 52 days\n\nDelay Category : Design & Technical\nCause of Delay : Wrong floor level set causing flooding inside completed house in Batticaloa\n\nSite Conditions:\n  - Labour availability  : 0.87\n  - Material supply      : available\n  - Weather severity     : 0.88\n  - Cumulative delay so far: 25 days\n\nCorrective Action Taken:\n  Floor screed raised and proper perimeter drainage channel installed\n\nConstruction Status:\n  Ongoing - wall construction stage"
+  },
+  {
+    "filename": "case_0144.txt",
+    "text": "Case 144: Construction Delay - Foundations / Foundation work\n\nLocation   : Colombo, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : LOW\nDelay Days : 8 days\n\nDelay Category : Environmental & Site\nCause of Delay : Tree root damage to Colombo foundation during excavation in garden area\n\nSite Conditions:\n  - Labour availability  : 0.71\n  - Material supply      : available\n  - Weather severity     : 0.82\n  - Cumulative delay so far: 2 days\n\nCorrective Action Taken:\n  Roots professionally cleared by arborist and trench properly reinstated\n\nConstruction Status:\n  Completed after site clearance"
+  },
+  {
+    "filename": "case_0145.txt",
+    "text": "Case 145: Construction Delay - Structure / Floor slabs\n\nLocation   : Gampaha, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 90 days\n\nDelay Category : Financial & Funding\nCause of Delay : Gampaha owner construction cost exceeded initial budget by 25 percent\n\nSite Conditions:\n  - Labour availability  : 0.68\n  - Material supply      : available\n  - Weather severity     : 0.3\n  - Cumulative delay so far: 34 days\n\nCorrective Action Taken:\n  Additional personal loan obtained and project scope formally reduced\n\nConstruction Status:\n  Completed with scope reduction"
+  },
+  {
+    "filename": "case_0146.txt",
+    "text": "Case 146: Construction Delay - Structure / Columns & beams\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : HIGH\nDelay Days : 60 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Counterfeit cement purchased from informal market in Batticaloa town\n\nSite Conditions:\n  - Labour availability  : 0.84\n  - Material supply      : unavailable\n  - Weather severity     : 0.42\n  - Cumulative delay so far: 29 days\n\nCorrective Action Taken:\n  Structural inspection conducted and all failed sections completely rebuilt\n\nConstruction Status:\n  Completed after quality intervention"
+  },
+  {
+    "filename": "case_0147.txt",
+    "text": "Case 147: Construction Delay - Structure / Columns & beams\n\nLocation   : Jaffna, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : HIGH\nDelay Days : 72 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Counterfeit low-grade cement caused structural failure in Jaffna requiring rework\n\nSite Conditions:\n  - Labour availability  : 0.81\n  - Material supply      : unavailable\n  - Weather severity     : 0.35\n  - Cumulative delay so far: 39 days\n\nCorrective Action Taken:\n  Independent QS engaged to inspect and rebuild affected structural sections\n\nConstruction Status:\n  Completed after significant rework"
+  },
+  {
+    "filename": "case_0148.txt",
+    "text": "Case 148: Construction Delay - Finishes / Tiling\n\nLocation   : Jaffna, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Finishes > Tiling\nRisk Level : MEDIUM\nDelay Days : 40 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Delays in tile delivery to Jaffna island locations like Delft and Kayts\n\nSite Conditions:\n  - Labour availability  : 0.62\n  - Material supply      : unavailable\n  - Weather severity     : 0.34\n  - Cumulative delay so far: 7 days\n\nCorrective Action Taken:\n  Advance bulk ordering and mainland depot storage arranged for island sites\n\nConstruction Status:\n  Completed after supply chain improvement"
+  },
+  {
+    "filename": "case_0149.txt",
+    "text": "Case 149: Construction Delay - Pre-Construction & Approvals / Authority approvals\n\nLocation   : Vavuniya, Northern Province\nBuilding   : 2-floor residential construction\nPhase      : Pre-Construction & Approvals > Authority approvals\nRisk Level : HIGH\nDelay Days : 60 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Family dispute over Vavuniya land ownership delayed construction commencement\n\nSite Conditions:\n  - Labour availability  : 0.73\n  - Material supply      : available\n  - Weather severity     : 0.3\n  - Cumulative delay so far: 19 days\n\nCorrective Action Taken:\n  Legal mediation at DS office resolved ownership dispute\n\nConstruction Status:\n  Completed after resolution"
+  },
+  {
+    "filename": "case_0150.txt",
+    "text": "Case 150: Construction Delay - Pre-Construction & Approvals / BOQ preparation & tendering\n\nLocation   : Colombo, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > BOQ preparation & tendering\nRisk Level : MEDIUM\nDelay Days : 35 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Colombo owner abroad delayed timely decisions on design changes\n\nSite Conditions:\n  - Labour availability  : 0.81\n  - Material supply      : available\n  - Weather severity     : 0.29\n  - Cumulative delay so far: 14 days\n\nCorrective Action Taken:\n  Power of attorney given to local architect to manage project decisions\n\nConstruction Status:\n  Completed with delegated authority"
+  },
+  {
+    "filename": "case_0151.txt",
+    "text": "Case 151: Construction Delay - Envelope & Waterproofing / Roof waterproofing\n\nLocation   : Galle, Southern Province\nBuilding   : 2-floor residential construction\nPhase      : Envelope & Waterproofing > Roof waterproofing\nRisk Level : LOW\nDelay Days : 12 days\n\nDelay Category : Design & Technical\nCause of Delay : Roof drainage inadequate causing water damage to external walls in Galle\n\nSite Conditions:\n  - Labour availability  : 0.69\n  - Material supply      : available\n  - Weather severity     : 0.86\n  - Cumulative delay so far: 0 days\n\nCorrective Action Taken:\n  Roof eave extended and proper box guttering system installed\n\nConstruction Status:\n  Completed after roof remedial work"
+  },
+  {
+    "filename": "case_0152.txt",
+    "text": "Case 152: Construction Delay - External Works & Handover / Snagging & rectification\n\nLocation   : Jaffna, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : External Works & Handover > Snagging & rectification\nRisk Level : MEDIUM\nDelay Days : 28 days\n\nDelay Category : Design & Technical\nCause of Delay : Owner changed room layout after walls partially built requiring snagging rectification\n\nSite Conditions:\n  - Labour availability  : 0.83\n  - Material supply      : available\n  - Weather severity     : 0.34\n  - Cumulative delay so far: 7 days\n\nCorrective Action Taken:\n  Structural engineer consulted and walls rebuilt to revised approved plan\n\nConstruction Status:\n  Completed with cost overrun"
+  },
+  {
+    "filename": "case_0153.txt",
+    "text": "Case 153: Construction Delay - Structure / Columns & beams\n\nLocation   : Trincomalee, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : HIGH\nDelay Days : 55 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Cement quality issue discovered during structural inspection in Trincomalee\n\nSite Conditions:\n  - Labour availability  : 0.6\n  - Material supply      : unavailable\n  - Weather severity     : 0.37\n  - Cumulative delay so far: 28 days\n\nCorrective Action Taken:\n  Failed structural sections demolished and rebuilt with verified premium cement\n\nConstruction Status:\n  Completed after quality rework"
+  },
+  {
+    "filename": "case_0154.txt",
+    "text": "Case 154: Construction Delay - Pre-Construction & Approvals / BOQ preparation & tendering\n\nLocation   : Colombo, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > BOQ preparation & tendering\nRisk Level : HIGH\nDelay Days : 65 days\n\nDelay Category : Financial & Funding\nCause of Delay : Bank loan top-up rejected for Colombo owner due to high existing debt ratio\n\nSite Conditions:\n  - Labour availability  : 0.81\n  - Material supply      : available\n  - Weather severity     : 0.28\n  - Cumulative delay so far: 15 days\n\nCorrective Action Taken:\n  Alternative private lender engaged at higher but manageable interest rate\n\nConstruction Status:\n  Completed with higher financing cost"
+  },
+  {
+    "filename": "case_0155.txt",
+    "text": "Case 155: Construction Delay - Foundations / Foundation work\n\nLocation   : Matara, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 20 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : River sand supply disrupted by seasonal flooding of Nilwala river in Matara\n\nSite Conditions:\n  - Labour availability  : 0.86\n  - Material supply      : unavailable\n  - Weather severity     : 0.78\n  - Cumulative delay so far: 18 days\n\nCorrective Action Taken:\n  Quarry dust substituted with structural engineer written approval\n\nConstruction Status:\n  Completed with cost overrun"
+  },
+  {
+    "filename": "case_0156.txt",
+    "text": "Case 156: Construction Delay - Finishes / Carpentry & joinery\n\nLocation   : Colombo, Western Province\nBuilding   : 2-floor residential construction\nPhase      : Finishes > Carpentry & joinery\nRisk Level : LOW\nDelay Days : 10 days\n\nDelay Category : Labour\nCause of Delay : Shortage of skilled finishing carpenters for joinery work in Colombo\n\nSite Conditions:\n  - Labour availability  : 0.21\n  - Material supply      : available\n  - Weather severity     : 0.29\n  - Cumulative delay so far: 2 days\n\nCorrective Action Taken:\n  Experienced carpenters engaged from Gampaha district on contract\n\nConstruction Status:\n  Completed"
+  },
+  {
+    "filename": "case_0157.txt",
+    "text": "Case 157: Construction Delay - Envelope & Waterproofing / Roof waterproofing\n\nLocation   : Gampaha, Western Province\nBuilding   : 2-floor residential construction\nPhase      : Envelope & Waterproofing > Roof waterproofing\nRisk Level : LOW\nDelay Days : 12 days\n\nDelay Category : Environmental & Site\nCause of Delay : Heavy rainfall during southwest monsoon delayed roof waterproofing in Gampaha\n\nSite Conditions:\n  - Labour availability  : 0.89\n  - Material supply      : available\n  - Weather severity     : 0.75\n  - Cumulative delay so far: 3 days\n\nCorrective Action Taken:\n  Temporary weather protection installed and waterproofing completed safely\n\nConstruction Status:\n  Completed"
+  },
+  {
+    "filename": "case_0158.txt",
+    "text": "Case 158: Construction Delay - Structure / Columns & beams\n\nLocation   : Trincomalee, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : MEDIUM\nDelay Days : 16 days\n\nDelay Category : Labour\nCause of Delay : Skilled construction workers unavailable in Trincomalee due to outmigration\n\nSite Conditions:\n  - Labour availability  : 0.25\n  - Material supply      : available\n  - Weather severity     : 0.39\n  - Cumulative delay so far: 12 days\n\nCorrective Action Taken:\n  Workers brought from Colombo with on-site accommodation provided\n\nConstruction Status:\n  Completed after delay"
+  },
+  {
+    "filename": "case_0159.txt",
+    "text": "Case 159: Construction Delay - Pre-Construction & Approvals / Site selection & surveying\n\nLocation   : Vavuniya, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Site selection & surveying\nRisk Level : HIGH\nDelay Days : 126 days\n\nDelay Category : Land & Legal\nCause of Delay : Boundary stone missing from Vavuniya plot causing legal dispute with neighbour\n\nSite Conditions:\n  - Labour availability  : 0.89\n  - Material supply      : available\n  - Weather severity     : 0.27\n  - Cumulative delay so far: 44 days\n\nCorrective Action Taken:\n  Survey conducted and formal agreement signed with neighbouring owner\n\nConstruction Status:\n  Completed after legal resolution"
+  },
+  {
+    "filename": "case_0160.txt",
+    "text": "Case 160: Construction Delay - Structure / Roof slab\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Roof slab\nRisk Level : HIGH\nDelay Days : 95 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Material price spike during 2022 crisis forced Ampara owner to pause work\n\nSite Conditions:\n  - Labour availability  : 0.84\n  - Material supply      : unavailable\n  - Weather severity     : 0.37\n  - Cumulative delay so far: 58 days\n\nCorrective Action Taken:\n  Phased purchasing strategy adopted to manage escalating material costs\n\nConstruction Status:\n  Ongoing - roof level reached"
+  },
+  {
+    "filename": "case_0161.txt",
+    "text": "Case 161: Construction Delay - Foundations / Foundation work\n\nLocation   : Kilinochchi, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : LOW\nDelay Days : 10 days\n\nDelay Category : Labour\nCause of Delay : Primary mason fell ill causing foundation work stoppage in Kilinochchi\n\nSite Conditions:\n  - Labour availability  : 0.42\n  - Material supply      : available\n  - Weather severity     : 0.3\n  - Cumulative delay so far: 0 days\n\nCorrective Action Taken:\n  Temporary mason hired from Jaffna to maintain construction progress\n\nConstruction Status:\n  Completed after personnel change"
+  },
+  {
+    "filename": "case_0162.txt",
+    "text": "Case 162: Construction Delay - Foundations / Foundation work\n\nLocation   : Kalutara, Western Province\nBuilding   : 2-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 28 days\n\nDelay Category : Environmental & Site\nCause of Delay : Southwest monsoon coastal flooding damaged ground floor walls in Kalutara\n\nSite Conditions:\n  - Labour availability  : 0.89\n  - Material supply      : available\n  - Weather severity     : 0.83\n  - Cumulative delay so far: 5 days\n\nCorrective Action Taken:\n  Flood damage fully repaired and comprehensive waterproofing membrane applied\n\nConstruction Status:\n  Completed after remedial work"
+  },
+  {
+    "filename": "case_0163.txt",
+    "text": "Case 163: Construction Delay - MEP Rough-Ins / Plumbing & drainage\n\nLocation   : Vavuniya, Northern Province\nBuilding   : 2-floor residential construction\nPhase      : MEP Rough-Ins > Plumbing & drainage\nRisk Level : MEDIUM\nDelay Days : 28 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : River sand shortage due to extraction ban in Vavuniya district\n\nSite Conditions:\n  - Labour availability  : 0.75\n  - Material supply      : unavailable\n  - Weather severity     : 0.28\n  - Cumulative delay so far: 10 days\n\nCorrective Action Taken:\n  Quarry dust approved as substitute material by structural engineer\n\nConstruction Status:\n  Completed with alternative material"
+  },
+  {
+    "filename": "case_0164.txt",
+    "text": "Case 164: Construction Delay - Pre-Construction & Approvals / Architectural & structural design\n\nLocation   : Kilinochchi, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Architectural & structural design\nRisk Level : MEDIUM\nDelay Days : 30 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Diaspora owner changed house plan mid-construction in Kilinochchi\n\nSite Conditions:\n  - Labour availability  : 0.62\n  - Material supply      : available\n  - Weather severity     : 0.3\n  - Cumulative delay so far: 18 days\n\nCorrective Action Taken:\n  Revised plan approved by structural engineer and construction continued\n\nConstruction Status:\n  Completed with revised plan"
+  },
+  {
+    "filename": "case_0165.txt",
+    "text": "Case 165: Construction Delay - Structure / Roof slab\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Roof slab\nRisk Level : HIGH\nDelay Days : 95 days\n\nDelay Category : Financial & Funding\nCause of Delay : Tsunami recovery grant insufficient for current material prices in Batticaloa\n\nSite Conditions:\n  - Labour availability  : 0.63\n  - Material supply      : available\n  - Weather severity     : 0.93\n  - Cumulative delay so far: 44 days\n\nCorrective Action Taken:\n  Supplementary funding requested from Batticaloa district secretariat\n\nConstruction Status:\n  Ongoing - plastering stage"
+  },
+  {
+    "filename": "case_0166.txt",
+    "text": "Case 166: Construction Delay - Structure / Roof slab\n\nLocation   : Mannar, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Roof slab\nRisk Level : HIGH\nDelay Days : 174 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Cement unavailability in Mannar during 2022 foreign exchange crisis\n\nSite Conditions:\n  - Labour availability  : 0.7\n  - Material supply      : unavailable\n  - Weather severity     : 0.29\n  - Cumulative delay so far: 38 days\n\nCorrective Action Taken:\n  Alternative Colombo supplier found and bulk purchase arranged\n\nConstruction Status:\n  Completed with cost overrun"
+  },
+  {
+    "filename": "case_0167.txt",
+    "text": "Case 167: Construction Delay - Structure / Roof slab\n\nLocation   : Vavuniya, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Roof slab\nRisk Level : MEDIUM\nDelay Days : 22 days\n\nDelay Category : Labour\nCause of Delay : Workers migrated to Middle East leaving Vavuniya project understaffed\n\nSite Conditions:\n  - Labour availability  : 0.34\n  - Material supply      : available\n  - Weather severity     : 0.28\n  - Cumulative delay so far: 15 days\n\nCorrective Action Taken:\n  New crew recruited locally with competitive wages and retention bonus\n\nConstruction Status:\n  Completed after staffing change"
+  },
+  {
+    "filename": "case_0168.txt",
+    "text": "Case 168: Construction Delay - Pre-Construction & Approvals / Site selection & surveying\n\nLocation   : Colombo, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Site selection & surveying\nRisk Level : HIGH\nDelay Days : 75 days\n\nDelay Category : Land & Legal\nCause of Delay : Urban land boundary dispute with neighbour in Colombo suburb\n\nSite Conditions:\n  - Labour availability  : 0.72\n  - Material supply      : available\n  - Weather severity     : 0.3\n  - Cumulative delay so far: 42 days\n\nCorrective Action Taken:\n  Licensed surveyor and court mediation conducted to resolve dispute\n\nConstruction Status:\n  Completed after legal resolution"
+  },
+  {
+    "filename": "case_0169.txt",
+    "text": "Case 169: Construction Delay - Foundations / Foundation work\n\nLocation   : Kalutara, Western Province\nBuilding   : 2-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 22 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : River sand restricted in Kalutara due to strict environmental regulations\n\nSite Conditions:\n  - Labour availability  : 0.79\n  - Material supply      : unavailable\n  - Weather severity     : 0.82\n  - Cumulative delay so far: 13 days\n\nCorrective Action Taken:\n  Manufactured sand used as approved alternative with engineer certification\n\nConstruction Status:\n  Completed with alternative material"
+  },
+  {
+    "filename": "case_0170.txt",
+    "text": "Case 170: Construction Delay - Foundations / Foundation work\n\nLocation   : Galle, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 35 days\n\nDelay Category : Environmental & Site\nCause of Delay : Southwest monsoon flooding of low-lying ground floor during Galle construction\n\nSite Conditions:\n  - Labour availability  : 0.79\n  - Material supply      : available\n  - Weather severity     : 0.84\n  - Cumulative delay so far: 10 days\n\nCorrective Action Taken:\n  Floor level raised and comprehensive drainage system installed\n\nConstruction Status:\n  Completed with design modification"
+  },
+  {
+    "filename": "case_0171.txt",
+    "text": "Case 171: Construction Delay - Structure / Roof slab\n\nLocation   : Mullaitivu, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Roof slab\nRisk Level : LOW\nDelay Days : 12 days\n\nDelay Category : Labour\nCause of Delay : Mason migrated abroad leaving roof slab work incomplete in Mullaitivu\n\nSite Conditions:\n  - Labour availability  : 0.35\n  - Material supply      : available\n  - Weather severity     : 0.36\n  - Cumulative delay so far: 3 days\n\nCorrective Action Taken:\n  New mason recruited and briefed on remaining scope of roof work\n\nConstruction Status:\n  Completed after personnel change"
+  },
+  {
+    "filename": "case_0172.txt",
+    "text": "Case 172: Construction Delay - Foundations / Foundation work\n\nLocation   : Colombo, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 20 days\n\nDelay Category : Environmental & Site\nCause of Delay : Southwest monsoon urban flooding waterlogged foundation excavation in Colombo\n\nSite Conditions:\n  - Labour availability  : 0.72\n  - Material supply      : available\n  - Weather severity     : 0.84\n  - Cumulative delay so far: 20 days\n\nCorrective Action Taken:\n  Dewatering pumps installed and improved drainage channel constructed\n\nConstruction Status:\n  Completed with cost overrun"
+  },
+  {
+    "filename": "case_0173.txt",
+    "text": "Case 173: Construction Delay - Foundations / Foundation work\n\nLocation   : Gampaha, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 40 days\n\nDelay Category : Environmental & Site\nCause of Delay : Flooding from nearby canal inundated Gampaha ground floor during monsoon\n\nSite Conditions:\n  - Labour availability  : 0.83\n  - Material supply      : available\n  - Weather severity     : 0.79\n  - Cumulative delay so far: 11 days\n\nCorrective Action Taken:\n  Retaining wall along canal boundary and permanent pumps installed\n\nConstruction Status:\n  Completed with flood protection measures"
+  },
+  {
+    "filename": "case_0174.txt",
+    "text": "Case 174: Construction Delay - Pre-Construction & Approvals / Soil investigation\n\nLocation   : Jaffna, Northern Province\nBuilding   : 2-floor residential construction\nPhase      : Pre-Construction & Approvals > Soil investigation\nRisk Level : MEDIUM\nDelay Days : 21 days\n\nDelay Category : Design & Technical\nCause of Delay : Soil investigation revealed unstable coastal sandy soil in Jaffna peninsula site\n\nSite Conditions:\n  - Labour availability  : 0.59\n  - Material supply      : available\n  - Weather severity     : 0.82\n  - Cumulative delay so far: 7 days\n\nCorrective Action Taken:\n  Geotechnical consultant engaged and pile foundation recommended\n\nConstruction Status:\n  Completed with revised foundation design"
+  },
+  {
+    "filename": "case_0175.txt",
+    "text": "Case 175: Construction Delay - Structure / Columns & beams\n\nLocation   : Vavuniya, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : MEDIUM\nDelay Days : 40 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Counterfeit cement causing structural failure and rework in Vavuniya\n\nSite Conditions:\n  - Labour availability  : 0.85\n  - Material supply      : unavailable\n  - Weather severity     : 0.26\n  - Cumulative delay so far: 20 days\n\nCorrective Action Taken:\n  QS engaged for full structural inspection and rework of failed sections\n\nConstruction Status:\n  Legal dispute ongoing"
+  },
+  {
+    "filename": "case_0176.txt",
+    "text": "Case 176: Construction Delay - Structure / Columns & beams\n\nLocation   : Hambantota, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : MEDIUM\nDelay Days : 18 days\n\nDelay Category : Labour\nCause of Delay : Skilled masons unavailable in Hambantota due to major port project competition\n\nSite Conditions:\n  - Labour availability  : 0.24\n  - Material supply      : available\n  - Weather severity     : 0.25\n  - Cumulative delay so far: 13 days\n\nCorrective Action Taken:\n  Workers sourced from Matara district at higher competitive rate\n\nConstruction Status:\n  Completed after sourcing delay"
+  },
+  {
+    "filename": "case_0177.txt",
+    "text": "Case 177: Construction Delay - Structure / Floor slabs\n\nLocation   : Galle, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 120 days\n\nDelay Category : Financial & Funding\nCause of Delay : Construction cost exceeded initial estimate by 40 percent in Galle project\n\nSite Conditions:\n  - Labour availability  : 0.87\n  - Material supply      : available\n  - Weather severity     : 0.33\n  - Cumulative delay so far: 49 days\n\nCorrective Action Taken:\n  Scope reduced and owner obtained approved top-up loan from bank\n\nConstruction Status:\n  Completed with reduced specification scope"
+  },
+  {
+    "filename": "case_0178.txt",
+    "text": "Case 178: Construction Delay - Foundations / Soil investigation\n\nLocation   : Hambantota, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Soil investigation\nRisk Level : MEDIUM\nDelay Days : 40 days\n\nDelay Category : Design & Technical\nCause of Delay : Foundation design did not account for Hambantota limestone rock bedrock layer\n\nSite Conditions:\n  - Labour availability  : 0.81\n  - Material supply      : available\n  - Weather severity     : 0.24\n  - Cumulative delay so far: 12 days\n\nCorrective Action Taken:\n  Rock breaker hired and foundation completely modified for rock conditions\n\nConstruction Status:\n  Completed after design modification"
+  },
+  {
+    "filename": "case_0179.txt",
+    "text": "Case 179: Construction Delay - Envelope & Waterproofing / Roof waterproofing\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Envelope & Waterproofing > Roof waterproofing\nRisk Level : MEDIUM\nDelay Days : 35 days\n\nDelay Category : Environmental & Site\nCause of Delay : Termite infestation destroying timber roof framework in Ampara house\n\nSite Conditions:\n  - Labour availability  : 0.84\n  - Material supply      : available\n  - Weather severity     : 0.78\n  - Cumulative delay so far: 11 days\n\nCorrective Action Taken:\n  Termite treatment and full timber roof replacement carried out\n\nConstruction Status:\n  Completed after significant delay"
+  },
+  {
+    "filename": "case_0180.txt",
+    "text": "Case 180: Construction Delay - Site Preparation / Site clearing & hoarding\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Site Preparation > Site clearing & hoarding\nRisk Level : MEDIUM\nDelay Days : 44 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Religious auspicious date delay for Muslim household in Ampara Oluvil\n\nSite Conditions:\n  - Labour availability  : 0.78\n  - Material supply      : available\n  - Weather severity     : 0.33\n  - Cumulative delay so far: 14 days\n\nCorrective Action Taken:\n  Construction recommenced immediately after auspicious date ceremony\n\nConstruction Status:\n  Completed on revised schedule"
+  },
+  {
+    "filename": "case_0181.txt",
+    "text": "Case 181: Construction Delay - Pre-Construction & Approvals / Architectural & structural design\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Architectural & structural design\nRisk Level : MEDIUM\nDelay Days : 18 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Ampara owner changed room layout mid-construction after wall completion\n\nSite Conditions:\n  - Labour availability  : 0.86\n  - Material supply      : available\n  - Weather severity     : 0.36\n  - Cumulative delay so far: 18 days\n\nCorrective Action Taken:\n  Structural engineer consulted and plan formally revised and approved\n\nConstruction Status:\n  Completed with revised design"
+  },
+  {
+    "filename": "case_0182.txt",
+    "text": "Case 182: Construction Delay - Site Preparation / Site clearing & hoarding\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Site Preparation > Site clearing & hoarding\nRisk Level : MEDIUM\nDelay Days : 22 days\n\nDelay Category : Owner / Social / Behavioural\nCause of Delay : Religious auspicious date delay for Tamil Hindu household in Batticaloa\n\nSite Conditions:\n  - Labour availability  : 0.8\n  - Material supply      : available\n  - Weather severity     : 0.39\n  - Cumulative delay so far: 6 days\n\nCorrective Action Taken:\n  Construction recommenced after auspicious date and pooja ceremony\n\nConstruction Status:\n  Completed on revised schedule"
+  },
+  {
+    "filename": "case_0183.txt",
+    "text": "Case 183: Construction Delay - Pre-Construction & Approvals / Site selection & surveying\n\nLocation   : Trincomalee, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Pre-Construction & Approvals > Site selection & surveying\nRisk Level : HIGH\nDelay Days : 75 days\n\nDelay Category : Land & Legal\nCause of Delay : Inherited land with disputed title among siblings in Trincomalee district\n\nSite Conditions:\n  - Labour availability  : 0.64\n  - Material supply      : available\n  - Weather severity     : 0.4\n  - Cumulative delay so far: 18 days\n\nCorrective Action Taken:\n  Land Registry mediation successfully resolved sibling title dispute\n\nConstruction Status:\n  Completed after legal resolution"
+  },
+  {
+    "filename": "case_0184.txt",
+    "text": "Case 184: Construction Delay - Structure / Roof slab\n\nLocation   : Galle, Southern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Roof slab\nRisk Level : HIGH\nDelay Days : 65 days\n\nDelay Category : Material Supply & Quality\nCause of Delay : Cement price spike during 2022 economic crisis halted Galle construction\n\nSite Conditions:\n  - Labour availability  : 0.74\n  - Material supply      : unavailable\n  - Weather severity     : 0.28\n  - Cumulative delay so far: 29 days\n\nCorrective Action Taken:\n  Owner obtained additional bank loan and construction recommenced\n\nConstruction Status:\n  Completed with cost overrun"
+  },
+  {
+    "filename": "case_0185.txt",
+    "text": "Case 185: Construction Delay - Structure / Columns & beams\n\nLocation   : Kalutara, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : MEDIUM\nDelay Days : 20 days\n\nDelay Category : Labour\nCause of Delay : Construction workers absorbed by large hotel construction project near Kalutara\n\nSite Conditions:\n  - Labour availability  : 0.25\n  - Material supply      : available\n  - Weather severity     : 0.31\n  - Cumulative delay so far: 20 days\n\nCorrective Action Taken:\n  Premium wages offered to retain workers on residential site\n\nConstruction Status:\n  Completed with higher labour cost"
+  },
+  {
+    "filename": "case_0186.txt",
+    "text": "Case 186: Construction Delay - Structure / Columns & beams\n\nLocation   : Mannar, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Columns & beams\nRisk Level : MEDIUM\nDelay Days : 16 days\n\nDelay Category : Labour\nCause of Delay : Skilled masons unavailable in Mannar due to sparse post-war population\n\nSite Conditions:\n  - Labour availability  : 0.27\n  - Material supply      : available\n  - Weather severity     : 0.26\n  - Cumulative delay so far: 13 days\n\nCorrective Action Taken:\n  Workers brought from Vavuniya with transport and accommodation provided\n\nConstruction Status:\n  Completed after delay"
+  },
+  {
+    "filename": "case_0187.txt",
+    "text": "Case 187: Construction Delay - MEP Rough-Ins / Electrical conduit work\n\nLocation   : Trincomalee, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : MEP Rough-Ins > Electrical conduit work\nRisk Level : LOW\nDelay Days : 7 days\n\nDelay Category : Labour\nCause of Delay : Qualified electrician not available locally for conduit work in Trincomalee\n\nSite Conditions:\n  - Labour availability  : 0.23\n  - Material supply      : available\n  - Weather severity     : 0.36\n  - Cumulative delay so far: 1 days\n\nCorrective Action Taken:\n  Electrician brought from Colombo on short-term contract basis\n\nConstruction Status:\n  Completed"
+  },
+  {
+    "filename": "case_0188.txt",
+    "text": "Case 188: Construction Delay - Foundations / Foundation work\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : HIGH\nDelay Days : 52 days\n\nDelay Category : Design & Technical\nCause of Delay : Wrong foundation level set causing potential flooding of Ampara house\n\nSite Conditions:\n  - Labour availability  : 0.65\n  - Material supply      : available\n  - Weather severity     : 0.81\n  - Cumulative delay so far: 54 days\n\nCorrective Action Taken:\n  Foundation re-laid to correct level per structural engineer guidelines\n\nConstruction Status:\n  Ongoing - wall construction stage"
+  },
+  {
+    "filename": "case_0189.txt",
+    "text": "Case 189: Construction Delay - Structure / Floor slabs\n\nLocation   : Jaffna, Northern Province\nBuilding   : 1-floor residential construction\nPhase      : Structure > Floor slabs\nRisk Level : HIGH\nDelay Days : 180 days\n\nDelay Category : Financial & Funding\nCause of Delay : Diaspora owner lost job abroad causing construction fund shortage in Jaffna\n\nSite Conditions:\n  - Labour availability  : 0.61\n  - Material supply      : available\n  - Weather severity     : 0.36\n  - Cumulative delay so far: 25 days\n\nCorrective Action Taken:\n  Family contribution pooled and phased construction approach adopted\n\nConstruction Status:\n  Stalled awaiting further funding"
+  },
+  {
+    "filename": "case_0190.txt",
+    "text": "Case 190: Construction Delay - Foundations / Ground floor slab\n\nLocation   : Batticaloa, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Ground floor slab\nRisk Level : MEDIUM\nDelay Days : 30 days\n\nDelay Category : Environmental & Site\nCause of Delay : Unexpected high groundwater table during excavation near Batticaloa lagoon\n\nSite Conditions:\n  - Labour availability  : 0.85\n  - Material supply      : available\n  - Weather severity     : 0.89\n  - Cumulative delay so far: 5 days\n\nCorrective Action Taken:\n  Dewatering system and modified ground floor slab foundation type used\n\nConstruction Status:\n  Completed with design change"
+  },
+  {
+    "filename": "case_0191.txt",
+    "text": "Case 191: Construction Delay - Foundations / Foundation work\n\nLocation   : Gampaha, Western Province\nBuilding   : 1-floor residential construction\nPhase      : Foundations > Foundation work\nRisk Level : MEDIUM\nDelay Days : 28 days\n\nDelay Category : Design & Technical\nCause of Delay : Staircase design structurally unsafe requiring complete redesign in Gampaha\n\nSite Conditions:\n  - Labour availability  : 0.71\n  - Material supply      : available\n  - Weather severity     : 0.25\n  - Cumulative delay so far: 14 days\n\nCorrective Action Taken:\n  Structural engineer fully revised staircase design and reinstated it\n\nConstruction Status:\n  Completed after design change"
+  },
+  {
+    "filename": "case_0192.txt",
+    "text": "Case 192: Construction Delay - Finishes / Tiling\n\nLocation   : Ampara, Eastern Province\nBuilding   : 1-floor residential construction\nPhase      : Finishes > Tiling\nRisk Level : MEDIUM\nDelay Days : 25 days\n\nDelay Category : Design & Technical\nCause of Delay : Septic tank location conflicting with neighbour well in Ampara plot\n\nSite Conditions:\n  - Labour availability  : 0.87\n  - Material supply      : available\n  - Weather severity     : 0.36\n  - Cumulative delay so far: 14 days\n\nCorrective Action Taken:\n  Septic tank redesigned and relocated with engineer certification\n\nConstruction Status:\n  Under NHDA review"
+  }
+]
