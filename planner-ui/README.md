@@ -7,7 +7,8 @@ Components 02, 03 and 04.
 
 The backend services **do not call each other**. Apart from one fire-and-forget
 call from C01 to C02, no service makes any outbound HTTP request to another —
-there is no orchestrator, no bus, no gateway that chains them.
+there is no orchestrator and no bus. The gateway (`gateway/`) only forwards
+each request to one service; it never chains them.
 
 So this app is the orchestrator: it calls each service in turn and passes each
 step's output forward as the next step's input.
@@ -18,13 +19,15 @@ and forget it. Only C04 keeps state. Everything the review page shows lives in
 
 ## Running
 
-Start the three backends first (C01 is not required — see below):
+Start the gateway and the three backends first (C01 is not required — see below):
 
-| Component | Port | Start from |
+| Service | Port | Start from |
 |---|---|---|
-| C02 Cost Estimation | 8002 | `cost-estimation/` → `./.venv/bin/uvicorn main:app --port 8002` |
-| C03 Timeline | 8000 | `timeline/` → `./.venv/bin/uvicorn app.main:app --port 8000` |
-| C04 Performance | 5004 | `performance/` → `./.venv/bin/python main.py` (needs Postgres) |
+| Gateway | 8080 | `gateway/` → `.venv/bin/python -m uvicorn app.main:app --port 8080` (needs `authdb`, see its README) |
+| Mailpit | 8025 | repo root → `docker compose up -d mailpit` (catches the sign-up and reset emails) |
+| C02 Cost Estimation | 8002 | `cost-estimation/` → `.venv/bin/python -m uvicorn main:app --port 8002` |
+| C03 Timeline | 8000 | `timeline/` → `.venv/bin/python -m uvicorn app.main:app --port 8000` |
+| C04 Performance | 5004 | `performance/` → `.venv/bin/python main.py` (needs Postgres) |
 
 Then:
 
@@ -33,7 +36,25 @@ pnpm install
 pnpm dev            # http://localhost:5173
 ```
 
-Base URLs come from `.env` (`VITE_C02_URL` etc.), never hardcoded.
+The browser only calls `/api/<service>/…` on its own origin. Vite forwards
+`/api` to the gateway (`http://localhost:8080` by default; set `GATEWAY_URL` in
+`.env` to change it), and the gateway knows where each service lives. The old
+`VITE_C0x_URL` variables are no longer read.
+
+## Accounts
+
+Every step needs a signed-in user; the landing page and the account pages
+(`/login`, `/signup`, `/verify-email`, `/forgot-password`, `/reset-password`)
+don't. Signing up sends a confirmation link (read it in Mailpit locally), and
+confirming asks for the password again, then signs you in.
+
+The session is an HttpOnly cookie the page can't read; `GET /api/auth/me` is
+how the app knows who is signed in. If any service call comes back 401 (the
+session timed out), the app sends you to log in and back to the same page.
+
+The saved run in `localStorage` is tied to the account: logging out clears it,
+and signing in as someone else starts a fresh one. Signing back in as the same
+user keeps it.
 
 ## The steps
 
@@ -54,8 +75,9 @@ Base URLs come from `.env` (`VITE_C02_URL` etc.), never hardcoded.
 
 ## Things that will bite you
 
-- **C02 and C03 both needed CORS changes** to accept requests from `:5173`.
-  Both now read `CORS_ALLOW_ORIGINS` (comma-separated) if you deploy elsewhere.
+- **The UI makes no cross-origin calls.** Everything goes through the gateway,
+  which also strips the services' own CORS headers. `CORS_ALLOW_ORIGINS` in C02
+  and C03 now only matters for tools that call those services directly.
 - **C04 rejects the predict step unless SPI is WARNING or CRITICAL.** A phase
   whose planned start is in the future always scores SPI 1.00, so the delay model
   cannot run on it. Pick a phase already underway and enter a percentage below

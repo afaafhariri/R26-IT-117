@@ -29,8 +29,51 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    # Bound to 127.0.0.1: reachable for local development, not from the
+    # network. The browser reaches C04 through the gateway.
     ports:
-      - "5004:5004"
+      - "127.0.0.1:5004:5004"
+
+  # The single entry point for the browser. C04 runs in this file; C01–C03 run
+  # on the host (see the root README), so the gateway reaches them there.
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: r26_gateway
+    environment:
+      C01_URL: http://host.docker.internal:8001
+      C02_URL: http://host.docker.internal:8002
+      C03_URL: http://host.docker.internal:8000
+      C04_URL: http://performance:5004
+      # authdb must exist first: see "Docker" in gateway/README.md. The
+      # default password is for local development only, like the postgres
+      # one above; set GATEWAY_DB_PASSWORD in a root .env to change it.
+      DATABASE_URL: postgresql+psycopg://gateway:${GATEWAY_DB_PASSWORD:-gateway-local-only}@postgres:5432/authdb
+      APP_BASE_URL: http://localhost:5173
+      ALLOWED_ORIGINS: http://localhost:5173,http://localhost:8080
+      COOKIE_SECURE: "false" # plain HTTP locally; production is HTTPS
+      EMAIL_BACKEND: smtp
+      SMTP_HOST: mailpit
+      SMTP_PORT: "1025"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    ports:
+      - "8080:8080"
+
+  # Catches every email the gateway sends in local development, so nothing
+  # reaches a real inbox. Read them at http://localhost:8025.
+  mailpit:
+    image: axllent/mailpit:v1.31.2
+    container_name: r26_mailpit
+    ports:
+      - "127.0.0.1:8025:8025"
+      - "127.0.0.1:1025:1025"
 
 volumes:
   postgres_data:

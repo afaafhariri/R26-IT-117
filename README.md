@@ -17,11 +17,12 @@ R26-IT-117/
 ├── timeline/           # Component 03 — Timeline Prediction              (FastAPI, :8000)
 ├── performance/        # Component 04 — Performance Monitoring          (Flask,   :5004)
 ├── frontend/           # Static single-file API test UI for Component 04
-├── gateway/            # Route definitions shared across services
+├── gateway/            # API gateway — the browser's only entry point   (FastAPI, :8080)
+├── planner-ui/         # React wizard that drives C01–C04 via the gateway (Vite,   :5173)
 ├── shared/
 │   └── schemas/        # site_schema.json, building_schema.json — the C01→C02 contract
 ├── research/           # Notebooks and datasets
-└── docker-compose.yml  # postgres + performance
+└── docker-compose.yml  # postgres + performance + gateway
 ```
 
 Component 01 also ships its own React + TypeScript client at
@@ -39,10 +40,19 @@ Cadastral plan  →  C01 Architecture  →  BuildingSchema  →  C02 Cost Estima
 
 ### Docker Compose coverage
 
-`docker-compose.yml` currently defines only two services — `postgres` and
-`performance`. Components 01, 02 and 03 each have their own `Dockerfile` but
-are not yet added to the compose file, so they must be run individually. See
-each component's *Running Locally* section.
+`docker-compose.yml` defines three services — `postgres`, `performance` and
+`gateway`. The gateway is published on port 8080 and C04 only on `127.0.0.1`.
+Components 01, 02 and 03 each have their own `Dockerfile` but
+are not yet added to the compose file, so they must be run individually (see
+each component's *Running Locally* section); the gateway container reaches
+them on the host through `host.docker.internal`.
+
+### API gateway
+
+The browser talks only to `gateway/`. It handles sign-up, login and sessions
+(`/api/auth/…`, backed by its own `authdb` database) and forwards `/api/c01/…`
+through `/api/c04/…` to the matching service unchanged, for signed-in users
+only. See [gateway/README.md](gateway/README.md).
 
 ---
 
