@@ -25,7 +25,7 @@ from pydantic import BaseModel, Field, field_validator
 
 from layers.layer1_boq.boq_engine import BOQEngine
 from layers.layer2_rate_engine.rate_engine import RateEngine
-from layers.layer2_rate_engine.material_catalog import default_selections
+from layers.layer2_rate_engine.material_catalog import MaterialCatalog, default_selections
 from layers.layer3_ml_prediction.feature_engineer import FeatureEngineer
 from layers.layer3_ml_prediction.ensemble import EnsembleCostPredictor
 from layers.layer3_ml_prediction.shap_explainer import SHAPExplainer
@@ -69,6 +69,9 @@ app.add_middleware(
 
 _boq_engine = BOQEngine()
 _rate_engine = RateEngine()
+# Prices a request the way the training data was priced: grade-default materials, seed
+# rates, no escalation. Used only to compute the price factor for Layer 3.
+_reference_rate_engine = RateEngine(material_catalog=MaterialCatalog(use_overlay=False))
 _feature_engineer = FeatureEngineer()
 _ensemble = EnsembleCostPredictor(auto_load=True)
 _shap_explainer = SHAPExplainer(top_n=5)
@@ -226,6 +229,27 @@ def _validate_materials(materials: dict[str, str]) -> None:
             )
 
 
+def _price_factor(boq: dict, schema: BuildingSchema, direct_cost: float) -> float:
+    """Ratio of the request's direct cost to the training-reference direct cost.
+
+    The models are trained on totals priced with grade-default materials at seed rates
+    on the base date (tests/generate_dataset.py). Escalation, material selections and
+    fresh market prices each scale line items, and risk and on-costs multiply the direct
+    cost, so total(request) = total(reference) x this ratio exactly. Scaling the model's
+    figures by it puts them on the request's price level without breaking coverage.
+    """
+    reference = _reference_rate_engine.price_boq(
+        boq,
+        base_date=schema.base_rate_date,
+        target_date=schema.base_rate_date,
+        material_selections=default_selections(schema.finish_grade),
+    )
+    reference_cost = reference.get("direct_cost_lkr", 0.0)
+    if reference_cost <= 0 or direct_cost <= 0:
+        return 1.0
+    return direct_cost / reference_cost
+
+
 def _run_full_pipeline(schema: BuildingSchema) -> dict:
     """Execute all four layers and return the assembled Cost Report dict."""
     schema_dict = schema.to_dict()
@@ -246,12 +270,13 @@ def _run_full_pipeline(schema: BuildingSchema) -> dict:
         material_selections=selections,
     )
 
-    # Layer 3 — ML Prediction
+    # Layer 3 — ML Prediction, carried to this request's price level
     X = _feature_engineer.build_features(boq, schema_dict, finish_grade)
-    prediction = _ensemble.predict(X)
+    price_factor = _price_factor(boq, schema, rates.get("direct_cost_lkr", 0.0))
+    prediction = _ensemble.predict(X, price_factor=price_factor)
 
     # Add SHAP explanations to the prediction dict
-    shap_results = _shap_explainer.explain(_ensemble._xgb, X)
+    shap_results = _shap_explainer.explain(_ensemble._xgb, X, price_factor=price_factor)
     prediction["shap_explanations"] = shap_results
 
     # Layer 4 — Risk + Contingency + Report

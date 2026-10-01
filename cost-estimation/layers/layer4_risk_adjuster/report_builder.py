@@ -138,6 +138,9 @@ class ReportBuilder:
             "model_metadata": {
                 "xgboost_prediction_lkr": prediction.get("xgboost_prediction", 0.0),
                 "model": "xgboost",
+                # Multiplier from the training price level to this request's; see
+                # main._price_factor.
+                "price_factor": prediction.get("price_factor", 1.0),
             },
             "rate_metadata": {
                 "escalation_factor": rates.get("escalation_factor", 1.0),

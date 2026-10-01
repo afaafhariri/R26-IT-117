@@ -82,6 +82,17 @@ class TestMaterialCatalog:
         catalog = MaterialCatalog(overlay_csv=tmp_path / "does_not_exist.csv")
         assert catalog.get("door_count", "solid_timber_teak")["rate_lkr"] == 45000.00
 
+    def test_overlay_disabled_uses_seed_rates(self, tmp_path):
+        overlay = tmp_path / "current_prices.csv"
+        overlay.write_text(
+            "part_key,material_key,supply_rate_lkr,sample_count,last_updated,source\n"
+            f"door_count,plywood_flush,20000.00,5,{date.today()},test\n"
+        )
+        catalog = MaterialCatalog(overlay_csv=overlay, use_overlay=False)
+        entry = catalog.get("door_count", "plywood_flush")
+        assert entry["rate_lkr"] == 26000.00
+        assert entry["rate_source"] == "seed_2024q4"
+
 
 # ---------------------------------------------------------------------------
 # Grade-based default materials

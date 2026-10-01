@@ -58,11 +58,14 @@ class EnsembleCostPredictor:
                 "will under-cover their nominal level."
             )
 
-    def predict(self, X: pd.DataFrame) -> dict:
+    def predict(self, X: pd.DataFrame, price_factor: float = 1.0) -> dict:
         """Return the point estimate with calibrated uncertainty figures.
 
         Args:
             X: Single-row feature DataFrame from FeatureEngineer.build_features().
+            price_factor: Multiplier from the training price level (grade-default
+                materials, seed rates, base date) to the request's. Every figure is
+                scaled by it; a uniform factor leaves conformal coverage unchanged.
 
         Returns:
             Dict with keys:
@@ -75,6 +78,7 @@ class EnsembleCostPredictor:
               is_calibrated        — False if conformal offsets were unavailable
               xgboost_prediction   — same as point_estimate_lkr
               mlp_prediction       — 0.0 (model removed, key kept for compat)
+              price_factor         — the multiplier applied
         """
         if not self._xgb.is_loaded:
             logger.error("XGBoost model not loaded — returning zeros.")
@@ -88,12 +92,14 @@ class EnsembleCostPredictor:
                 "is_calibrated": False,
                 "xgboost_prediction": 0.0,
                 "mlp_prediction": 0.0,
+                "price_factor": price_factor,
             }
 
-        point = self._xgb.predict(X)
-        lower, upper = self._xgb.predict_interval(X, level=self._interval_level)
-        lo90, hi90 = self._xgb.predict_interval(X, level=0.90)
-        budget = self._xgb.predict_budget(X, level=DEFAULT_BUDGET_LEVEL)
+        f = price_factor
+        point = self._xgb.predict(X) * f
+        lower, upper = (v * f for v in self._xgb.predict_interval(X, level=self._interval_level))
+        lo90, hi90 = (v * f for v in self._xgb.predict_interval(X, level=0.90))
+        budget = self._xgb.predict_budget(X, level=DEFAULT_BUDGET_LEVEL) * f
 
         logger.info(
             "XGBoost: %.0f LKR  [%.0f – %.0f @ %.0f%%]  budget(p%.0f) %.0f",
@@ -111,4 +117,5 @@ class EnsembleCostPredictor:
             "is_calibrated": self._xgb.is_calibrated,
             "xgboost_prediction": round(point, 2),
             "mlp_prediction": 0.0,
+            "price_factor": round(f, 6),
         }

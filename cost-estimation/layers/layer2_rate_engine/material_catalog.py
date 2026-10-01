@@ -72,10 +72,14 @@ class MaterialCatalog:
         catalog_csv: Optional[Path] = None,
         overlay_csv: Optional[Path] = None,
         stale_days: int = DEFAULT_STALE_DAYS,
+        use_overlay: bool = True,
     ) -> None:
         self._catalog_csv = catalog_csv or _DEFAULT_CATALOG_CSV
         self._overlay_csv = overlay_csv or _DEFAULT_OVERLAY_CSV
         self._stale_days = stale_days
+        # False gives seed rates only — what the training data is priced with, so the
+        # dataset does not depend on the day it is generated.
+        self._use_overlay = use_overlay
         self._cache: Optional[dict[tuple[str, str], dict]] = None
 
     def load(self) -> dict[tuple[str, str], dict]:
@@ -84,7 +88,8 @@ class MaterialCatalog:
             return self._cache
 
         entries = self._load_seed()
-        self._apply_overlay(entries)
+        if self._use_overlay:
+            self._apply_overlay(entries)
         self._cache = entries
         return entries
 
