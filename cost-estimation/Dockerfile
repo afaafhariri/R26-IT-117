@@ -1,13 +1,8 @@
 FROM python:3.11-slim
 
-# System dependencies for psycopg2, TensorFlow, XGBoost, and PaddleOCR
+# System dependencies: OpenMP for XGBoost, wget for the health check
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    libpq-dev \
-    libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender-dev \
     libgomp1 \
     wget \
     && rm -rf /var/lib/apt/lists/*

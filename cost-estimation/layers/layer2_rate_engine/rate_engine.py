@@ -67,6 +67,12 @@ class RateEngine:
                 if isinstance(qty, (int, float)):
                     quantities[key] = float(qty)
 
+        # Reinforcement is derived from the concrete volume and lives in the BOQ
+        # summary rather than a section, so add it explicitly or it is never priced.
+        steel_kg = boq.get("summary", {}).get("steel_kg_estimate")
+        if isinstance(steel_kg, (int, float)):
+            quantities["steel_kg_estimate"] = float(steel_kg)
+
         selections = material_selections or {}
         selections_applied: dict[str, str] = {}
 

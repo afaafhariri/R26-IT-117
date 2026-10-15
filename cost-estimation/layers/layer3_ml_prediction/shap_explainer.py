@@ -37,7 +37,7 @@ class SHAPExplainer:
     def __init__(self, top_n: int = 5) -> None:
         self._top_n = top_n
 
-    def explain(self, model, X: pd.DataFrame) -> list[dict]:
+    def explain(self, model, X: pd.DataFrame, price_factor: float = 1.0) -> list[dict]:
         """Return the top-N cost drivers with SHAP impact values in LKR.
 
         The SHAP values are computed in log-cost space and then converted to
@@ -46,6 +46,8 @@ class SHAPExplainer:
         Args:
             model: A fitted XGBoostCostModel instance.
             X: Single-row feature DataFrame from FeatureEngineer.build_features().
+            price_factor: Multiplier to the request's price level, as passed to
+                EnsembleCostPredictor.predict(), so impacts match the reported figures.
 
         Returns:
             List of up to top_n dicts:
@@ -72,7 +74,7 @@ class SHAPExplainer:
 
             # Predicted log-cost to convert SHAP (log-space) to LKR impact
             log_pred = float(xgb_model.predict(X)[0])
-            predicted_cost_lkr = float(np.expm1(log_pred))
+            predicted_cost_lkr = float(np.expm1(log_pred)) * price_factor
 
             feature_names = list(X.columns)
             impacts = []

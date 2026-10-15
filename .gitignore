@@ -31,6 +31,9 @@ ENV/
 
 # ── Datasets & research data ──────────────────────────────────────────────────
 /research/datasets/
+/research/thesis/
+/research/common-report/
+/research/reports/
 
 # ── Testing & coverage ────────────────────────────────────────────────────────
 .pytest_cache/
@@ -54,6 +57,8 @@ logs/
 
 # ── Docker ────────────────────────────────────────────────────────────────────
 .dockerignore
+# C02's build context excludes its local virtual environment; share that rule.
+!cost-estimation/.dockerignore
 
 # ── OS ────────────────────────────────────────────────────────────────────────
 .DS_Store
