@@ -1,80 +1,26 @@
 import { useState } from 'react';
-import { Bar } from '../../components/ui';
 import { ApiError } from '../../api/client';
 import { selectFloorPlan } from '../../api/services';
 import type { C01FloorPlanAlternative, C01FullDesignPackage } from '../../types';
-import { MiniFloorPlan } from './MiniFloorPlan';
+import { PlanSchematic } from './PlanSchematic';
+import { roomAreaSqm } from './rooms';
 
-function ScoreRow({ label, value }: { label: string; value: number }) {
-  return (
-    <div className="score-row">
-      <span style={{ width: '6.5em' }}>{label}</span>
-      <Bar value={value} max={10} />
-      <span className="val">{value.toFixed(1)}</span>
-    </div>
-  );
-}
+const FT = 0.3048;
+const SQFT = 0.092903;
 
-function PlanCard({
-  alt,
-  selected,
-  onSelect,
-}: {
-  alt: C01FloorPlanAlternative;
-  selected: boolean;
-  onSelect: () => void;
-}) {
-  const floors = [...new Set(alt.rooms.map((r) => r.floor ?? 1))].sort();
-  return (
-    <div className={`plan-card${selected ? ' selected' : ''}`} onClick={onSelect}>
-      <div className="between" style={{ marginBottom: '0.6rem' }}>
-        <h3 style={{ textTransform: 'capitalize' }}>{alt.variant}</h3>
-        <span
-          title={alt.validation_passed ? 'Layout passed all checks' : alt.violations.join('\n')}
-          className={`badge ${alt.validation_passed ? 'ok' : 'warn'}`}
-        >
-          {alt.validation_passed ? 'Passed' : `⚠ ${alt.violations.length} issue${alt.violations.length === 1 ? '' : 's'}`}
-        </span>
-      </div>
+/** C01 scores each layout 0–10 on these. */
+const METRICS: { key: keyof C01FloorPlanAlternative['scores']; label: string; tone: string }[] = [
+  { key: 'space_utilisation', label: 'Space utilisation', tone: 'var(--ink)' },
+  { key: 'natural_light', label: 'Natural daylighting', tone: 'var(--ochre)' },
+  { key: 'adjacency', label: 'Room adjacency', tone: 'var(--terra)' },
+  { key: 'ventilation', label: 'Ventilation', tone: 'var(--accent)' },
+];
 
-      <MiniFloorPlan rooms={alt.rooms} />
-
-      <div className="stack" style={{ gap: '0.3rem', marginTop: '0.7rem' }}>
-        <ScoreRow label="Space use" value={alt.scores.space_utilisation} />
-        <ScoreRow label="Light" value={alt.scores.natural_light} />
-        <ScoreRow label="Adjacency" value={alt.scores.adjacency} />
-        <ScoreRow label="Ventilation" value={alt.scores.ventilation} />
-        <ScoreRow label="Overall" value={alt.scores.overall} />
-      </div>
-
-      <div className="divider" />
-      <p className="faint" style={{ marginBottom: '0.4rem' }}>
-        {alt.total_built_area_sqft.toFixed(0)} sqft total · {alt.rooms.length} rooms
-      </p>
-      <div style={{ maxHeight: 140, overflowY: 'auto' }}>
-        {floors.map((floorNum) => (
-          <div key={floorNum}>
-            {floors.length > 1 && (
-              <p className="faint" style={{ fontSize: '0.68rem', textTransform: 'uppercase', margin: '0.3rem 0 0.15rem' }}>
-                Floor {floorNum}
-              </p>
-            )}
-            {alt.rooms
-              .filter((r) => (r.floor ?? 1) === floorNum)
-              .map((r, i) => (
-                <div key={i} className="between" style={{ fontSize: '0.8rem', padding: '0.1rem 0' }}>
-                  <span>{r.name}</span>
-                  <span className="faint mono">
-                    {r.width_ft.toFixed(0)} × {r.length_ft.toFixed(0)} ft
-                  </span>
-                </div>
-              ))}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+const VARIANT_BLURB: Record<string, string> = {
+  conservative: 'Closest to conventional layouts',
+  balanced: 'A middle path between convention and novelty',
+  creative: 'Most exploratory arrangement',
+};
 
 type Props = {
   jobId: string;
@@ -88,6 +34,7 @@ type Props = {
 export function ChooseFloorPlan({ jobId, alternatives, onGenerating, onSuccess, onError, error }: Props) {
   const [selected, setSelected] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const alt = alternatives.find((a) => a.variant === selected) ?? null;
 
   const generate = async () => {
     if (!selected) return;
@@ -103,34 +50,157 @@ export function ChooseFloorPlan({ jobId, alternatives, onGenerating, onSuccess, 
   };
 
   return (
-    <div className="stack">
-      <div>
-        <h1>Choose a Floor Plan</h1>
-        <p className="muted">Pick one of the three AI-generated alternatives to build your full design package.</p>
-      </div>
+    <>
+      <section className="cs-panel">
+        <div className="between" style={{ alignItems: 'flex-start' }}>
+          <div>
+            <h2 style={{ fontSize: '1.4rem' }}>Choose a layout</h2>
+            <p className="faint" style={{ margin: '0.35rem 0 0' }}>
+              Three layouts generated for your brief, each validated against the buildable zone and
+              scored out of 10.
+            </p>
+          </div>
+        </div>
+        <div className="st-alts">
+          {alternatives.map((a, i) => {
+            const isSel = a.variant === selected;
+            return (
+              <button
+                type="button"
+                key={a.variant}
+                className={`st-alt${isSel ? ' selected' : ''}`}
+                aria-pressed={isSel}
+                onClick={() => setSelected(a.variant)}
+              >
+                {isSel && <span className="st-alt-tag">Selected proposal</span>}
+                <span className="between">
+                  <span className="eyebrow dim">Option 0{i + 1}</span>
+                  <span className={`chip${isSel ? ' terra' : ''}`}>{a.scores.overall.toFixed(1)} score</span>
+                </span>
+                <span className="st-alt-name">{a.variant}</span>
+                <span className="st-alt-desc">{a.description || VARIANT_BLURB[a.variant]}</span>
+                <span className="between st-alt-foot">
+                  <span>Built area: {(a.total_built_area_sqft * SQFT).toFixed(0)} m²</span>
+                  <span className={isSel ? 'terra' : ''}>{isSel ? 'Active view' : 'Select →'}</span>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
 
-      <div className="grid cols-3">
-        {alternatives.map((alt) => (
-          <PlanCard key={alt.variant} alt={alt} selected={selected === alt.variant} onSelect={() => setSelected(alt.variant)} />
-        ))}
-      </div>
+      {alt && (
+        <>
+          <section className="cs-panel">
+            <div className="between" style={{ marginBottom: '0.75rem' }}>
+              <span className="eyebrow dim">Plan schematic — {alt.variant} option</span>
+              <span className={`chip ${alt.validation_passed ? 'nominal' : 'review'}`}>
+                {alt.validation_passed
+                  ? 'Validation passed'
+                  : `${alt.violations.length} issue${alt.violations.length === 1 ? '' : 's'}`}
+              </span>
+            </div>
+            <PlanSchematic key={alt.variant} rooms={alt.rooms} />
+          </section>
+
+          <section className="cs-panel">
+            <div className="between" style={{ marginBottom: '1rem' }}>
+              <span className="eyebrow dim">Multi-metric evaluation ({alt.variant})</span>
+              <span className="chip">
+                Overall: <b>{alt.scores.overall.toFixed(1)} / 10</b>
+              </span>
+            </div>
+            <div className="st-metrics">
+              {METRICS.map((m) => (
+                <div key={m.key}>
+                  <div className="between">
+                    <span className="eyebrow dim">{m.label}</span>
+                    <b>{alt.scores[m.key].toFixed(1)}</b>
+                  </div>
+                  <div className="track">
+                    <span style={{ width: `${(alt.scores[m.key] / 10) * 100}%`, background: m.tone }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {!alt.validation_passed && alt.violations.length > 0 && (
+              <div className="cs-notice warn" style={{ marginTop: '1rem' }}>
+                <svg viewBox="0 0 20 20" aria-hidden>
+                  <circle cx="10" cy="10" r="8.2" fill="none" stroke="currentColor" strokeWidth="1.5" />
+                  <path d="M10 5.5v5.5M10 13.4v1.2" fill="none" stroke="currentColor" strokeWidth="1.8" />
+                </svg>
+                <div>
+                  <b>Validation issues</b>
+                  <ul style={{ margin: 0, paddingLeft: '1.1rem' }}>
+                    {alt.violations.map((v, i) => (
+                      <li key={i}>
+                        <p>{v}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            <div className="table-wrap" style={{ marginTop: '1rem' }}>
+              <table className="st-table">
+                <thead>
+                  <tr>
+                    <th>Room</th>
+                    <th className="num">Floor</th>
+                    <th className="num">Area (m²)</th>
+                    <th className="num">Size (m)</th>
+                    <th>Window</th>
+                    <th>Door</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {alt.rooms.map((r, i) => (
+                    <tr key={i}>
+                      <td>
+                        <b>{r.name}</b>
+                      </td>
+                      <td className="num">{r.floor ?? 1}</td>
+                      <td className="num">{roomAreaSqm(r).toFixed(2)}</td>
+                      <td className="num">
+                        {(r.width_ft * FT).toFixed(2)} × {(r.length_ft * FT).toFixed(2)}
+                      </td>
+                      <td>
+                        <span className={`chip ${r.has_window ? 'nominal' : ''}`}>{r.has_window ? 'Yes' : 'No'}</span>
+                      </td>
+                      <td>
+                        <span className={`chip ${r.has_door ? 'nominal' : ''}`}>{r.has_door ? 'Yes' : 'No'}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </>
+      )}
 
       {error && <div className="alert error">Generation failed: {error}</div>}
 
-      <div className="footer-nav">
-        <span />
-        <button className="primary" onClick={generate} disabled={!selected || loading}>
+      <div className="cs-status">
+        <div>
+          <span className="eyebrow">{alt ? `${alt.variant} option ready` : 'Select a plan option'}</span>
+          <p className="faint" style={{ margin: '0.25rem 0 0' }}>
+            Approving renders the exterior, interior, 2D blueprint and 3D views. You review them before
+            the design goes to cost estimation.
+          </p>
+        </div>
+        <button className="accent" onClick={generate} disabled={!selected || loading}>
           {loading ? (
             <>
               <span className="spinner" aria-hidden /> Generating full design…
             </>
-          ) : selected ? (
-            `Generate Full Design — ${selected}`
           ) : (
-            'Select a plan above'
+            'Approve plan & generate package →'
           )}
         </button>
       </div>
-    </div>
+    </>
   );
 }

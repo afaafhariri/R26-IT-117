@@ -172,11 +172,78 @@ export function Step2Cost({ run, update }: Props) {
     );
   }
 
+  // Shown with or without an estimate: if the first one fails, changing a
+  // material re-prices, exactly as on the original page.
+  const materialsCard = (
+  <Card
+    title="Material specification"
+    subtitle={
+      catalog.data
+        ? `${Object.keys(catalog.data).length} work items · ${Object.keys(materials).length} customised · unset items use the ${schema.finish_grade} grade default`
+        : undefined
+    }
+    actions={
+      Object.keys(materials).length > 0 ? (
+        <button className="ghost sm" onClick={() => setMaterials({})}>
+          Reset to defaults
+        </button>
+      ) : undefined
+    }
+  >
+    {catalog.isPending && <Loading what="Loading material catalogue" />}
+    {catalog.isError && <ErrorBox error={catalog.error} onRetry={() => catalog.refetch()} />}
+    {catalog.data && (
+      <div className="cs-materials">
+        {Object.entries(catalog.data).map(([part, variants]) => {
+          const chosen = materials[part] ?? '';
+          const active = variants.find((v) => v.material === chosen);
+          const qty = partQuantity(report, part);
+          return (
+            <label className="field" key={part}>
+              <span className="row">
+                {workItemLabel(part)}
+                {qty && <span className="faint">{qty}</span>}
+                {chosen && <Badge tone="ok">custom</Badge>}
+              </span>
+              <select
+                value={chosen}
+                onChange={(e) => {
+                  const next = { ...materials };
+                  if (e.target.value) next[part] = e.target.value;
+                  else delete next[part];
+                  setMaterials(next);
+                }}
+              >
+                <option value="">Grade default</option>
+                {variants.map((v) => (
+                  <option key={v.material} value={v.material}>
+                    {v.description} — {lkr(v.rate_lkr)}/{v.unit}
+                  </option>
+                ))}
+              </select>
+              {active && (
+                <span className="faint">
+                  {lkr(active.rate_lkr)}/{active.unit} · {active.rate_source}
+                </span>
+              )}
+            </label>
+          );
+        })}
+      </div>
+    )}
+  </Card>
+  );
+
   if (!report) {
-    return runEstimate.isError ? (
-      <ErrorBox error={runEstimate.error} onRetry={() => runEstimate.mutate(materials)} />
-    ) : (
-      <Loading what="Pricing the bill of quantities" />
+    return (
+      <div className="cs">
+        {runEstimate.isError ? (
+          <ErrorBox error={runEstimate.error} onRetry={() => runEstimate.mutate(materials)} />
+        ) : (
+          <Loading what="Pricing the bill of quantities" />
+        )}
+        {materialsCard}
+      </div>
     );
   }
 
@@ -469,63 +536,7 @@ export function Step2Cost({ run, update }: Props) {
         </section>
       </div>
 
-      <Card
-        title="Material specification"
-        subtitle={
-          catalog.data
-            ? `${Object.keys(catalog.data).length} work items · ${Object.keys(materials).length} customised · unset items use the ${schema.finish_grade} grade default`
-            : undefined
-        }
-        actions={
-          Object.keys(materials).length > 0 ? (
-            <button className="ghost sm" onClick={() => setMaterials({})}>
-              Reset to defaults
-            </button>
-          ) : undefined
-        }
-      >
-        {catalog.isPending && <Loading what="Loading material catalogue" />}
-        {catalog.isError && <ErrorBox error={catalog.error} onRetry={() => catalog.refetch()} />}
-        {catalog.data && (
-          <div className="cs-materials">
-            {Object.entries(catalog.data).map(([part, variants]) => {
-              const chosen = materials[part] ?? '';
-              const active = variants.find((v) => v.material === chosen);
-              const qty = partQuantity(report, part);
-              return (
-                <label className="field" key={part}>
-                  <span className="row">
-                    {workItemLabel(part)}
-                    {qty && <span className="faint">{qty}</span>}
-                    {chosen && <Badge tone="ok">custom</Badge>}
-                  </span>
-                  <select
-                    value={chosen}
-                    onChange={(e) => {
-                      const next = { ...materials };
-                      if (e.target.value) next[part] = e.target.value;
-                      else delete next[part];
-                      setMaterials(next);
-                    }}
-                  >
-                    <option value="">Grade default</option>
-                    {variants.map((v) => (
-                      <option key={v.material} value={v.material}>
-                        {v.description} — {lkr(v.rate_lkr)}/{v.unit}
-                      </option>
-                    ))}
-                  </select>
-                  {active && (
-                    <span className="faint">
-                      {lkr(active.rate_lkr)}/{active.unit} · {active.rate_source}
-                    </span>
-                  )}
-                </label>
-              );
-            })}
-          </div>
-        )}
-      </Card>
+      {materialsCard}
 
       <section className="cs-boq">
         <header>
@@ -651,9 +662,6 @@ export function Step2Cost({ run, update }: Props) {
         <div className="btn-row">
           <button className="ghost" onClick={() => nav('/step/1')}>
             ← Design
-          </button>
-          <button disabled={runEstimate.isPending} onClick={() => runEstimate.mutate(materials)}>
-            Recalculate estimate
           </button>
           <button className="primary" onClick={() => nav('/step/3')}>
             Proceed to C03 timeline &amp; CPM →

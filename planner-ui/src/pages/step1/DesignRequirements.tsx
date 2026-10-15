@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Card, Stat, Bar } from '../../components/ui';
+import { Bar } from '../../components/ui';
 import { ApiError } from '../../api/client';
 import {
   triggerFloorPlanGeneration,
@@ -7,7 +7,6 @@ import {
 } from '../../api/services';
 import type {
   C01BuildableZone,
-  C01CadastralData,
   C01FloorPlanAlternative,
   C01UserRequirements,
 } from '../../types';
@@ -27,16 +26,15 @@ const ROOM_SQM_MIN: Record<string, number> = {
   gym: 12, home_theatre: 12, staircase: 4,
 };
 
-// Distinct per-room-type colour, so the space-budget pills stay readable at
-// a glance instead of one undifferentiated grey blob — same palette dev/
-// shazni's LandDataReviewView.tsx used, since this is data colour-coding
-// (matching MiniFloorPlan.tsx's room colours), not the app's own UI palette.
+// Per-room-type colour, so the space-budget pills stay readable at a glance.
+// Same families as PlanSchematic's room fills: slate for living spaces,
+// terracotta for bedrooms, ochre for kitchen and utility, steel for wet rooms.
 const ROOM_COLORS: Record<string, string> = {
-  living_room: '#22c55e', kitchen: '#eab308', dining_room: '#fb923c',
-  master_bedroom: '#6366f1', bedroom: '#8b5cf6', bathroom: '#0ea5e9',
-  garage: '#64748b', home_office: '#14b8a6', prayer_room: '#f59e0b',
-  library: '#a855f7', maids_room: '#6b7280', kids_playroom: '#ec4899',
-  gym: '#ef4444', home_theatre: '#f97316', staircase: '#94a3b8',
+  living_room: '#4a6b82', kitchen: '#a8822f', dining_room: '#6d8ea6',
+  master_bedroom: '#c25943', bedroom: '#b0705e', bathroom: '#3f7d8a',
+  garage: '#6e7277', home_office: '#5b7a64', prayer_room: '#a8822f',
+  library: '#7a6a8a', maids_room: '#6e7277', kids_playroom: '#b0705e',
+  gym: '#8a5a44', home_theatre: '#5b6a8a', staircase: '#8b8e93',
 };
 
 const OUTDOOR_FEATURES = [
@@ -89,15 +87,8 @@ function budgetTone(pct: number, overBudget: boolean): 'ok' | 'warn' | 'danger' 
   return 'ok';
 }
 
-const ROAD_TONE: Record<string, 'ok' | 'warn' | 'neutral'> = {
-  'main road': 'ok',
-  lane: 'warn',
-  'private road': 'neutral',
-};
-
 type Props = {
   jobId: string;
-  cadastral: C01CadastralData;
   zone: C01BuildableZone;
   onSuccess: (alternatives: C01FloorPlanAlternative[]) => void;
 };
@@ -107,13 +98,12 @@ type Props = {
 // (matching Architecture/frontend's LandDataReviewView.tsx). Only the later
 // Stage 5 package-generation step gets a dedicated full-page view, since
 // unmounting this component mid-poll would lose its own error message.
-export function DesignRequirements({ jobId, cadastral, zone, onSuccess }: Props) {
+export function DesignRequirements({ jobId, zone, onSuccess }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pollMsg, setPollMsg] = useState('');
 
   const maxFloors = 4; // NBC Sri Lanka limits floors by road width & zone type, not land area
-  const gps = cadastral.gps_coordinates[0];
 
   const [req, setReq] = useState<C01UserRequirements>({
     bedrooms: 3,
@@ -163,41 +153,12 @@ export function DesignRequirements({ jobId, cadastral, zone, onSuccess }: Props)
   };
 
   return (
-    <div className="stack">
-      <div>
-        <h1>Design</h1>
-        <p className="muted">Extracted from your plan, plus what you want built on it.</p>
-      </div>
-
-      <Card title="Extracted Land Data">
-        <div className="grid cols-4" style={{ marginBottom: '1rem' }}>
-          <Stat label="District" value={cadastral.district} />
-          <Stat
-            label="Land area"
-            value={`${cadastral.land_area_perches.toFixed(2)} P`}
-            hint={`${cadastral.land_area_sqft.toFixed(0)} sqft`}
-          />
-          <Stat
-            label="Road access"
-            value={<span className={`badge ${ROAD_TONE[cadastral.road_access_type] ?? 'neutral'}`}>{cadastral.road_access_type}</span>}
-          />
-          <Stat label="Orientation" value={cadastral.orientation} />
+    <div className="cs">
+      <section className="cs-panel">
+        <div className="between" style={{ marginBottom: '1rem' }}>
+          <span className="eyebrow">Design brief</span>
+          <span className="eyebrow dim">Rooms · floors · style</span>
         </div>
-        {gps && (
-          <p className="faint">
-            GPS: {gps[0].toFixed(6)}, {gps[1].toFixed(6)}
-          </p>
-        )}
-        <div className="alert info">
-          <span className="title">NBC Sri Lanka regulatory summary.</span> {zone.buildable_area_sqft.toFixed(0)} sqft
-          buildable, {(zone.bcr_value * 100).toFixed(0)}% max coverage, {zone.front_setback_ft.toFixed(1)} ft front
-          setback.
-          <br />
-          {zone.constraints_summary}
-        </div>
-      </Card>
-
-      <Card title="Design Your Dream Home">
         <div className="grid cols-3" style={{ marginBottom: '1rem' }}>
           <label className="field">
             Bedrooms
@@ -280,26 +241,29 @@ export function DesignRequirements({ jobId, cadastral, zone, onSuccess }: Props)
               </div>
               {overBudget ? (
                 <div className="alert error">
-                  <span className="title">⚠ Over budget — </span>
+                  <span className="title">Over budget — </span>
                   needs {neededSqm.toFixed(0)} m² but only {availableSqm.toFixed(0)} m² available. Reduce rooms or add
                   a floor before generating.
                 </div>
               ) : tone === 'warn' ? (
                 <div className="alert warn">
-                  ⚡ Almost full — only <strong>{(availableSqm - neededSqm).toFixed(0)} m²</strong> remaining.
+                  Almost full — only <strong>{(availableSqm - neededSqm).toFixed(0)} m²</strong> remaining.
                 </div>
               ) : (
                 <p className="faint">
-                  ✓ {neededSqm.toFixed(0)} m² needed of {availableSqm.toFixed(0)} m² available (
+                  {neededSqm.toFixed(0)} m² needed of {availableSqm.toFixed(0)} m² available (
                   {(availableSqm - neededSqm).toFixed(0)} m² remaining).
                 </p>
               )}
             </>
           );
         })()}
-      </Card>
+      </section>
 
-      <Card title="Outdoor Features">
+      <section className="cs-panel">
+        <span className="eyebrow dim" style={{ display: 'block', marginBottom: '0.75rem' }}>
+          Outdoor features
+        </span>
         <div className="tile-grid">
           {OUTDOOR_FEATURES.map((f) => {
             const checked = req.outdoor_features.includes(f.id);
@@ -315,9 +279,12 @@ export function DesignRequirements({ jobId, cadastral, zone, onSuccess }: Props)
             );
           })}
         </div>
-      </Card>
+      </section>
 
-      <Card title="Special Rooms">
+      <section className="cs-panel">
+        <span className="eyebrow dim" style={{ display: 'block', marginBottom: '0.75rem' }}>
+          Special rooms
+        </span>
         <div className="tile-grid">
           {SPECIAL_ROOMS.map((f) => {
             const checked = req.special_rooms.includes(f.id);
@@ -333,22 +300,25 @@ export function DesignRequirements({ jobId, cadastral, zone, onSuccess }: Props)
             );
           })}
         </div>
-      </Card>
+      </section>
 
-      <Card title="Additional Details">
+      <section className="cs-panel">
+        <span className="eyebrow dim" style={{ display: 'block', marginBottom: '0.75rem' }}>
+          Additional details
+        </span>
         <textarea
           value={req.additional_notes}
           onChange={(e) => setReq((r) => ({ ...r, additional_notes: e.target.value }))}
           rows={3}
           placeholder="Anything else? e.g. specific materials, vastu alignment, split-level layout…"
         />
-      </Card>
+      </section>
 
       {error && <div className="alert error">{error}</div>}
       {loading && pollMsg && <p className="faint">{pollMsg}</p>}
 
-      <div className="footer-nav">
-        <span />
+      <div className="cs-status">
+        <span className="faint">Generation takes one to two minutes.</span>
         <button className="primary" onClick={generate} disabled={loading || overBudget}>
           {loading ? (
             <>
@@ -357,7 +327,7 @@ export function DesignRequirements({ jobId, cadastral, zone, onSuccess }: Props)
           ) : overBudget ? (
             'Over budget — adjust rooms first'
           ) : (
-            'Generate Floor Plan Options'
+            'Generate floor plan options →'
           )}
         </button>
       </div>

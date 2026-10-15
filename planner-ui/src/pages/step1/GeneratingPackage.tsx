@@ -67,70 +67,35 @@ export function GeneratingPackage() {
   const totalDone = done.filter(Boolean).length;
 
   return (
-    <div className="stack" style={{ maxWidth: 460, margin: '3rem auto' }}>
-      <div style={{ textAlign: 'center' }}>
-        <h1>Building Your Full Design Package</h1>
-        <p className="muted">{current < STAGES.length ? STAGES[current].label : 'Finalising…'}</p>
+    <section className="cs-panel st-generating">
+      <div className="between">
+        <span className="eyebrow">Render // design package</span>
+        <span className="eyebrow dim">
+          {totalDone} / {STAGES.length}
+        </span>
       </div>
-
+      <h2>{current < STAGES.length ? STAGES[current].label : 'Finalising…'}</h2>
       <Bar value={totalDone} max={STAGES.length} />
 
-      <div className="stack" style={{ gap: '0.6rem' }}>
+      <ol className="st-checklist">
         {STAGES.map((stage, i) => {
           const isDone = done[i];
           const isCurrent = i === current && !isDone;
           return (
-            <div key={i} className="row" style={{ gap: '0.75rem' }}>
-              <span
-                style={{
-                  width: '1.6rem',
-                  height: '1.6rem',
-                  borderRadius: '50%',
-                  display: 'grid',
-                  placeItems: 'center',
-                  flexShrink: 0,
-                  background: isDone ? 'var(--ok)' : isCurrent ? 'var(--accent)' : 'var(--surface-2)',
-                  transition: 'background 0.3s',
-                }}
-              >
-                {isDone ? (
-                  <CheckIcon />
-                ) : isCurrent ? (
-                  <span
-                    style={{
-                      width: '0.4rem',
-                      height: '0.4rem',
-                      borderRadius: '50%',
-                      background: '#fff',
-                      animation: 'bar-pulse 1s ease-in-out infinite',
-                    }}
-                  />
-                ) : (
-                  <span className="faint" style={{ fontSize: '0.7rem' }}>
-                    {i + 1}
-                  </span>
-                )}
+            <li key={i} className={isDone ? 'done' : isCurrent ? 'active' : ''}>
+              <span className="mark" aria-hidden>
+                {isDone ? <CheckIcon /> : isCurrent ? <span className="pulse" /> : `0${i + 1}`}
               </span>
-              <span
-                style={{
-                  flex: 1,
-                  fontSize: '0.9rem',
-                  color: isDone ? 'var(--text-faint)' : isCurrent ? 'var(--text)' : 'var(--text-faint)',
-                  fontWeight: isCurrent ? 600 : 400,
-                  textDecoration: isDone ? 'line-through' : 'none',
-                }}
-              >
-                {stage.label}
-              </span>
-              {isCurrent && <span className="faint mono">running…</span>}
-            </div>
+              <span className="label">{stage.label}</span>
+              {isCurrent && <span className="eyebrow">Running</span>}
+            </li>
           );
         })}
-      </div>
+      </ol>
 
-      <p className="faint" style={{ textAlign: 'center' }}>
-        AI image generation takes ~30–90 seconds. Please wait.
+      <p className="faint" style={{ margin: 0 }}>
+        Rendering usually takes 30–90 seconds. Please keep this page open.
       </p>
-    </div>
+    </section>
   );
 }

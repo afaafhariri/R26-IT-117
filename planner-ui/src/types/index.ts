@@ -310,6 +310,18 @@ export interface TimelineResponse {
   task_dependencies: TaskDependency[];
   resource_allocation_plan: Record<string, Record<string, unknown>>;
   performance_monitoring_payload?: SchedulePayload | null;
+  /** Echo of the construction scope C03 applied (top level, not in input_summary). */
+  construction_scope_summary?: Record<string, unknown> | null;
+  /** Which models produced the schedule, and the LSTM's independent total. */
+  model_predictions?: {
+    phase_duration_model?: string;
+    xgboost_status?: string;
+    random_forest_status?: string;
+    lstm_status?: string;
+    lstm_predicted_total_duration_days?: number;
+    lstm_predicted_total_duration_weeks?: number;
+    [k: string]: unknown;
+  } | null;
   confidence_score: number;
   message: string;
 }
@@ -448,8 +460,9 @@ export interface DashboardPhase {
   actual_percent: number | null;
   schedule_status: string;
   status: string;
-  latest_spi: number | null;
-  latest_progress: unknown | null;
+  /** The phase's newest SPI reading - an object, not a bare number. */
+  latest_spi: { spi_value: number; alert_level: string; spi_id: number; calculated_at: string } | null;
+  latest_progress: { actual_percent: number; update_date: string | null; recorded_at: string } | null;
 }
 
 /** One row from GET /project/<id>/dashboard's `progress_history` - real

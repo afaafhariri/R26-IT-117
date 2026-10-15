@@ -7,6 +7,7 @@ import { DesignRequirements } from './step1/DesignRequirements';
 import { ChooseFloorPlan } from './step1/ChooseFloorPlan';
 import { GeneratingPackage } from './step1/GeneratingPackage';
 import { DesignSummary } from './step1/DesignSummary';
+import { LandPanel } from './step1/LandPanel';
 
 /* Component 01 (Architecture) is now wired up for real:
  *   POST /process-cadastral → POST /generate-floorplans → poll
@@ -16,7 +17,12 @@ import { DesignSummary } from './step1/DesignSummary';
  * changes regardless of which path produced the schema.
  *
  * "Load sample" below is kept as a secondary escape hatch for offline
- * dev/demo use (no C01 backend running) — the real flow is the default. */
+ * dev/demo use (no C01 backend running) — the real flow is the default.
+ *
+ * Laid out after the Stitch "C01 CadaPlan Architectural Synthesis" screen.
+ * That screen is one dashboard; C01 is a sequence of calls, so the same
+ * header and stage strip frame each phase and the land panel stays beside
+ * every phase once the deed has been read. */
 
 /** Verified against the live C02 — returns ~17.7M LKR. */
 const SAMPLE: BuildingSchema = {
@@ -45,6 +51,31 @@ const SAMPLE: BuildingSchema = {
 };
 
 type Phase = 'upload' | 'requirements' | 'choose-plan' | 'generating-package' | 'summary';
+
+const PHASE_TITLES: Record<Phase, string> = {
+  upload: 'Upload cadastral plan',
+  requirements: 'Design brief',
+  'choose-plan': 'Floor plan synthesis alternatives',
+  'generating-package': 'Building the design package',
+  summary: 'Design package',
+};
+
+/** The stage strip. `at` is the stage the current phase is working on. */
+const STAGES = [
+  { n: '01', group: 'Extract', name: 'Deed reading', how: 'OCR + entity extraction' },
+  { n: '02', group: 'Geometry', name: 'Buildable zone', how: 'NBC setbacks & coverage' },
+  { n: '03', group: 'Brief', name: 'Design brief', how: 'Rooms, floors & style' },
+  { n: '04', group: 'Synthesis', name: 'Floor plan options', how: 'Three layouts, scored' },
+  { n: '05', group: 'Render', name: 'Design package', how: 'Renders & blueprint' },
+  { n: '06', group: 'Handoff', name: 'To cost estimation', how: 'Building specification' },
+];
+const STAGE_AT: Record<Phase, number> = {
+  upload: 0,
+  requirements: 2,
+  'choose-plan': 3,
+  'generating-package': 4,
+  summary: 5,
+};
 
 type Props = { run: RunState; update: (p: Partial<RunState>) => void };
 
@@ -78,68 +109,115 @@ export function Step1Design({ run, update }: Props) {
 
   const loadSample = () => finish(SAMPLE, 'stub', run.projectName || 'My House');
 
+  const at = STAGE_AT[phase];
+  const land = pkg ? { c: pkg.cadastral_data, z: pkg.buildable_zone } : cadastral && zone ? { c: cadastral, z: zone } : null;
+
   return (
-    <div className="stack">
-      {phase === 'upload' && (
-        <>
-          <UploadCadastral
-            onSuccess={(res) => {
-              setJobId(res.job_id);
-              setCadastral(res.cadastral_data);
-              setZone(res.buildable_zone);
-              setPhase('requirements');
-            }}
-          />
-          <div className="alert info">
-            <span className="title">No cadastral plan handy?</span>{' '}
-            <button className="ghost" onClick={loadSample}>
-              Skip with sample data →
-            </button>
+    <div className="cs">
+      <div className="cs-head">
+        <div>
+          <span className="chip ink">C01 // Architectural synthesis</span>
+          <h1>{PHASE_TITLES[phase]}</h1>
+          <div className="meta">
+            {land
+              ? `${land.c.district} · ${land.c.land_area_perches.toFixed(2)} perches · ${land.c.road_access_type} access`
+              : 'Upload a Sri Lankan survey plan to start a compliant design.'}
           </div>
-        </>
-      )}
+        </div>
+        <div className="cs-head-side">
+          <div className="btn-row">
+            <span className="chip">
+              Regulations: <b>NBC Sri Lanka setbacks &amp; coverage</b>
+            </span>
+          </div>
+          {phase === 'upload' && (
+            <div className="btn-row">
+              <button className="sm" onClick={loadSample}>
+                Skip with sample data →
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
 
-      {phase === 'requirements' && jobId && cadastral && zone && (
-        <DesignRequirements
-          jobId={jobId}
-          cadastral={cadastral}
-          zone={zone}
-          onSuccess={(alts) => {
-            setAlternatives(alts);
-            setPhase('choose-plan');
-          }}
-        />
-      )}
+      <div className="st-stages" role="list" aria-label="Design stages">
+        {STAGES.map((s, i) => {
+          const state = i < at ? 'done' : i === at ? 'active' : 'pending';
+          return (
+            <div className={`st-stage ${state}`} role="listitem" key={s.n}>
+              <span className="eyebrow">
+                {s.n} // {s.group}
+              </span>
+              <h3>{s.name}</h3>
+              <p>{s.how}</p>
+              <span className="foot">
+                {state === 'done' ? 'Completed' : state === 'active' ? 'In progress' : 'Pending'}
+              </span>
+            </div>
+          );
+        })}
+      </div>
 
-      {phase === 'choose-plan' && jobId && (
-        <ChooseFloorPlan
-          jobId={jobId}
-          alternatives={alternatives}
-          error={packageError}
-          onGenerating={() => {
-            setPackageError(null);
-            setPhase('generating-package');
-          }}
-          onSuccess={(p) => {
-            setPkg(p);
-            setPhase('summary');
-          }}
-          onError={(msg) => {
-            setPackageError(msg);
-            setPhase('choose-plan');
+      {phase === 'upload' && (
+        <UploadCadastral
+          onSample={loadSample}
+          onSuccess={(res) => {
+            setJobId(res.job_id);
+            setCadastral(res.cadastral_data);
+            setZone(res.buildable_zone);
+            setPhase('requirements');
           }}
         />
       )}
 
       {phase === 'generating-package' && <GeneratingPackage />}
 
-      {phase === 'summary' && pkg && (
-        <DesignSummary
-          pkg={pkg}
-          onContinue={() =>
-            finish(toBuildingSchema(pkg.building_schema_json), 'c01', run.projectName || 'My House', pkg)
-          }
-        />
+      {land && phase !== 'upload' && phase !== 'generating-package' && (
+        <div className="st-split">
+          <LandPanel cadastral={land.c} zone={land.z} />
+
+          <div className="cs">
+            {phase === 'requirements' && jobId && cadastral && zone && (
+              <DesignRequirements
+                jobId={jobId}
+                zone={zone}
+                onSuccess={(alts) => {
+                  setAlternatives(alts);
+                  setPhase('choose-plan');
+                }}
+              />
+            )}
+
+            {phase === 'choose-plan' && jobId && (
+              <ChooseFloorPlan
+                jobId={jobId}
+                alternatives={alternatives}
+                error={packageError}
+                onGenerating={() => {
+                  setPackageError(null);
+                  setPhase('generating-package');
+                }}
+                onSuccess={(p) => {
+                  setPkg(p);
+                  setPhase('summary');
+                }}
+                onError={(msg) => {
+                  setPackageError(msg);
+                  setPhase('choose-plan');
+                }}
+              />
+            )}
+
+            {phase === 'summary' && pkg && (
+              <DesignSummary
+                pkg={pkg}
+                onContinue={() =>
+                  finish(toBuildingSchema(pkg.building_schema_json), 'c01', run.projectName || 'My House', pkg)
+                }
+              />
+            )}
+          </div>
+        </div>
       )}
     </div>
   );

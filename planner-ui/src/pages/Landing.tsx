@@ -435,6 +435,7 @@ export function Landing({ run }: { run: RunState }) {
             <a href="#c03">Timeline</a>
             <a href="#c04">Site performance</a>
             <a href="#ledger">Specification</a>
+            <Link to="/pipeline">Pipeline overview</Link>
           </nav>
           <span>© 2026 R26-IT-117 construction planner</span>
         </div>

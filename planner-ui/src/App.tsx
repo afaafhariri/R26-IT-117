@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useEffect, type ReactNode } from 'react';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { Link, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { logout } from './api/auth';
 import { SIGNED_OUT_EVENT } from './api/client';
+import { ConfirmDialog } from './components/ConfirmDialog';
 import { RequireAuth } from './components/RequireAuth';
 import { Stepper } from './components/Stepper';
 import { releaseRun, useRun } from './state/runStore';
@@ -13,6 +14,7 @@ import { Step3Timeline } from './pages/Step3Timeline';
 import { Step4Performance } from './pages/Step4Performance';
 import { Review } from './pages/Review';
 import { Landing } from './pages/Landing';
+import { Overview } from './pages/Overview';
 import { Login } from './pages/auth/Login';
 import { Signup } from './pages/auth/Signup';
 import { VerifyEmail } from './pages/auth/VerifyEmail';
@@ -51,13 +53,21 @@ export default function App() {
     },
   });
 
+  // Asked in our own dialog rather than window.confirm(); confirming does
+  // exactly what it always did.
+  const [confirmingReset, setConfirmingReset] = useState(false);
+  const cancelReset = useCallback(() => setConfirmingReset(false), []);
   const startOver = () => {
-    if (!confirm('Clear this run and start over? All saved step output will be lost.')) return;
+    setConfirmingReset(false);
     reset();
     nav('/step/1');
   };
 
   const guarded = (page: ReactNode) => <RequireAuth>{page}</RequireAuth>;
+  // Full-bleed marketing pages share the section nav; on the overview its
+  // anchors point back at the landing page's sections.
+  const publicPage = pathname === '/' || pathname === '/pipeline';
+  const anchorBase = pathname === '/' ? '' : '/';
 
   return (
     <div className="app">
@@ -69,20 +79,22 @@ export default function App() {
             <small>AI architecture &amp; engineering</small>
           </div>
         </Link>
-        {pathname === '/' && (
+        {publicPage && (
           <nav className="topbar-nav" aria-label="Components">
-            <a href="#c01">01. Architecture</a>
-            <a href="#c02">02. Cost estimation</a>
-            <a href="#c03">03. Timeline</a>
-            <a href="#c04">04. Site performance</a>
-            <a href="#ledger">Specification</a>
+            <a href={`${anchorBase}#c01`}>01. Architecture</a>
+            <a href={`${anchorBase}#c02`}>02. Cost estimation</a>
+            <a href={`${anchorBase}#c03`}>03. Timeline</a>
+            <a href={`${anchorBase}#c04`}>04. Site performance</a>
+            <Link to="/pipeline" aria-current={pathname === '/pipeline' ? 'page' : undefined}>
+              Pipeline overview
+            </Link>
           </nav>
         )}
         <div className="topbar-spacer" />
         <div className="topbar-meta">
           {inWizard && (
             <>
-              <button className="ghost sm" onClick={startOver}>
+              <button className="ghost sm" onClick={() => setConfirmingReset(true)}>
                 Start over
               </button>
             </>
@@ -115,9 +127,25 @@ export default function App() {
 
       {inWizard && <Stepper run={run} />}
 
-      <main className={pathname === '/' ? 'container bleed' : 'container'}>
+      {confirmingReset && (
+        <ConfirmDialog
+          title="Clear this run and start over?"
+          confirmLabel="Clear run & start over"
+          cancelLabel="Keep my run"
+          onConfirm={startOver}
+          onCancel={cancelReset}
+        >
+          <p>
+            All saved step output will be lost: the design, the cost estimate, the timeline and any
+            recorded site progress in this browser.
+          </p>
+        </ConfirmDialog>
+      )}
+
+      <main className={publicPage ? 'container bleed' : 'container'}>
         <Routes>
           <Route path="/" element={<Landing run={run} />} />
+          <Route path="/pipeline" element={<Overview run={run} />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
