@@ -9,6 +9,39 @@ mid grade, 36 m² of openings, 60 m of internal walls per floor, priced for 1 Oc
 
 ---
 
+## 2026-10-15 — Remove unused dependencies; keep the local environment out of the image
+
+### Removed
+
+- **Five packages C02 never imported:** `paddlepaddle`, `paddleocr`, `psycopg2-binary`,
+  `sqlalchemy` and `geoalchemy2`. They arrived on 29 April 2026 (`30e63c9`) under the heading
+  "OCR (shared with Component 01)" when `requirements.txt` was restructured; TensorFlow and
+  Keras from the same list were removed on 4 May (`84bb576`), but these were left behind.
+  `paddlepaddle` was skipped on macOS, so the full OCR stack was installed only inside the
+  Linux image.
+- **Dockerfile system packages they needed:** `libpq-dev` (psycopg2) and `libglib2.0-0`,
+  `libsm6`, `libxext6`, `libxrender-dev` (OCR). `libgomp1` (XGBoost) and `wget` (health check)
+  stay.
+
+### Added
+
+- **`.dockerignore`.** The Dockerfile's `COPY . .` copied the local `.venv/` (841 MB of
+  platform-specific files, unusable inside the Linux image) into every build, along with
+  caches, tests and `.env`. Dependencies are installed in the image from `requirements.txt`,
+  so nothing at runtime used them. The root `.gitignore` ignores every `.dockerignore`, so an
+  exception (`!cost-estimation/.dockerignore`) shares this one.
+
+### Verified
+
+A fresh Python 3.12 environment built only from the new `requirements.txt` passes all 129
+tests, and `/estimate` returns the same reference-building total (LKR 22,973,008) with
+calibrated intervals. `docker build` now sends a 6.8 MB build context instead of 852 MB and
+produces a 1.56 GB image (Docker 29.8, linux/arm64). The container runs as `appuser`, passes
+its health check, contains no `.venv/` or `tests/`, loads all seven model files and returns
+the same total.
+
+---
+
 ## 2026-10-15 — Price reinforcement steel and internal wall finishes; retrain; track models
 
 ### Fixed
