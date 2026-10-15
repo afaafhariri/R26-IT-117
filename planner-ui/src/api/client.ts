@@ -74,7 +74,7 @@ export async function request<T>(
     // Network-level failure. A service being down is not this case: the
     // gateway answers for it with a 502 that extract() turns into a message.
     throw new ApiError(
-      'Cannot reach the API gateway. Is it running?',
+      "Can't reach the server. Check your connection and try again.",
       0,
       [],
       service,

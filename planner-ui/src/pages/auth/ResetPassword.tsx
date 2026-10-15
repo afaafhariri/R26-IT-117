@@ -36,7 +36,7 @@ export function ResetPassword() {
       <AuthLayout title="Password changed">
         <div className="stack">
           <p>{submit.data.message} Every device that was signed in has been signed out.</p>
-          <Link to="/login">Log in</Link>
+          <Link to="/login">Sign in</Link>
         </div>
       </AuthLayout>
     );

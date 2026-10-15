@@ -63,40 +63,59 @@ export default function App() {
     <div className="app">
       <header className="topbar">
         <Link to="/" className="brand-link">
+          <BrandMark />
           <div className="brand">
-            Construction Planner
-            <small>R26-IT-117</small>
+            R26 Planner
+            <small>AI architecture &amp; engineering</small>
           </div>
         </Link>
+        {pathname === '/' && (
+          <nav className="topbar-nav" aria-label="Components">
+            <a href="#c01">01. Architecture</a>
+            <a href="#c02">02. Cost estimation</a>
+            <a href="#c03">03. Timeline</a>
+            <a href="#c04">04. Site performance</a>
+            <a href="#ledger">Specification</a>
+          </nav>
+        )}
         <div className="topbar-spacer" />
-        {inWizard && (
-          <>
-            <span className="faint mono">{run.runId.slice(0, 8)}</span>
-            <button className="ghost" onClick={startOver}>
-              Start over
-            </button>
-          </>
-        )}
-        {user ? (
-          <div className="account">
-            <span className="faint">{user.email}</span>
-            <button className="ghost" disabled={signOut.isPending} onClick={() => signOut.mutate()}>
-              Log out
-            </button>
-          </div>
-        ) : (
-          !AUTH_PAGES.includes(pathname) && (
+        <div className="topbar-meta">
+          {inWizard && (
+            <>
+              <button className="ghost sm" onClick={startOver}>
+                Start over
+              </button>
+            </>
+          )}
+          {user ? (
             <div className="account">
-              <Link to="/login">Log in</Link>
-              <Link to="/signup">Sign up</Link>
+              <span className="who">{user.email}</span>
+              <button
+                className="sm"
+                disabled={signOut.isPending}
+                onClick={() => signOut.mutate()}
+              >
+                Sign out
+              </button>
             </div>
-          )
-        )}
+          ) : (
+            !AUTH_PAGES.includes(pathname) && (
+              <div className="account">
+                <Link to="/login" className="btn sm-link">
+                  Sign in
+                </Link>
+                <Link to="/signup" className="btn primary sm-link">
+                  Sign up
+                </Link>
+              </div>
+            )
+          )}
+        </div>
       </header>
 
       {inWizard && <Stepper run={run} />}
 
-      <main className="container">
+      <main className={pathname === '/' ? 'container bleed' : 'container'}>
         <Routes>
           <Route path="/" element={<Landing run={run} />} />
           <Route path="/login" element={<Login />} />
@@ -113,5 +132,16 @@ export default function App() {
         </Routes>
       </main>
     </div>
+  );
+}
+
+/** Bauhaus mark: an ink block cut by a terracotta quadrant. */
+function BrandMark() {
+  return (
+    <svg className="brand-mark" viewBox="0 0 32 32" aria-hidden>
+      <rect width="32" height="32" fill="var(--ink)" />
+      <path d="M8 24V8a16 16 0 0 1 16 16Z" fill="var(--terra)" />
+      <rect x="8" y="24" width="16" height="2" fill="var(--on-ink)" />
+    </svg>
   );
 }

@@ -164,6 +164,12 @@ export interface CostSummary {
   confidence_level: number;
   ml_point_estimate_lkr: number;
   direct_cost_lkr: number;
+  /** The wider two-sided 90% band (p5-p95). Zeros when the model is unavailable. */
+  interval_90_lkr?: { lower_lkr: number; upper_lkr: number };
+  /** One-sided 90% upper bound: 90% of comparable projects come in at or below it. */
+  budget_lkr?: number;
+  /** False when C02 could not load its conformal offsets. */
+  interval_is_calibrated?: boolean;
 }
 
 export interface ShapDriver {
@@ -191,6 +197,12 @@ export interface TradeLine {
   quantity?: number;
   unit?: string;
   rate_lkr?: number;
+  /** ICTAD rate at the base date, and the same rate escalated to the target date. */
+  base_rate_lkr?: number;
+  adjusted_rate_lkr?: number;
+  description?: string;
+  material?: string;
+  rate_source?: string;
   [k: string]: unknown;
 }
 
@@ -230,7 +242,7 @@ export interface CostReport {
   contingency_breakdown: ContingencyLine[];
   risk_factors_applied: RiskFactor[];
   shap_top_drivers: ShapDriver[];
-  model_metadata: Record<string, unknown>;
+  model_metadata: { model?: string; price_factor?: number; [k: string]: unknown };
   rate_metadata: RateMetadata;
   feeds_downstream: FeedsDownstream;
 }

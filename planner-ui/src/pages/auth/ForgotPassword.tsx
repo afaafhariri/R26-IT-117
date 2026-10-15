@@ -10,7 +10,7 @@ export function ForgotPassword() {
 
   const back = (
     <>
-      Remembered it? <Link to="/login">Log in</Link>
+      Remembered it? <Link to="/login">Sign in</Link>
     </>
   );
 

@@ -3,11 +3,11 @@ import { furthestStep } from '../state/runStore';
 import type { RunState } from '../types';
 
 const STEPS = [
-  { n: 1, path: '/step/1', label: 'Design' },
-  { n: 2, path: '/step/2', label: 'Materials & Cost' },
-  { n: 3, path: '/step/3', label: 'Timeline' },
-  { n: 4, path: '/step/4', label: 'Performance' },
-  { n: 5, path: '/review', label: 'Review' },
+  { n: 1, path: '/step/1', label: 'Design', code: 'C01' },
+  { n: 2, path: '/step/2', label: 'Materials & Cost', code: 'C02' },
+  { n: 3, path: '/step/3', label: 'Timeline', code: 'C03' },
+  { n: 4, path: '/step/4', label: 'Performance', code: 'C04' },
+  { n: 5, path: '/review', label: 'Review', code: null },
 ];
 
 export function Stepper({ run }: { run: RunState }) {
@@ -30,8 +30,9 @@ export function Stepper({ run }: { run: RunState }) {
             onClick={() => nav(s.path)}
             title={unlocked ? undefined : 'Finish the previous step first'}
           >
-            <span className="num">{done ? '✓' : s.n === 5 ? '★' : s.n}</span>
+            <span className="num">{done ? '✓' : `0${s.n}`}</span>
             {s.label}
+            {s.code && <span className="code">({s.code})</span>}
           </button>
         );
       })}

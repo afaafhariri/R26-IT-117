@@ -29,7 +29,7 @@ export function VerifyEmail() {
       <AuthLayout title="Confirm your email">
         <div className="alert error">
           This link is incomplete. Open the link from your email again, or{' '}
-          <Link to="/login">log in</Link> to get a new one.
+          <Link to="/login">sign in</Link> to get a new one.
         </div>
       </AuthLayout>
     );
@@ -71,7 +71,7 @@ export function VerifyEmail() {
 
         {submit.error && <FormError error={submit.error} />}
         {wrongPassword && <Link to="/forgot-password">Forgot your password?</Link>}
-        {deadLink && <Link to="/login">Go to log in</Link>}
+        {deadLink && <Link to="/login">Go to sign in</Link>}
 
         <button className="primary" disabled={submit.isPending}>
           {submit.isPending ? 'Confirming…' : 'Confirm and continue'}
