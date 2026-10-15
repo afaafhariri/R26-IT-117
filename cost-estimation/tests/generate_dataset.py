@@ -7,8 +7,14 @@ Layers 1 (BOQ), 2 (Rate Engine), and 4 (Risk + Contingency), all calibrated to
 CIDA 2024-Q4 published unit rates. Lognormal noise (sigma=0.15) is applied to the
 grand total to simulate real-world contractor and market variance.
 
+Labels are priced exactly as the service prices a request that leaves every material
+at its grade default, with seed catalogue rates (no scraped overlay) and no escalation
+(target date = base rate date). The service carries the model's figures from that
+reference price level to the request's — escalation, chosen materials, fresh market
+prices — with the ratio of the two direct costs (see main.py, _price_factor).
+
 Run from the cost-estimation/ directory:
-    python scripts/generate_dataset.py
+    python tests/generate_dataset.py
 
 Output: research/datasets/cost-records/cost.csv
 """
@@ -27,6 +33,7 @@ sys.path.insert(0, str(ROOT))
 
 from layers.layer1_boq.boq_engine import BOQEngine
 from layers.layer2_rate_engine.rate_engine import RateEngine
+from layers.layer2_rate_engine.material_catalog import MaterialCatalog, default_selections
 from layers.layer3_ml_prediction.feature_engineer import FeatureEngineer
 from layers.layer4_risk_adjuster.risk_scorer import RiskScorer
 from layers.layer4_risk_adjuster.contingency import ContingencyCalculator
@@ -103,7 +110,7 @@ def _sample_schema(rng: np.random.Generator) -> dict:
         "bathroom_count": bathroom_count,
         "room_count": room_count,
         "base_rate_date": "2024-10-01",
-        "target_date": "2025-01-01",
+        "target_date": "2024-10-01",
     }
 
 
@@ -111,7 +118,7 @@ def generate(n: int = N_SAMPLES) -> pd.DataFrame:
     rng = np.random.default_rng(RANDOM_SEED)
 
     boq_engine = BOQEngine()
-    rate_engine = RateEngine()
+    rate_engine = RateEngine(material_catalog=MaterialCatalog(use_overlay=False))
     feature_engineer = FeatureEngineer()
     risk_scorer = RiskScorer()
     contingency_calc = ContingencyCalculator()
@@ -132,6 +139,7 @@ def generate(n: int = N_SAMPLES) -> pd.DataFrame:
                 boq,
                 base_date=schema["base_rate_date"],
                 target_date=schema["target_date"],
+                material_selections=default_selections(finish_grade),
             )
             direct_cost = rates.get("direct_cost_lkr", 0.0)
             if direct_cost <= 0:

@@ -1,0 +1,13 @@
+# Keep the build context to what the service needs at runtime: main.py, layers/,
+# data/, models/ and scripts/. Dependencies are installed inside the image from
+# requirements.txt, so a local virtual environment must never be copied in.
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+tests/
+.env
+.env.*
+.claude/
+.DS_Store

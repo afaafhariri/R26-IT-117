@@ -151,6 +151,21 @@ class TestEnsembleCostPredictor:
         if result["lower_bound_lkr"] > 0:
             assert result["lower_bound_lkr"] <= result["point_estimate_lkr"]
 
+    def test_price_factor_defaults_to_one(self, trained_xgb_model, feature_df):
+        ensemble = EnsembleCostPredictor(xgboost_model=trained_xgb_model, auto_load=False)
+        assert ensemble.predict(feature_df)["price_factor"] == 1.0
+
+    def test_price_factor_scales_every_figure(self, trained_xgb_model, feature_df):
+        ensemble = EnsembleCostPredictor(xgboost_model=trained_xgb_model, auto_load=False)
+        base = ensemble.predict(feature_df)
+        scaled = ensemble.predict(feature_df, price_factor=1.25)
+        for key in ("point_estimate_lkr", "lower_bound_lkr", "upper_bound_lkr", "budget_lkr"):
+            assert scaled[key] == pytest.approx(base[key] * 1.25, rel=1e-6)
+        for key in ("lower_lkr", "upper_lkr"):
+            assert scaled["interval_90_lkr"][key] == pytest.approx(
+                base["interval_90_lkr"][key] * 1.25, rel=1e-6
+            )
+
 
 # ---------------------------------------------------------------------------
 # SHAPExplainer
@@ -161,6 +176,14 @@ class TestSHAPExplainer:
         explainer = SHAPExplainer(top_n=5)
         result = explainer.explain(trained_xgb_model, feature_df)
         assert isinstance(result, list)
+
+    def test_price_factor_scales_impacts(self, trained_xgb_model, feature_df):
+        explainer = SHAPExplainer(top_n=5)
+        base = explainer.explain(trained_xgb_model, feature_df)
+        scaled = explainer.explain(trained_xgb_model, feature_df, price_factor=2.0)
+        for b, s in zip(base, scaled):
+            assert s["feature"] == b["feature"]
+            assert s["impact_lkr"] == pytest.approx(b["impact_lkr"] * 2.0, rel=1e-4)
 
     def test_each_entry_has_required_keys(self, trained_xgb_model, feature_df):
         explainer = SHAPExplainer(top_n=5)

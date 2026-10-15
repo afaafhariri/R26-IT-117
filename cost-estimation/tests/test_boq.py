@@ -98,6 +98,20 @@ class TestFinishingBOQ:
             result = self.boq.calculate(sample_building_schema, grade)
             assert result["finish_grade"] == grade
 
+    def test_plaster_covers_both_faces_of_external_and_internal_walls(self, sample_building_schema):
+        result = self.boq.calculate(sample_building_schema, "mid")
+        # external 50 m x 3 m x 2 floors = 300 m2, internal 30 m x 3 m x 2 floors = 180 m2
+        assert result["wall_plaster_sqm"] == pytest.approx((300.0 + 180.0) * 2)
+
+    def test_paint_covers_plastered_walls_and_ceilings(self, sample_building_schema):
+        result = self.boq.calculate(sample_building_schema, "mid")
+        assert result["paint_sqm"] == pytest.approx(result["wall_plaster_sqm"] + 150.0 * 2)
+
+    def test_partitions_add_plaster(self, sample_building_schema):
+        without = self.boq.calculate({**sample_building_schema, "internal_wall_length": 0.0}, "mid")
+        with_walls = self.boq.calculate(sample_building_schema, "mid")
+        assert with_walls["wall_plaster_sqm"] > without["wall_plaster_sqm"]
+
 
 # ---------------------------------------------------------------------------
 # ServicesBOQ

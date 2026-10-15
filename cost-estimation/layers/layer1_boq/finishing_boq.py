@@ -59,19 +59,26 @@ class FinishingBOQ:
         floors: int = int(building_schema.get("floors", 1))
         perimeter: float = float(building_schema.get("perimeter", 0.0))
         wall_height: float = float(building_schema.get("wall_height", 3.0))
+        floor_height: float = float(building_schema.get("floor_height", 3.0))
+        # Same default as StructuralBOQ, so plastered partitions match the blockwork.
+        internal_wall_length: float = float(
+            building_schema.get("internal_wall_length", footprint_sqm / floor_height)
+        )
         room_count: int = int(building_schema.get("room_count", 4))
         bathroom_count: int = int(building_schema.get("bathroom_count", 2))
 
         total_floor_area = footprint_sqm * floors
         total_wall_area = perimeter * wall_height * floors
+        internal_wall_area = internal_wall_length * wall_height * floors
 
-        # Base quantities (mid-grade baseline)
+        # Base quantities (mid-grade baseline). Plaster and paint cover both faces of
+        # the external walls and of the internal partitions; paint also covers ceilings.
         base_floor_tile_sqm = total_floor_area * 0.90
-        base_wall_plaster_sqm = total_wall_area * 2.0
+        base_wall_plaster_sqm = (total_wall_area + internal_wall_area) * 2.0
         base_ceiling_sqm = total_floor_area
         base_door_count = room_count + bathroom_count + 1  # +1 for main entrance
         base_window_count = room_count * 2
-        base_paint_sqm = total_wall_area + total_floor_area
+        base_paint_sqm = base_wall_plaster_sqm + total_floor_area
 
         result = {
             "floor_tile_sqm": round(base_floor_tile_sqm * factors["floor_tile_sqm"], 2),

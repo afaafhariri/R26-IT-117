@@ -54,6 +54,7 @@ const WORK_ITEM_LABELS: Record<string, string> = {
   rc_slab_m3: 'RC slab',
   external_brickwork_m3: 'External brickwork',
   internal_blockwork_m3: 'Internal blockwork',
+  steel_kg_estimate: 'Reinforcement steel',
   roof_area_sqm: 'Roof covering',
   floor_tile_sqm: 'Floor finish',
   wall_plaster_sqm: 'Wall plaster',

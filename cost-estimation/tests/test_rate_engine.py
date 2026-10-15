@@ -124,3 +124,17 @@ class TestRateEngine:
         result = self.engine.price_boq(boq)
         for key, entry in result["trade_breakdown"].items():
             assert "line_cost_lkr" in entry
+
+    def test_reinforcement_steel_is_priced(self):
+        boq = self._make_boq()
+        result = self.engine.price_boq(boq, base_date="2024-10-01", target_date="2024-10-01")
+        steel = result["trade_breakdown"]["steel_kg_estimate"]
+        assert steel["quantity"] == boq["summary"]["steel_kg_estimate"]
+        assert steel["line_cost_lkr"] == pytest.approx(
+            boq["summary"]["steel_kg_estimate"] * steel["base_rate_lkr"], rel=1e-6)
+
+    def test_direct_cost_is_sum_of_all_lines_including_steel(self):
+        boq = self._make_boq()
+        result = self.engine.price_boq(boq)
+        total = sum(e["line_cost_lkr"] for e in result["trade_breakdown"].values())
+        assert result["direct_cost_lkr"] == pytest.approx(total, rel=1e-6)
