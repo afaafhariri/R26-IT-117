@@ -142,16 +142,16 @@ production 18-feature set, an 80/20 split (`random_state=42`). All were fitted o
 
 | Model | MAE (LKR) | MAPE (%) | R² | Prediction Interval |
 |-------|-----------|----------|----|---------------------|
-| Linear Regression | 1,481,045 | 12.85 | 0.907 | — |
-| Random Forest | 1,638,096 | 14.31 | 0.888 | — |
-| XGBoost (Point) | 1,742,353 | 14.82 | 0.876 | — |
-| **XGBoost (Quantile)** | **1,930,181** | **17.14** | **0.822** | **57% (90% target)** |
+| Linear Regression | 1,801,848 | 12.73 | 0.910 | — |
+| Random Forest | 1,933,560 | 14.02 | 0.898 | — |
+| XGBoost (Point) | 2,029,142 | 14.42 | 0.889 | — |
+| **XGBoost (Quantile)** | **2,362,173** | **17.02** | **0.832** | **53% (90% target)** |
 
 **The comparison cannot discriminate model quality, and is not the basis for selection.**
 Training labels are produced by executing Layers 1, 2 and 4 and multiplying by
 lognormal(0, 0.15) noise. That noise alone imposes an irreducible MAPE floor of
-`sigma*sqrt(2/pi)` = **11.97%** and an R² ceiling of **≈0.896**. The leading model sits
-0.88 points above the floor and is statistically indistinguishable from the ceiling — the
+`sigma*sqrt(2/pi)` = **11.97%** and an R² ceiling of **≈0.900**. The leading model sits
+0.77 points above the floor and is statistically indistinguishable from the ceiling — the
 surrogate task is saturated, and the four models differ only in how closely each fits a
 near-log-linear deterministic generator.
 
@@ -166,7 +166,7 @@ bounds and cost-driver explanations that the deterministic pipeline cannot produ
 
 ### Interval calibration
 
-Raw quantile regression was badly miscalibrated — a 90% nominal band achieved 57% empirical
+Raw quantile regression was badly miscalibrated — a 90% nominal band achieved 53% empirical
 coverage. **Conformalized Quantile Regression** now corrects this: the quantile models are
 fitted on a proper-training subset and a held-out calibration subset (35% of training data)
 supplies an additive offset in log space, giving a distribution-free finite-sample coverage
@@ -174,23 +174,23 @@ guarantee. Measured on the held-out test set:
 
 | Interval | Nominal | Empirical | Mean width |
 |---|---:|---:|---:|
-| Two-sided (displayed) | 50% | **50.0%** | 26.8% |
-| Two-sided | 90% | **88.0%** | 72.2% |
-| One-sided budget | 90% | **90.0%** | — |
+| Two-sided (displayed) | 50% | **46.0%** | 26.0% |
+| Two-sided | 90% | **90.0%** | 69.1% |
+| One-sided budget | 90% | **94.0%** | — |
 
-A calibrated 90% band is ~72% wide and unusable as a headline, so `/estimate` returns three
+A calibrated 90% band is ~69% wide and unusable as a headline, so `/estimate` returns three
 figures instead of one:
 
-- `lower_bound_lkr` / `upper_bound_lkr` — the **likely range**, a 50% band, ~27% wide
+- `lower_bound_lkr` / `upper_bound_lkr` — the **likely range**, a 50% band, ~26% wide
 - `interval_90_lkr` — the wider 90% band, retained for analysis
 - `budget_lkr` — one-sided 90% upper bound: *90% of comparable projects come in at or below
   this*, which is the figure a client budgets against
 
 `interval_is_calibrated` reports whether conformal offsets were available. **The offsets are
 only valid for the models they were computed with — retraining without recalibrating silently
-voids the guarantee**, so `scripts/train_model.py` always does both. 88% at a nominal 90% is
-within sampling error for 100 test records (standard error ≈ 3 points); the guarantee holds
-on average over calibration and test draws, not on every test set.
+voids the guarantee**, so `scripts/train_model.py` always does both. 46% at a nominal 50% and 94% for the budget
+figure are within sampling error for 100 test records (standard errors ≈ 5 and 3 points); the
+guarantee holds on average over calibration and test draws, not on every test set.
 
 ### Price level
 
@@ -214,10 +214,12 @@ reports it as `model_metadata.price_factor`. A uniform factor leaves conformal c
 
 ## Running Locally
 
-The trained models are not stored in the repository. Generate them once before
-running the service or building the image (the Docker build copies `models/` from the
-build context); without them every estimate falls back to a ±15% band with
-`interval_is_calibrated: false`.
+The trained models (six XGBoost models and `conformal_offsets.json`, about 6.4 MB) are
+committed in `models/`, so a fresh clone serves calibrated estimates and the Docker build
+copies them in. The training data are priced by Layers 1, 2 and 4, so retrain after any
+change to the bill of quantities or the rate schedule; without models every estimate falls
+back to a ±15% band with `interval_is_calibrated: false`. See `CHANGELOG.md` for each
+retraining.
 
 ```bash
 cd cost-estimation

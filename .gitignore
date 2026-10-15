@@ -32,10 +32,8 @@ ENV/
 # ── Datasets & research data ──────────────────────────────────────────────────
 /research/datasets/
 /research/thesis/
+/research/common-report/
 /research/reports/
-
-# ── C02 trained models (regenerate: tests/generate_dataset.py, scripts/train_model.py) ──
-cost-estimation/models/*.json
 
 # ── Testing & coverage ────────────────────────────────────────────────────────
 .pytest_cache/
