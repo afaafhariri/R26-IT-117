@@ -515,7 +515,7 @@ export function Step4Performance({ run, update }: Props) {
                 <h2>{d.phases.length}-phase SPI performance matrix</h2>
               </div>
               <span className="chip">
-                Total baseline: <b>{d.project_summary.total_duration_days ?? totalDays} days</b>
+               Total baseline: <b>{d.project_summary?.total_duration_days ?? totalDays} days</b>
               </span>
             </header>
             <div className="table-wrap">
