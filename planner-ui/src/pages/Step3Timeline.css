@@ -1,0 +1,160 @@
+.c03-summary-panel {
+  background: var(--surface);
+  border-top: 2px solid var(--accent);
+}
+
+.c03-summary-panel h2 {
+  margin: 0.55rem 0 0;
+  font-size: 1.25rem;
+}
+
+.c03-summary-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.c03-summary-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  padding: 1rem 1.25rem 0 0;
+}
+
+.c03-summary-metric + .c03-summary-metric {
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--border);
+}
+
+.c03-summary-metric strong {
+  color: var(--text);
+  font: 500 1.4rem/1.2 var(--display);
+  font-variant-numeric: tabular-nums;
+}
+
+.c03-summary-metric.critical strong { color: var(--terra); }
+
+.c03-summary-metric p {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.78rem;
+}
+
+.c03-result-section { border-top: 2px solid var(--accent); }
+
+.c03-result-section > header {
+  border-bottom: 1px solid var(--border);
+}
+
+.c03-result-section > header h2 { font-size: 1.3rem; }
+
+.c03-result-section > header .chip {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.c03-stage-table,
+.c03-duration-table {
+  min-width: 860px;
+}
+
+.c03-stage-table tbody td,
+.c03-duration-table tbody td {
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+}
+
+.c03-stage-table tbody td:first-child,
+.c03-duration-table tbody td:first-child {
+  border-left: 3px solid var(--accent);
+}
+
+.c03-stage-table tbody tr.crit td:first-child,
+.c03-duration-table tbody tr.crit td:first-child {
+  border-left-color: var(--terra);
+}
+
+.c03-stage-table tbody tr:hover td,
+.c03-duration-table tbody tr:hover td {
+  background: var(--surface-3);
+}
+
+.c03-stage-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.c03-stage-label > span {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--border);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font: 600 0.65rem/1 var(--display);
+  font-variant-numeric: tabular-nums;
+}
+
+tr.crit .c03-stage-label > span {
+  color: var(--terra);
+  background: var(--terra-soft);
+}
+
+.c03-stage-table td:nth-child(2),
+.c03-stage-table td:nth-child(3),
+.c03-stage-table td.num {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.c03-table-key {
+  border-top: 1px solid var(--border);
+}
+
+.c03-table-key span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.c03-table-key i {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  background: var(--accent);
+}
+
+.c03-table-key i.c03-key-critical { background: var(--terra); }
+
+.c03-duration-visual { width: 25%; }
+
+.c03-duration-track {
+  width: 100%;
+  min-width: 120px;
+  height: 0.45rem;
+  background: var(--surface-2);
+}
+
+.c03-duration-track span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+.c03-duration-table tr.crit .c03-duration-track span { background: var(--terra); }
+
+@media (max-width: 767px) {
+  .c03-summary-metrics { grid-template-columns: 1fr; }
+  .c03-summary-metric { padding: 0.85rem 0; }
+  .c03-summary-metric + .c03-summary-metric {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid var(--border);
+  }
+}
