@@ -63,6 +63,102 @@ def _suggest_requirements(area_sqm: float) -> dict:
     }
 
 
+def compute_buildable_zone(
+    boundary_polygon: list,
+    area_sqm: float,
+    district: str,
+    is_coastal: bool,
+    road_type: str,
+    floors: int,
+) -> dict:
+    """Regulation-aware buildable zone, as BuildableZone fields.
+
+    Applies the road-type setbacks and the building coverage ratio (BCR) from
+    NBCConstraintEngine through BuildableZoneCalculator. When the coverage
+    limit is the binding constraint, the setback polygon is shrunk about its
+    centroid until its real area equals the permitted footprint, so the zone
+    outline that Stage 3 packs rooms into matches the area it is allowed to
+    cover (packing into the larger setback outline would let the layout
+    exceed the coverage limit).
+
+    Raises:
+        ValueError: invalid polygon or a plot below the 50 sqm minimum.
+    """
+    from shapely.affinity import scale as _scale
+    from shapely.geometry import Polygon as _Polygon
+
+    from stages.stage2_buildable_zone.nbc_constraints import NBCConstraintEngine
+    from stages.stage2_buildable_zone.polygon_calculator import BuildableZoneCalculator
+
+    nbc = NBCConstraintEngine()
+    setbacks = nbc.get_setbacks(road_type)
+    bcr = nbc.get_coverage_ratio(district, is_coastal)
+    result = BuildableZoneCalculator().calculate(boundary_polygon, setbacks, bcr, floors, area_sqm)
+
+    footprint = float(result["max_footprint_sqm"])
+    polygon = result["buildable_polygon"]
+    site_norm_area = _Polygon(boundary_polygon).area
+    zone_poly = _Polygon(polygon)
+    offset_sqm = zone_poly.area * (area_sqm / site_norm_area) if site_norm_area > 0 else 0.0
+    if 0 < footprint < offset_sqm:
+        factor = (footprint / offset_sqm) ** 0.5
+        zone_poly = _scale(zone_poly, xfact=factor, yfact=factor, origin="centroid")
+        polygon = [[x, y] for x, y in zone_poly.exterior.coords]
+
+    total = footprint * floors
+    min_setback = min(setbacks.values())
+    return {
+        "buildable_polygon": [(float(x), float(y)) for x, y in polygon],
+        "buildable_area_sqft": _sqm_to_sqft(footprint),
+        "buildable_area_sqm": round(footprint, 2),
+        "max_footprint_sqm": round(footprint, 2),
+        "max_total_built_sqm": round(total, 2),
+        "max_floors": floors,
+        "bcr_value": bcr,
+        "front_setback_ft": _m_to_ft(setbacks["front"]),
+        "rear_setback_ft": _m_to_ft(setbacks["rear"]),
+        "side_setbacks_ft": [_m_to_ft(setbacks["side"]), _m_to_ft(setbacks["side"])],
+        "constraints_summary": (
+            f"{road_type.replace('_', ' ').title()} access: setbacks front {setbacks['front']} m, "
+            f"rear {setbacks['rear']} m, side {setbacks['side']} m (applied as a uniform "
+            f"{min_setback} m inset); coverage limit {bcr:.0%} of {area_sqm:.1f} sqm. "
+            f"Footprint {footprint:.1f} sqm x {floors} floor(s) = {total:.1f} sqm total buildable."
+        ),
+    }
+
+
+def _fit_suggestion(suggested: dict, total_built_sqm: float) -> dict:
+    """Trims the suggested programme until its minimum room areas fit the
+    buildable total, so a regulated footprint never starts the user on a
+    brief that cannot be built. Drops, in order: garage, dining room, extra
+    bathrooms, extra bedrooms (never below one bedroom and one bathroom)."""
+    from stages.stage3_floor_plan.prompt_builder import _MIN_ROOM_SQM
+
+    s = dict(suggested)
+
+    def need(x: dict) -> float:
+        beds = max(x["bedrooms"], 1)
+        total = _MIN_ROOM_SQM["master_bedroom"] + (beds - 1) * _MIN_ROOM_SQM["bedroom"]
+        total += x["bathrooms"] * _MIN_ROOM_SQM["bathroom"]
+        total += _MIN_ROOM_SQM["living_room"] + _MIN_ROOM_SQM["kitchen"]
+        total += _MIN_ROOM_SQM["dining_room"] if x["dining_room"] else 0.0
+        total += _MIN_ROOM_SQM["garage"] if x["garage"] else 0.0
+        return total
+
+    while need(s) > total_built_sqm:
+        if s["garage"]:
+            s["garage"] = False
+        elif s["dining_room"]:
+            s["dining_room"] = False
+        elif s["bathrooms"] > 1:
+            s["bathrooms"] -= 1
+        elif s["bedrooms"] > 1:
+            s["bedrooms"] -= 1
+        else:
+            break
+    return s
+
+
 @router.post("/process-cadastral")
 async def process_cadastral(file: UploadFile):
     """Accept a cadastral plan PDF/image, run Stage 1 + Stage 2, return structured data."""
@@ -129,19 +225,33 @@ async def process_cadastral(file: UploadFile):
         assembler = SchemaAssembler()
         site_schema = assembler.assemble(text_tokens, boundary_polygon, entities)
 
-        # ---- Stage 2 — no BCR / setback constraints ----
+        # ---- Stage 2 — regulation-aware buildable envelope ----
+        # Road-type setbacks and the building coverage ratio (BCR) come from
+        # NBCConstraintEngine, the same way /api/v1/buildable-zone applies them.
         area_sqm = site_schema.get("area_sqm") or 0.0
         district = site_schema.get("district") or "Unknown"
-        road_access = (site_schema.get("road_access") or "lane").lower()
-        road = road_access if road_access in ("main road", "lane", "private road") else "lane"
+        road_type = site_schema.get("road_access") or "local"   # national_road | provincial | local | lane
+        is_coastal = bool(site_schema.get("is_coastal"))
+        # Display vocabulary of CadastralData ("main road" | "lane" | "private road")
+        road = "main road" if road_type in ("national_road", "provincial") else "lane"
 
-        # Use full plot polygon as the buildable zone — no setbacks, no BCR
-        no_setbacks = {"front": 0.0, "rear": 0.0, "side": 0.0}
+        suggested = _suggest_requirements(area_sqm)
+        max_floors = suggested["floors"]
 
-        calc = PolygonCalculator()
-        zone_result = calc.calculate(
-            boundary_polygon, no_setbacks, 1.0, 2, area_sqm
-        )
+        try:
+            zone_fields = compute_buildable_zone(
+                boundary_polygon, area_sqm, district, is_coastal, road_type, max_floors
+            )
+        except ValueError as exc:
+            # Unreadable extent, too few boundary vertices, or a plot below the
+            # 50 sqm minimum: tell the user what is wrong instead of a 500.
+            raise HTTPException(
+                status_code=422,
+                detail=f"Could not compute a buildable zone from this plan: {exc}",
+            ) from exc
+
+        suggested = _fit_suggestion(suggested, zone_fields["max_total_built_sqm"])
+        zone_result = {"buildable_polygon": zone_fields["buildable_polygon"]}
 
         orientation_solver = OrientationSolver()
         orientation_result = orientation_solver.solve(zone_result["buildable_polygon"], site_schema)
@@ -153,10 +263,6 @@ async def process_cadastral(file: UploadFile):
             if isinstance(orientation_result, dict) else "north"
         )
         orientation_str = f"{entrance_side.capitalize()}-facing"
-
-        # ---- auto-suggest room requirements based on land area ----
-        suggested = _suggest_requirements(area_sqm)
-        max_floors = suggested["floors"]
 
         plot_poly = [(float(pt[0]), float(pt[1])) for pt in boundary_polygon]
         build_poly = [
@@ -182,24 +288,7 @@ async def process_cadastral(file: UploadFile):
             extracted_entities=entities,
         )
 
-        total_built_sqm = area_sqm * max_floors
-
-        zone = BuildableZone(
-            buildable_polygon=build_poly,
-            buildable_area_sqft=_sqm_to_sqft(area_sqm),
-            buildable_area_sqm=round(area_sqm, 2),
-            max_footprint_sqm=round(area_sqm, 2),
-            max_total_built_sqm=round(total_built_sqm, 2),
-            max_floors=max_floors,
-            bcr_value=1.0,
-            front_setback_ft=0.0,
-            rear_setback_ft=0.0,
-            side_setbacks_ft=[0.0, 0.0],
-            constraints_summary=(
-                f"Full plot area used — {area_sqm:.1f} sqm × {max_floors} floor(s) = "
-                f"{total_built_sqm:.1f} sqm total buildable."
-            ),
-        )
+        zone = BuildableZone(**{**zone_fields, "buildable_polygon": build_poly})
 
         # ---- persist in Redis for downstream stages ----
         r = _get_redis()

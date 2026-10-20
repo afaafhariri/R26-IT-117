@@ -22,7 +22,7 @@ _ROOM_COLOURS: dict[str, str] = {
     "bathroom":       "#D2B4DE",  # lavender
     "toilet":         "#D2B4DE",
     "garage":         "#BFC9CA",  # grey
-    "verandah":       "#D5D8DC",-
+    "verandah":       "#D5D8DC",
     "balcony":        "#D5D8DC",
     "terrace":        "#D5D8DC",
     "stair":          "#E5E7E9",
@@ -65,7 +65,7 @@ def _is_outdoor(name: str) -> bool:
 
 def _door_wall(orient: str) -> str:
     return {"north": "south", "south": "north", "east": "west", "west": "east"}.get(
-        orient.lower().split("|")[0].strip(), "south"
+        (orient or "").lower().split("|")[0].strip(), "south"
     )
 
 
@@ -419,7 +419,8 @@ def _add_window_indicator(
     dwg: svgwrite.Drawing,
     rx: float, ry: float, rw: float, rh: float, orient: str,
 ) -> None:
-    orient = orient.lower().split("|")[0].strip()
+    # The solver inserts the staircase with no window orientation (None).
+    orient = (orient or "").lower().split("|")[0].strip()
     bar_len = min(rw * 0.35, 28)
     bar_h   = min(rh * 0.35, 28)
     t = 4
