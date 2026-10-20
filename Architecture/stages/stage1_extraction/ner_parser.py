@@ -60,7 +60,10 @@ class NERParser:
         from pathlib import Path
 
         # Try fine-tuned cadastral model first, fall back to base model
-        _fine_tuned = Path(__file__).resolve().parents[3] / "models" / "ner_cadastral"
+        # parents[2] is Architecture/ (stage1_extraction -> stages -> Architecture);
+        # parents[3] pointed one level above it, so the fine-tuned model was
+        # never found and every run silently fell back to en_core_web_sm.
+        _fine_tuned = Path(__file__).resolve().parents[2] / "models" / "ner_cadastral"
         try:
             if _fine_tuned.exists():
                 self.nlp = spacy.load(str(_fine_tuned))
