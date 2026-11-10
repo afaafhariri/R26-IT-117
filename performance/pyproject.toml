@@ -17,7 +17,7 @@ dependencies = [
     "safetensors==0.4.3",
     # transformers 5.x needs tokenizers>=0.22 and does not resolve with the
     # pins here; 4.41.2 is the set that was in requirements.fixed.txt.
-    "transformers==4.41.2",
+    "transformers==5.10.1",
     "sentence-transformers==2.7.0",
     # Pulled in by sentence-transformers; pinned here instead of only in the
     # Dockerfile so local and container match.
