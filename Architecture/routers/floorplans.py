@@ -102,9 +102,18 @@ def _raw_to_alternative(raw: dict, zone: dict) -> FloorPlanAlternative | None:
     """
     try:
         buildable_sqft = float(zone.get("buildable_area_sqft", 1000))
-        # dim_ft is the approximate side length of a square with the same buildable area.
-        # All normalized coords (0→1) map to (0→dim_ft) in feet.
+        # dim_ft is the real length (ft) of one normalised unit: the buildable
+        # polygon's normalised area corresponds to buildable_area_sqft, so the
+        # unit length is sqrt(real area / normalised area) — the same scale
+        # layout_solver.py packs with. sqrt(real area) alone is only right
+        # when the polygon covers a unit square.
         dim_ft = math.sqrt(buildable_sqft) if buildable_sqft > 0 else 30.0
+        coords = zone.get("buildable_polygon") or []
+        if len(coords) >= 3 and buildable_sqft > 0:
+            from shapely.geometry import Polygon as _Polygon
+            norm_area = _Polygon(coords).area
+            if norm_area > 0:
+                dim_ft = math.sqrt(buildable_sqft / norm_area)
 
         rooms: list[Room] = []
         for r in raw.get("rooms", []):

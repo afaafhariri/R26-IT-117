@@ -5,7 +5,7 @@ import { login, resendVerification } from '../../api/auth';
 import { ApiError } from '../../api/client';
 import { useSession, useSignedIn } from '../../state/session';
 import { safeNext } from './helpers';
-import { AuthLayout, FormError } from './shared';
+import { ArrowIcon, AuthField, AuthShell, FormError, PasswordInput } from './shared';
 
 export function Login() {
   const [params] = useSearchParams();
@@ -29,49 +29,61 @@ export function Login() {
   const unconfirmed = submit.error instanceof ApiError && submit.error.status === 403;
 
   return (
-    <AuthLayout
-      title="Log in"
-      footer={
-        <>
-          New here? <Link to="/signup">Create an account</Link>
-        </>
+    <AuthShell
+      badge="Sign in"
+      title="Sign in to workspace"
+      lede="Your construction planning pipeline: design, cost, programme and site performance."
+      after={
+        <div className="auth-callout">
+          <div>
+            <b>New engineer or surveyor?</b>
+            <span>Create an account, confirm your email, then sign in here.</span>
+          </div>
+          <Link to="/signup" className="btn">
+            Create account
+          </Link>
+        </div>
       }
     >
       <form
-        className="stack"
+        className="auth-form"
         onSubmit={(e) => {
           e.preventDefault();
           submit.mutate();
         }}
       >
-        <label className="field">
-          Email
+        <AuthField id="login-email" label="Work email address">
           <input
+            id="login-email"
             type="email"
             autoComplete="email"
             required
+            placeholder="you@example.lk"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-        </label>
-        <label className="field">
-          Password
-          <input
-            type="password"
+        </AuthField>
+
+        <AuthField id="login-password" label="Password">
+          <PasswordInput
+            id="login-password"
             autoComplete="current-password"
-            required
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={setPassword}
           />
-        </label>
-        <label className="check">
-          <input
-            type="checkbox"
-            checked={rememberMe}
-            onChange={(e) => setRememberMe(e.target.checked)}
-          />
-          Keep me signed in on this device
-        </label>
+        </AuthField>
+
+        <div className="between">
+          <label className="check">
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+            />
+            Keep me signed in on this device
+          </label>
+          <Link to="/forgot-password">Forgot password?</Link>
+        </div>
 
         {unconfirmed ? (
           <div className="alert info" role="alert">
@@ -81,7 +93,7 @@ export function Login() {
             ) : (
               <button
                 type="button"
-                className="ghost"
+                className="ghost sm"
                 disabled={resend.isPending}
                 onClick={() => resend.mutate()}
               >
@@ -94,11 +106,16 @@ export function Login() {
           submit.error && <FormError error={submit.error} />
         )}
 
-        <button className="primary" disabled={submit.isPending}>
-          {submit.isPending ? 'Logging in…' : 'Log in'}
+        <button className="primary auth-submit" disabled={submit.isPending}>
+          {submit.isPending ? (
+            'Signing in…'
+          ) : (
+            <>
+              Sign in &amp; enter pipeline <ArrowIcon />
+            </>
+          )}
         </button>
-        <Link to="/forgot-password">Forgot your password?</Link>
       </form>
-    </AuthLayout>
+    </AuthShell>
   );
 }

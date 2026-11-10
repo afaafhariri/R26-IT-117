@@ -164,6 +164,12 @@ export interface CostSummary {
   confidence_level: number;
   ml_point_estimate_lkr: number;
   direct_cost_lkr: number;
+  /** The wider two-sided 90% band (p5-p95). Zeros when the model is unavailable. */
+  interval_90_lkr?: { lower_lkr: number; upper_lkr: number };
+  /** One-sided 90% upper bound: 90% of comparable projects come in at or below it. */
+  budget_lkr?: number;
+  /** False when C02 could not load its conformal offsets. */
+  interval_is_calibrated?: boolean;
 }
 
 export interface ShapDriver {
@@ -191,6 +197,12 @@ export interface TradeLine {
   quantity?: number;
   unit?: string;
   rate_lkr?: number;
+  /** ICTAD rate at the base date, and the same rate escalated to the target date. */
+  base_rate_lkr?: number;
+  adjusted_rate_lkr?: number;
+  description?: string;
+  material?: string;
+  rate_source?: string;
   [k: string]: unknown;
 }
 
@@ -230,7 +242,7 @@ export interface CostReport {
   contingency_breakdown: ContingencyLine[];
   risk_factors_applied: RiskFactor[];
   shap_top_drivers: ShapDriver[];
-  model_metadata: Record<string, unknown>;
+  model_metadata: { model?: string; price_factor?: number; [k: string]: unknown };
   rate_metadata: RateMetadata;
   feeds_downstream: FeedsDownstream;
 }
@@ -298,6 +310,18 @@ export interface TimelineResponse {
   task_dependencies: TaskDependency[];
   resource_allocation_plan: Record<string, Record<string, unknown>>;
   performance_monitoring_payload?: SchedulePayload | null;
+  /** Echo of the construction scope C03 applied (top level, not in input_summary). */
+  construction_scope_summary?: Record<string, unknown> | null;
+  /** Which models produced the schedule, and the LSTM's independent total. */
+  model_predictions?: {
+    phase_duration_model?: string;
+    xgboost_status?: string;
+    random_forest_status?: string;
+    lstm_status?: string;
+    lstm_predicted_total_duration_days?: number;
+    lstm_predicted_total_duration_weeks?: number;
+    [k: string]: unknown;
+  } | null;
   confidence_score: number;
   message: string;
 }
@@ -436,8 +460,9 @@ export interface DashboardPhase {
   actual_percent: number | null;
   schedule_status: string;
   status: string;
-  latest_spi: number | null;
-  latest_progress: unknown | null;
+  /** The phase's newest SPI reading - an object, not a bare number. */
+  latest_spi: { spi_value: number; alert_level: string; spi_id: number; calculated_at: string } | null;
+  latest_progress: { actual_percent: number; update_date: string | null; recorded_at: string } | null;
 }
 
 /** One row from GET /project/<id>/dashboard's `progress_history` - real

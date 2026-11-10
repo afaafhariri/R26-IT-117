@@ -174,7 +174,7 @@ export function Badge({
 /** Maps C04's status/alert vocabularies onto badge tones. */
 export function toneFor(status: string | null | undefined): 'ok' | 'warn' | 'danger' | 'neutral' {
   const s = (status ?? '').toUpperCase();
-  if (['OK', 'ON_TRACK', 'ON TRACK', 'COMPLETED', 'COMPLETE', 'LOW'].includes(s)) return 'ok';
+  if (['OK', 'NORMAL', 'ON_TRACK', 'ON TRACK', 'COMPLETED', 'COMPLETE', 'LOW'].includes(s)) return 'ok';
   if (['WARNING', 'AT_RISK', 'AT RISK', 'MEDIUM', 'MODERATE'].includes(s)) return 'warn';
   if (['CRITICAL', 'OVERDUE', 'HIGH', 'SEVERE'].includes(s)) return 'danger';
   return 'neutral';

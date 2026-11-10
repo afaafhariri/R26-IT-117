@@ -90,82 +90,87 @@ def _pack_floor(
             room_type, _MIN_ROOM_SQM.get(room_type, _DEFAULT_MIN_ROOM_SQM)
         )
         target_w, target_h = _sqm_to_norm_dims(target_sqm, zone_w, zone_h, dim_ft)
-        r["width_norm"] = max(float(r.get("width_norm", target_w)), target_w)
-        r["height_norm"] = max(float(r.get("height_norm", target_h)), target_h)
+        # Gemini's width/height are fractions of the whole normalised plot,
+        # while packing works in the zone's local [0,1] frame — convert before
+        # comparing, or every room is inflated by 1/zone_w on any zone smaller
+        # than the plot (i.e. whenever setbacks or a coverage limit apply).
+        # These widths are only used to decide which rooms share a row.
+        llm_w = float(r.get("width_norm", 0.0)) / zone_w if zone_w > 0 else 0.0
+        r["width_norm"] = min(max(llm_w, target_w), 1.0)
+        # Area as a fraction of this floor's packing rectangle.
+        min_sqm = _MIN_ROOM_SQM.get(room_type, _DEFAULT_MIN_ROOM_SQM)
+        r["_a"] = target_sqm / available_sqm if available_sqm > 0 else 0.0
+        r["_a_min"] = min_sqm / available_sqm if available_sqm > 0 else 0.0
 
     rooms.sort(key=lambda r: _entrance_sort_key(r, entrance_side))
 
     rows: list[list[dict]] = []
     current_row: list[dict] = []
     current_width = 0.0
-
     for room in rooms:
-        w = min(room["width_norm"], 1.0)
+        w = room["width_norm"]
         if current_row and current_width + w > 1.0 + 1e-9:
             rows.append(current_row)
             current_row = []
             current_width = 0.0
-        # If the room alone is wider than 1.0, cap it at the full zone width
-        w = min(w, 1.0)
-        room["width_norm"] = w
         current_row.append(room)
         current_width += w
-
     if current_row:
         rows.append(current_row)
+    # A nearly empty last row would be stretched across the full zone width
+    # below, turning its one or two rooms into corridor-like strips; fold it
+    # into the row above instead.
+    if len(rows) > 1 and sum(rm["width_norm"] for rm in rows[-1]) < 0.5:
+        rows[-2].extend(rows.pop())
 
-    # Assign x positions left-to-right WITHOUT stretching widths.
-    # Preserving Gemini's width_norm keeps room sizes realistic — rows
-    # do not need to fill the full [0, 1] width.
-    # No intermediate rounding here (or below) — rounding at each step and
-    # then accumulating (y += previous row's *rounded* height) compounds
-    # drift across many rows, which was enough to reopen tiny overlaps
-    # between rooms that should sit flush against each other. Round once,
-    # at the very end, in solve_overlaps's remap step instead.
-    for row in rows:
-        x = 0.0
-        for room in row:
-            room["x_norm"] = x
-            x += room["width_norm"]
-
-    row_heights = [max(r["height_norm"] for r in row) for row in rows]
-    total_h = sum(row_heights)
+    # Exact-fit strip layout: every row spans the full zone width, and each
+    # room's width within its row is proportional to its area, so a row's
+    # height is simply the sum of its rooms' area fractions. Rows therefore
+    # fit whenever the rooms' total area fits — fixed-aspect rectangles packed
+    # left to right waste width and overflow tight, coverage-limited zones
+    # even when the rooms' total area is well within the footprint.
     available_h = 1.0 - y_offset
 
-    if total_h > available_h:
-        # Rows need more height than the zone has. Rooms above were sized up
-        # toward a budget target (not just their bare legal minimum), so
-        # there's often slack to shrink back down without violating a
-        # minimum — try that first, since overflowing the zone means these
-        # rooms would fail zone-containment validation (the zone here is
-        # already the largest rectangle that fits inside the true, possibly
-        # irregular buildable polygon — there's no slack in the polygon
-        # itself to give, only in how generously rooms were sized).
-        shrink = available_h / total_h if total_h > 0 else 1.0
+    def _total(rs):
+        return sum(sum(rm["_a"] for rm in row) for row in rs)
+
+    # Too much area for the zone: shrink rooms toward their legal minimum,
+    # repeating because rooms already at their minimum cannot shrink further.
+    for _ in range(8):
+        total = _total(rows)
+        if total <= available_h + 1e-9 or total <= 0:
+            break
+        shrink = available_h / total
         for row in rows:
-            for room in row:
-                min_sqm = _MIN_ROOM_SQM.get(_room_key(room.get("name", "")), _DEFAULT_MIN_ROOM_SQM)
-                _, min_h = _sqm_to_norm_dims(min_sqm, zone_w, zone_h, dim_ft)
-                room["height_norm"] = max(room["height_norm"] * shrink, min_h)
-        row_heights = [max(r["height_norm"] for r in row) for row in rows]
-        total_h = sum(row_heights)
-        # Still doesn't fit even with every room at its true minimum — there
-        # is nothing left to shrink. Let the layout extend past the nominal
-        # zone height rather than force rooms below minimum or overlap.
-        h_scale = 1.0
-    else:
-        # Rooms come in under the available height — stretch to fill it
-        # rather than leaving dead space at the bottom of the zone.
-        h_scale = available_h / total_h if total_h > 0 else 1.0
+            for rm in row:
+                rm["_a"] = max(rm["_a"] * shrink, rm["_a_min"])
+
+    total = _total(rows)
+    # Spare height (rooms smaller than the zone): stretch rows to fill it
+    # rather than leaving dead space at the bottom of the zone. If even the
+    # minimum areas exceed the zone there is nothing left to shrink; the
+    # layout then extends past the zone and validation reports it.
+    h_scale = available_h / total if 0 < total < available_h else 1.0
 
     y = y_offset
     result = []
-    for row, rh in zip(rows, row_heights):
-        scaled_rh = rh * h_scale
-        for room in row:
-            room["y_norm"] = y
-            room["height_norm"] = room["height_norm"] * h_scale
-        y += scaled_rh
+    for row in rows:
+        row_a = sum(rm["_a"] for rm in row)
+        row_h = row_a * h_scale
+        x = 0.0
+        for rm in row:
+            width = rm["_a"] / row_a if row_a > 0 else 1.0 / len(row)
+            rm["x_norm"] = x
+            rm["y_norm"] = y
+            rm["width_norm"] = width
+            rm["height_norm"] = row_h
+            # Report the area the room actually occupies after packing, so
+            # validation and scoring judge the geometry that is drawn.
+            rm["area_sqm"] = round(width * row_h * available_sqm, 1)
+            rm.pop("_a", None)
+            rm.pop("_a_min", None)
+            x += width
+        y += row_h
         result.extend(row)
 
     return result
@@ -268,7 +273,20 @@ def solve_overlaps(
     # Real-world scale, so NBC minimum room sizes (in sqm) can be converted
     # into this floor's local normalized packing space before packing runs.
     buildable_sqft = float((buildable_zone or {}).get("buildable_area_sqft") or 1000)
-    dim_ft = math.sqrt(buildable_sqft) if buildable_sqft > 0 else 30.0
+    # dim_ft is the real length (ft) of one normalised unit. The buildable
+    # polygon's normalised area corresponds to buildable_area_sqft, so the
+    # unit length is sqrt(real area / normalised area). Using sqrt(real area)
+    # alone is only right when the polygon happens to cover a unit square.
+    zone_norm_area = 0.0
+    if coords and len(coords) >= 3:
+        try:
+            zone_norm_area = Polygon(coords).area
+        except Exception:
+            zone_norm_area = 0.0
+    if buildable_sqft > 0 and zone_norm_area > 0:
+        dim_ft = math.sqrt(buildable_sqft / zone_norm_area)
+    else:
+        dim_ft = math.sqrt(buildable_sqft) if buildable_sqft > 0 else 30.0
 
     by_floor: dict[int, list[dict]] = defaultdict(list)
     for room in rooms:
