@@ -102,8 +102,6 @@ _db_backups/
 .claude/
 .vscode/
 
-RESEARCH_PANEL_PRESENTATION.md
-
 # ── Component 01 (architecture) ──────────────────────────────
 architecture/inner-legacy-492011-b4-14087a733318.json
 architecture/r26-imagen-a0d373168dc9.json
