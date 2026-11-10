@@ -72,11 +72,10 @@ Then:
 
 ```bash
 cd gateway
-python3.12 -m venv .venv
-.venv/bin/pip install -r requirements.txt
+uv sync
 cp .env.example .env        # set DATABASE_URL (and COOKIE_SECURE=false for Safari)
-.venv/bin/alembic upgrade head
-.venv/bin/python -m uvicorn app.main:app --reload --port 8080
+uv run alembic upgrade head
+uv run uvicorn app.main:app --reload --port 8080
 ```
 
 Emails go to **Mailpit** in development: `docker compose up -d mailpit`, then
@@ -123,7 +122,7 @@ docker compose exec -T postgres psql -U postgres -v gateway_password=gateway-loc
 ## Tests
 
 ```bash
-.venv/bin/python -m pytest tests -v
+uv run pytest tests -v
 ```
 
 The auth tests use the real Postgres from `DATABASE_URL`, but in a throwaway

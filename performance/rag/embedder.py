@@ -8,11 +8,7 @@ BASE_DIR      = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Priority:
 # 1) DELAY_CASES_CSV_PATH env var
 # 2) performance/data/delay_data.csv
-# 3) research/datasets/delay-cases/delay_data.csv
 _LOCAL_CSV = os.path.join(BASE_DIR, "data", "delay_data.csv")
-_RESEARCH_CSV = os.path.join(
-    BASE_DIR, "..", "research", "datasets", "delay-cases", "delay_data.csv"
-)
 
 
 def _resolve_csv_path() -> str:
@@ -27,15 +23,11 @@ def _resolve_csv_path() -> str:
 
     if os.path.exists(_LOCAL_CSV):
         return _LOCAL_CSV
-    if os.path.exists(_RESEARCH_CSV):
-        return _RESEARCH_CSV
-    raise FileNotFoundError(
-        f"CSV not found. Checked: {os.path.abspath(_LOCAL_CSV)} and {os.path.abspath(_RESEARCH_CSV)}"
-    )
+    raise FileNotFoundError(f"CSV not found at {os.path.abspath(_LOCAL_CSV)}")
 
 
 CSV_PATH = _resolve_csv_path()
-RAG_CASES_DIR = os.path.join(BASE_DIR, "data", "rag_cases")
+RAG_CASES_DIR = os.path.join(BASE_DIR, "data", "rag-cases")
 
 # ── Model ─────────────────────────────────────────────────────────────────────
 MODEL_NAME = "all-MiniLM-L6-v2"
@@ -105,7 +97,7 @@ Construction Status:
 def generate_rag_documents():
     """
     Read delay_data.csv and write one .txt story file per row
-    into performance/data/rag_cases/.
+    into performance/data/rag-cases/.
     Returns the number of files written.
     """
     os.makedirs(RAG_CASES_DIR, exist_ok=True)

@@ -1,13 +1,21 @@
-# Keep the build context to what the service needs at runtime: main.py, layers/,
-# data/, models/ and scripts/. Dependencies are installed inside the image from
-# requirements.txt, so a local virtual environment must never be copied in.
+# The image is the API only: main.py, layers/, models/ and data/. Dependencies
+# come from uv.lock inside the image, so the local .venv must never be copied in.
 .venv/
-venv/
-__pycache__/
-*.pyc
-.pytest_cache/
-tests/
 .env
 .env.*
+
+# Not needed at runtime: tests, training/scraping scripts, generated data and
+# reports, docs
+tests/
+scripts/
+data/cost-records/
+reports/
+README.md
+CHANGELOG.md
+
+# Caches and local tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
 .claude/
 .DS_Store

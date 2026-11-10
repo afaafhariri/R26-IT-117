@@ -22,7 +22,6 @@ def _resolve_delay_cases_csv_path() -> str:
     Priority:
     1) DELAY_CASES_CSV_PATH env var (if set and exists)
     2) performance/data/delay_data.csv
-    3) research/datasets/delay-cases/delay_data.csv
     """
     configured = os.getenv("DELAY_CASES_CSV_PATH")
     if configured:
@@ -39,24 +38,7 @@ def _resolve_delay_cases_csv_path() -> str:
     if os.path.exists(canonical_local):
         return canonical_local
 
-    research_fallback = os.path.abspath(
-        os.path.join(
-            os.path.dirname(__file__),
-            "..",
-            "..",
-            "research",
-            "datasets",
-            "delay-cases",
-            "delay_data.csv",
-        )
-    )
-    if os.path.exists(research_fallback):
-        return research_fallback
-
-    raise FileNotFoundError(
-        "delay_data.csv not found. Checked: "
-        f"{canonical_local} and {research_fallback}"
-    )
+    raise FileNotFoundError(f"delay_data.csv not found at {canonical_local}")
 
 
 class Project(Base):

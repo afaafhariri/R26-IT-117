@@ -1,0 +1,69 @@
+[project]
+name = "architecture"
+version = "0.1.0"
+description = "R26-IT-117 Component 01: architectural planning API"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    # API
+    "fastapi==0.111.0",
+    "uvicorn[standard]==0.30.1",
+    "pydantic==2.10.6",
+    "python-multipart==0.0.31",
+    "python-dotenv==1.0.1",
+    "httpx==0.28.1",
+    # Stage 3 runs as a Celery task; Redis is the broker and the job store
+    "celery==5.4.0",
+    "redis==5.0.6",
+    # Stage 1: OCR, plan classification, boundary detection, NER
+    "easyocr>=1.7.1",
+    "opencv-python-headless==4.10.0.84",
+    "pymupdf==1.25.5",
+    "pillow==11.0.0",
+    "numpy==2.3.5",
+    "torch==2.6.0",
+    # Pinned so the Linux CPU-only source below applies (easyocr needs it).
+    "torchvision==0.21.0",
+    "spacy==3.8.14",
+    # Base model for the NER fallback and scripts/train_ner.py. A direct wheel
+    # instead of `python -m spacy download`, which needs pip (uv venvs have none).
+    "en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl",
+    "jsonschema==4.22.0",
+    "pyproj==3.7.0",
+    # Stage 2-3: geometry
+    "shapely==2.0.7",
+    # Stage 3: RAG retrieval + Gemini generation
+    "sentence-transformers==3.0.1",
+    "supabase==2.15.2",
+    "google-genai==2.0.1",
+    # Stage 4: rendering
+    "svgwrite==1.4.3",
+    "reportlab==4.2.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+]
+# One-off data and training scripts in scripts/ that the API never imports.
+# Install with `uv sync --group scripts`.
+scripts = [
+    "google-generativeai==0.8.6", # scripts/seed_from_images.py
+]
+
+[tool.uv]
+# An application, not a library: install its dependencies, not the project.
+package = false
+
+# Linux (Docker) gets the CPU-only torch builds instead of the multi-GB CUDA ones.
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+torchvision = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

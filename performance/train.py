@@ -11,7 +11,7 @@ Run from performance/:
 
     python train.py
 
-Ported from research/notebooks/delay_model.ipynb. The plotting and manual
+Ported from notebooks/delay_model.ipynb (local only; notebooks are not committed). The plotting and manual
 sample-prediction cells were exploratory and are not reproduced here; the
 modelling steps are unchanged.
 """

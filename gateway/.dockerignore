@@ -1,0 +1,11 @@
+# The Dockerfile copies only alembic.ini, migrations/ and app/; this keeps the
+# build context small. The local .venv must never reach the image.
+.venv/
+.env
+.env.*
+tests/
+db/
+README.md
+__pycache__/
+*.py[cod]
+.pytest_cache/

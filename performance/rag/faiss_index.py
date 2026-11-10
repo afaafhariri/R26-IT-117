@@ -5,7 +5,7 @@ import numpy as np
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 BASE_DIR      = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-RAG_CASES_DIR = os.path.join(BASE_DIR, "data", "rag_cases")
+RAG_CASES_DIR = os.path.join(BASE_DIR, "data", "rag-cases")
 MODELS_DIR    = os.path.join(BASE_DIR, "models")
 INDEX_PATH    = os.path.join(MODELS_DIR, "faiss_rag.index")
 META_PATH     = os.path.join(MODELS_DIR, "faiss_rag_meta.json")
@@ -17,7 +17,7 @@ _metadata = None   # list of {"filename": ..., "text": ...}
 
 def build_index():
     """
-    Load all .txt files from data/rag_cases/,
+    Load all .txt files from data/rag-cases/,
     embed them, build a FAISS flat-L2 index,
     and save index + metadata to models/.
     """

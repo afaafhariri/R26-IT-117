@@ -1,0 +1,20 @@
+# The image is the API only. Dependencies come from uv.lock inside the image,
+# so the local .venv must never be copied in (it would replace the image's).
+.venv/
+.env
+.env.*
+
+# Not needed at runtime: training data, one-off scripts, tests, docs
+data/
+scripts/
+tests/
+README.md
+benchmark_results.csv
+tmp/
+
+# Caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/

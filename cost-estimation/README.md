@@ -96,7 +96,7 @@ The `/retrain` endpoint requires an `X-Admin-Key` header matching the `ADMIN_API
 
 Five BOQ parts support 2–5 material variants each (`door_count`, `window_count`,
 `roof_area_sqm`, `floor_tile_sqm`, `ceiling_sqm`), defined in
-`data/material_catalog/material_catalog.csv`. Selecting a material in the
+`data/material-catalog/material_catalog.csv`. Selecting a material in the
 request prices that part from the catalog. Parts left unselected fall back to
 the **finish grade's default material**; an explicit selection always wins.
 Every `/estimate` response includes a `material_options.alternatives` block
@@ -124,7 +124,7 @@ python scripts/scrape_stockpile.py --show-unmatched    # list unclassified produ
 
 The scraper (stockpile.lk, server-rendered Magento) classifies products into
 catalog keys, normalises units, rejects outliers, and writes the median supply
-price per material to `data/scraped_prices/current_prices.csv`. Medians that
+price per material to `data/scraped-prices/current_prices.csv`. Medians that
 deviate >50% from the seed rate go to `review_queue.csv` for a human instead.
 All raw samples are appended to `price_history.csv` — a growing time series
 intended as training data for the CCPI escalation model. Overlay rows older
@@ -223,7 +223,7 @@ retraining.
 
 ```bash
 cd cost-estimation
-python tests/generate_dataset.py   # 500 records -> research/datasets/cost-records/cost.csv
+uv run python tests/generate_dataset.py   # 500 records -> data/cost-records/cost.csv
 python scripts/train_model.py      # 6 models + conformal_offsets.json -> models/
 ```
 
@@ -240,9 +240,8 @@ docker run -p 8002:8002 \
 
 ```bash
 cd cost-estimation
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn main:app --reload --port 8002
+uv sync
+uv run uvicorn main:app --reload --port 8002
 ```
 
 Interactive docs available at `http://localhost:8002/docs`.
@@ -263,7 +262,7 @@ Interactive docs available at `http://localhost:8002/docs`.
 ```
 cost-estimation/
 ├── main.py                        # FastAPI app + pipeline orchestration
-├── requirements.txt
+├── pyproject.toml                 # Dependencies (uv); exact pins in uv.lock
 ├── Dockerfile
 └── layers/
     ├── layer1_boq/

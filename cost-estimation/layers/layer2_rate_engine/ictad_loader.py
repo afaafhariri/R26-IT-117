@@ -15,7 +15,7 @@ from typing import Optional
 logger = logging.getLogger(__name__)
 
 # Default CSV directory relative to this file when the DB is not available
-_DEFAULT_RATES_DIR = Path(__file__).parent.parent.parent / "data" / "ictad_rates"
+_DEFAULT_RATES_DIR = Path(__file__).parent.parent.parent / "data" / "ictad-rates"
 
 # Fallback hardcoded rates (LKR per unit) used when no data file is present.
 # These are indicative 2024-Q4 values only — replace with live ICTAD data.
@@ -79,7 +79,7 @@ class ICTADLoader:
 
     Priority order:
       1. PostgreSQL (if DATABASE_URL env var is set)
-      2. CSV files in data/ictad_rates/
+      2. CSV files in data/ictad-rates/
       3. Hardcoded fallback rates
     """
 

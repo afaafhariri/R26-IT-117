@@ -12,7 +12,7 @@ the coverage guarantee, so the two always happen together here.
 Run from the cost-estimation/ directory:
     python scripts/train_model.py
 
-Input:  research/datasets/cost-records/cost.csv
+Input:  data/cost-records/cost.csv
 Output: models/xgboost_point.json
         models/xgboost_q05.json, q25, q75, q90, q95
         models/conformal_offsets.json
@@ -33,7 +33,7 @@ sys.path.insert(0, str(ROOT))
 from layers.layer3_ml_prediction.xgboost_model import XGBoostCostModel  # noqa: E402
 from layers.layer3_ml_prediction.feature_engineer import FeatureEngineer  # noqa: E402
 
-DATASET_PATH = ROOT.parent / "research" / "datasets" / "cost-records" / "cost.csv"
+DATASET_PATH = ROOT / "data" / "cost-records" / "cost.csv"
 MODELS_DIR = ROOT / "models"
 FEATURE_COLS = FeatureEngineer.feature_names()
 

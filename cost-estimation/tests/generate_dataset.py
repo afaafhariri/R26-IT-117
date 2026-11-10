@@ -16,7 +16,7 @@ prices — with the ratio of the two direct costs (see main.py, _price_factor).
 Run from the cost-estimation/ directory:
     python tests/generate_dataset.py
 
-Output: research/datasets/cost-records/cost.csv
+Output: data/cost-records/cost.csv
 """
 
 import math
@@ -40,7 +40,7 @@ from layers.layer4_risk_adjuster.contingency import ContingencyCalculator
 
 logging.basicConfig(level=logging.WARNING)
 
-OUTPUT_PATH = ROOT.parent / "research" / "datasets" / "cost-records" / "cost.csv"
+OUTPUT_PATH = ROOT / "data" / "cost-records" / "cost.csv"
 N_SAMPLES = 500
 RANDOM_SEED = 42
 

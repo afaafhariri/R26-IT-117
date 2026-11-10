@@ -15,7 +15,7 @@ generate_report().
 Usage:
     python scripts/model_comparison.py
 
-Output: research/reports/model_comparison.md + figures/
+Output: reports/model_comparison.md + figures/
 """
 
 import sys
@@ -50,7 +50,7 @@ NOISE_SIGMA = 0.15
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-REPORT_DIR = ROOT.parent / "research" / "reports"
+REPORT_DIR = ROOT / "reports"
 FIGURES_DIR = REPORT_DIR / "figures"
 MODELS_DIR = ROOT / "models"
 

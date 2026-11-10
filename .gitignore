@@ -29,11 +29,11 @@ env/
 .env/
 ENV/
 
-# ── Datasets & research data ──────────────────────────────────────────────────
-/research/datasets/
-/research/thesis/
-/research/common-report/
-/research/reports/
+# ── Generated datasets & reports ──────────────────────────────────────────────
+# C02: tests/generate_dataset.py writes cost.csv here (the source PDF stays
+# local too); scripts/model_comparison.py writes reports/.
+/cost-estimation/data/cost-records/
+/cost-estimation/reports/
 
 # ── Testing & coverage ────────────────────────────────────────────────────────
 .pytest_cache/
@@ -56,9 +56,8 @@ logs/
 *.out
 
 # ── Docker ────────────────────────────────────────────────────────────────────
-.dockerignore
-# C02's build context excludes its local virtual environment; share that rule.
-!cost-estimation/.dockerignore
+# Each component's .dockerignore is committed: it keeps the local .venv out of
+# the build context, where it would replace the venv built in the image.
 
 # ── OS ────────────────────────────────────────────────────────────────────────
 .DS_Store
@@ -105,17 +104,16 @@ _db_backups/
 
 RESEARCH_PANEL_PRESENTATION.md
 
-# ── Component 01 (Architecture) ──────────────────────────────
-Architecture/inner-legacy-492011-b4-14087a733318.json
-Architecture/r26-imagen-a0d373168dc9.json
-Architecture/tmp/
-Architecture/models/*.pt
-Architecture/models/*.pth
-Architecture/benchmark_results.csv
+# ── Component 01 (architecture) ──────────────────────────────
+architecture/inner-legacy-492011-b4-14087a733318.json
+architecture/r26-imagen-a0d373168dc9.json
+architecture/tmp/
+architecture/models/*.pt
+architecture/models/*.pth
+architecture/benchmark_results.csv
 /tmp/r26/
 .mypy_cache/
 .ruff_cache/
 .vite/
 
-performance/.venv-train
 paper/

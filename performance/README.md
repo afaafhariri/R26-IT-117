@@ -21,7 +21,7 @@ from a FAISS vector index, and generates corrective action recommendations via G
 | LLM              | Google Gemini (`gemini-flash-latest`)    |
 | Weather data     | OpenWeatherMap "Current Weather" API, live per-district lookup with graceful fallback |
 | Containerisation | Docker + Docker Compose                  |
-| Language         | Python 3.11                              |
+| Language         | Python 3.12 (uv)                         |
 
 ---
 
@@ -30,7 +30,7 @@ from a FAISS vector index, and generates corrective action recommendations via G
 ```
 performance/
 ├── main.py                    # Flask app — endpoints, validation, orchestration
-├── requirements.txt
+├── pyproject.toml             # Dependencies (uv); exact pins in uv.lock
 ├── Dockerfile
 ├── .env                       # Not committed — see Environment Variables
 ├── database/
@@ -56,7 +56,7 @@ performance/
 │   └── factory.py              # Picks the active provider via TIMELINE_SOURCE
 ├── data/
 │   ├── delay_data.csv         # 192 historical delay cases
-│   └── rag_cases/             # 192 generated story .txt files for FAISS indexing
+│   └── rag-cases/             # 192 generated story .txt files for FAISS indexing
 ├── models/                    # Trained artefacts — committed
 │   ├── xgboost_classifier.json
 │   ├── xgboost_regressor.json
@@ -124,13 +124,13 @@ docker-compose up --build
 **Directly**
 ```bash
 cd performance
-pip install -r requirements.txt
-python main.py
+uv sync
+uv run python main.py
 ```
 
 **Tests**
 ```bash
-pytest tests/
+uv run pytest tests/
 ```
 
 Service runs on `http://localhost:5004`.

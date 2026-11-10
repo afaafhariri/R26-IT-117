@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 ROOT = Path(__file__).resolve().parent.parent
-FIGURES_DIR = ROOT.parent / "research" / "reports" / "figures"
+FIGURES_DIR = ROOT / "reports" / "figures"
 CSV_PATH = FIGURES_DIR / "metrics.csv"
 
 if not CSV_PATH.exists():

@@ -11,7 +11,6 @@ class Settings:
 
     app_name: str = "Project Management & Timeline Prediction Backend"
     app_version: str = "1.0.0"
-    database_url: str = os.getenv("DATABASE_URL", "sqlite:///./timeline_predictions.db")
     allowed_origins: list[str] = field(
         default_factory=lambda: [
             "http://localhost:3000",

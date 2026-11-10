@@ -20,8 +20,8 @@ from typing import Optional
 logger = logging.getLogger(__name__)
 
 _DATA_DIR = Path(__file__).parent.parent.parent / "data"
-_DEFAULT_CATALOG_CSV = _DATA_DIR / "material_catalog" / "material_catalog.csv"
-_DEFAULT_OVERLAY_CSV = _DATA_DIR / "scraped_prices" / "current_prices.csv"
+_DEFAULT_CATALOG_CSV = _DATA_DIR / "material-catalog" / "material_catalog.csv"
+_DEFAULT_OVERLAY_CSV = _DATA_DIR / "scraped-prices" / "current_prices.csv"
 
 DEFAULT_STALE_DAYS = 45
 

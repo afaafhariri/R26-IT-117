@@ -237,7 +237,8 @@ Open a terminal in the project root and run:
 
 ```bash
 cd timeline
-python -m uvicorn app.main:app --reload
+uv sync
+uv run uvicorn app.main:app --reload
 ```
 
 Backend URL:
@@ -252,28 +253,10 @@ Swagger UI:
 http://127.0.0.1:8000/docs
 ```
 
-## 14. How to Run Frontend Demo
+## 14. Frontend
 
-The file `dashboard.html` is a PP1 demo frontend used to show:
-
-- Cost Estimation JSON input
-- Timeline prediction output
-- Gantt chart visualization
-- construction scope result
-- performance monitoring payload
-
-Run the frontend demo:
-
-```bash
-cd timeline
-python -m http.server 5500
-```
-
-Open:
-
-```text
-http://127.0.0.1:5500/dashboard.html
-```
+The planner UI lives in the repository's `web/` app, which calls this service through
+the gateway (`/api/c03/…`). The PP1 `dashboard.html` demo has been retired.
 
 ## 15. Sample Input JSON
 
@@ -382,7 +365,6 @@ timeline/
 ├── app/
 │   ├── main.py
 │   ├── config.py
-│   ├── database.py
 │   ├── models/
 │   │   └── schemas.py
 │   ├── routes/
@@ -393,8 +375,11 @@ timeline/
 │   │   ├── lstm_service.py
 │   │   ├── cpm_service.py
 │   │   ├── gantt_service.py
+│   │   ├── ml_service.py
 │   │   ├── performance_format_service.py
 │   │   └── resource_service.py
+│   ├── utils/
+│   │   └── response_utils.py
 │   └── training/
 │       ├── generate_synthetic_dataset.py
 │       ├── train_random_forest.py
@@ -409,8 +394,11 @@ timeline/
 │   ├── timeline_lstm_pytorch.pt
 │   ├── lstm_x_scaler.pkl
 │   └── lstm_y_scaler.pkl
-├── dashboard.html
-├── requirements.txt
+├── tests/
+│   └── test_feature_contract.py
+├── sample_request.json
+├── pyproject.toml
+├── uv.lock
 ├── Dockerfile
 └── README.md
 ```

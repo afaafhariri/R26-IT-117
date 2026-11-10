@@ -13,9 +13,9 @@ Flow per category page:
      otherwise the sample is recorded in price history only.
   4. Per (part, material): drop outliers, take the median supply price.
   5. Median within ±MAX_DEVIATION of the seed supply rate -> written to
-     data/scraped_prices/current_prices.csv (the overlay MaterialCatalog reads).
-     Outside that band -> data/scraped_prices/review_queue.csv for a human.
-  All raw samples are appended to data/scraped_prices/price_history.csv —
+     data/scraped-prices/current_prices.csv (the overlay MaterialCatalog reads).
+     Outside that band -> data/scraped-prices/review_queue.csv for a human.
+  All raw samples are appended to data/scraped-prices/price_history.csv —
   this time series is future training data for the CCPI escalation model.
 """
 
@@ -42,8 +42,8 @@ REQUEST_DELAY_S = 2.5
 REQUEST_TIMEOUT_S = 30.0
 
 DATA_DIR = Path(__file__).parent.parent / "data"
-CATALOG_CSV = DATA_DIR / "material_catalog" / "material_catalog.csv"
-SCRAPED_DIR = DATA_DIR / "scraped_prices"
+CATALOG_CSV = DATA_DIR / "material-catalog" / "material_catalog.csv"
+SCRAPED_DIR = DATA_DIR / "scraped-prices"
 HISTORY_CSV = SCRAPED_DIR / "price_history.csv"
 OVERLAY_CSV = SCRAPED_DIR / "current_prices.csv"
 REVIEW_CSV = SCRAPED_DIR / "review_queue.csv"

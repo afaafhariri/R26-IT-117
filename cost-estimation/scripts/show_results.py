@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
-FIGURES_DIR = ROOT.parent / "research" / "reports" / "figures"
+FIGURES_DIR = ROOT / "reports" / "figures"
 CSV_PATH = FIGURES_DIR / "metrics.csv"
 
 # Must match the noise applied in tests/generate_dataset.py
