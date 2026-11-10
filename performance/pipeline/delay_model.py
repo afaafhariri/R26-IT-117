@@ -2,6 +2,12 @@ import os
 import pickle
 import numpy as np
 
+# Imported at module level, before anything loads torch or faiss: on macOS all
+# three link an OpenMP runtime named libomp.dylib, and xgboost segfaults in
+# load_model if another library's copy was loaded first. main.py imports this
+# module ahead of rag/, so this import wins.
+from xgboost import XGBClassifier, XGBRegressor
+
 from pipeline.feature_engineer import build_encoded_feature_payload
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,8 +37,6 @@ _encoders = None
 def _load_models():
     global _classifier, _regressor, _encoders
     if _classifier is None:
-        from xgboost import XGBClassifier, XGBRegressor
-
         _classifier = XGBClassifier()
         _classifier.load_model(CLASSIFIER_PATH)
 

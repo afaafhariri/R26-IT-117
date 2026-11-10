@@ -12,17 +12,13 @@ dependencies = [
     "xgboost-cpu==3.2.0; sys_platform != 'darwin'",
     "xgboost==3.2.0; sys_platform == 'darwin'", # xgboost-cpu has no macOS arm64 wheel
     "faiss-cpu==1.8.0",
-    "huggingface-hub==0.23.4",
-    "tokenizers==0.19.1",
-    "safetensors==0.4.3",
-    # transformers 5.x needs tokenizers>=0.22 and does not resolve with the
-    # pins here; 4.41.2 is the set that was in requirements.fixed.txt.
-    "transformers==4.41.2",
-    "sentence-transformers==2.7.0",
-    # Pulled in by sentence-transformers; pinned here instead of only in the
-    # Dockerfile so local and container match.
-    "torch==2.3.1",
-    "google-generativeai==0.3.2",
+    # huggingface-hub, tokenizers and safetensors follow transformers (uv.lock).
+    "transformers==5.22.2",
+    "sentence-transformers==5.6.0",
+    # Pulled in by sentence-transformers; pinned so the Linux CPU-only source
+    # below applies.
+    "torch==2.13.0",
+    "google-genai==2.0.1", # same Gemini SDK as C01; replaces deprecated google-generativeai
     "sqlalchemy==2.0.23",
     "python-dotenv==1.2.2",
     "requests==2.34.2",

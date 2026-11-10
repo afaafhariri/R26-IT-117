@@ -436,17 +436,17 @@ Declared in `pyproject.toml` and pinned in `uv.lock`; install with `uv sync`. Re
 
 | Category | Package | Version | Purpose |
 |----------|---------|---------|---------|
-| Web framework | fastapi | 0.111.0 | REST API |
-| | uvicorn[standard] | 0.30.1 | ASGI server |
+| Web framework | fastapi | 0.141.1 | REST API |
+| | uvicorn[standard] | 0.54.0 | ASGI server |
 | | python-multipart | 0.0.31 | File upload parsing |
 | | pydantic | 2.10.6 | Request/response validation |
 | OCR & Vision | easyocr | ≥1.7.1 | Text extraction from plan images |
 | | opencv-python-headless | 4.10.0.84 | Boundary polygon detection |
 | | PyMuPDF | 1.25.5 | PDF → PNG conversion |
-| | Pillow | 11.0.0 | Image preprocessing |
+| | Pillow | 13.0.0 | Image preprocessing |
 | NLP & LLM | spacy | 3.8.14 | Custom cadastral NER model |
 | | google-genai | 2.0.1 | Gemini API (migrated from google-generativeai) |
-| | sentence-transformers | 3.0.1 | RAG embedding (all-MiniLM-L6-v2) |
+| | sentence-transformers | 5.6.0 | RAG embedding (all-MiniLM-L6-v2) |
 | Geometry | shapely | 2.0.7 | Polygon buffering for setback computation |
 | | pyproj | 3.7.0 | SLD99 → WGS84 coordinate conversion |
 | | jsonschema | 4.22.0 | JSON Schema validation |
@@ -455,10 +455,10 @@ Declared in `pyproject.toml` and pinned in `uv.lock`; install with `uv sync`. Re
 | Async | celery | 5.4.0 | Async task queue for Stage 3 |
 | | redis | 5.0.6 | Celery broker/backend |
 | Database | supabase | 2.15.2 | pgvector RAG client |
-| ML | torch | 2.6.0 | EasyOCR inference backend |
-| | torchvision | 0.21.0 | Required by EasyOCR (pinned for the CPU-only index) |
+| ML | torch | 2.13.0 | EasyOCR inference backend |
+| | torchvision | 0.28.0 | Required by EasyOCR (pinned for the CPU-only index) |
 | | numpy | 2.3.5 | Numerical operations |
-| Utilities | python-dotenv | 1.0.1 | `.env` loading |
+| Utilities | python-dotenv | 1.2.2 | `.env` loading |
 | | httpx | 0.28.1 | Async HTTP (C02 integration POST) |
 
 `scripts/seed_from_images.py` also needs `google-generativeai`, in the `scripts` group: `uv sync --group scripts`.

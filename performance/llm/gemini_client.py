@@ -1,18 +1,19 @@
 import os
-import google.generativeai as genai
+
 from dotenv import load_dotenv
+from google import genai
 
 load_dotenv()
 
-_model = None
+_MODEL = "gemini-flash-latest"
+_client = None
 
 
-def _get_model():
-    global _model
-    if _model is None:
-        genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-        _model = genai.GenerativeModel("gemini-flash-latest")
-    return _model
+def _get_client():
+    global _client
+    if _client is None:
+        _client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+    return _client
 
 
 def _build_prompt(
@@ -154,7 +155,6 @@ def generate_recommendations(
     weather_info: dict = None,
 ) -> dict:
     try:
-        model = _get_model()
         prompt = _build_prompt(
             phase_group,
             sub_phase,
@@ -169,8 +169,8 @@ def generate_recommendations(
             material_supply=material_supply,
             weather_info=weather_info,
         )
-        response = model.generate_content(prompt)
-        text = response.text.strip()
+        response = _get_client().models.generate_content(model=_MODEL, contents=prompt)
+        text = (response.text or "").strip()
 
         explanation = _parse_explanation(text)
         actions = _parse_actions(text)

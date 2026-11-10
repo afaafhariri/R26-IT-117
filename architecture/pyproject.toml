@@ -5,11 +5,11 @@ description = "R26-IT-117 Component 01: architectural planning API"
 requires-python = ">=3.12,<3.13"
 dependencies = [
     # API
-    "fastapi==0.111.0",
-    "uvicorn[standard]==0.30.1",
+    "fastapi==0.141.1",
+    "uvicorn[standard]==0.54.0",
     "pydantic==2.10.6",
     "python-multipart==0.0.31",
-    "python-dotenv==1.0.1",
+    "python-dotenv==1.2.2",
     "httpx==0.28.1",
     # Stage 3 runs as a Celery task; Redis is the broker and the job store
     "celery==5.4.0",
@@ -18,11 +18,11 @@ dependencies = [
     "easyocr>=1.7.1",
     "opencv-python-headless==4.10.0.84",
     "pymupdf==1.25.5",
-    "pillow==11.0.0",
+    "pillow==13.0.0",
     "numpy==2.3.5",
-    "torch==2.6.0",
+    "torch==2.13.0",
     # Pinned so the Linux CPU-only source below applies (easyocr needs it).
-    "torchvision==0.21.0",
+    "torchvision==0.28.0",
     "spacy==3.8.14",
     # Base model for the NER fallback and scripts/train_ner.py. A direct wheel
     # instead of `python -m spacy download`, which needs pip (uv venvs have none).
@@ -32,7 +32,7 @@ dependencies = [
     # Stage 2-3: geometry
     "shapely==2.0.7",
     # Stage 3: RAG retrieval + Gemini generation
-    "sentence-transformers==3.0.1",
+    "sentence-transformers==5.6.0",
     "supabase==2.15.2",
     "google-genai==2.0.1",
     # Stage 4: rendering

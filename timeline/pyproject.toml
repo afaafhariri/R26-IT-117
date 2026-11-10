@@ -4,16 +4,16 @@ version = "0.1.0"
 description = "R26-IT-117 Component 03: construction timeline prediction"
 requires-python = ">=3.12,<3.13"
 dependencies = [
-    "fastapi==0.111.1",
-    "uvicorn[standard]==0.30.1",
-    "pydantic==2.7.4",
+    "fastapi==0.141.1",
+    "uvicorn[standard]==0.54.0",
+    "pydantic==2.11.3",
     "xgboost==2.0.3",
     "scikit-learn==1.5.0",
     "pandas==2.2.2",
     "numpy==1.26.4",
     # Was unpinned. lstm_service loads the checkpoint with weights_only=False,
     # so any 2.x reads models/timeline_lstm_pytorch.pt.
-    "torch==2.6.0",
+    "torch==2.13.0",
 ]
 
 [dependency-groups]
