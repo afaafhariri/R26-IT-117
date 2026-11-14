@@ -1,4 +1,4 @@
-# Gateway — R26-IT-117 API entry point
+# Gateway — BuildWise API entry point
 
 FastAPI service on port **8080**, and the only service the browser talks to.
 It handles accounts and sessions itself (`/api/auth/*`) and forwards

@@ -13,7 +13,7 @@ from app.config import Settings
 
 logger = logging.getLogger("gateway.email")
 
-PRODUCT = "Construction Planner"
+PRODUCT = "BuildWise"
 
 
 @dataclass(frozen=True)

@@ -73,7 +73,7 @@ export function Landing({ run }: { run: RunState }) {
     <div className="landing">
       <div className="lp-ticker">
         <div className="lp-inner">
-          <span>R26-IT-117 core pipeline</span>
+          <span>BuildWise core pipeline</span>
           <span>ICTAD 2024-Q4 base rates</span>
           <span>NBC setback validator</span>
           <span>SLD99 cadastral coordinates</span>
@@ -429,7 +429,7 @@ export function Landing({ run }: { run: RunState }) {
       <footer className="lp-foot">
         <div className="lp-inner">
           <nav aria-label="Quick links">
-            <span>R26 quick links:</span>
+            <span>BuildWise quick links:</span>
             <a href="#c01">Architecture</a>
             <a href="#c02">Cost estimation</a>
             <a href="#c03">Timeline</a>
@@ -437,7 +437,7 @@ export function Landing({ run }: { run: RunState }) {
             <a href="#ledger">Specification</a>
             <Link to="/pipeline">Pipeline overview</Link>
           </nav>
-          <span>© 2026 R26-IT-117 construction planner</span>
+          <span>© 2026 BuildWise · R26-IT-117</span>
         </div>
       </footer>
     </div>

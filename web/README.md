@@ -1,4 +1,4 @@
-# web — R26-IT-117 Construction Planner
+# web — BuildWise (R26-IT-117)
 
 React 18 + TypeScript + Vite. A 4-step wizard plus a review page that drives
 Components 02, 03 and 04.

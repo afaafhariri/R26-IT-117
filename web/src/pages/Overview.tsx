@@ -343,7 +343,7 @@ export function Overview({ run }: { run: RunState }) {
       <footer className="lp-foot">
         <div className="lp-inner">
           <span>National Building Code (NBC) &amp; ICTAD rate schedules</span>
-          <span>© 2026 R26-IT-117 construction planner</span>
+          <span>© 2026 BuildWise · R26-IT-117</span>
         </div>
       </footer>
     </div>

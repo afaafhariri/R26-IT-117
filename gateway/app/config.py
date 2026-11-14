@@ -44,7 +44,7 @@ class Settings:
     # How email is delivered: "resend" (production), "smtp" (Mailpit in local
     # dev) or "console" (written to the log, for when neither is available).
     email_backend: str = "console"
-    email_from: str = "Construction Planner <no-reply@localhost>"
+    email_from: str = "BuildWise <no-reply@localhost>"
     resend_api_key: str = ""
     smtp_host: str = "localhost"
     smtp_port: int = 1025
@@ -64,7 +64,7 @@ def load_settings() -> Settings:
         allowed_origins=frozenset(o.strip() for o in origins.split(",") if o.strip()),
         cookie_secure=os.getenv("COOKIE_SECURE", "true").strip().lower() != "false",
         email_backend=os.getenv("EMAIL_BACKEND", "console").strip().lower(),
-        email_from=os.getenv("EMAIL_FROM", "Construction Planner <no-reply@localhost>"),
+        email_from=os.getenv("EMAIL_FROM", "BuildWise <no-reply@localhost>"),
         resend_api_key=os.getenv("RESEND_API_KEY", ""),
         smtp_host=os.getenv("SMTP_HOST", "localhost"),
         smtp_port=int(os.getenv("SMTP_PORT", "1025")),

@@ -1,4 +1,4 @@
-"""R26-IT-117 API gateway.
+"""BuildWise (R26-IT-117) API gateway.
 
 The single public entry point. The planner UI talks only to this service:
 /api/auth/* handles sign-up, login and sessions, and everything else under
@@ -51,7 +51,7 @@ def create_app(
                 cleanup.cancel()
                 await engine.dispose()
 
-    app = FastAPI(title="R26-IT-117 Gateway", version="0.2.0", lifespan=lifespan)
+    app = FastAPI(title="BuildWise Gateway", version="0.2.0", lifespan=lifespan)
     app.state.settings = settings
 
     @app.get("/health", tags=["System"])

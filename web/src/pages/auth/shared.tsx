@@ -45,7 +45,7 @@ export function AuthShell({
               <span className="square-dot" aria-hidden />
               {badge}
             </span>
-            <span className="eyebrow dim">R26 Planner</span>
+            <span className="eyebrow dim">BuildWise</span>
           </div>
           <h1>{title}</h1>
           {lede && <p className="lede">{lede}</p>}
@@ -62,7 +62,7 @@ export function AuthShell({
           <span>Your plans stay private to your account</span>
         </div>
         <div>
-          <span>© 2026 R26-IT-117</span>
+          <span>© 2026 BuildWise</span>
         </div>
       </div>
     </div>
@@ -74,7 +74,7 @@ function SigninAside() {
     <>
       <div>
         <span className="auth-stamp">
-          <CompassIcon /> R26-IT-117 // Suite
+          <CompassIcon /> BuildWise // Suite
         </span>
         <h2>Civil matrix &amp; parametric cadence</h2>
         <p>

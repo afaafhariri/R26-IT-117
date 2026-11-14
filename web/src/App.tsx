@@ -75,7 +75,7 @@ export default function App() {
         <Link to="/" className="brand-link">
           <BrandMark />
           <div className="brand">
-            R26 Planner
+            BuildWise
             <small>AI architecture &amp; engineering</small>
           </div>
         </Link>

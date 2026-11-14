@@ -1,4 +1,6 @@
-# R26-IT-117 — AI-Driven Construction Planner for Sri Lankan Residential Buildings
+# BuildWise — AI-Driven Construction Planner for Sri Lankan Residential Buildings
+
+Research project R26-IT-117.
 
 Four services take a residential project from a cadastral survey plan to a
 monitored construction schedule. A gateway authenticates the browser and fronts
